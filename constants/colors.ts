@@ -1,5 +1,4 @@
-import React from 'react';
-import { useTheme } from '@/lib/theme';
+import { useTheme } from '@/lib/theme-context';
 
 const DARK_COLORS = {
   // Primary
@@ -37,7 +36,7 @@ const LIGHT_COLORS = {
   // Background
   background: '#ffffff',
   backgroundLight: '#f8f9fa',
-  card: '#ffffff',
+  card: '#f1f5f9',
   
   // Text
   text: '#0f0f1e',
@@ -60,6 +59,9 @@ export function useColors() {
   return effectiveMode === 'dark' ? DARK_COLORS : LIGHT_COLORS;
 }
 
-// Default export for backwards compatibility
-export const COLORS = DARK_COLORS;
+// Export direto para uso sem hook (quando necessário)
+export const DARK_THEME = DARK_COLORS;
+export const LIGHT_THEME = LIGHT_COLORS;
 
+// Default export para retrocompatibilidade
+export const COLORS = DARK_COLORS;

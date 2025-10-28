@@ -3,9 +3,10 @@ import { View, Text, StyleSheet, ActivityIndicator } from 'react-native';
 import { useAuth } from '@/lib/clerk';
 import { useRouter } from 'expo-router';
 import { Button } from '@/components/ui/button';
-import { COLORS } from '@/constants/colors';
+import { useColors } from '@/constants/colors';
 
 export default function IndexScreen() {
+  const colors = useColors();
   const { isSignedIn, isLoaded } = useAuth();
   const router = useRouter();
 
@@ -17,10 +18,12 @@ export default function IndexScreen() {
     }
   }, [isSignedIn, isLoaded]);
 
+  const styles = getStyles(colors);
+
   if (!isLoaded) {
     return (
       <View style={styles.loading}>
-        <ActivityIndicator size="large" color={COLORS.primary} />
+        <ActivityIndicator size="large" color={colors.primary} />
       </View>
     );
   }
@@ -54,29 +57,29 @@ export default function IndexScreen() {
   );
 }
 
-const styles = StyleSheet.create({
+const getStyles = (colors: any) => StyleSheet.create({
   container: {
     flex: 1,
-    backgroundColor: COLORS.background,
+    backgroundColor: colors.background,
     padding: 24,
     justifyContent: 'center',
   },
   loading: {
     flex: 1,
-    backgroundColor: COLORS.background,
+    backgroundColor: colors.background,
     alignItems: 'center',
     justifyContent: 'center',
   },
   title: {
     fontSize: 36,
     fontWeight: 'bold',
-    color: COLORS.text,
+    color: colors.text,
     textAlign: 'center',
     marginBottom: 8,
   },
   subtitle: {
     fontSize: 18,
-    color: COLORS.textSecondary,
+    color: colors.textSecondary,
     textAlign: 'center',
     marginBottom: 48,
   },
@@ -86,7 +89,7 @@ const styles = StyleSheet.create({
   },
   feature: {
     fontSize: 16,
-    color: COLORS.text,
+    color: colors.text,
     paddingLeft: 8,
   },
   buttons: {

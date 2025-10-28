@@ -1,5 +1,5 @@
 import { View, Text, StyleSheet } from 'react-native';
-import { COLORS } from '@/constants/colors';
+import { useColors } from '@/constants/colors';
 
 interface StatsCardProps {
   icon: string;
@@ -9,6 +9,9 @@ interface StatsCardProps {
 }
 
 export function StatsCard({ icon, label, value, subtitle }: StatsCardProps) {
+  const colors = useColors();
+  const styles = getStyles(colors);
+
   return (
     <View style={styles.card}>
       <Text style={styles.icon}>{icon}</Text>
@@ -19,10 +22,10 @@ export function StatsCard({ icon, label, value, subtitle }: StatsCardProps) {
   );
 }
 
-const styles = StyleSheet.create({
+const getStyles = (colors: any) => StyleSheet.create({
   card: {
     flex: 1,
-    backgroundColor: COLORS.card,
+    backgroundColor: colors.card,
     borderRadius: 16,
     padding: 16,
     alignItems: 'center',
@@ -34,18 +37,17 @@ const styles = StyleSheet.create({
   },
   label: {
     fontSize: 12,
-    color: COLORS.textMuted,
+    color: colors.textMuted,
     marginBottom: 4,
   },
   value: {
     fontSize: 24,
     fontWeight: 'bold',
-    color: COLORS.text,
+    color: colors.text,
   },
   subtitle: {
     fontSize: 10,
-    color: COLORS.textSecondary,
+    color: colors.textSecondary,
     marginTop: 4,
   },
 });
-

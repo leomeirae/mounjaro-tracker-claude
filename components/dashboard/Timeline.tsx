@@ -1,5 +1,5 @@
 import { View, Text, StyleSheet, TouchableOpacity, Alert } from 'react-native';
-import { COLORS } from '@/constants/colors';
+import { useColors } from '@/constants/colors';
 import { TimelineEvent } from '@/lib/types';
 
 interface TimelineProps {
@@ -11,14 +11,16 @@ interface TimelineProps {
   onDeleteWeight?: (eventId: string) => void;
 }
 
-export function Timeline({ 
-  events, 
+export function Timeline({
+  events,
   maxVisible,
   onEditApplication,
   onDeleteApplication,
   onEditWeight,
   onDeleteWeight,
 }: TimelineProps) {
+  const colors = useColors();
+
   const handleDelete = (event: TimelineEvent) => {
     const message = event.type === 'application' 
       ? `Tem certeza que deseja excluir esta aplicação?`
@@ -45,6 +47,8 @@ export function Timeline({
   };
 
   if (events.length === 0) {
+    const styles = getStyles(colors);
+
     return (
       <View style={styles.emptyContainer}>
         <Text style={styles.emptyText}>📅 Nenhum evento registrado ainda</Text>
@@ -56,6 +60,8 @@ export function Timeline({
   }
 
   const displayEvents = maxVisible ? events.slice(0, maxVisible) : events;
+
+  const styles = getStyles(colors);
 
   return (
     <View style={styles.container}>
@@ -179,30 +185,30 @@ export function Timeline({
   );
 }
 
-const styles = StyleSheet.create({
+const getStyles = (colors: any) => StyleSheet.create({
   container: {
     paddingVertical: 16,
   },
   title: {
     fontSize: 18,
     fontWeight: 'bold',
-    color: COLORS.text,
+    color: colors.text,
     marginBottom: 16,
   },
   emptyContainer: {
-    backgroundColor: COLORS.card,
+    backgroundColor: colors.card,
     borderRadius: 16,
     padding: 32,
     alignItems: 'center',
   },
   emptyText: {
     fontSize: 16,
-    color: COLORS.text,
+    color: colors.text,
     marginBottom: 8,
   },
   emptySubtext: {
     fontSize: 14,
-    color: COLORS.textMuted,
+    color: colors.textMuted,
     textAlign: 'center',
   },
   timelineContainer: {
@@ -218,10 +224,10 @@ const styles = StyleSheet.create({
     top: 40,
     width: 2,
     height: '100%',
-    backgroundColor: COLORS.border,
+    backgroundColor: colors.border,
   },
   eventCard: {
-    backgroundColor: COLORS.card,
+    backgroundColor: colors.card,
     borderRadius: 12,
     padding: 16,
     marginLeft: 48,
@@ -240,13 +246,13 @@ const styles = StyleSheet.create({
     marginLeft: -64,
     marginRight: 16,
     borderWidth: 3,
-    borderColor: COLORS.background,
+    borderColor: colors.background,
   },
   iconApplication: {
-    backgroundColor: COLORS.primary,
+    backgroundColor: colors.primary,
   },
   iconWeight: {
-    backgroundColor: COLORS.success,
+    backgroundColor: colors.success,
   },
   iconText: {
     fontSize: 20,
@@ -257,11 +263,11 @@ const styles = StyleSheet.create({
   dateText: {
     fontSize: 14,
     fontWeight: '600',
-    color: COLORS.text,
+    color: colors.text,
   },
   timeText: {
     fontSize: 12,
-    color: COLORS.textMuted,
+    color: colors.textMuted,
     marginTop: 2,
   },
   eventContent: {
@@ -284,7 +290,7 @@ const styles = StyleSheet.create({
   actionButton: {
     padding: 6,
     borderRadius: 6,
-    backgroundColor: COLORS.background,
+    backgroundColor: colors.background,
   },
   actionButtonSecond: {
     marginLeft: 8,
@@ -295,17 +301,17 @@ const styles = StyleSheet.create({
   eventTitle: {
     fontSize: 16,
     fontWeight: '600',
-    color: COLORS.text,
+    color: colors.text,
     marginBottom: 4,
   },
   eventDetail: {
     fontSize: 14,
-    color: COLORS.textSecondary,
+    color: colors.textSecondary,
     marginBottom: 4,
   },
   eventNotes: {
     fontSize: 12,
-    color: COLORS.textMuted,
+    color: colors.textMuted,
     fontStyle: 'italic',
     marginTop: 4,
   },
@@ -315,10 +321,9 @@ const styles = StyleSheet.create({
     marginBottom: 4,
   },
   weightUp: {
-    color: COLORS.error,
+    color: colors.error,
   },
   weightDown: {
-    color: COLORS.success,
+    color: colors.success,
   },
 });
-

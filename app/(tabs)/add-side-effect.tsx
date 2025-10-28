@@ -4,7 +4,7 @@ import { useRouter, useLocalSearchParams } from 'expo-router';
 import { Button } from '@/components/ui/button';
 import { Input } from '@/components/ui/input';
 import { useSideEffects } from '@/hooks/useSideEffects';
-import { COLORS } from '@/constants/colors';
+import { useColors } from '@/constants/colors';
 
 const COMMON_SIDE_EFFECTS = [
   { emoji: '🤢', label: 'Náusea', value: 'Náusea' },
@@ -27,6 +27,7 @@ const SEVERITY_LEVELS = [
 ];
 
 export default function AddSideEffectScreen() {
+  const colors = useColors();
   const router = useRouter();
   const params = useLocalSearchParams();
   const editId = params.editId as string | undefined;
@@ -98,6 +99,8 @@ export default function AddSideEffectScreen() {
       setLoading(false);
     }
   }
+
+  const styles = getStyles(colors);
 
   return (
     <KeyboardAvoidingView
@@ -210,10 +213,10 @@ export default function AddSideEffectScreen() {
   );
 }
 
-const styles = StyleSheet.create({
+const getStyles = (colors: any) => StyleSheet.create({
   container: {
     flex: 1,
-    backgroundColor: COLORS.background,
+    backgroundColor: colors.background,
   },
   scrollContent: {
     padding: 24,
@@ -222,12 +225,12 @@ const styles = StyleSheet.create({
   title: {
     fontSize: 28,
     fontWeight: 'bold',
-    color: COLORS.text,
+    color: colors.text,
     marginBottom: 8,
   },
   subtitle: {
     fontSize: 14,
-    color: COLORS.textSecondary,
+    color: colors.textSecondary,
     marginBottom: 24,
   },
   section: {
@@ -236,7 +239,7 @@ const styles = StyleSheet.create({
   label: {
     fontSize: 16,
     fontWeight: '600',
-    color: COLORS.text,
+    color: colors.text,
     marginBottom: 12,
   },
   effectsGrid: {
@@ -246,7 +249,7 @@ const styles = StyleSheet.create({
     marginBottom: 16,
   },
   effectButton: {
-    backgroundColor: COLORS.card,
+    backgroundColor: colors.card,
     borderRadius: 12,
     padding: 12,
     alignItems: 'center',
@@ -255,8 +258,8 @@ const styles = StyleSheet.create({
     borderColor: 'transparent',
   },
   effectButtonSelected: {
-    borderColor: COLORS.primary,
-    backgroundColor: COLORS.backgroundLight,
+    borderColor: colors.primary,
+    backgroundColor: colors.backgroundLight,
   },
   effectEmoji: {
     fontSize: 32,
@@ -264,11 +267,11 @@ const styles = StyleSheet.create({
   },
   effectLabel: {
     fontSize: 11,
-    color: COLORS.textSecondary,
+    color: colors.textSecondary,
     textAlign: 'center',
   },
   effectLabelSelected: {
-    color: COLORS.primary,
+    color: colors.primary,
     fontWeight: 'bold',
   },
   severityContainer: {
@@ -276,7 +279,7 @@ const styles = StyleSheet.create({
   },
   severityButton: {
     flexDirection: 'row',
-    backgroundColor: COLORS.card,
+    backgroundColor: colors.card,
     borderRadius: 12,
     padding: 16,
     alignItems: 'center',
@@ -285,7 +288,7 @@ const styles = StyleSheet.create({
   },
   severityButtonSelected: {
     borderWidth: 2,
-    backgroundColor: COLORS.backgroundLight,
+    backgroundColor: colors.backgroundLight,
   },
   severityIndicator: {
     width: 12,
@@ -299,22 +302,20 @@ const styles = StyleSheet.create({
   severityLabel: {
     fontSize: 16,
     fontWeight: '600',
-    color: COLORS.text,
+    color: colors.text,
     marginBottom: 2,
   },
   severityLabelSelected: {
-    color: COLORS.primary,
+    color: colors.primary,
   },
   severityDescription: {
     fontSize: 12,
-    color: COLORS.textMuted,
+    color: colors.textMuted,
   },
   loadingText: {
-    color: COLORS.textSecondary,
+    color: colors.textSecondary,
     fontSize: 14,
     textAlign: 'center',
     marginTop: 8,
   },
 });
-
-

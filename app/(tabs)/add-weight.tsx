@@ -4,7 +4,7 @@ import { useRouter, useLocalSearchParams } from 'expo-router';
 import { Button } from '@/components/ui/button';
 import { Input } from '@/components/ui/input';
 import { useWeightLogs } from '@/hooks/useWeightLogs';
-import { COLORS } from '@/constants/colors';
+import { useColors } from '@/constants/colors';
 
 const MOOD_OPTIONS = [
   { emoji: '😊', label: 'Feliz', value: 'Feliz' },
@@ -18,6 +18,7 @@ const MOOD_OPTIONS = [
 ];
 
 export default function AddWeightScreen() {
+  const colors = useColors();
   const router = useRouter();
   const params = useLocalSearchParams();
   const editId = params.editId as string | undefined;
@@ -87,6 +88,8 @@ export default function AddWeightScreen() {
     }
   }
 
+  const styles = getStyles(colors);
+
   return (
     <KeyboardAvoidingView
       behavior={Platform.OS === 'ios' ? 'padding' : 'height'}
@@ -155,10 +158,10 @@ export default function AddWeightScreen() {
   );
 }
 
-const styles = StyleSheet.create({
+const getStyles = (colors: any) => StyleSheet.create({
   container: {
     flex: 1,
-    backgroundColor: COLORS.background,
+    backgroundColor: colors.background,
   },
   scrollContent: {
     padding: 24,
@@ -168,7 +171,7 @@ const styles = StyleSheet.create({
   title: {
     fontSize: 28,
     fontWeight: 'bold',
-    color: COLORS.text,
+    color: colors.text,
     marginBottom: 24,
   },
   moodSection: {
@@ -177,7 +180,7 @@ const styles = StyleSheet.create({
   moodLabel: {
     fontSize: 16,
     fontWeight: '600',
-    color: COLORS.text,
+    color: colors.text,
     marginBottom: 12,
   },
   moodGrid: {
@@ -186,7 +189,7 @@ const styles = StyleSheet.create({
     gap: 12,
   },
   moodButton: {
-    backgroundColor: COLORS.card,
+    backgroundColor: colors.card,
     borderRadius: 12,
     padding: 12,
     alignItems: 'center',
@@ -195,8 +198,8 @@ const styles = StyleSheet.create({
     borderColor: 'transparent',
   },
   moodButtonSelected: {
-    borderColor: COLORS.primary,
-    backgroundColor: COLORS.backgroundLight,
+    borderColor: colors.primary,
+    backgroundColor: colors.backgroundLight,
   },
   moodEmoji: {
     fontSize: 32,
@@ -204,15 +207,15 @@ const styles = StyleSheet.create({
   },
   moodButtonLabel: {
     fontSize: 10,
-    color: COLORS.textSecondary,
+    color: colors.textSecondary,
     textAlign: 'center',
   },
   moodLabelSelected: {
-    color: COLORS.primary,
+    color: colors.primary,
     fontWeight: 'bold',
   },
   loadingText: {
-    color: COLORS.textSecondary,
+    color: colors.textSecondary,
     fontSize: 14,
     textAlign: 'center',
     marginTop: 8,

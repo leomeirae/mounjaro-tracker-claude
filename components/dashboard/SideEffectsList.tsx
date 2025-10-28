@@ -1,5 +1,5 @@
 import { View, Text, StyleSheet, FlatList, TouchableOpacity, Alert } from 'react-native';
-import { COLORS } from '@/constants/colors';
+import { useColors } from '@/constants/colors';
 import { SideEffect } from '@/lib/types';
 
 interface SideEffectsListProps {
@@ -26,6 +26,7 @@ const SEVERITY_LABELS = {
 };
 
 export function SideEffectsList({ sideEffects, maxVisible, onEdit, onDelete }: SideEffectsListProps) {
+  const colors = useColors();
   const handleDelete = (sideEffect: SideEffect) => {
     Alert.alert(
       'Excluir Efeito Colateral',
@@ -42,6 +43,8 @@ export function SideEffectsList({ sideEffects, maxVisible, onEdit, onDelete }: S
   };
 
   if (sideEffects.length === 0) {
+    const styles = getStyles(colors);
+
     return (
       <View style={styles.emptyContainer}>
         <Text style={styles.emptyIcon}>⚠️</Text>
@@ -57,6 +60,8 @@ export function SideEffectsList({ sideEffects, maxVisible, onEdit, onDelete }: S
     ? sideEffects.slice(0, maxVisible)
     : sideEffects;
 
+  const styles = getStyles(colors);
+
   return (
     <View style={styles.container}>
       <View style={styles.header}>
@@ -71,6 +76,8 @@ export function SideEffectsList({ sideEffects, maxVisible, onEdit, onDelete }: S
           const severityColor = SEVERITY_COLORS[item.severity];
           const severityLabel = SEVERITY_LABELS[item.severity];
           
+          const styles = getStyles(colors);
+
           return (
             <View style={styles.effectCard}>
               <View style={styles.cardHeader}>
@@ -135,7 +142,7 @@ export function SideEffectsList({ sideEffects, maxVisible, onEdit, onDelete }: S
   );
 }
 
-const styles = StyleSheet.create({
+const getStyles = (colors: any) => StyleSheet.create({
   container: {
     marginBottom: 16,
   },
@@ -148,19 +155,19 @@ const styles = StyleSheet.create({
   title: {
     fontSize: 18,
     fontWeight: 'bold',
-    color: COLORS.text,
+    color: colors.text,
   },
   count: {
     fontSize: 16,
     fontWeight: 'bold',
-    color: COLORS.primary,
-    backgroundColor: COLORS.card,
+    color: colors.primary,
+    backgroundColor: colors.card,
     paddingHorizontal: 12,
     paddingVertical: 4,
     borderRadius: 12,
   },
   emptyContainer: {
-    backgroundColor: COLORS.card,
+    backgroundColor: colors.card,
     borderRadius: 16,
     padding: 32,
     alignItems: 'center',
@@ -173,16 +180,16 @@ const styles = StyleSheet.create({
   emptyText: {
     fontSize: 16,
     fontWeight: '600',
-    color: COLORS.text,
+    color: colors.text,
     marginBottom: 8,
   },
   emptySubtext: {
     fontSize: 14,
-    color: COLORS.textSecondary,
+    color: colors.textSecondary,
     textAlign: 'center',
   },
   effectCard: {
-    backgroundColor: COLORS.card,
+    backgroundColor: colors.card,
     borderRadius: 12,
     padding: 16,
     marginBottom: 12,
@@ -203,7 +210,7 @@ const styles = StyleSheet.create({
   actionButton: {
     padding: 6,
     borderRadius: 6,
-    backgroundColor: COLORS.background,
+    backgroundColor: colors.background,
   },
   actionIcon: {
     fontSize: 16,
@@ -228,7 +235,7 @@ const styles = StyleSheet.create({
   effectType: {
     fontSize: 16,
     fontWeight: 'bold',
-    color: COLORS.text,
+    color: colors.text,
   },
   severityBadge: {
     paddingHorizontal: 10,
@@ -241,20 +248,18 @@ const styles = StyleSheet.create({
   },
   effectDate: {
     fontSize: 12,
-    color: COLORS.textMuted,
+    color: colors.textMuted,
     marginBottom: 8,
   },
   effectNotes: {
     fontSize: 14,
-    color: COLORS.textSecondary,
+    color: colors.textSecondary,
     fontStyle: 'italic',
   },
   moreText: {
     fontSize: 14,
-    color: COLORS.textMuted,
+    color: colors.textMuted,
     textAlign: 'center',
     marginTop: 8,
   },
 });
-
-

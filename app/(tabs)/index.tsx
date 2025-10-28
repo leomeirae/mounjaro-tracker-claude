@@ -26,12 +26,13 @@ import { StreakCard } from '@/components/dashboard/StreakCard';
 import { LevelCard } from '@/components/dashboard/LevelCard';
 import { CommunityCard } from '@/components/dashboard/CommunityCard';
 import { useRouter } from 'expo-router';
-import { COLORS } from '@/constants/colors';
+import { useColors } from '@/constants/colors';
 import React, { useState, useEffect } from 'react';
 import { useFocusEffect } from '@react-navigation/native';
 import { generatePDFReport } from '@/lib/pdf-generator';
 
 export default function DashboardScreen() {
+  const colors = useColors();
   const { user: clerkUser } = useAuth();
   const { user: dbUser, loading: userLoading } = useUser();
   const { medications, loading: medsLoading, refetch: refetchMeds, updateMedication, deleteMedication } = useMedications();
@@ -226,13 +227,16 @@ export default function DashboardScreen() {
 
   // Mostrar loading enquanto carrega
   if (userLoading || medsLoading || weightsLoading || achievementsLoading || sideEffectsLoading || timelineLoading) {
+    const loadingStyles = getStyles(colors);
     return (
-      <View style={styles.loadingContainer}>
-        <ActivityIndicator size="large" color={COLORS.primary} />
-        <Text style={styles.loadingText}>Carregando dados...</Text>
+      <View style={loadingStyles.loadingContainer}>
+        <ActivityIndicator size="large" color={colors.primary} />
+        <Text style={loadingStyles.loadingText}>Carregando dados...</Text>
       </View>
     );
   }
+
+  const styles = getStyles(colors);
 
   return (
     <ScrollView
@@ -447,20 +451,20 @@ export default function DashboardScreen() {
   );
 }
 
-const styles = StyleSheet.create({
+const getStyles = (colors: any) => StyleSheet.create({
   container: {
     flex: 1,
-    backgroundColor: COLORS.background,
+    backgroundColor: colors.background,
   },
   loadingContainer: {
     flex: 1,
-    backgroundColor: COLORS.background,
+    backgroundColor: colors.background,
     justifyContent: 'center',
     alignItems: 'center',
     gap: 16,
   },
   loadingText: {
-    color: COLORS.textSecondary,
+    color: colors.textSecondary,
     fontSize: 16,
   },
   scrollContent: {
@@ -473,11 +477,11 @@ const styles = StyleSheet.create({
   greeting: {
     fontSize: 28,
     fontWeight: 'bold',
-    color: COLORS.text,
+    color: colors.text,
   },
   subtitle: {
     fontSize: 16,
-    color: COLORS.textSecondary,
+    color: colors.textSecondary,
     marginTop: 4,
   },
   statsRow: {
@@ -499,12 +503,12 @@ const styles = StyleSheet.create({
   actionsTitle: {
     fontSize: 18,
     fontWeight: 'bold',
-    color: COLORS.text,
+    color: colors.text,
     marginBottom: 8,
   },
   pdfHint: {
     fontSize: 12,
-    color: COLORS.textMuted,
+    color: colors.textMuted,
     textAlign: 'center',
     marginTop: 8,
   },

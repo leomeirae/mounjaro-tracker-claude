@@ -4,7 +4,7 @@ import { useRouter, useLocalSearchParams } from 'expo-router';
 import { Button } from '@/components/ui/button';
 import { Input } from '@/components/ui/input';
 import { useMedications } from '@/hooks/useMedications';
-import { COLORS } from '@/constants/colors';
+import { useColors } from '@/constants/colors';
 import { MedicationType } from '@/lib/types';
 
 const MEDICATION_OPTIONS: { value: MedicationType; label: string }[] = [
@@ -16,6 +16,7 @@ const MEDICATION_OPTIONS: { value: MedicationType; label: string }[] = [
 ];
 
 export default function AddMedicationScreen() {
+  const colors = useColors();
   const router = useRouter();
   const params = useLocalSearchParams();
   const editId = params.editId as string | undefined;
@@ -73,6 +74,8 @@ export default function AddMedicationScreen() {
       setLoading(false);
     }
   }
+
+  const styles = getStyles(colors);
 
   return (
     <KeyboardAvoidingView
@@ -136,10 +139,10 @@ export default function AddMedicationScreen() {
   );
 }
 
-const styles = StyleSheet.create({
+const getStyles = (colors: any) => StyleSheet.create({
   container: {
     flex: 1,
-    backgroundColor: COLORS.background,
+    backgroundColor: colors.background,
   },
   scrollContent: {
     padding: 24,
@@ -147,13 +150,13 @@ const styles = StyleSheet.create({
   title: {
     fontSize: 28,
     fontWeight: 'bold',
-    color: COLORS.text,
+    color: colors.text,
     marginBottom: 24,
   },
   label: {
     fontSize: 16,
     fontWeight: '600',
-    color: COLORS.text,
+    color: colors.text,
     marginBottom: 12,
     marginTop: 16,
   },
@@ -167,7 +170,7 @@ const styles = StyleSheet.create({
     marginBottom: 24,
   },
   loadingText: {
-    color: COLORS.textSecondary,
+    color: colors.textSecondary,
     fontSize: 14,
     textAlign: 'center',
     marginTop: 8,

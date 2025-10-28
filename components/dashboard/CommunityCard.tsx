@@ -1,5 +1,5 @@
 import { View, Text, StyleSheet } from 'react-native';
-import { COLORS } from '@/constants/colors';
+import { useColors } from '@/constants/colors';
 
 interface CommunityCardProps {
   yourWeightLost: number;
@@ -18,6 +18,9 @@ export function CommunityCard({
   emoji,
   usersInSample
 }: CommunityCardProps) {
+  const colors = useColors();
+  const styles = getStyles(colors);
+
   return (
     <View style={styles.container}>
       <Text style={styles.emoji}>{emoji}</Text>
@@ -52,9 +55,9 @@ export function CommunityCard({
   );
 }
 
-const styles = StyleSheet.create({
+const getStyles = (colors: any) => StyleSheet.create({
   container: {
-    backgroundColor: COLORS.card,
+    backgroundColor: colors.card,
     borderRadius: 16,
     padding: 20,
     alignItems: 'center',
@@ -66,7 +69,7 @@ const styles = StyleSheet.create({
   message: {
     fontSize: 16,
     fontWeight: '600',
-    color: COLORS.text,
+    color: colors.text,
     textAlign: 'center',
     marginBottom: 20,
   },
@@ -81,40 +84,40 @@ const styles = StyleSheet.create({
   },
   comparisonLabel: {
     fontSize: 12,
-    color: COLORS.textMuted,
+    color: colors.textMuted,
     marginBottom: 4,
   },
   comparisonValue: {
     fontSize: 24,
     fontWeight: 'bold',
-    color: COLORS.primary,
+    color: colors.primary,
   },
   divider: {
     width: 1,
-    backgroundColor: COLORS.border,
+    backgroundColor: colors.border,
     marginHorizontal: 16,
   },
   percentileBar: {
     width: '100%',
     height: 8,
-    backgroundColor: COLORS.border,
+    backgroundColor: colors.border,
     borderRadius: 4,
     overflow: 'hidden',
     marginBottom: 8,
   },
   percentileFill: {
     height: '100%',
-    backgroundColor: COLORS.success,
+    backgroundColor: colors.success,
     borderRadius: 4,
   },
   percentileText: {
     fontSize: 14,
-    color: COLORS.textSecondary,
+    color: colors.textSecondary,
     marginBottom: 12,
   },
   disclaimer: {
     fontSize: 10,
-    color: COLORS.textMuted,
+    color: colors.textMuted,
     fontStyle: 'italic',
     textAlign: 'center',
   },

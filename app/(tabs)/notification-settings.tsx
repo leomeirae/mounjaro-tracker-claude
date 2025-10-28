@@ -4,9 +4,10 @@ import { useRouter } from 'expo-router';
 import { useUser } from '@/hooks/useUser';
 import { useNotifications } from '@/hooks/useNotifications';
 import { Button } from '@/components/ui/button';
-import { COLORS } from '@/constants/colors';
+import { useColors } from '@/constants/colors';
 
 export default function NotificationSettingsScreen() {
+  const colors = useColors();
   const router = useRouter();
   const { user, refetch } = useUser();
   const { updateNotificationSettings } = useNotifications();
@@ -40,6 +41,8 @@ export default function NotificationSettingsScreen() {
     }
   }
 
+  const styles = getStyles(colors);
+
   return (
     <ScrollView style={styles.container}>
       <View style={styles.header}>
@@ -61,7 +64,7 @@ export default function NotificationSettingsScreen() {
           <Switch
             value={enabled}
             onValueChange={setEnabled}
-            trackColor={{ false: COLORS.border, true: COLORS.primary }}
+            trackColor={{ false: colors.border, true: colors.primary }}
           />
         </View>
       </View>
@@ -106,7 +109,7 @@ export default function NotificationSettingsScreen() {
             value={appReminders}
             onValueChange={setAppReminders}
             disabled={!enabled}
-            trackColor={{ false: COLORS.border, true: COLORS.primary }}
+            trackColor={{ false: colors.border, true: colors.primary }}
           />
         </View>
 
@@ -121,7 +124,7 @@ export default function NotificationSettingsScreen() {
             value={achievementNotifs}
             onValueChange={setAchievementNotifs}
             disabled={!enabled}
-            trackColor={{ false: COLORS.border, true: COLORS.primary }}
+            trackColor={{ false: colors.border, true: colors.primary }}
           />
         </View>
       </View>
@@ -137,19 +140,22 @@ export default function NotificationSettingsScreen() {
   );
 }
 
-function RadioOption({ 
-  label, 
-  description, 
-  selected, 
-  onPress, 
-  disabled 
-}: { 
-  label: string; 
-  description: string; 
-  selected: boolean; 
+function RadioOption({
+  label,
+  description,
+  selected,
+  onPress,
+  disabled
+}: {
+  label: string;
+  description: string;
+  selected: boolean;
   onPress: () => void;
   disabled?: boolean;
 }) {
+  const colors = useColors();
+  const styles = getStyles(colors);
+
   return (
     <Pressable 
       style={[
@@ -175,10 +181,10 @@ function RadioOption({
   );
 }
 
-const styles = StyleSheet.create({
+const getStyles = (colors: any) => StyleSheet.create({
   container: {
     flex: 1,
-    backgroundColor: COLORS.background,
+    backgroundColor: colors.background,
   },
   header: {
     padding: 24,
@@ -191,23 +197,23 @@ const styles = StyleSheet.create({
   title: {
     fontSize: 28,
     fontWeight: 'bold',
-    color: COLORS.text,
+    color: colors.text,
     marginBottom: 8,
   },
   subtitle: {
     fontSize: 14,
-    color: COLORS.textSecondary,
+    color: colors.textSecondary,
     textAlign: 'center',
   },
   section: {
     padding: 24,
     borderBottomWidth: 1,
-    borderBottomColor: COLORS.border,
+    borderBottomColor: colors.border,
   },
   sectionTitle: {
     fontSize: 18,
     fontWeight: 'bold',
-    color: COLORS.text,
+    color: colors.text,
     marginBottom: 16,
   },
   settingRow: {
@@ -223,12 +229,12 @@ const styles = StyleSheet.create({
   settingLabel: {
     fontSize: 16,
     fontWeight: '600',
-    color: COLORS.text,
+    color: colors.text,
     marginBottom: 4,
   },
   settingDescription: {
     fontSize: 14,
-    color: COLORS.textSecondary,
+    color: colors.textSecondary,
   },
   radioGroup: {
     gap: 12,
@@ -236,15 +242,15 @@ const styles = StyleSheet.create({
   radioOption: {
     flexDirection: 'row',
     alignItems: 'center',
-    backgroundColor: COLORS.card,
+    backgroundColor: colors.card,
     borderRadius: 12,
     padding: 16,
     borderWidth: 2,
     borderColor: 'transparent',
   },
   radioOptionSelected: {
-    borderColor: COLORS.primary,
-    backgroundColor: COLORS.primaryDark,
+    borderColor: colors.primary,
+    backgroundColor: colors.primaryDark,
   },
   radioOptionDisabled: {
     opacity: 0.5,
@@ -254,19 +260,19 @@ const styles = StyleSheet.create({
     height: 24,
     borderRadius: 12,
     borderWidth: 2,
-    borderColor: COLORS.textMuted,
+    borderColor: colors.textMuted,
     alignItems: 'center',
     justifyContent: 'center',
     marginRight: 12,
   },
   radioSelected: {
-    borderColor: COLORS.primary,
+    borderColor: colors.primary,
   },
   radioInner: {
     width: 12,
     height: 12,
     borderRadius: 6,
-    backgroundColor: COLORS.primary,
+    backgroundColor: colors.primary,
   },
   radioText: {
     flex: 1,
@@ -274,12 +280,12 @@ const styles = StyleSheet.create({
   radioLabel: {
     fontSize: 16,
     fontWeight: '600',
-    color: COLORS.text,
+    color: colors.text,
     marginBottom: 4,
   },
   radioDescription: {
     fontSize: 14,
-    color: COLORS.textSecondary,
+    color: colors.textSecondary,
   },
   disabledText: {
     opacity: 0.5,
@@ -288,5 +294,3 @@ const styles = StyleSheet.create({
     padding: 24,
   },
 });
-
-

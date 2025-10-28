@@ -1,5 +1,5 @@
 import { View, Text, StyleSheet } from 'react-native';
-import { COLORS } from '@/constants/colors';
+import { useColors } from '@/constants/colors';
 import { MedicationApplication } from '@/lib/types';
 
 interface JourneyMilestonesProps {
@@ -9,6 +9,7 @@ interface JourneyMilestonesProps {
 }
 
 export function JourneyMilestones({ applications, currentWeight, initialWeight }: JourneyMilestonesProps) {
+  const colors = useColors();
   if (applications.length === 0) {
     return null;
   }
@@ -23,6 +24,8 @@ export function JourneyMilestones({ applications, currentWeight, initialWeight }
 
   const weekNumber = Math.floor(daysSinceStart / 7) + 1;
   const weightLost = initialWeight - currentWeight;
+
+  const styles = getStyles(colors);
 
   return (
     <View style={styles.container}>
@@ -67,14 +70,14 @@ export function JourneyMilestones({ applications, currentWeight, initialWeight }
   );
 }
 
-const styles = StyleSheet.create({
+const getStyles = (colors: any) => StyleSheet.create({
   container: {
     paddingVertical: 16,
   },
   title: {
     fontSize: 18,
     fontWeight: 'bold',
-    color: COLORS.text,
+    color: colors.text,
     marginBottom: 16,
   },
   milestonesGrid: {
@@ -84,7 +87,7 @@ const styles = StyleSheet.create({
   },
   milestoneCard: {
     flex: 1,
-    backgroundColor: COLORS.card,
+    backgroundColor: colors.card,
     borderRadius: 12,
     padding: 16,
     alignItems: 'center',
@@ -97,35 +100,34 @@ const styles = StyleSheet.create({
   milestoneValue: {
     fontSize: 18,
     fontWeight: 'bold',
-    color: COLORS.text,
+    color: colors.text,
     marginBottom: 4,
   },
   milestoneLabel: {
     fontSize: 12,
-    color: COLORS.textMuted,
+    color: colors.textMuted,
     textAlign: 'center',
   },
   lastApplicationCard: {
-    backgroundColor: COLORS.primary + '20',
+    backgroundColor: colors.primary + '20',
     borderRadius: 12,
     padding: 16,
     borderLeftWidth: 4,
-    borderLeftColor: COLORS.primary,
+    borderLeftColor: colors.primary,
   },
   lastAppTitle: {
     fontSize: 12,
-    color: COLORS.textMuted,
+    color: colors.textMuted,
     marginBottom: 4,
   },
   lastAppDate: {
     fontSize: 16,
     fontWeight: '600',
-    color: COLORS.text,
+    color: colors.text,
     marginBottom: 4,
   },
   lastAppDosage: {
     fontSize: 14,
-    color: COLORS.textSecondary,
+    color: colors.textSecondary,
   },
 });
-

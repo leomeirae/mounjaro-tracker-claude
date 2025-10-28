@@ -1,5 +1,5 @@
 import { View, Text, StyleSheet } from 'react-native';
-import { COLORS } from '@/constants/colors';
+import { useColors } from '@/constants/colors';
 import { Achievement } from '@/lib/types';
 
 interface AchievementCardProps {
@@ -7,6 +7,9 @@ interface AchievementCardProps {
 }
 
 export function AchievementCard({ achievement }: AchievementCardProps) {
+  const colors = useColors();
+  const styles = getStyles(colors);
+
   return (
     <View style={styles.card}>
       <Text style={styles.icon}>{achievement.icon}</Text>
@@ -25,16 +28,16 @@ export function AchievementCard({ achievement }: AchievementCardProps) {
   );
 }
 
-const styles = StyleSheet.create({
+const getStyles = (colors: any) => StyleSheet.create({
   card: {
     flexDirection: 'row',
-    backgroundColor: COLORS.card,
+    backgroundColor: colors.card,
     borderRadius: 12,
     padding: 16,
     marginBottom: 12,
     alignItems: 'center',
     borderWidth: 2,
-    borderColor: COLORS.primary + '20', // 20% opacity
+    borderColor: colors.primary + '20', // 20% opacity
   },
   icon: {
     fontSize: 40,
@@ -46,19 +49,16 @@ const styles = StyleSheet.create({
   title: {
     fontSize: 16,
     fontWeight: 'bold',
-    color: COLORS.text,
+    color: colors.text,
     marginBottom: 4,
   },
   description: {
     fontSize: 14,
-    color: COLORS.textSecondary,
+    color: colors.textSecondary,
     marginBottom: 4,
   },
   date: {
     fontSize: 12,
-    color: COLORS.textMuted,
+    color: colors.textMuted,
   },
 });
-
-
-

@@ -1,12 +1,13 @@
 import { Tabs, useRouter } from 'expo-router';
 import { Text, ActivityIndicator, View } from 'react-native';
-import { COLORS } from '@/constants/colors';
+import { useColors } from '@/constants/colors';
 import { useUser } from '@/hooks/useUser';
 import { useEffect } from 'react';
 
 export default function TabsLayout() {
   const { user, loading } = useUser();
   const router = useRouter();
+  const colors = useColors();
 
   useEffect(() => {
     if (!loading && user && !user.onboarding_completed) {
@@ -17,8 +18,13 @@ export default function TabsLayout() {
 
   if (loading) {
     return (
-      <View style={{ flex: 1, justifyContent: 'center', alignItems: 'center', backgroundColor: COLORS.background }}>
-        <ActivityIndicator size="large" color={COLORS.primary} />
+      <View style={{ 
+        flex: 1, 
+        justifyContent: 'center', 
+        alignItems: 'center', 
+        backgroundColor: colors.background 
+      }}>
+        <ActivityIndicator size="large" color={colors.primary} />
       </View>
     );
   }
@@ -27,15 +33,15 @@ export default function TabsLayout() {
     <Tabs
       screenOptions={{
         headerStyle: {
-          backgroundColor: COLORS.background,
+          backgroundColor: colors.backgroundLight,
         },
-        headerTintColor: COLORS.text,
+        headerTintColor: colors.text,
         tabBarStyle: {
-          backgroundColor: COLORS.backgroundLight,
-          borderTopColor: COLORS.border,
+          backgroundColor: colors.backgroundLight,
+          borderTopColor: colors.border,
         },
-        tabBarActiveTintColor: COLORS.primary,
-        tabBarInactiveTintColor: COLORS.textMuted,
+        tabBarActiveTintColor: colors.primary,
+        tabBarInactiveTintColor: colors.textMuted,
       }}
     >
       <Tabs.Screen

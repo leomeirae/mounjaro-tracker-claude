@@ -1,5 +1,5 @@
 import { View, Text, StyleSheet } from 'react-native';
-import { COLORS } from '@/constants/colors';
+import { useColors } from '@/constants/colors';
 
 interface LevelCardProps {
   level: number;
@@ -8,9 +8,12 @@ interface LevelCardProps {
 }
 
 export function LevelCard({ level, currentXP, xpToNextLevel }: LevelCardProps) {
+  const colors = useColors();
   const xpForCurrentLevel = (level - 1) * 100;
   const xpForNextLevel = level * 100;
   const progressPercent = ((currentXP - xpForCurrentLevel) / 100) * 100;
+
+  const styles = getStyles(colors);
 
   return (
     <View style={styles.container}>
@@ -34,9 +37,9 @@ export function LevelCard({ level, currentXP, xpToNextLevel }: LevelCardProps) {
   );
 }
 
-const styles = StyleSheet.create({
+const getStyles = (colors: any) => StyleSheet.create({
   container: {
-    backgroundColor: COLORS.card,
+    backgroundColor: colors.card,
     borderRadius: 16,
     padding: 20,
   },
@@ -54,31 +57,31 @@ const styles = StyleSheet.create({
   },
   levelLabel: {
     fontSize: 14,
-    color: COLORS.textSecondary,
+    color: colors.textSecondary,
     marginBottom: 4,
   },
   levelNumber: {
     fontSize: 32,
     fontWeight: 'bold',
-    color: COLORS.primary,
+    color: colors.primary,
   },
   progressContainer: {
     gap: 8,
   },
   progressBar: {
     height: 12,
-    backgroundColor: COLORS.border,
+    backgroundColor: colors.border,
     borderRadius: 6,
     overflow: 'hidden',
   },
   progressFill: {
     height: '100%',
-    backgroundColor: COLORS.primary,
+    backgroundColor: colors.primary,
     borderRadius: 6,
   },
   progressText: {
     fontSize: 12,
-    color: COLORS.textMuted,
+    color: colors.textMuted,
     textAlign: 'center',
   },
 });

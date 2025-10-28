@@ -1,5 +1,5 @@
 import { View, Text, StyleSheet } from 'react-native';
-import { COLORS } from '@/constants/colors';
+import { useColors } from '@/constants/colors';
 import { WeightLog } from '@/lib/types';
 
 interface WeightChartProps {
@@ -9,7 +9,11 @@ interface WeightChartProps {
 }
 
 export function WeightChart({ data, goalWeight, initialWeight: userInitialWeight }: WeightChartProps) {
+  const colors = useColors();
+
   if (data.length === 0) {
+    const styles = getStyles(colors);
+
     return (
       <View style={styles.emptyContainer}>
         <Text style={styles.emptyText}>📊 Nenhum registro de peso ainda</Text>
@@ -24,6 +28,8 @@ export function WeightChart({ data, goalWeight, initialWeight: userInitialWeight
   const calculatedGoalWeight = goalWeight || (initialWeight - 10); // Usar meta do usuário ou fallback para -10kg
   const totalLost = initialWeight - currentWeight;
   const progressPercentage = Math.min(Math.max(((initialWeight - currentWeight) / (initialWeight - calculatedGoalWeight)) * 100, 0), 100);
+
+  const styles = getStyles(colors);
 
   return (
     <View style={styles.container}>
@@ -69,12 +75,12 @@ export function WeightChart({ data, goalWeight, initialWeight: userInitialWeight
   );
 }
 
-const styles = StyleSheet.create({
+const getStyles = (colors: any) => StyleSheet.create({
   container: {
     // gap: 16, // Not supported in React Native StyleSheet
   },
   emptyContainer: {
-    backgroundColor: COLORS.card,
+    backgroundColor: colors.card,
     borderRadius: 16,
     padding: 32,
     alignItems: 'center',
@@ -82,24 +88,24 @@ const styles = StyleSheet.create({
   },
   emptyText: {
     fontSize: 16,
-    color: COLORS.text,
+    color: colors.text,
     marginBottom: 8,
   },
   emptySubtext: {
     fontSize: 14,
-    color: COLORS.textMuted,
+    color: colors.textMuted,
   },
   
   // Progress Card
   progressCard: {
-    backgroundColor: COLORS.card,
+    backgroundColor: colors.card,
     borderRadius: 16,
     padding: 20,
   },
   title: {
     fontSize: 18,
     fontWeight: 'bold',
-    color: COLORS.text,
+    color: colors.text,
     marginBottom: 16,
   },
   weightFlow: {
@@ -114,16 +120,16 @@ const styles = StyleSheet.create({
   },
   weightLabel: {
     fontSize: 12,
-    color: COLORS.textMuted,
+    color: colors.textMuted,
     marginBottom: 4,
   },
   weightValue: {
     fontSize: 20,
     fontWeight: 'bold',
-    color: COLORS.text,
+    color: colors.text,
   },
   currentWeight: {
-    color: COLORS.primary,
+    color: colors.primary,
     fontSize: 24,
   },
   arrow: {
@@ -131,23 +137,23 @@ const styles = StyleSheet.create({
   },
   arrowText: {
     fontSize: 20,
-    color: COLORS.primary,
+    color: colors.primary,
   },
   progressBarContainer: {
     height: 8,
-    backgroundColor: COLORS.background,
+    backgroundColor: colors.background,
     borderRadius: 4,
     overflow: 'hidden',
     marginBottom: 8,
   },
   progressBar: {
     height: '100%',
-    backgroundColor: COLORS.primary,
+    backgroundColor: colors.primary,
     borderRadius: 4,
   },
   progressText: {
     fontSize: 14,
-    color: COLORS.textSecondary,
+    color: colors.textSecondary,
     textAlign: 'center',
   },
 });

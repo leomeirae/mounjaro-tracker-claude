@@ -5,9 +5,10 @@ import { useRouter } from 'expo-router';
 import { Button } from '@/components/ui/button';
 import { Input } from '@/components/ui/input';
 import { GoogleOAuthButton } from '@/components/auth/GoogleOAuthButton';
-import { COLORS } from '@/constants/colors';
+import { useColors } from '@/constants/colors';
 
 export default function SignUpScreen() {
+  const colors = useColors();
   const { signUp, setActive, isLoaded } = useSignUp();
   const router = useRouter();
 
@@ -39,6 +40,8 @@ export default function SignUpScreen() {
       setLoading(false);
     }
   };
+
+  const styles = getStyles(colors);
 
   return (
     <KeyboardAvoidingView
@@ -97,10 +100,10 @@ export default function SignUpScreen() {
   );
 }
 
-const styles = StyleSheet.create({
+const getStyles = (colors: any) => StyleSheet.create({
   container: {
     flex: 1,
-    backgroundColor: COLORS.background,
+    backgroundColor: colors.background,
   },
   content: {
     flex: 1,
@@ -110,19 +113,19 @@ const styles = StyleSheet.create({
   title: {
     fontSize: 32,
     fontWeight: 'bold',
-    color: COLORS.text,
+    color: colors.text,
     marginBottom: 8,
   },
   subtitle: {
     fontSize: 16,
-    color: COLORS.textSecondary,
+    color: colors.textSecondary,
     marginBottom: 32,
   },
   form: {
     gap: 16,
   },
   errorText: {
-    color: COLORS.error,
+    color: colors.error,
     fontSize: 14,
     textAlign: 'center',
   },
@@ -134,12 +137,12 @@ const styles = StyleSheet.create({
   dividerLine: {
     flex: 1,
     height: 1,
-    backgroundColor: COLORS.border,
+    backgroundColor: colors.border,
   },
   dividerText: {
     marginHorizontal: 16,
     fontSize: 14,
-    color: COLORS.textMuted,
+    color: colors.textMuted,
     fontWeight: '600',
   },
 });

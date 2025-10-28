@@ -4,9 +4,10 @@ import { useSignUp } from '@clerk/clerk-expo';
 import { useRouter } from 'expo-router';
 import { Button } from '@/components/ui/button';
 import { Input } from '@/components/ui/input';
-import { COLORS } from '@/constants/colors';
+import { useColors } from '@/constants/colors';
 
 export default function VerifyEmailScreen() {
+  const colors = useColors();
   const { signUp, setActive, isLoaded } = useSignUp();
   const router = useRouter();
 
@@ -84,6 +85,8 @@ export default function VerifyEmailScreen() {
       setResendLoading(false);
     }
   };
+
+  const styles = getStyles(colors);
 
   return (
     <KeyboardAvoidingView
@@ -168,10 +171,10 @@ export default function VerifyEmailScreen() {
   );
 }
 
-const styles = StyleSheet.create({
+const getStyles = (colors: any) => StyleSheet.create({
   container: {
     flex: 1,
-    backgroundColor: COLORS.background,
+    backgroundColor: colors.background,
   },
   scrollContent: {
     flexGrow: 1,
@@ -190,19 +193,19 @@ const styles = StyleSheet.create({
   title: {
     fontSize: 32,
     fontWeight: 'bold',
-    color: COLORS.text,
+    color: colors.text,
     marginBottom: 8,
     textAlign: 'center',
   },
   subtitle: {
     fontSize: 16,
-    color: COLORS.textSecondary,
+    color: colors.textSecondary,
     marginBottom: 32,
     textAlign: 'center',
     lineHeight: 24,
   },
   email: {
-    color: COLORS.primary,
+    color: colors.primary,
     fontWeight: '600',
   },
   form: {
@@ -210,19 +213,19 @@ const styles = StyleSheet.create({
     width: '100%',
   },
   infoBox: {
-    backgroundColor: COLORS.card,
+    backgroundColor: colors.card,
     padding: 16,
     borderRadius: 12,
     borderLeftWidth: 4,
-    borderLeftColor: COLORS.primary,
+    borderLeftColor: colors.primary,
   },
   infoText: {
-    color: COLORS.textSecondary,
+    color: colors.textSecondary,
     fontSize: 14,
     lineHeight: 20,
   },
   errorText: {
-    color: COLORS.error,
+    color: colors.error,
     fontSize: 14,
     textAlign: 'center',
   },

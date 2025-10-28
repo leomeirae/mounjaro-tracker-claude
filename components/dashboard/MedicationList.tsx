@@ -1,5 +1,5 @@
 import { View, Text, StyleSheet, FlatList, TouchableOpacity, Alert } from 'react-native';
-import { COLORS } from '@/constants/colors';
+import { useColors } from '@/constants/colors';
 import { Medication } from '@/lib/types';
 import { useRouter } from 'expo-router';
 
@@ -18,6 +18,7 @@ const MEDICATION_NAMES: Record<string, string> = {
 };
 
 export function MedicationList({ medications, onEdit, onDelete }: MedicationListProps) {
+  const colors = useColors();
   const router = useRouter();
 
   const handleDelete = (medication: Medication) => {
@@ -36,6 +37,8 @@ export function MedicationList({ medications, onEdit, onDelete }: MedicationList
   };
 
   if (medications.length === 0) {
+    const styles = getStyles(colors);
+
     return (
       <View style={styles.emptyContainer}>
         <Text style={styles.emptyIcon}>💊</Text>
@@ -49,6 +52,8 @@ export function MedicationList({ medications, onEdit, onDelete }: MedicationList
       </View>
     );
   }
+
+  const styles = getStyles(colors);
 
   return (
     <View style={styles.container}>
@@ -94,18 +99,18 @@ export function MedicationList({ medications, onEdit, onDelete }: MedicationList
   );
 }
 
-const styles = StyleSheet.create({
+const getStyles = (colors: any) => StyleSheet.create({
   container: {
     marginBottom: 16,
   },
   title: {
     fontSize: 18,
     fontWeight: 'bold',
-    color: COLORS.text,
+    color: colors.text,
     marginBottom: 12,
   },
   emptyContainer: {
-    backgroundColor: COLORS.card,
+    backgroundColor: colors.card,
     borderRadius: 16,
     padding: 32,
     alignItems: 'center',
@@ -117,23 +122,23 @@ const styles = StyleSheet.create({
   },
   emptyText: {
     fontSize: 16,
-    color: COLORS.text,
+    color: colors.text,
     marginBottom: 16,
     fontWeight: '600',
   },
   emptyButton: {
-    backgroundColor: COLORS.primary,
+    backgroundColor: colors.primary,
     paddingHorizontal: 24,
     paddingVertical: 12,
     borderRadius: 12,
   },
   emptyButtonText: {
-    color: COLORS.text,
+    color: colors.text,
     fontSize: 16,
     fontWeight: '600',
   },
   medicationCard: {
-    backgroundColor: COLORS.card,
+    backgroundColor: colors.card,
     borderRadius: 12,
     padding: 16,
     marginBottom: 12,
@@ -152,13 +157,13 @@ const styles = StyleSheet.create({
   medicationName: {
     fontSize: 18,
     fontWeight: 'bold',
-    color: COLORS.text,
+    color: colors.text,
     marginRight: 12,
   },
   medicationDosage: {
     fontSize: 16,
     fontWeight: '600',
-    color: COLORS.primary,
+    color: colors.primary,
   },
   actions: {
     flexDirection: 'row',
@@ -167,7 +172,7 @@ const styles = StyleSheet.create({
   actionButton: {
     padding: 8,
     borderRadius: 8,
-    backgroundColor: COLORS.background,
+    backgroundColor: colors.background,
     marginLeft: 8,
   },
   actionIcon: {
@@ -175,12 +180,11 @@ const styles = StyleSheet.create({
   },
   medicationFrequency: {
     fontSize: 14,
-    color: COLORS.textSecondary,
+    color: colors.textSecondary,
     marginBottom: 4,
   },
   medicationStart: {
     fontSize: 12,
-    color: COLORS.textMuted,
+    color: colors.textMuted,
   },
 });
-

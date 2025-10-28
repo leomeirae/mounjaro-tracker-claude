@@ -5,7 +5,7 @@ import { Button } from '@/components/ui/button';
 import { Input } from '@/components/ui/input';
 import { useMedicationApplications } from '@/hooks/useMedicationApplications';
 import { useMedications } from '@/hooks/useMedications';
-import { COLORS } from '@/constants/colors';
+import { useColors } from '@/constants/colors';
 
 const MEDICATION_NAMES: Record<string, string> = {
   mounjaro: 'Mounjaro',
@@ -16,6 +16,7 @@ const MEDICATION_NAMES: Record<string, string> = {
 };
 
 export default function AddApplicationScreen() {
+  const colors = useColors();
   const router = useRouter();
   const params = useLocalSearchParams();
   const editId = params.editId as string | undefined;
@@ -99,6 +100,8 @@ export default function AddApplicationScreen() {
   }
 
   if (activeMedications.length === 0) {
+    const styles = getStyles(colors);
+
     return (
       <View style={styles.emptyContainer}>
         <Text style={styles.emptyEmoji}>💊</Text>
@@ -115,6 +118,8 @@ export default function AddApplicationScreen() {
   }
 
   const selectedMedication = medications.find(m => m.id === selectedMedicationId);
+
+  const styles = getStyles(colors);
 
   return (
     <ScrollView style={styles.container} contentContainerStyle={styles.content}>
@@ -193,10 +198,10 @@ export default function AddApplicationScreen() {
   );
 }
 
-const styles = StyleSheet.create({
+const getStyles = (colors: any) => StyleSheet.create({
   container: {
     flex: 1,
-    backgroundColor: COLORS.background,
+    backgroundColor: colors.background,
   },
   content: {
     padding: 24,
@@ -213,12 +218,12 @@ const styles = StyleSheet.create({
   title: {
     fontSize: 28,
     fontWeight: 'bold',
-    color: COLORS.text,
+    color: colors.text,
     marginBottom: 8,
   },
   subtitle: {
     fontSize: 14,
-    color: COLORS.textSecondary,
+    color: colors.textSecondary,
   },
   section: {
     marginBottom: 24,
@@ -226,53 +231,53 @@ const styles = StyleSheet.create({
   label: {
     fontSize: 16,
     fontWeight: '600',
-    color: COLORS.text,
+    color: colors.text,
     marginBottom: 12,
   },
   medicationsList: {
     gap: 12,
   },
   medicationCard: {
-    backgroundColor: COLORS.card,
+    backgroundColor: colors.card,
     borderRadius: 12,
     padding: 16,
     borderWidth: 2,
     borderColor: 'transparent',
   },
   medicationCardActive: {
-    borderColor: COLORS.primary,
-    backgroundColor: COLORS.primaryDark,
+    borderColor: colors.primary,
+    backgroundColor: colors.primaryDark,
   },
   medicationName: {
     fontSize: 18,
     fontWeight: 'bold',
-    color: COLORS.text,
+    color: colors.text,
     marginBottom: 4,
   },
   medicationDosage: {
     fontSize: 16,
-    color: COLORS.primary,
+    color: colors.primary,
     fontWeight: '600',
     marginBottom: 4,
   },
   medicationFrequency: {
     fontSize: 14,
-    color: COLORS.textSecondary,
+    color: colors.textSecondary,
   },
   infoCard: {
-    backgroundColor: COLORS.card,
+    backgroundColor: colors.card,
     borderRadius: 12,
     padding: 16,
     marginBottom: 24,
   },
   infoText: {
     fontSize: 14,
-    color: COLORS.textSecondary,
+    color: colors.textSecondary,
     lineHeight: 20,
   },
   emptyContainer: {
     flex: 1,
-    backgroundColor: COLORS.background,
+    backgroundColor: colors.background,
     padding: 24,
     justifyContent: 'center',
     alignItems: 'center',
@@ -284,13 +289,12 @@ const styles = StyleSheet.create({
   emptyTitle: {
     fontSize: 24,
     fontWeight: 'bold',
-    color: COLORS.text,
+    color: colors.text,
   },
   emptyText: {
     fontSize: 16,
-    color: COLORS.textSecondary,
+    color: colors.textSecondary,
     textAlign: 'center',
     marginBottom: 16,
   },
 });
-

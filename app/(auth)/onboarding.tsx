@@ -3,11 +3,12 @@ import { View, Text, StyleSheet, Alert, KeyboardAvoidingView, Platform, Touchabl
 import { useRouter } from 'expo-router';
 import { Button } from '@/components/ui/button';
 import { Input } from '@/components/ui/input';
-import { COLORS } from '@/constants/colors';
+import { useColors } from '@/constants/colors';
 import { supabase } from '@/lib/supabase';
 import { useAuth, useUser as useClerkUser } from '@/lib/clerk';
 
 export default function OnboardingScreen() {
+  const colors = useColors();
   const router = useRouter();
   const { userId } = useAuth();
   const { user: clerkUser } = useClerkUser();
@@ -87,6 +88,8 @@ export default function OnboardingScreen() {
     }
   }
 
+  const styles = getStyles(colors);
+
   return (
     <KeyboardAvoidingView
       behavior={Platform.OS === 'ios' ? 'padding' : 'height'}
@@ -165,10 +168,10 @@ export default function OnboardingScreen() {
   );
 }
 
-const styles = StyleSheet.create({
+const getStyles = (colors: any) => StyleSheet.create({
   container: {
     flex: 1,
-    backgroundColor: COLORS.background,
+    backgroundColor: colors.background,
   },
   scrollContent: {
     padding: 24,
@@ -186,16 +189,16 @@ const styles = StyleSheet.create({
   title: {
     fontSize: 32,
     fontWeight: 'bold',
-    color: COLORS.text,
+    color: colors.text,
     marginBottom: 8,
   },
   subtitle: {
     fontSize: 16,
-    color: COLORS.textSecondary,
+    color: colors.textSecondary,
     textAlign: 'center',
   },
   card: {
-    backgroundColor: COLORS.card,
+    backgroundColor: colors.card,
     borderRadius: 16,
     padding: 20,
     marginBottom: 16,
@@ -203,11 +206,11 @@ const styles = StyleSheet.create({
   cardTitle: {
     fontSize: 20,
     fontWeight: 'bold',
-    color: COLORS.text,
+    color: colors.text,
     marginBottom: 16,
   },
   previewCard: {
-    backgroundColor: COLORS.background,
+    backgroundColor: colors.background,
     borderRadius: 12,
     padding: 16,
     marginTop: 16,
@@ -215,22 +218,22 @@ const styles = StyleSheet.create({
   },
   previewLabel: {
     fontSize: 14,
-    color: COLORS.textMuted,
+    color: colors.textMuted,
     marginBottom: 8,
   },
   previewText: {
     fontSize: 24,
     fontWeight: 'bold',
-    color: COLORS.primary,
+    color: colors.primary,
     marginBottom: 4,
   },
   previewGoal: {
     fontSize: 14,
-    color: COLORS.textSecondary,
+    color: colors.textSecondary,
   },
   tipCard: {
     flexDirection: 'row',
-    backgroundColor: COLORS.card,
+    backgroundColor: colors.card,
     borderRadius: 12,
     padding: 16,
     marginBottom: 24,
@@ -243,6 +246,6 @@ const styles = StyleSheet.create({
   tipText: {
     flex: 1,
     fontSize: 14,
-    color: COLORS.textSecondary,
+    color: colors.textSecondary,
   },
 });

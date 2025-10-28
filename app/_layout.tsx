@@ -1,27 +1,32 @@
 import { ClerkProvider } from '@clerk/clerk-expo';
 import { Stack } from 'expo-router';
 import { StatusBar } from 'expo-status-bar';
+import { ThemeProvider, useTheme } from '@/lib/theme-context';
 import { useColors } from '@/constants/colors';
 import { tokenCache, validateClerkKey } from '@/lib/clerk';
 
-function StackWithTheme() {
+function RootStack() {
   const colors = useColors();
+  const { effectiveMode } = useTheme();
 
   return (
-    <Stack
-      screenOptions={{
-        headerStyle: {
-          backgroundColor: colors.background,
-        },
-        headerTintColor: colors.text,
-        headerTitleStyle: {
-          fontWeight: 'bold',
-        },
-        contentStyle: {
-          backgroundColor: colors.background,
-        },
-      }}
-    >
+    <>
+      <StatusBar style={effectiveMode === 'dark' ? 'light' : 'dark'} />
+      <Stack
+        screenOptions={{
+          headerStyle: {
+            backgroundColor: colors.backgroundLight,
+          },
+          headerTintColor: colors.text,
+          headerTitleStyle: {
+            fontWeight: 'bold',
+          },
+          contentStyle: {
+            backgroundColor: colors.background,
+          },
+          animation: 'fade',
+        }}
+      >
         <Stack.Screen 
           name="index" 
           options={{ 
@@ -55,7 +60,8 @@ function StackWithTheme() {
             headerShown: false,
           }} 
         />
-    </Stack>
+      </Stack>
+    </>
   );
 }
 
@@ -67,8 +73,9 @@ export default function RootLayout() {
       publishableKey={publishableKey} 
       tokenCache={tokenCache}
     >
-      <StatusBar style="auto" />
-      <StackWithTheme />
+      <ThemeProvider>
+        <RootStack />
+      </ThemeProvider>
     </ClerkProvider>
   );
 }

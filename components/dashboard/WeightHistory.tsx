@@ -1,5 +1,5 @@
 import { View, Text, StyleSheet } from 'react-native';
-import { COLORS } from '@/constants/colors';
+import { useColors } from '@/constants/colors';
 import { WeightLog } from '@/lib/types';
 
 interface WeightHistoryProps {
@@ -7,12 +7,15 @@ interface WeightHistoryProps {
 }
 
 export function WeightHistory({ data }: WeightHistoryProps) {
+  const colors = useColors();
   if (data.length === 0) {
     return null;
   }
 
   // Últimos 5 registros
   const recentLogs = data.slice(0, 5);
+
+  const styles = getStyles(colors);
 
   return (
     <View style={styles.container}>
@@ -40,6 +43,8 @@ export function WeightHistory({ data }: WeightHistoryProps) {
           });
         }
         
+        const styles = getStyles(colors);
+
         return (
           <View key={log.id} style={styles.timelineItem}>
             <View style={[
@@ -66,7 +71,7 @@ export function WeightHistory({ data }: WeightHistoryProps) {
   );
 }
 
-const styles = StyleSheet.create({
+const getStyles = (colors: any) => StyleSheet.create({
   container: {
     padding: 16,
   },
@@ -78,7 +83,7 @@ const styles = StyleSheet.create({
     width: 12,
     height: 12,
     borderRadius: 6,
-    backgroundColor: COLORS.primary,
+    backgroundColor: colors.primary,
     marginRight: 12,
     marginTop: 4,
   },
@@ -99,12 +104,12 @@ const styles = StyleSheet.create({
   },
   timelineDate: {
     fontSize: 14,
-    color: COLORS.textSecondary,
+    color: colors.textSecondary,
   },
   timelineWeight: {
     fontSize: 16,
     fontWeight: 'bold',
-    color: COLORS.text,
+    color: colors.text,
   },
   timelineDiff: {
     fontSize: 12,
@@ -119,9 +124,7 @@ const styles = StyleSheet.create({
   },
   timelineNotes: {
     fontSize: 12,
-    color: COLORS.textMuted,
+    color: colors.textMuted,
     fontStyle: 'italic',
   },
 });
-
-

@@ -1,5 +1,5 @@
 import { View, Text, StyleSheet } from 'react-native';
-import { COLORS } from '@/constants/colors';
+import { useColors } from '@/constants/colors';
 
 interface StreakCardProps {
   currentStreak: number;
@@ -8,8 +8,11 @@ interface StreakCardProps {
 }
 
 export function StreakCard({ currentStreak, longestStreak, type }: StreakCardProps) {
+  const colors = useColors();
   const emoji = type === 'weight' ? '⚖️' : '💉';
   const label = type === 'weight' ? 'Pesagens' : 'Aplicações';
+
+  const styles = getStyles(colors);
 
   return (
     <View style={[
@@ -43,19 +46,19 @@ export function StreakCard({ currentStreak, longestStreak, type }: StreakCardPro
   );
 }
 
-const styles = StyleSheet.create({
+const getStyles = (colors: any) => StyleSheet.create({
   container: {
-    backgroundColor: COLORS.card,
+    backgroundColor: colors.card,
     borderRadius: 16,
     padding: 20,
     flexDirection: 'row',
     alignItems: 'center',
     borderWidth: 2,
-    borderColor: COLORS.primary + '40',
+    borderColor: colors.primary + '40',
   },
   containerInactive: {
     opacity: 0.6,
-    borderColor: COLORS.border,
+    borderColor: colors.border,
   },
   emoji: {
     fontSize: 40,
@@ -76,24 +79,24 @@ const styles = StyleSheet.create({
   currentStreak: {
     fontSize: 28,
     fontWeight: 'bold',
-    color: COLORS.text,
+    color: colors.text,
     marginRight: 4,
   },
   streakLabel: {
     fontSize: 14,
-    color: COLORS.textSecondary,
+    color: colors.textSecondary,
   },
   type: {
     fontSize: 14,
-    color: COLORS.textSecondary,
+    color: colors.textSecondary,
     marginBottom: 4,
   },
   record: {
     fontSize: 12,
-    color: COLORS.textMuted,
+    color: colors.textMuted,
   },
   brokenBadge: {
-    backgroundColor: COLORS.error,
+    backgroundColor: colors.error,
     borderRadius: 8,
     paddingHorizontal: 12,
     paddingVertical: 6,
@@ -101,6 +104,6 @@ const styles = StyleSheet.create({
   brokenText: {
     fontSize: 12,
     fontWeight: 'bold',
-    color: COLORS.text,
+    color: colors.text,
   },
 });

@@ -1,6 +1,6 @@
 import React, { useState } from 'react';
 import { View, Text, TouchableOpacity, StyleSheet } from 'react-native';
-import { COLORS } from '@/constants/colors';
+import { useColors } from '@/constants/colors';
 
 interface CollapsibleSectionProps {
   title: string;
@@ -9,13 +9,16 @@ interface CollapsibleSectionProps {
   defaultExpanded?: boolean;
 }
 
-export function CollapsibleSection({ 
-  title, 
-  icon, 
-  children, 
-  defaultExpanded = false 
+export function CollapsibleSection({
+  title,
+  icon,
+  children,
+  defaultExpanded = false
 }: CollapsibleSectionProps) {
+  const colors = useColors();
   const [isExpanded, setIsExpanded] = useState(defaultExpanded);
+
+  const styles = getStyles(colors);
 
   return (
     <View style={styles.container}>
@@ -42,7 +45,7 @@ export function CollapsibleSection({
   );
 }
 
-const styles = StyleSheet.create({
+const getStyles = (colors: any) => StyleSheet.create({
   container: {
     marginBottom: 16,
   },
@@ -50,11 +53,11 @@ const styles = StyleSheet.create({
     flexDirection: 'row',
     justifyContent: 'space-between',
     alignItems: 'center',
-    backgroundColor: COLORS.card,
+    backgroundColor: colors.card,
     padding: 16,
     borderRadius: 12,
     borderLeftWidth: 4,
-    borderLeftColor: COLORS.primary,
+    borderLeftColor: colors.primary,
   },
   headerContent: {
     flexDirection: 'row',
@@ -68,16 +71,14 @@ const styles = StyleSheet.create({
   title: {
     fontSize: 16,
     fontWeight: '600',
-    color: COLORS.text,
+    color: colors.text,
   },
   chevron: {
     fontSize: 14,
-    color: COLORS.textMuted,
+    color: colors.textMuted,
     marginLeft: 12,
   },
   content: {
     marginTop: 12,
   },
 });
-
-

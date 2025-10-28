@@ -4,7 +4,7 @@ import { useSSO } from '@clerk/clerk-expo';
 import { useRouter } from 'expo-router';
 import * as AuthSession from 'expo-auth-session';
 import { useWarmUpBrowser } from '@/hooks/useWarmUpBrowser';
-import { COLORS } from '@/constants/colors';
+import { useColors } from '@/constants/colors';
 
 // Handle any pending authentication sessions
 import * as WebBrowser from 'expo-web-browser';
@@ -15,6 +15,7 @@ interface GoogleOAuthButtonProps {
 }
 
 export function GoogleOAuthButton({ mode = 'signin' }: GoogleOAuthButtonProps) {
+  const colors = useColors();
   useWarmUpBrowser();
   
   const { startSSOFlow } = useSSO();
@@ -76,6 +77,8 @@ export function GoogleOAuthButton({ mode = 'signin' }: GoogleOAuthButtonProps) {
     ? 'Continuar com Google' 
     : 'Cadastrar com Google';
 
+  const styles = getStyles(colors);
+
   return (
     <TouchableOpacity
       style={styles.button}
@@ -84,7 +87,7 @@ export function GoogleOAuthButton({ mode = 'signin' }: GoogleOAuthButtonProps) {
       activeOpacity={0.8}
     >
       {loading ? (
-        <ActivityIndicator color={COLORS.text} />
+        <ActivityIndicator color={colors.text} />
       ) : (
         <View style={styles.content}>
           <Text style={styles.icon}>🔐</Text>
@@ -95,15 +98,15 @@ export function GoogleOAuthButton({ mode = 'signin' }: GoogleOAuthButtonProps) {
   );
 }
 
-const styles = StyleSheet.create({
+const getStyles = (colors: any) => StyleSheet.create({
   button: {
-    backgroundColor: COLORS.card,
+    backgroundColor: colors.card,
     borderRadius: 12,
     padding: 16,
     alignItems: 'center',
     justifyContent: 'center',
     borderWidth: 1,
-    borderColor: COLORS.border,
+    borderColor: colors.border,
     minHeight: 56,
   },
   content: {
@@ -117,8 +120,6 @@ const styles = StyleSheet.create({
   text: {
     fontSize: 16,
     fontWeight: '600',
-    color: COLORS.text,
+    color: colors.text,
   },
 });
-
-

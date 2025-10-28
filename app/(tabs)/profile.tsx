@@ -4,8 +4,8 @@ import { useUser } from '@/hooks/useUser';
 import { Button } from '@/components/ui/button';
 import { useRouter } from 'expo-router';
 import { useColors } from '@/constants/colors';
+import { useTheme } from '@/lib/theme-context';
 import { supabase } from '@/lib/supabase';
-import { useTheme } from '@/lib/theme';
 
 export default function ProfileScreen() {
   const { signOut } = useAuth();
@@ -14,8 +14,6 @@ export default function ProfileScreen() {
   const router = useRouter();
   const colors = useColors();
   const { mode, setMode } = useTheme();
-
-  const styles = createStyles(colors);
 
   async function handleSignOut() {
     Alert.alert(
@@ -51,34 +49,34 @@ export default function ProfileScreen() {
   }
 
   return (
-    <ScrollView style={styles.container}>
+    <ScrollView style={[styles.container, { backgroundColor: colors.background }]}>
       <View style={styles.header}>
-        <View style={styles.avatar}>
-          <Text style={styles.avatarText}>
+        <View style={[styles.avatar, { backgroundColor: colors.primary }]}>
+          <Text style={[styles.avatarText, { color: '#ffffff' }]}>
             {(dbUser?.name || clerkUser?.firstName)?.charAt(0) || '?'}
           </Text>
         </View>
-        <Text style={styles.name}>
+        <Text style={[styles.name, { color: colors.text }]}>
           {dbUser?.name || clerkUser?.fullName || 'Usuário'}
         </Text>
-        <Text style={styles.email}>
+        <Text style={[styles.email, { color: colors.textSecondary }]}>
           {clerkUser?.primaryEmailAddress?.emailAddress}
         </Text>
       </View>
 
       <View style={styles.section}>
-        <Text style={styles.sectionTitle}>Informações da Conta</Text>
+        <Text style={[styles.sectionTitle, { color: colors.text }]}>Informações da Conta</Text>
         
-        <View style={styles.infoCard}>
-          <Text style={styles.infoLabel}>ID do Usuário</Text>
-          <Text style={styles.infoValue}>
+        <View style={[styles.infoCard, { backgroundColor: colors.card }]}>
+          <Text style={[styles.infoLabel, { color: colors.textMuted }]}>ID do Usuário</Text>
+          <Text style={[styles.infoValue, { color: colors.text }]}>
             {dbUser?.id.slice(0, 8)}...
           </Text>
         </View>
 
-        <View style={styles.infoCard}>
-          <Text style={styles.infoLabel}>Membro desde</Text>
-          <Text style={styles.infoValue}>
+        <View style={[styles.infoCard, { backgroundColor: colors.card }]}>
+          <Text style={[styles.infoLabel, { color: colors.textMuted }]}>Membro desde</Text>
+          <Text style={[styles.infoValue, { color: colors.text }]}>
             {dbUser ? new Date(dbUser.created_at).toLocaleDateString('pt-BR', {
               day: '2-digit',
               month: 'long',
@@ -89,29 +87,71 @@ export default function ProfileScreen() {
       </View>
 
       <View style={styles.section}>
-        <Text style={styles.sectionTitle}>Configurações</Text>
+        <Text style={[styles.sectionTitle, { color: colors.text }]}>Configurações</Text>
         
         {/* Theme Selector */}
-        <View style={styles.themeCard}>
-          <Text style={styles.themeTitle}>🌓 Tema</Text>
+        <View style={[styles.themeCard, { backgroundColor: colors.card }]}>
+          <Text style={[styles.themeTitle, { color: colors.text }]}>🌓 Tema</Text>
           <View style={styles.themeOptions}>
             <TouchableOpacity
-              style={[styles.themeOption, mode === 'light' && styles.themeOptionActive]}
+              style={[
+                styles.themeOption,
+                { backgroundColor: colors.backgroundLight, borderColor: colors.border },
+                mode === 'light' && { 
+                  borderColor: colors.primary, 
+                  backgroundColor: colors.primary + '20' 
+                }
+              ]}
               onPress={() => setMode('light')}
             >
-              <Text style={[styles.themeOptionText, mode === 'light' && styles.themeOptionTextActive]}>☀️ Claro</Text>
+              <Text style={[
+                styles.themeOptionText,
+                { color: colors.textSecondary },
+                mode === 'light' && { color: colors.primary }
+              ]}>
+                ☀️ Claro
+              </Text>
             </TouchableOpacity>
+
             <TouchableOpacity
-              style={[styles.themeOption, mode === 'dark' && styles.themeOptionActive]}
+              style={[
+                styles.themeOption,
+                { backgroundColor: colors.backgroundLight, borderColor: colors.border },
+                mode === 'dark' && { 
+                  borderColor: colors.primary, 
+                  backgroundColor: colors.primary + '20' 
+                }
+              ]}
               onPress={() => setMode('dark')}
             >
-              <Text style={[styles.themeOptionText, mode === 'dark' && styles.themeOptionTextActive]}>🌙 Escuro</Text>
+              <Text style={[
+                styles.themeOptionText,
+                { color: colors.textSecondary },
+                mode === 'dark' && { color: colors.primary }
+              ]}>
+                🌙 Escuro
+              </Text>
             </TouchableOpacity>
+
             <TouchableOpacity
-              style={[styles.themeOption, styles.themeOptionLast, mode === 'system' && styles.themeOptionActive]}
+              style={[
+                styles.themeOption,
+                styles.themeOptionLast,
+                { backgroundColor: colors.backgroundLight, borderColor: colors.border },
+                mode === 'system' && { 
+                  borderColor: colors.primary, 
+                  backgroundColor: colors.primary + '20' 
+                }
+              ]}
               onPress={() => setMode('system')}
             >
-              <Text style={[styles.themeOptionText, mode === 'system' && styles.themeOptionTextActive]}>⚙️ Sistema</Text>
+              <Text style={[
+                styles.themeOptionText,
+                { color: colors.textSecondary },
+                mode === 'system' && { color: colors.primary }
+              ]}>
+                ⚙️ Sistema
+              </Text>
             </TouchableOpacity>
           </View>
         </View>
@@ -143,15 +183,14 @@ export default function ProfileScreen() {
         />
       </View>
 
-      <Text style={styles.version}>Versão 1.0.0</Text>
+      <Text style={[styles.version, { color: colors.textMuted }]}>Versão 1.0.0</Text>
     </ScrollView>
   );
 }
 
-const createStyles = (colors: any) => StyleSheet.create({
+const styles = StyleSheet.create({
   container: {
     flex: 1,
-    backgroundColor: colors.background,
   },
   header: {
     alignItems: 'center',
@@ -162,7 +201,6 @@ const createStyles = (colors: any) => StyleSheet.create({
     width: 80,
     height: 80,
     borderRadius: 40,
-    backgroundColor: colors.primary,
     alignItems: 'center',
     justifyContent: 'center',
     marginBottom: 16,
@@ -170,30 +208,25 @@ const createStyles = (colors: any) => StyleSheet.create({
   avatarText: {
     fontSize: 32,
     fontWeight: 'bold',
-    color: colors.text,
   },
   name: {
     fontSize: 24,
     fontWeight: 'bold',
-    color: colors.text,
     marginBottom: 4,
   },
   email: {
     fontSize: 14,
-    color: colors.textSecondary,
   },
   section: {
     padding: 24,
-    // gap: 12, // Not supported in React Native StyleSheet
+    gap: 12,
   },
   sectionTitle: {
     fontSize: 18,
     fontWeight: 'bold',
-    color: colors.text,
     marginBottom: 8,
   },
   themeCard: {
-    backgroundColor: colors.card,
     borderRadius: 12,
     padding: 16,
     marginBottom: 12,
@@ -201,58 +234,42 @@ const createStyles = (colors: any) => StyleSheet.create({
   themeTitle: {
     fontSize: 16,
     fontWeight: 'bold',
-    color: colors.text,
     marginBottom: 12,
   },
   themeOptions: {
     flexDirection: 'row',
-    // gap: 8, // Not supported in React Native StyleSheet
+    gap: 8,
   },
   themeOption: {
     flex: 1,
     padding: 12,
     borderRadius: 8,
-    backgroundColor: colors.background,
     alignItems: 'center',
     borderWidth: 2,
-    borderColor: 'transparent',
-    marginRight: 4,
   },
   themeOptionLast: {
     marginRight: 0,
   },
-  themeOptionActive: {
-    borderColor: colors.primary,
-    backgroundColor: colors.primary + '20',
-  },
   themeOptionText: {
     fontSize: 14,
     fontWeight: '600',
-    color: colors.textSecondary,
-  },
-  themeOptionTextActive: {
-    color: colors.primary,
   },
   infoCard: {
-    backgroundColor: colors.card,
     borderRadius: 12,
     padding: 16,
+    marginBottom: 12,
   },
   infoLabel: {
     fontSize: 12,
-    color: colors.textMuted,
     marginBottom: 4,
   },
   infoValue: {
     fontSize: 16,
-    color: colors.text,
     fontWeight: '600',
   },
   version: {
     textAlign: 'center',
     fontSize: 12,
-    color: colors.textMuted,
     padding: 24,
   },
 });
-

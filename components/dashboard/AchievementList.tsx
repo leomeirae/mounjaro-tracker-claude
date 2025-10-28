@@ -1,5 +1,5 @@
 import { View, Text, StyleSheet, FlatList, ActivityIndicator } from 'react-native';
-import { COLORS } from '@/constants/colors';
+import { useColors } from '@/constants/colors';
 import { Achievement } from '@/lib/types';
 import { AchievementCard } from './AchievementCard';
 
@@ -10,15 +10,20 @@ interface AchievementListProps {
 }
 
 export function AchievementList({ achievements, loading, maxVisible }: AchievementListProps) {
+  const colors = useColors();
   if (loading) {
+    const styles = getStyles(colors);
+
     return (
       <View style={styles.loadingContainer}>
-        <ActivityIndicator size="small" color={COLORS.primary} />
+        <ActivityIndicator size="small" color={colors.primary} />
       </View>
     );
   }
 
   if (achievements.length === 0) {
+    const styles = getStyles(colors);
+
     return (
       <View style={styles.emptyContainer}>
         <Text style={styles.emptyIcon}>🏆</Text>
@@ -33,6 +38,8 @@ export function AchievementList({ achievements, loading, maxVisible }: Achieveme
   const displayAchievements = maxVisible 
     ? achievements.slice(0, maxVisible)
     : achievements;
+
+  const styles = getStyles(colors);
 
   return (
     <View style={styles.container}>
@@ -57,7 +64,7 @@ export function AchievementList({ achievements, loading, maxVisible }: Achieveme
   );
 }
 
-const styles = StyleSheet.create({
+const getStyles = (colors: any) => StyleSheet.create({
   container: {
     marginBottom: 16,
   },
@@ -70,13 +77,13 @@ const styles = StyleSheet.create({
   title: {
     fontSize: 18,
     fontWeight: 'bold',
-    color: COLORS.text,
+    color: colors.text,
   },
   count: {
     fontSize: 16,
     fontWeight: 'bold',
-    color: COLORS.primary,
-    backgroundColor: COLORS.card,
+    color: colors.primary,
+    backgroundColor: colors.card,
     paddingHorizontal: 12,
     paddingVertical: 4,
     borderRadius: 12,
@@ -86,7 +93,7 @@ const styles = StyleSheet.create({
     alignItems: 'center',
   },
   emptyContainer: {
-    backgroundColor: COLORS.card,
+    backgroundColor: colors.card,
     borderRadius: 16,
     padding: 32,
     alignItems: 'center',
@@ -99,21 +106,18 @@ const styles = StyleSheet.create({
   emptyText: {
     fontSize: 16,
     fontWeight: '600',
-    color: COLORS.text,
+    color: colors.text,
     marginBottom: 8,
   },
   emptySubtext: {
     fontSize: 14,
-    color: COLORS.textSecondary,
+    color: colors.textSecondary,
     textAlign: 'center',
   },
   moreText: {
     fontSize: 14,
-    color: COLORS.textMuted,
+    color: colors.textMuted,
     textAlign: 'center',
     marginTop: 8,
   },
 });
-
-
-

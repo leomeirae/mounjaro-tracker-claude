@@ -1,5 +1,5 @@
 import { Pressable, Text, StyleSheet, ActivityIndicator } from 'react-native';
-import { COLORS } from '@/constants/colors';
+import { useColors } from '@/constants/colors';
 
 interface ButtonProps {
   label: string;
@@ -16,7 +16,36 @@ export function Button({
   loading = false,
   disabled = false,
 }: ButtonProps) {
+  const colors = useColors();
   const isDisabled = disabled || loading;
+
+  const getButtonStyle = () => {
+    switch (variant) {
+      case 'primary':
+        return { backgroundColor: colors.primary };
+      case 'secondary':
+        return { backgroundColor: colors.card };
+      case 'outline':
+        return { 
+          backgroundColor: 'transparent', 
+          borderWidth: 2, 
+          borderColor: colors.primary 
+        };
+      default:
+        return { backgroundColor: colors.primary };
+    }
+  };
+
+  const getTextStyle = () => {
+    switch (variant) {
+      case 'outline':
+        return { color: colors.primary };
+      case 'secondary':
+        return { color: colors.text };
+      default:
+        return { color: '#ffffff' };
+    }
+  };
 
   return (
     <Pressable
@@ -24,15 +53,15 @@ export function Button({
       disabled={isDisabled}
       style={({ pressed }) => [
         styles.button,
-        styles[variant],
+        getButtonStyle(),
         pressed && !isDisabled && styles.pressed,
         isDisabled && styles.disabled,
       ]}
     >
       {loading ? (
-        <ActivityIndicator color={variant === 'outline' ? COLORS.primary : COLORS.text} />
+        <ActivityIndicator color={variant === 'outline' ? colors.primary : '#ffffff'} />
       ) : (
-        <Text style={[styles.text, styles[`${variant}Text`]]}>{label}</Text>
+        <Text style={[styles.text, getTextStyle()]}>{label}</Text>
       )}
     </Pressable>
   );
@@ -46,17 +75,6 @@ const styles = StyleSheet.create({
     justifyContent: 'center',
     paddingHorizontal: 24,
   },
-  primary: {
-    backgroundColor: COLORS.primary,
-  },
-  secondary: {
-    backgroundColor: COLORS.card,
-  },
-  outline: {
-    backgroundColor: 'transparent',
-    borderWidth: 2,
-    borderColor: COLORS.primary,
-  },
   pressed: {
     opacity: 0.8,
   },
@@ -67,14 +85,4 @@ const styles = StyleSheet.create({
     fontSize: 16,
     fontWeight: '600',
   },
-  primaryText: {
-    color: COLORS.text,
-  },
-  secondaryText: {
-    color: COLORS.text,
-  },
-  outlineText: {
-    color: COLORS.primary,
-  },
 });
-

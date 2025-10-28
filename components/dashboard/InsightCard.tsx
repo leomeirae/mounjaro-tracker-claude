@@ -1,5 +1,5 @@
 import { View, Text, StyleSheet } from 'react-native';
-import { COLORS } from '@/constants/colors';
+import { useColors } from '@/constants/colors';
 import { Insight } from '@/hooks/useInsights';
 
 interface InsightCardProps {
@@ -7,19 +7,22 @@ interface InsightCardProps {
 }
 
 export function InsightCard({ insight }: InsightCardProps) {
+  const colors = useColors();
   const bgColor = {
-    positive: COLORS.success + '20',
-    warning: COLORS.warning + '20',
-    neutral: COLORS.primary + '20',
-    tip: COLORS.info + '20',
+    positive: colors.success + '20',
+    warning: colors.warning + '20',
+    neutral: colors.primary + '20',
+    tip: colors.info + '20',
   }[insight.type];
 
   const borderColor = {
-    positive: COLORS.success,
-    warning: COLORS.warning,
-    neutral: COLORS.primary,
-    tip: COLORS.info,
+    positive: colors.success,
+    warning: colors.warning,
+    neutral: colors.primary,
+    tip: colors.info,
   }[insight.type];
+
+  const styles = getStyles(colors);
 
   return (
     <View style={[styles.container, { backgroundColor: bgColor, borderLeftColor: borderColor }]}>
@@ -32,7 +35,7 @@ export function InsightCard({ insight }: InsightCardProps) {
   );
 }
 
-const styles = StyleSheet.create({
+const getStyles = (colors: any) => StyleSheet.create({
   container: {
     flexDirection: 'row',
     borderRadius: 12,
@@ -51,13 +54,11 @@ const styles = StyleSheet.create({
   title: {
     fontSize: 16,
     fontWeight: 'bold',
-    color: COLORS.text,
+    color: colors.text,
     marginBottom: 4,
   },
   description: {
     fontSize: 14,
-    color: COLORS.textSecondary,
+    color: colors.textSecondary,
   },
 });
-
-

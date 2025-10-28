@@ -1,5 +1,5 @@
 import { View, Text, StyleSheet } from 'react-native';
-import { COLORS } from '@/constants/colors';
+import { useColors } from '@/constants/colors';
 import { useRouter } from 'expo-router';
 import { Button } from '@/components/ui/button';
 
@@ -10,10 +10,13 @@ interface NextApplicationCardProps {
 }
 
 export function NextApplicationCard({ daysUntil, medicationName, dosage }: NextApplicationCardProps) {
+  const colors = useColors();
   const router = useRouter();
 
   const isToday = daysUntil === 0;
   const isOverdue = daysUntil < 0;
+
+  const styles = getStyles(colors);
 
   return (
     <View style={[
@@ -59,27 +62,27 @@ export function NextApplicationCard({ daysUntil, medicationName, dosage }: NextA
   );
 }
 
-const styles = StyleSheet.create({
+const getStyles = (colors: any) => StyleSheet.create({
   container: {
-    backgroundColor: COLORS.primary + '20',
+    backgroundColor: colors.primary + '20',
     borderRadius: 20,
     padding: 24,
     alignItems: 'center',
     borderWidth: 3,
-    borderColor: COLORS.primary,
+    borderColor: colors.primary,
   },
   containerToday: {
-    backgroundColor: COLORS.warning + '20',
-    borderColor: COLORS.warning,
+    backgroundColor: colors.warning + '20',
+    borderColor: colors.warning,
   },
   containerOverdue: {
-    backgroundColor: COLORS.error + '20',
-    borderColor: COLORS.error,
+    backgroundColor: colors.error + '20',
+    borderColor: colors.error,
   },
   label: {
     fontSize: 14,
     fontWeight: 'bold',
-    color: COLORS.textSecondary,
+    color: colors.textSecondary,
     letterSpacing: 2,
     marginBottom: 16,
   },
@@ -90,11 +93,11 @@ const styles = StyleSheet.create({
   countdownNumber: {
     fontSize: 64,
     fontWeight: 'bold',
-    color: COLORS.text,
+    color: colors.text,
   },
   countdownLabel: {
     fontSize: 18,
-    color: COLORS.textSecondary,
+    color: colors.textSecondary,
   },
   todayEmoji: {
     fontSize: 80,
@@ -105,12 +108,10 @@ const styles = StyleSheet.create({
   medication: {
     fontSize: 20,
     fontWeight: '600',
-    color: COLORS.text,
+    color: colors.text,
     marginBottom: 16,
   },
   action: {
     width: '100%',
   },
 });
-
-
