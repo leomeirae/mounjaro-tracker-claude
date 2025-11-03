@@ -258,6 +258,11 @@ export default function SettingsScreen() {
             onPress={handlePrivacyPolicy}
           />
           <SettingsRow
+            icon={<FileTextIcon size="md" />}
+            label="FAQ"
+            onPress={() => router.push('/(tabs)/faq')}
+          />
+          <SettingsRow
             icon={<ClipboardTextIcon size="md" />}
             label="Termos de Uso"
             onPress={handleTerms}

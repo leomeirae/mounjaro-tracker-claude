@@ -140,6 +140,14 @@ export default function Layout() {
         name="profile"
         options={{ href: null }}
       />
+      <Tabs.Screen
+        name="faq"
+        options={{ href: null }}
+      />
+      <Tabs.Screen
+        name="premium"
+        options={{ href: null }}
+      />
     </Tabs>
   );
 }
