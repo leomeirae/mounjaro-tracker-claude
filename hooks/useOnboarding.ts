@@ -3,7 +3,6 @@
 
 import { useAuth } from '@clerk/clerk-expo';
 import { supabase } from '@/lib/supabase';
-import { useUser } from './useUser';
 import { trackEvent } from '@/lib/analytics';
 
 export interface OnboardingData {
@@ -32,11 +31,41 @@ export interface OnboardingData {
 
 export function useOnboarding() {
   const { userId } = useAuth();
-  const { user } = useUser();
 
   const saveOnboardingData = async (data: OnboardingData) => {
-    if (!userId || !user?.id) {
+    if (!userId) {
       throw new Error('User not authenticated');
+    }
+
+    // Buscar usuário diretamente no Supabase (aguardar até ser criado)
+    let userIdSupabase: string | null = null;
+    let retries = 0;
+    
+    while (!userIdSupabase && retries < 10) {
+      console.log(`⏳ Aguardando usuário ser criado no Supabase... (tentativa ${retries + 1})`);
+      
+      const { data: userData, error: fetchError } = await supabase
+        .from('users')
+        .select('id')
+        .eq('clerk_id', userId)
+        .maybeSingle();
+
+      if (!fetchError && userData?.id) {
+        userIdSupabase = userData.id;
+        console.log('✅ Usuário encontrado no Supabase:', userIdSupabase);
+        break;
+      }
+
+      if (retries === 9) {
+        throw new Error('User not found in Supabase. Please wait a moment and try again.');
+      }
+
+      await new Promise(resolve => setTimeout(resolve, 500));
+      retries++;
+    }
+
+    if (!userIdSupabase) {
+      throw new Error('User not found in Supabase. Please try again.');
     }
 
     try {
@@ -73,17 +102,17 @@ export function useOnboarding() {
         const { data: existing } = await supabase
           .from('weight_logs')
           .select('id')
-          .eq('user_id', user.id)
+          .eq('user_id', userIdSupabase)
           .eq('date', today)
           .eq('source', 'onboarding')
-          .single();
+          .maybeSingle();
         
         if (!existing) {
           // Criar registro inicial em weight_logs com source='onboarding'
           await supabase
             .from('weight_logs')
             .insert({
-              user_id: user.id,
+              user_id: userIdSupabase,
               weight: weightKg,
               unit: 'kg',
               date: today,
@@ -110,7 +139,7 @@ export function useOnboarding() {
       const { error: userError } = await supabase
         .from('users')
         .update(userUpdates)
-        .eq('id', user.id);
+        .eq('id', userIdSupabase);
 
       if (userError) {
         console.error('Error updating user:', userError);
@@ -122,7 +151,7 @@ export function useOnboarding() {
         const { error: medError } = await supabase
           .from('medications')
           .insert({
-            user_id: user.id,
+            user_id: userIdSupabase,
             type: data.medication,
             dosage: data.initial_dose,
             frequency: data.frequency,
@@ -147,16 +176,16 @@ export function useOnboarding() {
         const { data: existing } = await supabase
           .from('weight_logs')
           .select('id')
-          .eq('user_id', user.id)
+          .eq('user_id', userIdSupabase)
           .eq('date', data.start_date)
           .eq('source', 'onboarding')
-          .single();
+          .maybeSingle();
 
         if (!existing) {
           const { error: weightError } = await supabase
             .from('weight_logs')
             .insert({
-              user_id: user.id,
+              user_id: userIdSupabase,
               weight: startWeightKg,
               unit: 'kg',
               date: data.start_date,
@@ -202,4 +231,3 @@ export function useOnboarding() {
     saveOnboardingData,
   };
 }
-

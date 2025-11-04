@@ -2,7 +2,7 @@
 // Onboarding completo com 23 telas conforme Shotsy
 
 import React, { useState, useEffect } from 'react';
-import { View, Text, StyleSheet, StatusBar, Alert } from 'react-native';
+import { View, Text, StyleSheet, StatusBar, Alert, ActivityIndicator } from 'react-native';
 import { SafeAreaView } from 'react-native-safe-area-context';
 import { useRouter } from 'expo-router';
 import AsyncStorage from '@react-native-async-storage/async-storage';
@@ -10,10 +10,12 @@ import { useShotsyColors } from '@/hooks/useShotsyColors';
 import { OnboardingProgressBar } from '@/components/onboarding';
 import { useFeatureFlag } from '@/lib/feature-flags';
 import { useOnboarding } from '@/hooks/useOnboarding';
+import { trackEvent } from '@/lib/analytics';
+import { useAuth } from '@/lib/clerk';
+import { useUser } from '@/hooks/useUser';
 
-// Importar todas as 23 telas de onboarding
+// Importar todas as 22 telas de onboarding (sem welcome - carrossel já foi mostrado antes do login)
 import {
-  WelcomeScreen,
   WidgetsIntroScreen,
   ChartsIntroScreen,
   CustomizationIntroScreen,
@@ -38,9 +40,8 @@ import {
   AppRatingScreen,
 } from '@/components/onboarding';
 
-// Tipos de steps conforme ordem do Shotsy
+// Tipos de steps conforme ordem do Shotsy (sem welcome - carrossel é antes do login)
 export type OnboardingStep =
-  | 'welcome'
   | 'widgets'
   | 'charts'
   | 'customization'
@@ -64,8 +65,8 @@ export type OnboardingStep =
   | 'motivation'
   | 'app-rating';
 
+// Removido 'welcome' - o onboarding começa direto com as perguntas após login
 const ONBOARDING_STEPS: OnboardingStep[] = [
-  'welcome',
   'widgets',
   'charts',
   'customization',
@@ -90,7 +91,7 @@ const ONBOARDING_STEPS: OnboardingStep[] = [
   'app-rating',
 ];
 
-const TOTAL_STEPS = ONBOARDING_STEPS.length; // 23
+const TOTAL_STEPS = ONBOARDING_STEPS.length; // 22 steps (sem welcome)
 
 const ONBOARDING_PROGRESS_KEY = '@mounjaro:onboarding_progress';
 
@@ -101,29 +102,60 @@ interface OnboardingData {
 export default function OnboardingFlowScreen() {
   const colors = useShotsyColors();
   const router = useRouter();
+  const { isSignedIn, isLoaded: authLoaded } = useAuth();
+  const { user, loading: userLoading } = useUser();
   const use23Steps = useFeatureFlag('FF_ONBOARDING_23');
   
-  const [currentStep, setCurrentStep] = useState<OnboardingStep>('welcome');
+  const [currentStep, setCurrentStep] = useState<OnboardingStep>('widgets');
   const [onboardingData, setOnboardingData] = useState<OnboardingData>({});
   const [isLoading, setIsLoading] = useState(true);
 
-  // Carregar progresso salvo
+  // GUARD CRÍTICO: Verificar autenticação PRIMEIRO antes de qualquer coisa
   useEffect(() => {
-    loadProgress();
-  }, []);
+    if (!authLoaded) {
+      setIsLoading(true);
+      return;
+    }
 
-  // Track onboarding started
+    // Se não estiver logado, LIMPAR progresso e redirecionar para welcome
+    if (!isSignedIn) {
+      console.log('🚫 Usuário não autenticado, limpando progresso e redirecionando para welcome');
+      // Limpar progresso salvo se não estiver autenticado
+      AsyncStorage.removeItem(ONBOARDING_PROGRESS_KEY).catch(() => {});
+      router.replace('/(auth)/welcome');
+      return;
+    }
+
+    // Se já completou o onboarding, redirecionar para dashboard
+    if (user && user.onboarding_completed) {
+      console.log('✅ Onboarding já completado, redirecionando para dashboard');
+      // Limpar progresso salvo pois já completou
+      AsyncStorage.removeItem(ONBOARDING_PROGRESS_KEY).catch(() => {});
+      router.replace('/(tabs)');
+      return;
+    }
+
+    // SÓ AGORA, se estiver autenticado e não completou onboarding, carregar progresso
+    if (isSignedIn && user && !user.onboarding_completed) {
+      loadProgress();
+    } else if (isSignedIn && !userLoading) {
+      // Se está autenticado mas ainda não tem user carregado, aguardar
+      setIsLoading(true);
+    }
+  }, [authLoaded, isSignedIn, user, userLoading, router]);
+
+  // Track onboarding started (quando carrega a primeira tela)
   useEffect(() => {
-    if (currentStep === 'welcome' && !isLoading) {
+    if (currentStep === 'widgets' && !isLoading && authLoaded && isSignedIn) {
       trackEvent('onboarding_started', {
         source: 'sign_up',
       });
     }
-  }, [currentStep, isLoading]);
+  }, [currentStep, isLoading, authLoaded, isSignedIn]);
 
   // Track screen view
   useEffect(() => {
-    if (!isLoading && currentStep !== 'welcome') {
+    if (!isLoading && authLoaded && isSignedIn) {
       const stepIndex = ONBOARDING_STEPS.indexOf(currentStep);
       trackEvent('onboarding_step_viewed', {
         step_number: stepIndex + 1,
@@ -131,9 +163,15 @@ export default function OnboardingFlowScreen() {
         total_steps: TOTAL_STEPS,
       });
     }
-  }, [currentStep, isLoading]);
+  }, [currentStep, isLoading, authLoaded, isSignedIn]);
 
   const loadProgress = async () => {
+    // Só carregar se estiver autenticado
+    if (!isSignedIn) {
+      setIsLoading(false);
+      return;
+    }
+
     try {
       const saved = await AsyncStorage.getItem(ONBOARDING_PROGRESS_KEY);
       if (saved) {
@@ -258,8 +296,43 @@ export default function OnboardingFlowScreen() {
 
   const { saveOnboardingData } = useOnboarding();
 
-  if (isLoading) {
-    return null; // Ou loading screen
+  // Mostrar loading enquanto verifica autenticação ou carrega dados
+  // CRÍTICO: Não renderizar nada até verificar autenticação
+  if (!authLoaded || isLoading) {
+    return (
+      <SafeAreaView style={[styles.container, { backgroundColor: colors.background }]}>
+        <View style={styles.loadingContainer}>
+          <ActivityIndicator size="large" color={colors.primary} />
+          <Text style={[styles.loadingText, { color: colors.textSecondary }]}>
+            Carregando...
+          </Text>
+        </View>
+      </SafeAreaView>
+    );
+  }
+
+  // Se não estiver autenticado, não renderizar (guard já redirecionou)
+  if (!isSignedIn) {
+    return null;
+  }
+
+  // Se já completou onboarding, não renderizar (guard já redirecionou)
+  if (user && user.onboarding_completed) {
+    return null;
+  }
+
+  // Se ainda está carregando user, mostrar loading
+  if (userLoading) {
+    return (
+      <SafeAreaView style={[styles.container, { backgroundColor: colors.background }]}>
+        <View style={styles.loadingContainer}>
+          <ActivityIndicator size="large" color={colors.primary} />
+          <Text style={[styles.loadingText, { color: colors.textSecondary }]}>
+            Carregando...
+          </Text>
+        </View>
+      </SafeAreaView>
+    );
   }
 
   // Se feature flag desativada, usar fluxo antigo (4 steps)
@@ -274,8 +347,6 @@ export default function OnboardingFlowScreen() {
     };
 
     switch (currentStep) {
-      case 'welcome':
-        return <WelcomeScreen onNext={() => handleStepComplete('welcome')} />;
       case 'widgets':
         return <WidgetsIntroScreen onNext={() => handleStepComplete('widgets')} onBack={handleStepBack} />;
       case 'charts':
@@ -362,13 +433,11 @@ export default function OnboardingFlowScreen() {
     <SafeAreaView style={[styles.container, { backgroundColor: colors.background }]}>
       <StatusBar barStyle="dark-content" />
       
-      {/* Progress Bar - só mostrar se não for WelcomeScreen */}
-      {currentStep !== 'welcome' && (
-        <OnboardingProgressBar
-          current={currentStepIndex + 1}
-          total={TOTAL_STEPS}
-        />
-      )}
+      {/* Progress Bar */}
+      <OnboardingProgressBar
+        current={ONBOARDING_STEPS.indexOf(currentStep) + 1}
+        total={TOTAL_STEPS}
+      />
 
       {renderStep()}
     </SafeAreaView>
@@ -378,5 +447,14 @@ export default function OnboardingFlowScreen() {
 const styles = StyleSheet.create({
   container: {
     flex: 1,
+  },
+  loadingContainer: {
+    flex: 1,
+    justifyContent: 'center',
+    alignItems: 'center',
+    gap: 16,
+  },
+  loadingText: {
+    fontSize: 16,
   },
 });

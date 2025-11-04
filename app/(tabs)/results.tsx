@@ -10,6 +10,7 @@ import { BMIChart } from '@/components/results/BMIChart';
 import { DetailedStats } from '@/components/results/DetailedStats';
 import { PeriodSelector, PeriodFilter } from '@/components/results/PeriodSelector';
 import { ExportButton } from '@/components/results/ExportButton';
+import { PremiumGate } from '@/components/premium/PremiumGate';
 import { ResultsScreenSkeleton } from '@/components/results/ResultsSkeleton';
 import { WeightIcon, SparkleIcon } from '@/components/ui/icons';
 import { useRouter } from 'expo-router';
@@ -193,20 +194,22 @@ export default function ResultsScreen() {
       {/* Header with Export Button */}
       <View style={[styles.header, { backgroundColor: colors.background, borderBottomColor: colors.border }]}>
         <Text style={[styles.headerTitle, { color: colors.text }]}>Resultados</Text>
-        <ExportButton
-          weights={weights.map(w => ({ date: w.date, weight: w.weight }))}
-          applications={applications.map(a => ({
-            date: a.date,
-            dosage: a.dosage,
-            location: a.location || 'N/A'
-          }))}
-          profile={{
-            height: profile?.height,
-            target_weight: profile?.target_weight,
-            start_weight: profile?.start_weight,
-            current_dose: profile?.current_dose,
-          }}
-        />
+        <PremiumGate featureName="export_data">
+          <ExportButton
+            weights={weights.map(w => ({ date: w.date, weight: w.weight }))}
+            applications={applications.map(a => ({
+              date: a.date,
+              dosage: a.dosage,
+              location: a.location || 'N/A'
+            }))}
+            profile={{
+              height: profile?.height,
+              target_weight: profile?.target_weight,
+              start_weight: profile?.start_weight,
+              current_dose: profile?.current_dose,
+            }}
+          />
+        </PremiumGate>
       </View>
 
       <ScrollView

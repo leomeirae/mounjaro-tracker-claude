@@ -45,7 +45,12 @@ export type AnalyticsEvent =
   // Engagement
   | 'app_opened'
   | 'app_backgrounded'
-  | 'pull_to_refresh';
+  | 'pull_to_refresh'
+  // Carousel
+  | 'carousel_view'
+  | 'carousel_slide_view'
+  | 'cta_start_click'
+  | 'legal_open';
 
 interface AnalyticsProperties {
   [key: string]: any;

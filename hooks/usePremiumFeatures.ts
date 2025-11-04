@@ -57,15 +57,24 @@ export function usePremiumFeatures() {
 
       if (rpcError) {
         // Se RPC falhar, usar fallback local
-        console.warn('RPC get_entitlement failed, using local fallback:', rpcError);
-        setEntitlement(null);
+        // Erro PGRST116 significa que não há resultado (usuário sem subscription)
+        if (rpcError.code === 'PGRST116') {
+          console.log('ℹ️ No entitlement found (user has no subscription), using free tier');
+          setEntitlement(null);
+        } else {
+          console.warn('⚠️ RPC get_entitlement failed, using local fallback:', rpcError);
+          setError(`Failed to fetch premium status: ${rpcError.message}`);
+          setEntitlement(null);
+        }
         return;
       }
 
       setEntitlement(data);
     } catch (err: any) {
-      console.error('Error fetching entitlement:', err);
-      setError(err.message);
+      console.error('❌ Error fetching entitlement:', err);
+      setError(err.message || 'Unknown error fetching premium status');
+      // Em caso de erro, assumir tier gratuito como fallback seguro
+      setEntitlement(null);
     } finally {
       setLoading(false);
     }
