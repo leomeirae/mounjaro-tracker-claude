@@ -1,6 +1,9 @@
 import { useState, useEffect, useRef } from 'react';
 import { useAuth } from '@/lib/clerk';
 import { supabase } from '@/lib/supabase';
+import { createLogger } from '@/lib/logger';
+
+const logger = createLogger('useUser');
 
 interface User {
   id: string;
@@ -54,7 +57,7 @@ export function useUser() {
     // Verificar cache primeiro
     const cached = userCache[userId];
     if (cached && Date.now() - cached.timestamp < CACHE_DURATION) {
-      console.log('Using cached user data');
+      logger.debug('Using cached user data');
       setUser(cached.user);
       setLoading(false);
       return;
@@ -62,7 +65,7 @@ export function useUser() {
 
     // Se já tem fetch em andamento, não fazer outro
     if (fetchInProgressRef.current) {
-      console.log('Fetch already in progress, skipping...');
+      logger.debug('Fetch already in progress, skipping...');
       return;
     }
 
@@ -70,9 +73,9 @@ export function useUser() {
 
     try {
       setLoading(true);
-      
-      console.log('Fetching user from Supabase for clerk_id:', userId);
-      
+
+      logger.info('Fetching user from Supabase', { userId });
+
       const { data, error } = await supabase
         .from('users')
         .select('*')
@@ -82,8 +85,8 @@ export function useUser() {
       if (error) {
         // Se usuário não existe, será criado pelo useUserSync (não é um erro)
         if (error.code === 'PGRST116') {
-          console.log('User not found in Supabase, will be created by useUserSync');
-          
+          logger.debug('User not found in Supabase, will be created by useUserSync');
+
           // Tentar novamente após um delay se ainda não atingiu max retries
           if (retryCountRef.current < maxRetries) {
             retryCountRef.current++;
@@ -93,16 +96,16 @@ export function useUser() {
             }, 500);
             return;
           } else {
-            console.log('Max retries reached, user will be created by sync');
+            logger.info('Max retries reached, user will be created by sync');
             setUser(null);
           }
         } else {
           // Outros erros são reais e devem ser logados
-          console.error('Error fetching user from Supabase:', error);
+          logger.error('Error fetching user from Supabase', error);
           setUser(null);
         }
       } else {
-        console.log('User fetched successfully:', data?.id);
+        logger.info('User fetched successfully', { userId: data?.id });
         setUser(data);
         
         // Atualizar cache
@@ -115,7 +118,7 @@ export function useUser() {
         retryCountRef.current = 0;
       }
     } catch (error) {
-      console.error('Error fetching user:', error);
+      logger.error('Error fetching user', error);
       setUser(null);
     } finally {
       setLoading(false);

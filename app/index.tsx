@@ -4,6 +4,9 @@ import { useAuth } from '@/lib/clerk';
 import { useRouter } from 'expo-router';
 import { useColors } from '@/constants/colors';
 import { useUser } from '@/hooks/useUser';
+import { createLogger } from '@/lib/logger';
+
+const logger = createLogger('IndexScreen');
 
 export default function IndexScreen() {
   const colors = useColors();
@@ -40,7 +43,7 @@ export default function IndexScreen() {
 
     // Se passou do tempo máximo de espera e ainda não tem user, assumir que precisa de onboarding
     if (!user && waitTime >= maxWaitTime) {
-      console.log('⚠️ User data not loaded after timeout, redirecting to onboarding');
+      logger.warn('User data not loaded after timeout, redirecting to onboarding', { waitTime });
       hasRedirectedRef.current = true;
       router.replace('/(auth)/onboarding-flow');
       setTimeout(() => {
@@ -55,7 +58,7 @@ export default function IndexScreen() {
     // Se user ainda é null após carregar, aguardar um pouco mais
     // (o useUserSync pode estar criando o usuário)
     if (!user) {
-      console.log('⏳ User still loading, waiting...');
+      logger.debug('User still loading, waiting...');
       return;
     }
 
@@ -67,10 +70,10 @@ export default function IndexScreen() {
       if (isSignedIn && user) {
         // Se o onboarding não foi completado, ir para onboarding
         if (!user.onboarding_completed) {
-          console.log('📋 Redirecting to onboarding flow');
+          logger.info('Redirecting to onboarding flow');
           router.replace('/(auth)/onboarding-flow');
         } else {
-          console.log('✅ Redirecting to dashboard');
+          logger.info('Redirecting to dashboard');
           router.replace('/(tabs)');
         }
         // Resetar após redirecionar
