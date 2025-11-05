@@ -1,11 +1,13 @@
 # Dark Mode Color Guide
 
 ## Overview
+
 This guide provides best practices for using colors in the Mounjaro Tracker app to ensure proper dark mode support.
 
 ## Quick Start
 
 ### 1. Always Use the Theme Hook
+
 ```typescript
 import { useShotsyColors } from '@/hooks/useShotsyColors';
 
@@ -21,7 +23,9 @@ function MyComponent() {
 ```
 
 ### 2. Never Use Hardcoded Colors
+
 ❌ **DON'T DO THIS:**
+
 ```typescript
 <View style={{ backgroundColor: '#FFFFFF' }}>
   <Text style={{ color: '#000000' }}>Text</Text>
@@ -29,6 +33,7 @@ function MyComponent() {
 ```
 
 ✅ **DO THIS:**
+
 ```typescript
 <View style={{ backgroundColor: colors.card }}>
   <Text style={{ color: colors.text }}>Text</Text>
@@ -38,47 +43,54 @@ function MyComponent() {
 ## Available Colors
 
 ### Background Colors
+
 ```typescript
-colors.background       // Main screen background
-colors.card            // Card backgrounds
-colors.cardSecondary   // Secondary card sections (with transparency)
+colors.background; // Main screen background
+colors.card; // Card backgrounds
+colors.cardSecondary; // Secondary card sections (with transparency)
 ```
 
 ### Text Colors
+
 ```typescript
-colors.text            // Primary text (headings, important content)
-colors.textSecondary   // Secondary text (labels, metadata)
-colors.textMuted       // Muted text (placeholders, disabled)
+colors.text; // Primary text (headings, important content)
+colors.textSecondary; // Secondary text (labels, metadata)
+colors.textMuted; // Muted text (placeholders, disabled)
 ```
 
 ### Border Colors
+
 ```typescript
-colors.border          // All borders and dividers
+colors.border; // All borders and dividers
 ```
 
 ### Status Colors
+
 ```typescript
-colors.success         // Success states, positive trends (#10B981)
-colors.warning         // Warning states, caution (#F59E0B)
-colors.error           // Error states, negative trends (#EF4444)
-colors.info            // Info states, neutral highlights (#0891B2)
+colors.success; // Success states, positive trends (#10B981)
+colors.warning; // Warning states, caution (#F59E0B)
+colors.error; // Error states, negative trends (#EF4444)
+colors.info; // Info states, neutral highlights (#0891B2)
 ```
 
 ### Primary Colors
+
 ```typescript
-colors.primary         // Primary accent color
-colors.primaryDark     // Darker variant of primary
-colors.primaryLight    // Lighter variant of primary
+colors.primary; // Primary accent color
+colors.primaryDark; // Darker variant of primary
+colors.primaryLight; // Lighter variant of primary
 ```
 
 ### Theme State
+
 ```typescript
-colors.isDark          // Boolean: true if dark mode is active
+colors.isDark; // Boolean: true if dark mode is active
 ```
 
 ## Common Patterns
 
 ### 1. Cards with Shadows
+
 ```typescript
 const styles = StyleSheet.create({
   card: {
@@ -97,6 +109,7 @@ const styles = StyleSheet.create({
 ```
 
 ### 2. Borders and Dividers
+
 ```typescript
 // Solid border
 <View style={[styles.divider, { borderColor: colors.border }]} />
@@ -106,6 +119,7 @@ const styles = StyleSheet.create({
 ```
 
 ### 3. Chart Colors
+
 ```typescript
 const chartConfig = {
   backgroundColor: colors.card,
@@ -127,6 +141,7 @@ const chartConfig = {
 ```
 
 ### 4. Tab Bar / Navigation
+
 ```typescript
 <Tabs
   screenOptions={{
@@ -141,6 +156,7 @@ const chartConfig = {
 ```
 
 ### 5. Modal Overlays
+
 ```typescript
 const styles = StyleSheet.create({
   modalOverlay: {
@@ -159,6 +175,7 @@ const styles = StyleSheet.create({
 ```
 
 ### 6. Button States
+
 ```typescript
 // Active button
 <Pressable
@@ -182,7 +199,9 @@ const styles = StyleSheet.create({
 ## Exceptions: When Hardcoded Colors Are OK
 
 ### 1. White Text on Colored Backgrounds
+
 When text sits on a colored background (like buttons), white is always acceptable:
+
 ```typescript
 <View style={{ backgroundColor: colors.primary }}>
   <Text style={{ color: '#FFFFFF' }}>Always White</Text>
@@ -190,24 +209,30 @@ When text sits on a colored background (like buttons), white is always acceptabl
 ```
 
 ### 2. Semantic Color Coding
+
 For dosage badges or other semantic color coding that should remain consistent:
+
 ```typescript
 const DOSAGES = [
-  { value: 2.5, color: '#6B7280' },  // Gray - Intentional
-  { value: 5, color: '#8B5CF6' },    // Purple - Intentional
-  { value: 10, color: '#EC4899' },   // Pink - Intentional
+  { value: 2.5, color: '#6B7280' }, // Gray - Intentional
+  { value: 5, color: '#8B5CF6' }, // Purple - Intentional
+  { value: 10, color: '#EC4899' }, // Pink - Intentional
 ];
 ```
 
 ### 3. Shadow Colors
+
 Shadows are always black, just adjust opacity:
+
 ```typescript
 shadowColor: '#000',
 shadowOpacity: 0.1,
 ```
 
 ### 4. Modal Overlays
+
 Semi-transparent black overlays work in both modes:
+
 ```typescript
 backgroundColor: 'rgba(0, 0, 0, 0.5)',
 ```
@@ -221,7 +246,7 @@ When implementing or reviewing components, verify:
 - [ ] Cards have proper contrast with backgrounds
 - [ ] Charts use theme colors
 - [ ] No hardcoded colors except approved exceptions
-- [ ] StatusBar adapts to theme (handled in app/_layout.tsx)
+- [ ] StatusBar adapts to theme (handled in app/\_layout.tsx)
 - [ ] Tab bar colors adapt to theme
 - [ ] Smooth transitions when toggling theme
 
@@ -248,13 +273,14 @@ function MyComponent() {
   const colors = useShotsyColors();
 
   console.log('Current mode:', effectiveMode); // 'light' | 'dark'
-  console.log('Is dark:', colors.isDark);      // boolean
+  console.log('Is dark:', colors.isDark); // boolean
 }
 ```
 
 ## WCAG Contrast Guidelines
 
 Ensure proper contrast ratios:
+
 - **Normal text (< 18pt):** 4.5:1 minimum
 - **Large text (≥ 18pt):** 3:1 minimum
 - **UI components:** 3:1 minimum
@@ -266,11 +292,13 @@ The theme colors are designed to meet these requirements. When creating custom c
 If you find hardcoded colors in existing code:
 
 1. Import `useShotsyColors`:
+
    ```typescript
    import { useShotsyColors } from '@/hooks/useShotsyColors';
    ```
 
 2. Add hook to component:
+
    ```typescript
    const colors = useShotsyColors();
    ```

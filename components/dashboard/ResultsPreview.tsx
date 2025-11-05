@@ -48,21 +48,21 @@ export function ResultsPreview({ metrics }: ResultsPreviewProps) {
         {/* Row 1 */}
         <View style={styles.row}>
           <ShotsyCard style={styles.card}>
-            <Text style={[styles.label, { color: colors.textSecondary }]}>
-              MUDANÇA TOTAL
-            </Text>
+            <Text style={[styles.label, { color: colors.textSecondary }]}>MUDANÇA TOTAL</Text>
             <Text style={[styles.value, { color: colors.text }]}>
-              {metrics.totalChange >= 0 ? '+' : ''}{metrics.totalChange.toFixed(1)} kg
+              {metrics.totalChange >= 0 ? '+' : ''}
+              {metrics.totalChange.toFixed(1)} kg
             </Text>
             <Text style={[styles.subtitle, { color: colors.textMuted }]}>
-              {Math.abs((metrics.totalChange / (metrics.currentWeight - metrics.totalChange)) * 100).toFixed(1)}%
+              {Math.abs(
+                (metrics.totalChange / (metrics.currentWeight - metrics.totalChange)) * 100
+              ).toFixed(1)}
+              %
             </Text>
           </ShotsyCard>
 
           <ShotsyCard style={styles.card}>
-            <Text style={[styles.label, { color: colors.textSecondary }]}>
-              IMC ATUAL
-            </Text>
+            <Text style={[styles.label, { color: colors.textSecondary }]}>IMC ATUAL</Text>
             <Text style={[styles.value, { color: colors.text }]}>
               {metrics.currentBMI.toFixed(1)}
             </Text>
@@ -72,9 +72,7 @@ export function ResultsPreview({ metrics }: ResultsPreviewProps) {
           </ShotsyCard>
 
           <ShotsyCard style={styles.card}>
-            <Text style={[styles.label, { color: colors.textSecondary }]}>
-              PESO ATUAL
-            </Text>
+            <Text style={[styles.label, { color: colors.textSecondary }]}>PESO ATUAL</Text>
             <Text style={[styles.value, { color: colors.text }]}>
               {metrics.currentWeight.toFixed(1)} kg
             </Text>
@@ -84,39 +82,28 @@ export function ResultsPreview({ metrics }: ResultsPreviewProps) {
         {/* Row 2 */}
         <View style={styles.row}>
           <ShotsyCard style={styles.card}>
-            <Text style={[styles.label, { color: colors.textSecondary }]}>
-              PROGRESSO
-            </Text>
+            <Text style={[styles.label, { color: colors.textSecondary }]}>PROGRESSO</Text>
             <Text style={[styles.value, { color: colors.text }]}>
               {Math.max(0, metrics.percentProgress).toFixed(0)}%
             </Text>
-            <Text style={[styles.subtitle, { color: colors.textMuted }]}>
-              até a meta
-            </Text>
+            <Text style={[styles.subtitle, { color: colors.textMuted }]}>até a meta</Text>
           </ShotsyCard>
 
           <ShotsyCard style={styles.card}>
-            <Text style={[styles.label, { color: colors.textSecondary }]}>
-              MÉDIA SEMANAL
-            </Text>
+            <Text style={[styles.label, { color: colors.textSecondary }]}>MÉDIA SEMANAL</Text>
             <Text style={[styles.value, { color: colors.text }]}>
-              {metrics.weeklyAverage > 0 ? '-' : ''}{Math.abs(metrics.weeklyAverage).toFixed(1)} kg
+              {metrics.weeklyAverage > 0 ? '-' : ''}
+              {Math.abs(metrics.weeklyAverage).toFixed(1)} kg
             </Text>
-            <Text style={[styles.subtitle, { color: colors.textMuted }]}>
-              por semana
-            </Text>
+            <Text style={[styles.subtitle, { color: colors.textMuted }]}>por semana</Text>
           </ShotsyCard>
 
           <ShotsyCard style={styles.card}>
-            <Text style={[styles.label, { color: colors.textSecondary }]}>
-              PARA A META
-            </Text>
+            <Text style={[styles.label, { color: colors.textSecondary }]}>PARA A META</Text>
             <Text style={[styles.value, { color: colors.text }]}>
               {Math.max(0, metrics.toGoal).toFixed(1)} kg
             </Text>
-            <Text style={[styles.subtitle, { color: colors.textMuted }]}>
-              restantes
-            </Text>
+            <Text style={[styles.subtitle, { color: colors.textMuted }]}>restantes</Text>
           </ShotsyCard>
         </View>
       </View>

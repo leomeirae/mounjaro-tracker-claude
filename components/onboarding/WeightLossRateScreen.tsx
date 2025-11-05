@@ -13,12 +13,21 @@ interface WeightLossRateScreenProps {
 }
 
 const rates = [
-  { value: 0.5, label: 'Lento e constante', description: '0,5 kg/semana', lbDescription: '1 lb/semana' },
+  {
+    value: 0.5,
+    label: 'Lento e constante',
+    description: '0,5 kg/semana',
+    lbDescription: '1 lb/semana',
+  },
   { value: 1, label: 'Moderado', description: '1 kg/semana', lbDescription: '2 lb/semana' },
   { value: 1.5, label: 'Rápido', description: '1,5 kg/semana', lbDescription: '3 lb/semana' },
 ];
 
-export function WeightLossRateScreen({ onNext, onBack, weightUnit = 'kg' }: WeightLossRateScreenProps) {
+export function WeightLossRateScreen({
+  onNext,
+  onBack,
+  weightUnit = 'kg',
+}: WeightLossRateScreenProps) {
   const colors = useShotsyColors();
   const { currentAccent } = useTheme();
   const [selectedIndex, setSelectedIndex] = useState(1);
@@ -77,8 +86,8 @@ export function WeightLossRateScreen({ onNext, onBack, weightUnit = 'kg' }: Weig
         <ShotsyCard style={styles.infoCard}>
           <Text style={styles.infoEmoji}>💡</Text>
           <Text style={[styles.infoText, { color: colors.textSecondary }]}>
-            Estudos mostram que uma perda de peso gradual e consistente é mais sustentável
-            a longo prazo. Lembre-se: cada pessoa responde de forma diferente ao tratamento.
+            Estudos mostram que uma perda de peso gradual e consistente é mais sustentável a longo
+            prazo. Lembre-se: cada pessoa responde de forma diferente ao tratamento.
           </Text>
         </ShotsyCard>
 

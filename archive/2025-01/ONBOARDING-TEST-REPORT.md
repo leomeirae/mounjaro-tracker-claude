@@ -14,16 +14,20 @@
 **Status:** ✅ CORRIGIDO
 
 #### Descrição
+
 O botão "Cadastrar com Google" estava exibindo um emoji de cadeado (🔐) ao invés do logo do Google, causando confusão visual e não seguindo as diretrizes de design do Google OAuth.
 
 #### Localização
+
 - **Arquivo:** `components/auth/GoogleOAuthButton.tsx`
 - **Linha:** 93
 
 #### Evidência
+
 ![Screenshot da tela de signup com ícone de cadeado](anexo)
 
 #### Correção Aplicada
+
 ```typescript
 // ANTES
 <Text style={styles.icon}>🔐</Text>
@@ -33,11 +37,13 @@ O botão "Cadastrar com Google" estava exibindo um emoji de cadeado (🔐) ao in
 ```
 
 **Mudanças:**
+
 1. Adicionado import: `import { GoogleLogo } from 'phosphor-react-native';`
 2. Substituído emoji por componente `GoogleLogo`
 3. Removido style `icon` não utilizado do stylesheet
 
 **Resultado:**
+
 - ✅ Botão agora exibe logo reconhecível do Google
 - ✅ Consistente com outros ícones do app (phosphor-react-native)
 - ✅ Melhor UX e reconhecimento imediato
@@ -50,9 +56,11 @@ O botão "Cadastrar com Google" estava exibindo um emoji de cadeado (🔐) ao in
 **Status:** ✅ CORRIGIDO
 
 #### Descrição
+
 Ao criar conta com Google OAuth, o app tentava criar o usuário no Supabase duas vezes simultaneamente, causando erro de violação de constraint única.
 
 #### Erro Completo
+
 ```
 Error code: 23505
 duplicate key value violates unique constraint "users_clerk_id_key"
@@ -74,6 +82,7 @@ O problema ocorria porque **dois hooks** tentavam criar o usuário ao mesmo temp
    - Se não existe, tenta criar
 
 **Fluxo do erro:**
+
 ```
 1. Usuário faz login com Google OAuth
 2. Clerk retorna userId
@@ -91,6 +100,7 @@ O problema ocorria porque **dois hooks** tentavam criar o usuário ao mesmo temp
 **Estratégia:** Consolidar lógica de criação em apenas UM local.
 
 **Mudança 1:** `hooks/useUser.ts`
+
 ```typescript
 // ANTES (linhas 61-80) - Criava usuário
 if (error.code === 'PGRST116') {
@@ -109,11 +119,13 @@ if (error.code === 'PGRST116') {
 ```
 
 **Mudança 2:** `hooks/useUserSync.ts`
+
 - Já estava usando `.maybeSingle()` corretamente ✅
 - Já tinha lógica robusta de criação ✅
 - Nenhuma mudança necessária
 
 **Resultado:**
+
 - ✅ Usuário criado UMA ÚNICA VEZ
 - ✅ Sem race condition
 - ✅ Sem erro 23505
@@ -123,25 +135,28 @@ if (error.code === 'PGRST116') {
 
 ## 📊 Resumo das Correções
 
-| Problema | Severidade | Arquivos Modificados | Status |
-|----------|------------|---------------------|--------|
-| Ícone Google OAuth | 🟡 Média | `GoogleOAuthButton.tsx` | ✅ Corrigido |
-| Duplicate Key Error | 🔴 Alta | `useUser.ts` | ✅ Corrigido |
+| Problema            | Severidade | Arquivos Modificados    | Status       |
+| ------------------- | ---------- | ----------------------- | ------------ |
+| Ícone Google OAuth  | 🟡 Média   | `GoogleOAuthButton.tsx` | ✅ Corrigido |
+| Duplicate Key Error | 🔴 Alta    | `useUser.ts`            | ✅ Corrigido |
 
 ---
 
 ## 🧪 Testes de Validação
 
 ### Cenário 1: Criar Conta com Email/Senha
+
 - [ ] Pendente teste pelo usuário
 
 ### Cenário 2: Criar Conta com Google OAuth
+
 - [x] Botão exibe logo do Google corretamente
 - [ ] Pendente: Fluxo completo sem erro 23505
 - [ ] Pendente: Usuário criado com sucesso no Supabase
 - [ ] Pendente: Redirecionado para onboarding
 
 ### Cenário 3: Login Existente
+
 - [ ] Pendente teste pelo usuário
 
 ---
@@ -149,9 +164,11 @@ if (error.code === 'PGRST116') {
 ## 📝 Arquivos Modificados
 
 ### 1. `components/auth/GoogleOAuthButton.tsx`
+
 **Linhas modificadas:** 8, 94
 
 **Diff:**
+
 ```diff
 - import { GoogleLogo } from 'phosphor-react-native';
 + import { FontAwesome } from '@expo/vector-icons';
@@ -161,9 +178,11 @@ if (error.code === 'PGRST116') {
 ```
 
 ### 2. `hooks/useUser.ts`
+
 **Linhas modificadas:** 61-80
 
 **Diff:**
+
 ```diff
   if (error.code === 'PGRST116') {
 -   console.log('User not found, creating new user in Supabase...');
@@ -176,7 +195,7 @@ if (error.code === 'PGRST116') {
 -     })
 -     .select()
 -     .single();
--   
+-
 -   if (createError) {
 -     console.error('Error creating user:', createError);
 -     setUser(null);
@@ -194,7 +213,9 @@ if (error.code === 'PGRST116') {
 ## 🔄 Próximos Passos
 
 ### Para o Usuário
+
 1. ✅ Execute RLS fix no Supabase (se ainda não executou):
+
    ```sql
    ALTER TABLE settings DISABLE ROW LEVEL SECURITY;
    ```
@@ -209,6 +230,7 @@ if (error.code === 'PGRST116') {
 3. 📝 Relate qualquer novo erro encontrado
 
 ### Para o Desenvolvedor
+
 - [ ] Adicionar tratamento de erro mais amigável para duplicate key
 - [ ] Considerar adicionar retry logic com exponential backoff
 - [ ] Monitorar logs de produção para race conditions
@@ -218,28 +240,23 @@ if (error.code === 'PGRST116') {
 ## 💡 Lições Aprendidas
 
 ### Race Conditions em React Hooks
+
 **Problema:** Múltiplos hooks disparando ao mesmo tempo podem causar operações duplicadas.
 
-**Solução:** 
+**Solução:**
+
 1. Consolidar lógica em um único hook "autoritativo"
 2. Outros hooks apenas leem dados, não criam
 3. Usar `.maybeSingle()` ao invés de `.single()` para evitar erros quando não existe
 
 **Exemplo:**
+
 ```typescript
 // ✅ BOM: maybeSingle não dá erro se não encontrar
-const { data } = await supabase
-  .from('users')
-  .select('*')
-  .eq('clerk_id', userId)
-  .maybeSingle(); // ← retorna null se não existe
+const { data } = await supabase.from('users').select('*').eq('clerk_id', userId).maybeSingle(); // ← retorna null se não existe
 
 // ❌ RUIM: single dá erro PGRST116
-const { data, error } = await supabase
-  .from('users')
-  .select('*')
-  .eq('clerk_id', userId)
-  .single(); // ← erro se não existe
+const { data, error } = await supabase.from('users').select('*').eq('clerk_id', userId).single(); // ← erro se não existe
 ```
 
 ---
@@ -259,4 +276,3 @@ const { data, error } = await supabase
 **Relatório gerado automaticamente**  
 **Versão:** 1.0  
 **Status geral:** ✅ Correções aplicadas, aguardando validação do usuário
-

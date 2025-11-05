@@ -2,6 +2,9 @@ import { useState, useEffect, useCallback } from 'react';
 import { useUser } from '@clerk/clerk-expo';
 import { supabase } from '@/lib/supabase';
 import { HealthScore, HealthScoreComponents } from '@/lib/types/insights';
+import { createLogger } from '@/lib/logger';
+
+const logger = createLogger('useHealthScore');
 
 export const useHealthScore = () => {
   const { user } = useUser();
@@ -38,7 +41,7 @@ export const useHealthScore = () => {
         await calculateTodayScore();
       }
     } catch (err) {
-      console.error('Error fetching health score:', err);
+      logger.error('Error fetching health score', err as Error);
     } finally {
       setLoading(false);
     }
@@ -70,7 +73,7 @@ export const useHealthScore = () => {
         await fetchScore();
       }
     } catch (err) {
-      console.error('Error calculating score:', err);
+      logger.error('Error calculating score', err as Error);
     }
   };
 

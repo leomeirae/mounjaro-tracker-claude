@@ -34,30 +34,35 @@ Before starting, ensure you have:
 ## 📊 MIGRATION OVERVIEW
 
 ### Migration 003: Avatar Personalization
+
 - **Creates:** `user_avatars` table
 - **Features:** Avatar styles, colors, evolution stages, levels
 - **Dependencies:** Requires `profiles` table with `update_updated_at_column()` function
 - **Impact:** Enables avatar customization system
 
 ### Migration 004: Goals System
+
 - **Creates:** `user_goals` table
 - **Features:** Personal goals, milestones, progress tracking
 - **Dependencies:** Requires `profiles` table
 - **Impact:** Enables personalized goal setting beyond weight loss
 
 ### Migration 005: Communication Preferences
+
 - **Creates:** `communication_preferences` table
 - **Features:** Tone, humor, formality, notification preferences
 - **Dependencies:** Requires `profiles` table
 - **Impact:** Enables personalized app communication style
 
 ### Migration 006: Insights System
+
 - **Creates:** `user_insights`, `detected_patterns`, `health_scores` tables
 - **Features:** AI insights, pattern detection, health scoring
 - **Dependencies:** Requires `profiles`, `applications`, `weights` tables
 - **Impact:** Enables automated insights and analytics
 
 ### Migration 007: Pain & Medication Tracking
+
 - **Creates:** Adds `pain_level` and `medication_type` columns to `medication_applications`
 - **Updates:** `applications` view and trigger functions
 - **Dependencies:** Requires `medication_applications` table
@@ -86,6 +91,7 @@ Before starting, ensure you have:
    - You'll see a blank SQL editor
 
 **Screenshot Reference:**
+
 ```
 Left Sidebar → SQL Editor (icon: </>) → + New Query button
 ```
@@ -223,6 +229,7 @@ ORDER BY ordinal_position;
 **Expected Result:** 11 rows showing all columns
 
 **Checkpoint:**
+
 - [ ] Migration executed without errors
 - [ ] Table `user_avatars` exists
 - [ ] 11 columns present
@@ -419,6 +426,7 @@ WHERE event_object_table = 'user_goals';
 **Expected Result:** 17 columns, 3 triggers
 
 **Checkpoint:**
+
 - [ ] Migration executed without errors
 - [ ] Table `user_goals` exists
 - [ ] 17 columns present
@@ -595,6 +603,7 @@ WHERE routine_name = 'get_message_template';
 **Expected Result:** 11 columns, 1 function
 
 **Checkpoint:**
+
 - [ ] Migration executed without errors
 - [ ] Table `communication_preferences` exists
 - [ ] 11 columns present
@@ -787,6 +796,7 @@ WHERE routine_name = 'calculate_health_score';
 **Expected Result:** 3 tables created, 1 function
 
 **Checkpoint:**
+
 - [ ] Migration executed without errors
 - [ ] Tables `user_insights`, `detected_patterns`, `health_scores` exist
 - [ ] Function `calculate_health_score` created
@@ -934,6 +944,7 @@ WHERE table_name = 'applications';
 **Expected Result:** 2 new columns added, view updated
 
 **Checkpoint:**
+
 - [ ] Migration executed without errors
 - [ ] Column `pain_level` added to `medication_applications`
 - [ ] Column `medication_type` added to `medication_applications`
@@ -1099,6 +1110,7 @@ ORDER BY table_name, ordinal_position;
 **Cause:** Migration 001/002 not applied yet
 
 **Solution:**
+
 ```sql
 -- Check if profiles table exists
 SELECT table_name
@@ -1113,6 +1125,7 @@ WHERE table_name = 'profiles';
 **Cause:** Base schema missing trigger function
 
 **Solution:**
+
 ```sql
 -- Create the missing function
 CREATE OR REPLACE FUNCTION update_updated_at_column()
@@ -1129,6 +1142,7 @@ $$ LANGUAGE plpgsql;
 **Cause:** Trying to re-run migration on existing table
 
 **Solution:**
+
 - All migrations use `CREATE TABLE IF NOT EXISTS`
 - Safe to re-run
 - If columns already exist, DO blocks will skip them (Migration 007)
@@ -1138,8 +1152,10 @@ $$ LANGUAGE plpgsql;
 **Cause:** User doesn't have sufficient permissions
 
 **Solution:**
+
 - Ensure you're logged in as database owner
 - Check role permissions:
+
 ```sql
 SELECT current_user, current_database();
 ```
@@ -1149,6 +1165,7 @@ SELECT current_user, current_database();
 **Cause:** View not recreated properly
 
 **Solution:**
+
 ```sql
 -- Drop and recreate view
 DROP VIEW IF EXISTS applications CASCADE;
@@ -1161,6 +1178,7 @@ DROP VIEW IF EXISTS applications CASCADE;
 **Cause:** RLS policies too restrictive
 
 **Solution:**
+
 ```sql
 -- Check policies
 SELECT * FROM pg_policies WHERE tablename = 'user_avatars';
@@ -1330,14 +1348,14 @@ If you encounter issues:
 
 ## 📊 MIGRATION SUMMARY
 
-| Migration | Tables Created | Functions Created | Triggers Created | Estimated Time |
-|-----------|----------------|-------------------|------------------|----------------|
-| 003       | 1              | 1                 | 2                | 2 min          |
-| 004       | 1              | 2                 | 3                | 2 min          |
-| 005       | 1              | 1                 | 1                | 2 min          |
-| 006       | 3              | 1                 | 0                | 2 min          |
-| 007       | 0 (alters)     | 0 (updates)       | 0 (updates)      | 2 min          |
-| **TOTAL** | **6**          | **5 new + 2 updated** | **6**        | **10-15 min**  |
+| Migration | Tables Created | Functions Created     | Triggers Created | Estimated Time |
+| --------- | -------------- | --------------------- | ---------------- | -------------- |
+| 003       | 1              | 1                     | 2                | 2 min          |
+| 004       | 1              | 2                     | 3                | 2 min          |
+| 005       | 1              | 1                     | 1                | 2 min          |
+| 006       | 3              | 1                     | 0                | 2 min          |
+| 007       | 0 (alters)     | 0 (updates)           | 0 (updates)      | 2 min          |
+| **TOTAL** | **6**          | **5 new + 2 updated** | **6**            | **10-15 min**  |
 
 ---
 

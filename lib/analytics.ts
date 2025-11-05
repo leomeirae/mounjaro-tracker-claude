@@ -1,6 +1,8 @@
 // lib/analytics.ts
 // Sistema de Analytics para tracking de eventos
 
+import { logger } from './logger';
+
 // Tipos de eventos conforme TRACKING-EVENTS-SPEC.md
 export type AnalyticsEvent =
   // Onboarding
@@ -52,33 +54,41 @@ export type AnalyticsEvent =
   | 'cta_start_click'
   | 'legal_open';
 
-interface AnalyticsProperties {
-  [key: string]: any;
+/**
+ * Propriedades tipadas para eventos de analytics
+ * Suporta tipos primitivos e objetos simples
+ */
+export interface AnalyticsProperties {
+  screen_name?: string;
+  user_id?: string;
+  timestamp?: string;
+  step_name?: string;
+  step_index?: number;
+  error_message?: string;
+  feature_name?: string;
+  [key: string]: string | number | boolean | undefined | null;
 }
 
 // Para desenvolvimento: apenas log no console
 // Em produção: integrar com serviço de analytics (Segment, Amplitude, etc.)
 const ENABLE_ANALYTICS = true; // Mudar para false em dev se necessário
 
-export function trackEvent(
-  event: AnalyticsEvent,
-  properties?: AnalyticsProperties
-): void {
+const analyticsLogger = logger.createChild('Analytics');
+
+export function trackEvent(event: AnalyticsEvent, properties?: AnalyticsProperties): void {
   if (!ENABLE_ANALYTICS) {
     return;
   }
 
   try {
     const timestamp = new Date().toISOString();
-    
+
     // Em produção, enviar para serviço de analytics
     // Por enquanto, apenas log para debug
-    if (__DEV__) {
-      console.log('[Analytics]', event, {
-        timestamp,
-        ...properties,
-      });
-    }
+    analyticsLogger.debug(`Event: ${event}`, {
+      timestamp,
+      ...properties,
+    });
 
     // TODO: Integrar com serviço de analytics
     // Exemplo:
@@ -88,7 +98,7 @@ export function trackEvent(
     //   ...properties,
     // });
   } catch (error) {
-    console.error('Error tracking event:', error);
+    analyticsLogger.error('Error tracking event', error);
   }
 }
 
@@ -106,4 +116,3 @@ export function useAnalytics() {
     trackScreen,
   };
 }
-

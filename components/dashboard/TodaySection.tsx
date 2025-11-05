@@ -34,7 +34,10 @@ export function TodaySection({
   };
 
   const handleSideEffectsPress = () => {
-    Alert.alert('Em breve', 'A funcionalidade de registro de efeitos colaterais estará disponível em breve!');
+    Alert.alert(
+      'Em breve',
+      'A funcionalidade de registro de efeitos colaterais estará disponível em breve!'
+    );
   };
 
   const handleNotesPress = () => {
@@ -55,9 +58,7 @@ export function TodaySection({
         >
           <ShotsyCard style={styles.card}>
             <Text style={styles.emoji}>⚖️</Text>
-            <Text style={[styles.cardLabel, { color: colors.textSecondary }]}>
-              PESO
-            </Text>
+            <Text style={[styles.cardLabel, { color: colors.textSecondary }]}>PESO</Text>
             {todayWeight ? (
               <Text style={[styles.cardValue, { color: colors.text }]}>
                 {todayWeight.toFixed(1)} kg
@@ -78,13 +79,9 @@ export function TodaySection({
         >
           <ShotsyCard style={styles.card}>
             <Text style={styles.emoji}>🍖</Text>
-            <Text style={[styles.cardLabel, { color: colors.textSecondary }]}>
-              CALORIAS
-            </Text>
+            <Text style={[styles.cardLabel, { color: colors.textSecondary }]}>CALORIAS</Text>
             {todayCalories ? (
-              <Text style={[styles.cardValue, { color: colors.text }]}>
-                {todayCalories} kcal
-              </Text>
+              <Text style={[styles.cardValue, { color: colors.text }]}>{todayCalories} kcal</Text>
             ) : (
               <Text style={[styles.placeholder, { color: colors.textMuted }]}>
                 Toque para{'\n'}adicionar
@@ -101,13 +98,9 @@ export function TodaySection({
         >
           <ShotsyCard style={styles.card}>
             <Text style={styles.emoji}>🥩</Text>
-            <Text style={[styles.cardLabel, { color: colors.textSecondary }]}>
-              PROTEÍNA
-            </Text>
+            <Text style={[styles.cardLabel, { color: colors.textSecondary }]}>PROTEÍNA</Text>
             {todayProtein ? (
-              <Text style={[styles.cardValue, { color: colors.text }]}>
-                {todayProtein}g
-              </Text>
+              <Text style={[styles.cardValue, { color: colors.text }]}>{todayProtein}g</Text>
             ) : (
               <Text style={[styles.placeholder, { color: colors.textMuted }]}>
                 Toque para{'\n'}adicionar
@@ -124,9 +117,7 @@ export function TodaySection({
         >
           <ShotsyCard style={styles.card}>
             <Text style={styles.emoji}>😷</Text>
-            <Text style={[styles.cardLabel, { color: colors.textSecondary }]}>
-              EFEITOS
-            </Text>
+            <Text style={[styles.cardLabel, { color: colors.textSecondary }]}>EFEITOS</Text>
             {todaySideEffects && todaySideEffects.length > 0 ? (
               <Text style={[styles.cardValue, { color: colors.text }]}>
                 {todaySideEffects.length} {todaySideEffects.length === 1 ? 'efeito' : 'efeitos'}
@@ -149,15 +140,10 @@ export function TodaySection({
         <ShotsyCard style={styles.fullCard}>
           <View style={styles.fullCardHeader}>
             <Text style={styles.emoji}>📝</Text>
-            <Text style={[styles.cardLabel, { color: colors.textSecondary }]}>
-              NOTAS DIÁRIAS
-            </Text>
+            <Text style={[styles.cardLabel, { color: colors.textSecondary }]}>NOTAS DIÁRIAS</Text>
           </View>
           {todayNotes ? (
-            <Text
-              style={[styles.fullCardValue, { color: colors.text }]}
-              numberOfLines={2}
-            >
+            <Text style={[styles.fullCardValue, { color: colors.text }]} numberOfLines={2}>
               {todayNotes}
             </Text>
           ) : (

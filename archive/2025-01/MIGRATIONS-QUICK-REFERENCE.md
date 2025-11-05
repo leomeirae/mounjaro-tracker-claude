@@ -39,6 +39,7 @@
 ## 📊 MIGRATION OVERVIEW
 
 ### Migration 003: Avatar Personalization
+
 ```
 Creates: user_avatars table
 Features: Avatar styles, colors, levels, evolution
@@ -46,6 +47,7 @@ Time: 2 minutes
 ```
 
 ### Migration 004: Goals System
+
 ```
 Creates: user_goals table
 Features: Personal goals, milestones, progress tracking
@@ -53,6 +55,7 @@ Time: 2 minutes
 ```
 
 ### Migration 005: Communication Preferences
+
 ```
 Creates: communication_preferences table
 Features: Tone, humor, formality settings
@@ -60,6 +63,7 @@ Time: 2 minutes
 ```
 
 ### Migration 006: Insights System
+
 ```
 Creates: user_insights, detected_patterns, health_scores tables
 Features: AI insights, pattern detection, health scoring
@@ -67,6 +71,7 @@ Time: 2 minutes
 ```
 
 ### Migration 007: Pain & Medication Tracking
+
 ```
 Creates: Adds pain_level and medication_type columns
 Updates: applications view and trigger functions
@@ -100,6 +105,7 @@ ORDER BY table_name;
 ```
 
 Expected results:
+
 - [ ] 6 new tables created
 - [ ] 5 new functions created
 - [ ] 2 functions updated
@@ -111,15 +117,19 @@ Expected results:
 ## 🔧 TROUBLESHOOTING
 
 ### "relation 'profiles' does not exist"
+
 → Apply migrations 001 and 002 first
 
 ### "function update_updated_at_column() does not exist"
+
 → Create the function (see full guide)
 
 ### "permission denied"
+
 → Check you're logged in as database owner
 
 ### "duplicate key constraint"
+
 → Safe to ignore, means migration already applied
 
 ---
@@ -139,13 +149,13 @@ supabase/migrations/
 
 ## 🎯 WHAT EACH MIGRATION ENABLES
 
-| Migration | App Feature |
-|-----------|-------------|
-| 003 | Avatar customization in onboarding |
-| 004 | Goal setting and progress tracking |
-| 005 | Personalized app communication style |
-| 006 | Automated insights and health scoring |
-| 007 | Pain level and medication type tracking |
+| Migration | App Feature                             |
+| --------- | --------------------------------------- |
+| 003       | Avatar customization in onboarding      |
+| 004       | Goal setting and progress tracking      |
+| 005       | Personalized app communication style    |
+| 006       | Automated insights and health scoring   |
+| 007       | Pain level and medication type tracking |
 
 ---
 

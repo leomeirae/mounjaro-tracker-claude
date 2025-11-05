@@ -21,30 +21,35 @@
 **IMPORTANTE:** As migrações devem ser executadas em sequência: 003 → 004 → 005 → 006 → 007
 
 #### Migration 003: Avatar System
+
 ```
 Arquivo: supabase/migrations/003_personalization_avatar.sql
 Cria: user_avatars table
 ```
 
 #### Migration 004: Goals System
+
 ```
 Arquivo: supabase/migrations/004_personalization_goals.sql
 Cria: user_goals table
 ```
 
 #### Migration 005: Communication Preferences
+
 ```
 Arquivo: supabase/migrations/005_personalization_communication.sql
 Cria: communication_preferences table
 ```
 
 #### Migration 006: Insights System
+
 ```
 Arquivo: supabase/migrations/006_insights_system.sql
 Cria: user_insights, detected_patterns, health_scores tables
 ```
 
 #### Migration 007: Pain & Medication Tracking
+
 ```
 Arquivo: supabase/migrations/007_add_pain_medication_fields.sql
 Adiciona: pain_level e medication_type columns
@@ -97,13 +102,13 @@ Após aplicar todas as migrações:
 
 ## 🎯 O que cada migration habilita no app:
 
-| Migration | Feature |
-|-----------|---------|
-| 003 | Personalização de avatar no onboarding |
-| 004 | Sistema de metas e progresso |
-| 005 | Estilo de comunicação personalizado |
-| 006 | Insights automatizados e health score |
-| 007 | Tracking de nível de dor e tipo de medicação |
+| Migration | Feature                                      |
+| --------- | -------------------------------------------- |
+| 003       | Personalização de avatar no onboarding       |
+| 004       | Sistema de metas e progresso                 |
+| 005       | Estilo de comunicação personalizado          |
+| 006       | Insights automatizados e health score        |
+| 007       | Tracking de nível de dor e tipo de medicação |
 
 ---
 
@@ -119,12 +124,15 @@ Para instruções detalhadas, troubleshooting, e queries de verificação comple
 ## 🆘 Problemas?
 
 ### "relation 'profiles' does not exist"
+
 → Aplique migrations 001 e 002 primeiro
 
 ### "permission denied"
+
 → Verifique se você está logado como owner do projeto
 
 ### Outros erros
+
 → Consulte seção de Troubleshooting no guia completo
 
 ---

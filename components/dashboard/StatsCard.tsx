@@ -22,32 +22,33 @@ export function StatsCard({ icon, label, value, subtitle }: StatsCardProps) {
   );
 }
 
-const getStyles = (colors: any) => StyleSheet.create({
-  card: {
-    flex: 1,
-    backgroundColor: colors.card,
-    borderRadius: 16,
-    padding: 16,
-    alignItems: 'center',
-    minHeight: 120,
-  },
-  icon: {
-    fontSize: 32,
-    marginBottom: 8,
-  },
-  label: {
-    fontSize: 12,
-    color: colors.textMuted,
-    marginBottom: 4,
-  },
-  value: {
-    fontSize: 24,
-    fontWeight: 'bold',
-    color: colors.text,
-  },
-  subtitle: {
-    fontSize: 10,
-    color: colors.textSecondary,
-    marginTop: 4,
-  },
-});
+const getStyles = (colors: any) =>
+  StyleSheet.create({
+    card: {
+      flex: 1,
+      backgroundColor: colors.card,
+      borderRadius: 16,
+      padding: 16,
+      alignItems: 'center',
+      minHeight: 120,
+    },
+    icon: {
+      fontSize: 32,
+      marginBottom: 8,
+    },
+    label: {
+      fontSize: 12,
+      color: colors.textMuted,
+      marginBottom: 4,
+    },
+    value: {
+      fontSize: 24,
+      fontWeight: 'bold',
+      color: colors.text,
+    },
+    subtitle: {
+      fontSize: 10,
+      color: colors.textSecondary,
+      marginTop: 4,
+    },
+  });

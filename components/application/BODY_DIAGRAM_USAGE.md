@@ -1,9 +1,11 @@
 # BodyDiagram Component - Usage Guide
 
 ## Overview
+
 The `BodyDiagram` component provides a visual SVG body diagram for injection site selection with intelligent rotation suggestions.
 
 ## Features
+
 - ✅ SVG body silhouette with 8 injection sites
 - ✅ Visual indicators for selected, suggested, and recently used sites
 - ✅ Intelligent rotation logic to prevent overuse of the same sites
@@ -16,9 +18,9 @@ The `BodyDiagram` component provides a visual SVG body diagram for injection sit
 
 ```typescript
 export interface BodyDiagramProps {
-  selectedSites: string[];       // Currently selected injection sites
-  onSiteToggle: (siteId: string) => void;  // Callback when site is toggled
-  history?: string[];             // Past injection sites for rotation logic
+  selectedSites: string[]; // Currently selected injection sites
+  onSiteToggle: (siteId: string) => void; // Callback when site is toggled
+  history?: string[]; // Past injection sites for rotation logic
 }
 ```
 
@@ -44,6 +46,7 @@ The component implements intelligent site rotation:
 3. **Rotation Pattern**: Stomach → Thighs → Arms → Buttocks → repeat
 
 ### Algorithm:
+
 - Tracks last 3 injection sites from history
 - Suggests sites that haven't been used recently
 - Follows body area rotation pattern
@@ -51,11 +54,11 @@ The component implements intelligent site rotation:
 
 ## Visual Indicators
 
-| Indicator | Meaning | Appearance |
-|-----------|---------|------------|
-| Filled circle with border | Selected site | Blue/Primary color |
-| Dashed green ring + 💡 | Suggested next site | Green outline |
-| Dimmed + 🕐 | Recently used | Low opacity |
+| Indicator                 | Meaning             | Appearance         |
+| ------------------------- | ------------------- | ------------------ |
+| Filled circle with border | Selected site       | Blue/Primary color |
+| Dashed green ring + 💡    | Suggested next site | Green outline      |
+| Dimmed + 🕐               | Recently used       | Low opacity        |
 
 ## Basic Usage
 
@@ -226,16 +229,19 @@ Potential improvements:
 ## Troubleshooting
 
 ### Sites not showing
+
 - Verify `react-native-svg` is installed (v15.12.1+)
 - Check SVG viewBox coordinates
 - Ensure parent has sufficient height
 
 ### Rotation not working
+
 - Pass valid `history` array
 - Check site IDs match exactly
 - Verify history contains recent data
 
 ### Styling issues
+
 - Confirm `useShotsyColors` hook available
 - Check theme context is provided
 - Verify StyleSheet is not being overridden

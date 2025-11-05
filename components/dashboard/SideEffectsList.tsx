@@ -25,7 +25,12 @@ const SEVERITY_LABELS = {
   5: 'Muito Forte',
 };
 
-export function SideEffectsList({ sideEffects, maxVisible, onEdit, onDelete }: SideEffectsListProps) {
+export function SideEffectsList({
+  sideEffects,
+  maxVisible,
+  onEdit,
+  onDelete,
+}: SideEffectsListProps) {
   const colors = useColors();
   const handleDelete = (sideEffect: SideEffect) => {
     Alert.alert(
@@ -36,8 +41,8 @@ export function SideEffectsList({ sideEffects, maxVisible, onEdit, onDelete }: S
         {
           text: 'Excluir',
           style: 'destructive',
-          onPress: () => onDelete?.(sideEffect.id)
-        }
+          onPress: () => onDelete?.(sideEffect.id),
+        },
       ]
     );
   };
@@ -49,16 +54,12 @@ export function SideEffectsList({ sideEffects, maxVisible, onEdit, onDelete }: S
       <View style={styles.emptyContainer}>
         <Text style={styles.emptyIcon}>⚠️</Text>
         <Text style={styles.emptyText}>Nenhum efeito colateral registrado</Text>
-        <Text style={styles.emptySubtext}>
-          Ótimo! Continue registrando caso sinta algo.
-        </Text>
+        <Text style={styles.emptySubtext}>Ótimo! Continue registrando caso sinta algo.</Text>
       </View>
     );
   }
 
-  const displayEffects = maxVisible 
-    ? sideEffects.slice(0, maxVisible)
-    : sideEffects;
+  const displayEffects = maxVisible ? sideEffects.slice(0, maxVisible) : sideEffects;
 
   const styles = getStyles(colors);
 
@@ -68,14 +69,14 @@ export function SideEffectsList({ sideEffects, maxVisible, onEdit, onDelete }: S
         <Text style={styles.title}>⚠️ Efeitos Colaterais</Text>
         <Text style={styles.count}>{sideEffects.length}</Text>
       </View>
-      
+
       <FlatList
         data={displayEffects}
         keyExtractor={(item) => item.id}
         renderItem={({ item }) => {
           const severityColor = SEVERITY_COLORS[item.severity];
           const severityLabel = SEVERITY_LABELS[item.severity];
-          
+
           const styles = getStyles(colors);
 
           return (
@@ -84,12 +85,7 @@ export function SideEffectsList({ sideEffects, maxVisible, onEdit, onDelete }: S
                 <View style={styles.cardContent}>
                   <View style={styles.effectHeader}>
                     <View style={styles.effectTitleRow}>
-                      <View
-                        style={[
-                          styles.severityDot,
-                          { backgroundColor: severityColor },
-                        ]}
-                      />
+                      <View style={[styles.severityDot, { backgroundColor: severityColor }]} />
                       <Text style={styles.effectType}>{item.type}</Text>
                     </View>
                     <View style={[styles.severityBadge, { backgroundColor: severityColor + '20' }]}>
@@ -98,7 +94,7 @@ export function SideEffectsList({ sideEffects, maxVisible, onEdit, onDelete }: S
                       </Text>
                     </View>
                   </View>
-                  
+
                   <Text style={styles.effectDate}>
                     {new Date(item.date).toLocaleDateString('pt-BR', {
                       day: '2-digit',
@@ -106,23 +102,15 @@ export function SideEffectsList({ sideEffects, maxVisible, onEdit, onDelete }: S
                       year: 'numeric',
                     })}
                   </Text>
-                  
-                  {item.notes && (
-                    <Text style={styles.effectNotes}>{item.notes}</Text>
-                  )}
+
+                  {item.notes && <Text style={styles.effectNotes}>{item.notes}</Text>}
                 </View>
 
                 <View style={styles.actions}>
-                  <TouchableOpacity 
-                    onPress={() => onEdit?.(item)}
-                    style={styles.actionButton}
-                  >
+                  <TouchableOpacity onPress={() => onEdit?.(item)} style={styles.actionButton}>
                     <Text style={styles.actionIcon}>✏️</Text>
                   </TouchableOpacity>
-                  <TouchableOpacity 
-                    onPress={() => handleDelete(item)}
-                    style={styles.actionButton}
-                  >
+                  <TouchableOpacity onPress={() => handleDelete(item)} style={styles.actionButton}>
                     <Text style={styles.actionIcon}>🗑️</Text>
                   </TouchableOpacity>
                 </View>
@@ -134,132 +122,131 @@ export function SideEffectsList({ sideEffects, maxVisible, onEdit, onDelete }: S
       />
 
       {maxVisible && sideEffects.length > maxVisible && (
-        <Text style={styles.moreText}>
-          +{sideEffects.length - maxVisible} efeitos registrados
-        </Text>
+        <Text style={styles.moreText}>+{sideEffects.length - maxVisible} efeitos registrados</Text>
       )}
     </View>
   );
 }
 
-const getStyles = (colors: any) => StyleSheet.create({
-  container: {
-    marginBottom: 16,
-  },
-  header: {
-    flexDirection: 'row',
-    justifyContent: 'space-between',
-    alignItems: 'center',
-    marginBottom: 12,
-  },
-  title: {
-    fontSize: 18,
-    fontWeight: 'bold',
-    color: colors.text,
-  },
-  count: {
-    fontSize: 16,
-    fontWeight: 'bold',
-    color: colors.primary,
-    backgroundColor: colors.card,
-    paddingHorizontal: 12,
-    paddingVertical: 4,
-    borderRadius: 12,
-  },
-  emptyContainer: {
-    backgroundColor: colors.card,
-    borderRadius: 16,
-    padding: 32,
-    alignItems: 'center',
-    marginBottom: 16,
-  },
-  emptyIcon: {
-    fontSize: 48,
-    marginBottom: 12,
-  },
-  emptyText: {
-    fontSize: 16,
-    fontWeight: '600',
-    color: colors.text,
-    marginBottom: 8,
-  },
-  emptySubtext: {
-    fontSize: 14,
-    color: colors.textSecondary,
-    textAlign: 'center',
-  },
-  effectCard: {
-    backgroundColor: colors.card,
-    borderRadius: 12,
-    padding: 16,
-    marginBottom: 12,
-  },
-  cardHeader: {
-    flexDirection: 'row',
-    justifyContent: 'space-between',
-    gap: 12,
-  },
-  cardContent: {
-    flex: 1,
-  },
-  actions: {
-    flexDirection: 'row',
-    gap: 4,
-    alignSelf: 'flex-start',
-  },
-  actionButton: {
-    padding: 6,
-    borderRadius: 6,
-    backgroundColor: colors.background,
-  },
-  actionIcon: {
-    fontSize: 16,
-  },
-  effectHeader: {
-    flexDirection: 'row',
-    justifyContent: 'space-between',
-    alignItems: 'center',
-    marginBottom: 8,
-  },
-  effectTitleRow: {
-    flexDirection: 'row',
-    alignItems: 'center',
-    flex: 1,
-  },
-  severityDot: {
-    width: 12,
-    height: 12,
-    borderRadius: 6,
-    marginRight: 8,
-  },
-  effectType: {
-    fontSize: 16,
-    fontWeight: 'bold',
-    color: colors.text,
-  },
-  severityBadge: {
-    paddingHorizontal: 10,
-    paddingVertical: 4,
-    borderRadius: 8,
-  },
-  severityText: {
-    fontSize: 11,
-    fontWeight: '600',
-  },
-  effectDate: {
-    fontSize: 12,
-    color: colors.textMuted,
-    marginBottom: 8,
-  },
-  effectNotes: {
-    fontSize: 14,
-    color: colors.textSecondary,
-    fontStyle: 'italic',
-  },
-  moreText: {
-    fontSize: 14,
-    color: colors.textMuted,
-    textAlign: 'center',
-    marginTop: 8,
-  },
-});
+const getStyles = (colors: any) =>
+  StyleSheet.create({
+    container: {
+      marginBottom: 16,
+    },
+    header: {
+      flexDirection: 'row',
+      justifyContent: 'space-between',
+      alignItems: 'center',
+      marginBottom: 12,
+    },
+    title: {
+      fontSize: 18,
+      fontWeight: 'bold',
+      color: colors.text,
+    },
+    count: {
+      fontSize: 16,
+      fontWeight: 'bold',
+      color: colors.primary,
+      backgroundColor: colors.card,
+      paddingHorizontal: 12,
+      paddingVertical: 4,
+      borderRadius: 12,
+    },
+    emptyContainer: {
+      backgroundColor: colors.card,
+      borderRadius: 16,
+      padding: 32,
+      alignItems: 'center',
+      marginBottom: 16,
+    },
+    emptyIcon: {
+      fontSize: 48,
+      marginBottom: 12,
+    },
+    emptyText: {
+      fontSize: 16,
+      fontWeight: '600',
+      color: colors.text,
+      marginBottom: 8,
+    },
+    emptySubtext: {
+      fontSize: 14,
+      color: colors.textSecondary,
+      textAlign: 'center',
+    },
+    effectCard: {
+      backgroundColor: colors.card,
+      borderRadius: 12,
+      padding: 16,
+      marginBottom: 12,
+    },
+    cardHeader: {
+      flexDirection: 'row',
+      justifyContent: 'space-between',
+      gap: 12,
+    },
+    cardContent: {
+      flex: 1,
+    },
+    actions: {
+      flexDirection: 'row',
+      gap: 4,
+      alignSelf: 'flex-start',
+    },
+    actionButton: {
+      padding: 6,
+      borderRadius: 6,
+      backgroundColor: colors.background,
+    },
+    actionIcon: {
+      fontSize: 16,
+    },
+    effectHeader: {
+      flexDirection: 'row',
+      justifyContent: 'space-between',
+      alignItems: 'center',
+      marginBottom: 8,
+    },
+    effectTitleRow: {
+      flexDirection: 'row',
+      alignItems: 'center',
+      flex: 1,
+    },
+    severityDot: {
+      width: 12,
+      height: 12,
+      borderRadius: 6,
+      marginRight: 8,
+    },
+    effectType: {
+      fontSize: 16,
+      fontWeight: 'bold',
+      color: colors.text,
+    },
+    severityBadge: {
+      paddingHorizontal: 10,
+      paddingVertical: 4,
+      borderRadius: 8,
+    },
+    severityText: {
+      fontSize: 11,
+      fontWeight: '600',
+    },
+    effectDate: {
+      fontSize: 12,
+      color: colors.textMuted,
+      marginBottom: 8,
+    },
+    effectNotes: {
+      fontSize: 14,
+      color: colors.textSecondary,
+      fontStyle: 'italic',
+    },
+    moreText: {
+      fontSize: 14,
+      color: colors.textMuted,
+      textAlign: 'center',
+      marginTop: 8,
+    },
+  });

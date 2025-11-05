@@ -75,33 +75,33 @@ graph TB
 ```typescript
 const frontendStack = {
   // Core
-  framework: "React Native 0.74+",
-  runtime: "Expo SDK 51+",
-  language: "TypeScript 5.3+",
+  framework: 'React Native 0.74+',
+  runtime: 'Expo SDK 51+',
+  language: 'TypeScript 5.3+',
 
   // State Management
-  globalState: "Zustand 4.x",
-  serverState: "React Query (TanStack) 5.x",
+  globalState: 'Zustand 4.x',
+  serverState: 'React Query (TanStack) 5.x',
 
   // Navigation
-  router: "Expo Router (file-based)",
+  router: 'Expo Router (file-based)',
 
   // UI/Styling
-  designSystem: "Tamagui | NativeWind", // Under evaluation
-  animations: "Reanimated 3 + Skia",
-  gestures: "React Native Gesture Handler 2.x",
-  charts: "Victory Native XL",
+  designSystem: 'Tamagui | NativeWind', // Under evaluation
+  animations: 'Reanimated 3 + Skia',
+  gestures: 'React Native Gesture Handler 2.x',
+  charts: 'Victory Native XL',
 
   // Utils
-  forms: "React Hook Form + Zod",
-  dates: "date-fns",
-  http: "axios | fetch",
+  forms: 'React Hook Form + Zod',
+  dates: 'date-fns',
+  http: 'axios | fetch',
 
   // Developer Tools
-  linter: "ESLint + TypeScript ESLint",
-  formatter: "Prettier",
-  testing: "Jest + React Native Testing Library",
-  e2e: "Detox",
+  linter: 'ESLint + TypeScript ESLint',
+  formatter: 'Prettier',
+  testing: 'Jest + React Native Testing Library',
+  e2e: 'Detox',
 };
 ```
 
@@ -110,32 +110,32 @@ const frontendStack = {
 ```typescript
 const backendStack = {
   // Database
-  database: "Supabase (PostgreSQL 15+)",
-  orm: "Supabase Client (PostgREST)",
-  realtime: "Supabase Realtime (WebSockets)",
+  database: 'Supabase (PostgreSQL 15+)',
+  orm: 'Supabase Client (PostgREST)',
+  realtime: 'Supabase Realtime (WebSockets)',
 
   // Auth
-  authentication: "Clerk",
-  authorization: "Supabase RLS (Row Level Security)",
+  authentication: 'Clerk',
+  authorization: 'Supabase RLS (Row Level Security)',
 
   // Storage
-  files: "Supabase Storage",
-  cache: "Redis (future, via Upstash)",
+  files: 'Supabase Storage',
+  cache: 'Redis (future, via Upstash)',
 
   // Serverless Functions
-  functions: "Supabase Edge Functions (Deno)",
-  cron: "pg_cron (PostgreSQL)",
+  functions: 'Supabase Edge Functions (Deno)',
+  cron: 'pg_cron (PostgreSQL)',
 
   // AI/ML
-  llm: "OpenAI GPT-4 Turbo",
-  embeddings: "OpenAI text-embedding-3",
-  vectorDB: "pgvector (PostgreSQL extension)",
-  ml: "TensorFlow Lite (on-device)",
+  llm: 'OpenAI GPT-4 Turbo',
+  embeddings: 'OpenAI text-embedding-3',
+  vectorDB: 'pgvector (PostgreSQL extension)',
+  ml: 'TensorFlow Lite (on-device)',
 
   // Infrastructure
-  hosting: "Supabase Cloud",
-  cdn: "Cloudflare (future)",
-  queue: "BullMQ + Redis (future)",
+  hosting: 'Supabase Cloud',
+  cdn: 'Cloudflare (future)',
+  queue: 'BullMQ + Redis (future)',
 };
 ```
 
@@ -144,21 +144,21 @@ const backendStack = {
 ```typescript
 const devopsStack = {
   // CI/CD
-  ci: "GitHub Actions",
-  deployment: "EAS (Expo Application Services)",
+  ci: 'GitHub Actions',
+  deployment: 'EAS (Expo Application Services)',
 
   // Monitoring
-  errors: "Sentry",
-  analytics: "Mixpanel + Amplitude",
-  performance: "Sentry Performance",
-  logging: "Supabase Logs + Better Stack (future)",
+  errors: 'Sentry',
+  analytics: 'Mixpanel + Amplitude',
+  performance: 'Sentry Performance',
+  logging: 'Supabase Logs + Better Stack (future)',
 
   // Payments
-  subscriptions: "RevenueCat (Fase 8)",
+  subscriptions: 'RevenueCat (Fase 8)',
 
   // Communication
-  notifications: "Expo Notifications | OneSignal",
-  email: "Resend | SendGrid (future)",
+  notifications: 'Expo Notifications | OneSignal',
+  email: 'Resend | SendGrid (future)',
 };
 ```
 
@@ -317,29 +317,29 @@ CREATE POLICY "Users can insert stories (anonymously)"
 ```typescript
 interface PrivacyLayers {
   // 1. Transport Security
-  https: "All traffic over HTTPS/TLS 1.3+",
+  https: 'All traffic over HTTPS/TLS 1.3+';
 
   // 2. Authentication
-  auth: "Clerk JWT tokens with short expiry",
+  auth: 'Clerk JWT tokens with short expiry';
 
   // 3. Authorization
-  rls: "Supabase RLS - database-level access control",
+  rls: 'Supabase RLS - database-level access control';
 
   // 4. Data Storage
   encryption: {
-    atRest: "AES-256 (Supabase default)",
-    inTransit: "TLS 1.3",
-    e2e: "Signal Protocol for buddy chat (Fase 3)"
-  },
+    atRest: 'AES-256 (Supabase default)';
+    inTransit: 'TLS 1.3';
+    e2e: 'Signal Protocol for buddy chat (Fase 3)';
+  };
 
   // 5. Anonymization
   community: {
-    stories: "Hashed user IDs, zero PII",
-    analytics: "Aggregated only, no individual tracking"
-  },
+    stories: 'Hashed user IDs, zero PII';
+    analytics: 'Aggregated only, no individual tracking';
+  };
 
   // 6. Compliance
-  future: ["HIPAA (Fase 9)", "GDPR", "CCPA"]
+  future: ['HIPAA (Fase 9)', 'GDPR', 'CCPA'];
 }
 ```
 
@@ -353,30 +353,30 @@ interface PrivacyLayers {
 interface PerformanceStrategy {
   // 1. Bundle Optimization
   bundling: {
-    codesplitting: "Route-based with Expo Router",
-    treeshaking: "Enabled in production",
-    compression: "Gzip + Brotli"
-  },
+    codesplitting: 'Route-based with Expo Router';
+    treeshaking: 'Enabled in production';
+    compression: 'Gzip + Brotli';
+  };
 
   // 2. Rendering Performance
   rendering: {
-    lists: "FlashList for long lists (not FlatList)",
-    images: "expo-image with caching",
-    animations: "Reanimated 3 (UI thread)"
-  },
+    lists: 'FlashList for long lists (not FlatList)';
+    images: 'expo-image with caching';
+    animations: 'Reanimated 3 (UI thread)';
+  };
 
   // 3. Data Fetching
   fetching: {
-    cache: "React Query with staleTime",
-    prefetch: "Predictive prefetching",
-    pagination: "Infinite scroll with windowing"
-  },
+    cache: 'React Query with staleTime';
+    prefetch: 'Predictive prefetching';
+    pagination: 'Infinite scroll with windowing';
+  };
 
   // 4. State Management
   state: {
-    optimization: "Zustand selective subscriptions",
-    persistence: "AsyncStorage with compression"
-  }
+    optimization: 'Zustand selective subscriptions';
+    persistence: 'AsyncStorage with compression';
+  };
 }
 ```
 
@@ -386,25 +386,25 @@ interface PerformanceStrategy {
 interface BackendPerformance {
   // 1. Database
   database: {
-    indexing: "Strategic indexes on frequent queries",
-    materialized_views: "Pre-computed aggregations",
-    partitioning: "Time-based partitioning for large tables",
-    connection_pooling: "PgBouncer"
-  },
+    indexing: 'Strategic indexes on frequent queries';
+    materialized_views: 'Pre-computed aggregations';
+    partitioning: 'Time-based partitioning for large tables';
+    connection_pooling: 'PgBouncer';
+  };
 
   // 2. Caching
   caching: {
-    database: "PostgreSQL query cache",
-    application: "Redis for session/frequent data (future)",
-    cdn: "Cloudflare for static assets (future)"
-  },
+    database: 'PostgreSQL query cache';
+    application: 'Redis for session/frequent data (future)';
+    cdn: 'Cloudflare for static assets (future)';
+  };
 
   // 3. Real-time
   realtime: {
-    channels: "Filtered subscriptions (not all data)",
-    throttling: "Client-side debouncing",
-    batching: "Batch updates when possible"
-  }
+    channels: 'Filtered subscriptions (not all data)';
+    throttling: 'Client-side debouncing';
+    batching: 'Batch updates when possible';
+  };
 }
 ```
 
@@ -414,21 +414,21 @@ interface BackendPerformance {
 const performanceBudgets = {
   // Metrics
   metrics: {
-    ttfb: "< 200ms",           // Time to First Byte
-    fcp: "< 1s",               // First Contentful Paint
-    lcp: "< 2s",               // Largest Contentful Paint
-    tti: "< 2.5s",             // Time to Interactive
-    fps: "60fps",              // Animations
-    bundleSize: "< 5MB"        // Initial bundle
+    ttfb: '< 200ms', // Time to First Byte
+    fcp: '< 1s', // First Contentful Paint
+    lcp: '< 2s', // Largest Contentful Paint
+    tti: '< 2.5s', // Time to Interactive
+    fps: '60fps', // Animations
+    bundleSize: '< 5MB', // Initial bundle
   },
 
   // API Response Times
   api: {
-    read: "< 300ms (p95)",
-    write: "< 500ms (p95)",
-    ai_generation: "< 5s (p95)"
-  }
-}
+    read: '< 300ms (p95)',
+    write: '< 500ms (p95)',
+    ai_generation: '< 5s (p95)',
+  },
+};
 ```
 
 ---
@@ -439,40 +439,40 @@ const performanceBudgets = {
 
 ```typescript
 const currentScale = {
-  users: "1K - 10K",
-  requests: "10K - 100K/day",
-  database: "Supabase Free/Pro tier",
-  infrastructure: "Managed (Supabase + Clerk + Expo)"
-}
+  users: '1K - 10K',
+  requests: '10K - 100K/day',
+  database: 'Supabase Free/Pro tier',
+  infrastructure: 'Managed (Supabase + Clerk + Expo)',
+};
 ```
 
 ### Target Scale (Phase 9)
 
 ```typescript
 const targetScale = {
-  users: "100K - 1M",
-  requests: "1M - 10M/day",
-  database: "Supabase Team/Enterprise tier",
+  users: '100K - 1M',
+  requests: '1M - 10M/day',
+  database: 'Supabase Team/Enterprise tier',
   infrastructure: {
     database: {
-      readReplicas: "2-3 replicas for read scaling",
-      connectionPooling: "PgBouncer with 100+ connections",
-      partitioning: "Monthly partitions for time-series data"
+      readReplicas: '2-3 replicas for read scaling',
+      connectionPooling: 'PgBouncer with 100+ connections',
+      partitioning: 'Monthly partitions for time-series data',
     },
     caching: {
-      redis: "Upstash Redis for sessions/hot data",
-      cdn: "Cloudflare for global asset delivery"
+      redis: 'Upstash Redis for sessions/hot data',
+      cdn: 'Cloudflare for global asset delivery',
     },
     functions: {
-      edgeFunctions: "Auto-scaling with Supabase",
-      queueing: "BullMQ for async processing"
+      edgeFunctions: 'Auto-scaling with Supabase',
+      queueing: 'BullMQ for async processing',
     },
     monitoring: {
-      apm: "Full APM with Datadog/New Relic",
-      alerting: "PagerDuty for critical issues"
-    }
-  }
-}
+      apm: 'Full APM with Datadog/New Relic',
+      alerting: 'PagerDuty for critical issues',
+    },
+  },
+};
 ```
 
 ### Scaling Triggers
@@ -480,23 +480,13 @@ const targetScale = {
 ```typescript
 interface ScalingTriggers {
   // Quando escalar Database
-  database: [
-    "CPU > 70% sustained",
-    "Connection pool saturation",
-    "Query latency > 500ms p95"
-  ],
+  database: ['CPU > 70% sustained', 'Connection pool saturation', 'Query latency > 500ms p95'];
 
   // Quando adicionar Cache
-  cache: [
-    "Repeated queries same data",
-    "Read/Write ratio > 10:1"
-  ],
+  cache: ['Repeated queries same data', 'Read/Write ratio > 10:1'];
 
   // Quando otimizar Backend
-  backend: [
-    "API latency > 1s p95",
-    "Error rate > 1%"
-  ]
+  backend: ['API latency > 1s p95', 'Error rate > 1%'];
 }
 ```
 
@@ -508,14 +498,14 @@ interface ScalingTriggers {
 
 ```typescript
 interface BasicInsights {
-  approach: "Rule-based + Simple Statistics",
-  location: "Cloud Functions",
+  approach: 'Rule-based + Simple Statistics';
+  location: 'Cloud Functions';
 
   patterns: {
-    weeklyTrends: "PostgreSQL aggregations",
-    correlations: "Basic statistical correlation",
-    anomalies: "Standard deviation detection"
-  }
+    weeklyTrends: 'PostgreSQL aggregations';
+    correlations: 'Basic statistical correlation';
+    anomalies: 'Standard deviation detection';
+  };
 }
 ```
 
@@ -523,25 +513,21 @@ interface BasicInsights {
 
 ```typescript
 interface EducationalAI {
-  approach: "RAG (Retrieval Augmented Generation)",
-  model: "OpenAI GPT-4 Turbo",
+  approach: 'RAG (Retrieval Augmented Generation)';
+  model: 'OpenAI GPT-4 Turbo';
 
   architecture: {
-    knowledge_base: [
-      "Medical articles (vetted)",
-      "Drug information",
-      "Scientific studies"
-    ],
+    knowledge_base: ['Medical articles (vetted)', 'Drug information', 'Scientific studies'];
 
     pipeline: [
-      "1. User question",
-      "2. Embed question (text-embedding-3)",
-      "3. Vector search in pgvector",
-      "4. Retrieve relevant docs",
-      "5. GPT-4 generates answer with sources",
-      "6. Add disclaimers"
-    ]
-  }
+      '1. User question',
+      '2. Embed question (text-embedding-3)',
+      '3. Vector search in pgvector',
+      '4. Retrieve relevant docs',
+      '5. GPT-4 generates answer with sources',
+      '6. Add disclaimers',
+    ];
+  };
 }
 ```
 
@@ -549,39 +535,39 @@ interface EducationalAI {
 
 ```typescript
 interface PredictiveAI {
-  approach: "Custom ML Models + LLM",
+  approach: 'Custom ML Models + LLM';
 
   models: {
     weight_prediction: {
-      type: "Time-series forecasting",
-      framework: "TensorFlow Lite",
-      location: "On-device",
-      inputs: ["historical_weight", "applications", "activity"],
-      output: "Next 30 days weight forecast"
-    },
+      type: 'Time-series forecasting';
+      framework: 'TensorFlow Lite';
+      location: 'On-device';
+      inputs: ['historical_weight', 'applications', 'activity'];
+      output: 'Next 30 days weight forecast';
+    };
 
     plateau_detection: {
-      type: "Anomaly detection",
-      framework: "Scikit-learn → TFLite",
-      location: "On-device",
-      inputs: ["weight_trend", "rate_of_change"],
-      output: "Plateau probability"
-    },
+      type: 'Anomaly detection';
+      framework: 'Scikit-learn → TFLite';
+      location: 'On-device';
+      inputs: ['weight_trend', 'rate_of_change'];
+      output: 'Plateau probability';
+    };
 
     optimal_timing: {
-      type: "Personalized recommendation",
-      framework: "Cloud ML (Vertex AI)",
-      location: "Cloud",
-      inputs: ["historical_patterns", "side_effects", "lifestyle"],
-      output: "Best time for next application"
-    }
-  },
+      type: 'Personalized recommendation';
+      framework: 'Cloud ML (Vertex AI)';
+      location: 'Cloud';
+      inputs: ['historical_patterns', 'side_effects', 'lifestyle'];
+      output: 'Best time for next application';
+    };
+  };
 
   training: {
-    approach: "Federated Learning (privacy-preserving)",
-    frequency: "Weekly model updates",
-    validation: "Holdout set + A/B testing"
-  }
+    approach: 'Federated Learning (privacy-preserving)';
+    frequency: 'Weekly model updates';
+    validation: 'Holdout set + A/B testing';
+  };
 }
 ```
 
@@ -623,17 +609,17 @@ interface ErrorHandling {
 interface OfflineSupport {
   // Phase 1-3: Basic offline
   basic: {
-    storage: "AsyncStorage for critical data",
-    queueing: "Queue writes when offline",
-    sync: "Sync on reconnection"
-  },
+    storage: 'AsyncStorage for critical data';
+    queueing: 'Queue writes when offline';
+    sync: 'Sync on reconnection';
+  };
 
   // Phase 9-10: Full offline
   advanced: {
-    database: "WatermelonDB (local SQL)",
-    sync: "Differential sync",
-    conflict_resolution: "CRDT or timestamp-based"
-  }
+    database: 'WatermelonDB (local SQL)';
+    sync: 'Differential sync';
+    conflict_resolution: 'CRDT or timestamp-based';
+  };
 }
 ```
 
@@ -733,36 +719,32 @@ shotsy/
 interface TestingStrategy {
   // 1. Unit Tests (80%+ coverage)
   unit: {
-    what: "Business logic, utilities, hooks",
-    framework: "Jest",
-    location: "__tests__/ folders"
-  },
+    what: 'Business logic, utilities, hooks';
+    framework: 'Jest';
+    location: '__tests__/ folders';
+  };
 
   // 2. Component Tests
   component: {
-    what: "UI components, user interactions",
-    framework: "React Native Testing Library",
-    location: "components/**/*.test.tsx"
-  },
+    what: 'UI components, user interactions';
+    framework: 'React Native Testing Library';
+    location: 'components/**/*.test.tsx';
+  };
 
   // 3. Integration Tests
   integration: {
-    what: "API calls, data flow, auth",
-    framework: "Jest",
-    location: "tests/integration/"
-  },
+    what: 'API calls, data flow, auth';
+    framework: 'Jest';
+    location: 'tests/integration/';
+  };
 
   // 4. E2E Tests
   e2e: {
-    what: "Critical user journeys",
-    framework: "Detox",
-    location: "e2e/",
-    scenarios: [
-      "Sign up → Onboarding → Log weight",
-      "View insights",
-      "Join community challenge"
-    ]
-  }
+    what: 'Critical user journeys';
+    framework: 'Detox';
+    location: 'e2e/';
+    scenarios: ['Sign up → Onboarding → Log weight', 'View insights', 'Join community challenge'];
+  };
 }
 ```
 
@@ -813,20 +795,20 @@ jobs:
 interface ReleaseStrategy {
   // Phase 1-3: Beta
   beta: {
-    frequency: "Weekly",
-    distribution: "TestFlight + Internal Testing",
-    testers: "50-100 beta users",
-    rollback: "Manual"
-  },
+    frequency: 'Weekly';
+    distribution: 'TestFlight + Internal Testing';
+    testers: '50-100 beta users';
+    rollback: 'Manual';
+  };
 
   // Phase 4+: Production
   production: {
-    frequency: "Bi-weekly",
-    distribution: "App Store + Play Store",
-    rollout: "Gradual (10% → 50% → 100%)",
-    rollback: "Automated via EAS",
-    featureFlags: "LaunchDarkly or custom"
-  }
+    frequency: 'Bi-weekly';
+    distribution: 'App Store + Play Store';
+    rollout: 'Gradual (10% → 50% → 100%)';
+    rollback: 'Automated via EAS';
+    featureFlags: 'LaunchDarkly or custom';
+  };
 }
 ```
 
@@ -840,32 +822,32 @@ interface ReleaseStrategy {
 interface MonitoringMetrics {
   // 1. Application Health
   health: {
-    uptime: "99.9% target",
-    errorRate: "< 1%",
-    crashRate: "< 0.1%"
-  },
+    uptime: '99.9% target';
+    errorRate: '< 1%';
+    crashRate: '< 0.1%';
+  };
 
   // 2. Performance
   performance: {
-    apiLatency: "p50, p95, p99",
-    screenLoadTime: "Per screen",
-    fps: "Animation smoothness"
-  },
+    apiLatency: 'p50, p95, p99';
+    screenLoadTime: 'Per screen';
+    fps: 'Animation smoothness';
+  };
 
   // 3. Business
   business: {
-    dau: "Daily Active Users",
-    retention: "D1, D7, D30",
-    conversion: "Free → Premium",
-    churn: "Monthly churn rate"
-  },
+    dau: 'Daily Active Users';
+    retention: 'D1, D7, D30';
+    conversion: 'Free → Premium';
+    churn: 'Monthly churn rate';
+  };
 
   // 4. User Experience
   ux: {
-    featureAdoption: "% using each feature",
-    sessionDuration: "Average session time",
-    nps: "Net Promoter Score"
-  }
+    featureAdoption: '% using each feature';
+    sessionDuration: 'Average session time';
+    nps: 'Net Promoter Score';
+  };
 }
 ```
 
@@ -873,23 +855,11 @@ interface MonitoringMetrics {
 
 ```typescript
 interface Alerts {
-  critical: [
-    "Error rate > 5%",
-    "Crash rate > 1%",
-    "API latency p95 > 3s",
-    "Database CPU > 90%"
-  ],
+  critical: ['Error rate > 5%', 'Crash rate > 1%', 'API latency p95 > 3s', 'Database CPU > 90%'];
 
-  warning: [
-    "Error rate > 2%",
-    "API latency p95 > 1s",
-    "Slow queries detected"
-  ],
+  warning: ['Error rate > 2%', 'API latency p95 > 1s', 'Slow queries detected'];
 
-  info: [
-    "New version deployed",
-    "Traffic spike detected"
-  ]
+  info: ['New version deployed', 'Traffic spike detected'];
 }
 ```
 
@@ -903,24 +873,24 @@ interface Alerts {
 interface EnterpriseArchitecture {
   // 1. Multi-region
   regions: {
-    primary: "US-East",
-    replicas: ["US-West", "EU-West"],
-    routing: "GeoDNS for latency optimization"
-  },
+    primary: 'US-East';
+    replicas: ['US-West', 'EU-West'];
+    routing: 'GeoDNS for latency optimization';
+  };
 
   // 2. Microservices (if needed)
   services: {
-    core: "User, Auth, Data",
-    ml: "Separate ML service",
-    community: "Separate Community service"
-  },
+    core: 'User, Auth, Data';
+    ml: 'Separate ML service';
+    community: 'Separate Community service';
+  };
 
   // 3. Advanced Caching
   caching: {
-    l1: "In-memory (client)",
-    l2: "Redis (server)",
-    l3: "CDN (static)"
-  }
+    l1: 'In-memory (client)';
+    l2: 'Redis (server)';
+    l3: 'CDN (static)';
+  };
 }
 ```
 
@@ -939,6 +909,7 @@ Esta arquitetura foi projetada para:
 ---
 
 **Próximos Passos:**
+
 - [Implementation Guide](../guides/IMPLEMENTATION-GUIDE.md)
 - [Tech Decisions Log](../decisions/TECH-DECISIONS.md)
 - [API Documentation](./API-DOCS.md)

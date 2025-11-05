@@ -4,12 +4,7 @@ import { OnboardingScreenBase } from './OnboardingScreenBase';
 import { useShotsyColors } from '@/hooks/useShotsyColors';
 import { useTheme } from '@/lib/theme-context';
 import { ShotsyCard } from '@/components/ui/shotsy-card';
-import { 
-  VictoryArea, 
-  VictoryChart, 
-  VictoryAxis, 
-  VictoryScatter 
-} from 'victory';
+import { VictoryArea, VictoryChart, VictoryAxis, VictoryScatter } from 'victory-native';
 
 interface EducationGraphScreenProps {
   onNext: () => void;
@@ -53,17 +48,17 @@ export function EducationGraphScreen({ onNext, onBack }: EducationGraphScreenPro
               dependentAxis
               label="Nível (mg)"
               style={{
-                axisLabel: { 
-                  fontSize: 12, 
+                axisLabel: {
+                  fontSize: 12,
                   padding: 35,
                   fill: colors.textSecondary,
                 },
-                tickLabels: { 
+                tickLabels: {
                   fontSize: 10,
                   fill: colors.textMuted,
                 },
-                grid: { 
-                  stroke: colors.border, 
+                grid: {
+                  stroke: colors.border,
                   strokeDasharray: '4,4',
                   strokeOpacity: 0.5,
                 },
@@ -71,17 +66,17 @@ export function EducationGraphScreen({ onNext, onBack }: EducationGraphScreenPro
               }}
               tickValues={[0, 0.5, 1.0, 1.5]}
             />
-            
+
             {/* Eixo X - Dias */}
             <VictoryAxis
               label="Dias"
               style={{
-                axisLabel: { 
-                  fontSize: 12, 
+                axisLabel: {
+                  fontSize: 12,
                   padding: 30,
                   fill: colors.textSecondary,
                 },
-                tickLabels: { 
+                tickLabels: {
                   fontSize: 10,
                   fill: colors.textMuted,
                 },
@@ -89,7 +84,7 @@ export function EducationGraphScreen({ onNext, onBack }: EducationGraphScreenPro
               }}
               tickValues={[0, 2, 4, 6, 7]}
             />
-            
+
             {/* Área preenchida - curva farmacológica */}
             <VictoryArea
               data={pharmacokineticData}
@@ -101,11 +96,11 @@ export function EducationGraphScreen({ onNext, onBack }: EducationGraphScreenPro
                   fillOpacity: 0.3,
                   stroke: currentAccent,
                   strokeWidth: 2,
-                }
+                },
               }}
               interpolation="natural" // Curva suave
             />
-            
+
             {/* Ponto do pico (Tmax) */}
             <VictoryScatter
               data={[{ day: 4, level: 1.2 }]}
@@ -113,30 +108,28 @@ export function EducationGraphScreen({ onNext, onBack }: EducationGraphScreenPro
               y="level"
               size={6}
               style={{
-                data: { fill: currentAccent }
+                data: { fill: currentAccent },
               }}
             />
           </VictoryChart>
-          
+
           {/* Label do pico */}
-          <Text style={[styles.peakLabel, { color: currentAccent }]}>
-            ← Pico: 1.2mg (dia 4)
-          </Text>
+          <Text style={[styles.peakLabel, { color: currentAccent }]}>← Pico: 1.2mg (dia 4)</Text>
         </ShotsyCard>
 
         <ShotsyCard style={styles.infoCard}>
-          <Text style={[styles.infoTitle, { color: colors.text }]}>
-            Como funciona?
-          </Text>
+          <Text style={[styles.infoTitle, { color: colors.text }]}>Como funciona?</Text>
           <Text style={[styles.infoText, { color: colors.textSecondary }]}>
-            Após cada aplicação, o nível do medicamento aumenta gradualmente e depois diminui ao longo dos dias. O gráfico acima mostra uma estimativa desses níveis.
+            Após cada aplicação, o nível do medicamento aumenta gradualmente e depois diminui ao
+            longo dos dias. O gráfico acima mostra uma estimativa desses níveis.
           </Text>
         </ShotsyCard>
 
         <ShotsyCard style={[styles.warningCard, { backgroundColor: colors.card }]}>
           <Text style={styles.warningEmoji}>💡</Text>
           <Text style={[styles.warningText, { color: colors.textSecondary }]}>
-            Essas estimativas são baseadas em dados clínicos e podem variar de pessoa para pessoa. Sempre siga as orientações do seu médico.
+            Essas estimativas são baseadas em dados clínicos e podem variar de pessoa para pessoa.
+            Sempre siga as orientações do seu médico.
           </Text>
         </ShotsyCard>
       </View>

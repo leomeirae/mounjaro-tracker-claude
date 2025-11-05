@@ -3,6 +3,9 @@ import { supabase } from '@/lib/supabase';
 import { useUser } from './useUser';
 import { useWeightLogs } from './useWeightLogs';
 import { useMedications } from './useMedications';
+import { createLogger } from '@/lib/logger';
+
+const logger = createLogger('useCommunityStats');
 
 interface CommunityComparison {
   yourWeightLost: number;
@@ -34,7 +37,7 @@ export function useCommunityStats() {
     try {
       setLoading(true);
 
-      const activeMed = medications.find(m => m.active);
+      const activeMed = medications.find((m) => m.active);
       if (!activeMed) return;
 
       // Buscar stats da comunidade
@@ -46,7 +49,7 @@ export function useCommunityStats() {
         .single();
 
       if (error || !data) {
-        console.log('Sem dados suficientes da comunidade');
+        logger.debug('Insufficient community data available');
         return;
       }
 
@@ -96,7 +99,7 @@ export function useCommunityStats() {
         emoji,
       });
     } catch (error) {
-      console.error('Error fetching community stats:', error);
+      logger.error('Error fetching community stats', error as Error);
     } finally {
       setLoading(false);
     }

@@ -7,12 +7,7 @@ export interface User {
 }
 
 // Medication types
-export type MedicationType = 
-  | 'mounjaro'
-  | 'ozempic'
-  | 'saxenda'
-  | 'wegovy'
-  | 'zepbound';
+export type MedicationType = 'mounjaro' | 'ozempic' | 'saxenda' | 'wegovy' | 'zepbound';
 
 export interface Medication {
   id: string;
@@ -28,13 +23,18 @@ export interface Medication {
   updated_at: string;
 }
 
-export type InsertMedication = Omit<Medication, 'id' | 'user_id' | 'created_at' | 'updated_at' | 'end_date' | 'active' | 'notes'> & {
+export type InsertMedication = Omit<
+  Medication,
+  'id' | 'user_id' | 'created_at' | 'updated_at' | 'end_date' | 'active' | 'notes'
+> & {
   end_date?: string | null;
   active?: boolean;
   notes?: string | null;
 };
 
-export type UpdateMedication = Partial<Omit<Medication, 'id' | 'user_id' | 'created_at' | 'updated_at'>>;
+export type UpdateMedication = Partial<
+  Omit<Medication, 'id' | 'user_id' | 'created_at' | 'updated_at'>
+>;
 
 // Weight types
 export interface WeightLog {
@@ -48,7 +48,10 @@ export interface WeightLog {
   updated_at: string;
 }
 
-export type InsertWeightLog = Omit<WeightLog, 'id' | 'user_id' | 'created_at' | 'updated_at' | 'unit'> & {
+export type InsertWeightLog = Omit<
+  WeightLog,
+  'id' | 'user_id' | 'created_at' | 'updated_at' | 'unit'
+> & {
   unit?: 'kg' | 'lbs';
 };
 
@@ -69,7 +72,10 @@ export interface SideEffect {
   updated_at: string;
 }
 
-export type InsertSideEffect = Omit<SideEffect, 'id' | 'user_id' | 'created_at' | 'updated_at' | 'medication_id'> & {
+export type InsertSideEffect = Omit<
+  SideEffect,
+  'id' | 'user_id' | 'created_at' | 'updated_at' | 'medication_id'
+> & {
   medication_id?: string | null;
 };
 
@@ -104,12 +110,17 @@ export interface MedicationApplication {
   updated_at: string;
 }
 
-export type InsertMedicationApplication = Omit<MedicationApplication, 'id' | 'user_id' | 'created_at' | 'updated_at' | 'application_time' | 'notes'> & {
+export type InsertMedicationApplication = Omit<
+  MedicationApplication,
+  'id' | 'user_id' | 'created_at' | 'updated_at' | 'application_time' | 'notes'
+> & {
   application_time?: string | null;
   notes?: string | null;
 };
 
-export type UpdateMedicationApplication = Partial<Omit<MedicationApplication, 'id' | 'user_id' | 'medication_id' | 'created_at' | 'updated_at'>>;
+export type UpdateMedicationApplication = Partial<
+  Omit<MedicationApplication, 'id' | 'user_id' | 'medication_id' | 'created_at' | 'updated_at'>
+>;
 
 // Nutrition types
 export interface DailyNutrition {
@@ -126,7 +137,10 @@ export interface DailyNutrition {
   updated_at: string;
 }
 
-export type InsertDailyNutrition = Omit<DailyNutrition, 'id' | 'user_id' | 'created_at' | 'updated_at'> & {
+export type InsertDailyNutrition = Omit<
+  DailyNutrition,
+  'id' | 'user_id' | 'created_at' | 'updated_at'
+> & {
   calories?: number | null;
   protein?: number | null;
   carbs?: number | null;
@@ -135,7 +149,9 @@ export type InsertDailyNutrition = Omit<DailyNutrition, 'id' | 'user_id' | 'crea
   notes?: string | null;
 };
 
-export type UpdateDailyNutrition = Partial<Omit<DailyNutrition, 'id' | 'user_id' | 'date' | 'created_at' | 'updated_at'>>;
+export type UpdateDailyNutrition = Partial<
+  Omit<DailyNutrition, 'id' | 'user_id' | 'date' | 'created_at' | 'updated_at'>
+>;
 
 // Timeline Event (união de aplicações + pesos)
 export interface TimelineEvent {

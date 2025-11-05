@@ -2,6 +2,9 @@ import { useState, useEffect, useCallback } from 'react';
 import { useUser } from '@clerk/clerk-expo';
 import { supabase } from '@/lib/supabase';
 import { PersonalGoal, CreateGoalInput, Milestone } from '@/lib/types/goals';
+import { createLogger } from '@/lib/logger';
+
+const logger = createLogger('useGoals');
 
 export const useGoals = () => {
   const { user } = useUser();
@@ -40,7 +43,7 @@ export const useGoals = () => {
       const parsedGoals = (data || []).map(parseGoal);
       setGoals(parsedGoals);
     } catch (err) {
-      console.error('Error fetching goals:', err);
+      logger.error('Error fetching goals:', err);
       setError(err as Error);
     } finally {
       setLoading(false);
@@ -72,11 +75,11 @@ export const useGoals = () => {
       if (insertError) throw insertError;
 
       const parsedGoal = parseGoal(data);
-      setGoals(prev => [parsedGoal, ...prev]);
+      setGoals((prev) => [parsedGoal, ...prev]);
 
       return parsedGoal;
     } catch (err) {
-      console.error('Error creating goal:', err);
+      logger.error('Error creating goal:', err);
       setError(err as Error);
       throw err;
     }
@@ -99,18 +102,18 @@ export const useGoals = () => {
       if (updateError) throw updateError;
 
       const parsedGoal = parseGoal(data);
-      setGoals(prev => prev.map(g => g.id === goalId ? parsedGoal : g));
+      setGoals((prev) => prev.map((g) => (g.id === goalId ? parsedGoal : g)));
 
       return parsedGoal;
     } catch (err) {
-      console.error('Error updating goal:', err);
+      logger.error('Error updating goal:', err);
       setError(err as Error);
       throw err;
     }
   };
 
   const updateProgress = async (goalId: string, newValue: number) => {
-    const goal = goals.find(g => g.id === goalId);
+    const goal = goals.find((g) => g.id === goalId);
     if (!goal) throw new Error('Goal not found');
 
     // The database trigger will auto-calculate progress_percentage and update status
@@ -134,9 +137,9 @@ export const useGoals = () => {
 
       if (deleteError) throw deleteError;
 
-      setGoals(prev => prev.filter(g => g.id !== goalId));
+      setGoals((prev) => prev.filter((g) => g.id !== goalId));
     } catch (err) {
-      console.error('Error deleting goal:', err);
+      logger.error('Error deleting goal:', err);
       setError(err as Error);
       throw err;
     }
@@ -163,9 +166,9 @@ export const useGoals = () => {
   };
 
   // Computed values
-  const activeGoals = goals.filter(g => g.status === 'active');
-  const completedGoals = goals.filter(g => g.status === 'completed');
-  const pausedGoals = goals.filter(g => g.status === 'paused');
+  const activeGoals = goals.filter((g) => g.status === 'active');
+  const completedGoals = goals.filter((g) => g.status === 'completed');
+  const pausedGoals = goals.filter((g) => g.status === 'paused');
 
   return {
     // State

@@ -1,18 +1,13 @@
 import React, { useState } from 'react';
-import {
-  View,
-  Text,
-  StyleSheet,
-  TouchableOpacity,
-  Modal,
-  Alert,
-  Platform,
-} from 'react-native';
+import { View, Text, StyleSheet, TouchableOpacity, Modal, Alert, Platform } from 'react-native';
 import * as FileSystem from 'expo-file-system';
 import * as Sharing from 'expo-sharing';
 import { useShotsyColors } from '@/hooks/useShotsyColors';
 import { ShareIcon, FileTextIcon, TableIcon } from '@/components/ui/icons';
 import { useTheme } from '@/lib/theme-context';
+import { createLogger } from '@/lib/logger';
+
+const logger = createLogger('ExportButton');
 
 interface WeightDataPoint {
   date: Date;
@@ -36,11 +31,7 @@ interface ExportButtonProps {
   };
 }
 
-export const ExportButton: React.FC<ExportButtonProps> = ({
-  weights,
-  applications,
-  profile,
-}) => {
+export const ExportButton: React.FC<ExportButtonProps> = ({ weights, applications, profile }) => {
   const colors = useShotsyColors();
   const { currentAccent } = useTheme();
   const [modalVisible, setModalVisible] = useState(false);
@@ -51,9 +42,7 @@ export const ExportButton: React.FC<ExportButtonProps> = ({
     let csv = 'Data,Peso (kg),IMC,Dose (mg),Local da Aplicação\n';
 
     // Sort weights by date
-    const sortedWeights = [...weights].sort(
-      (a, b) => a.date.getTime() - b.date.getTime()
-    );
+    const sortedWeights = [...weights].sort((a, b) => a.date.getTime() - b.date.getTime());
 
     // Create a map of applications by date
     const applicationsByDate = new Map<string, ApplicationDataPoint>();
@@ -83,22 +72,25 @@ export const ExportButton: React.FC<ExportButtonProps> = ({
 
   const generatePDFReport = () => {
     const currentWeight = weights.length > 0 ? weights[0].weight : 0;
-    const startWeight = profile.start_weight || (weights.length > 0 ? weights[weights.length - 1].weight : 0);
+    const startWeight =
+      profile.start_weight || (weights.length > 0 ? weights[weights.length - 1].weight : 0);
     const targetWeight = profile.target_weight || 75;
     const weightChange = currentWeight - startWeight;
-    const progressPercent = startWeight > 0 ? ((startWeight - currentWeight) / (startWeight - targetWeight)) * 100 : 0;
+    const progressPercent =
+      startWeight > 0 ? ((startWeight - currentWeight) / (startWeight - targetWeight)) * 100 : 0;
 
     const currentBMI =
       profile.height && currentWeight > 0
         ? (currentWeight / (profile.height * profile.height)).toFixed(1)
         : 'N/A';
 
-    const weeks = weights.length >= 2
-      ? Math.ceil(
-          Math.abs(weights[0].date.getTime() - weights[weights.length - 1].date.getTime()) /
-            (7 * 24 * 60 * 60 * 1000)
-        )
-      : 0;
+    const weeks =
+      weights.length >= 2
+        ? Math.ceil(
+            Math.abs(weights[0].date.getTime() - weights[weights.length - 1].date.getTime()) /
+              (7 * 24 * 60 * 60 * 1000)
+          )
+        : 0;
 
     const avgWeeklyLoss = weeks > 0 ? Math.abs(weightChange) / weeks : 0;
 
@@ -163,14 +155,10 @@ export const ExportButton: React.FC<ExportButtonProps> = ({
           UTI: 'public.comma-separated-values-text',
         });
       } else {
-        Alert.alert(
-          'Exportação Concluída',
-          `Arquivo salvo em: ${fileUri}`,
-          [{ text: 'OK' }]
-        );
+        Alert.alert('Exportação Concluída', `Arquivo salvo em: ${fileUri}`, [{ text: 'OK' }]);
       }
     } catch (error) {
-      console.error('Error exporting CSV:', error);
+      logger.error('Error exporting CSV:', error as Error);
       Alert.alert('Erro', 'Não foi possível exportar os dados. Tente novamente.');
     } finally {
       setExporting(false);
@@ -195,14 +183,10 @@ export const ExportButton: React.FC<ExportButtonProps> = ({
           dialogTitle: 'Exportar Relatório',
         });
       } else {
-        Alert.alert(
-          'Exportação Concluída',
-          `Relatório salvo em: ${fileUri}`,
-          [{ text: 'OK' }]
-        );
+        Alert.alert('Exportação Concluída', `Relatório salvo em: ${fileUri}`, [{ text: 'OK' }]);
       }
     } catch (error) {
-      console.error('Error exporting report:', error);
+      logger.error('Error exporting report:', error as Error);
       Alert.alert('Erro', 'Não foi possível gerar o relatório. Tente novamente.');
     } finally {
       setExporting(false);
@@ -222,7 +206,9 @@ export const ExportButton: React.FC<ExportButtonProps> = ({
         disabled={exporting}
       >
         <ShareIcon size="sm" color={colors.isDark ? colors.text : '#FFFFFF'} />
-        <Text style={[styles.exportButtonText, { color: colors.isDark ? colors.text : '#FFFFFF' }]}>Exportar</Text>
+        <Text style={[styles.exportButtonText, { color: colors.isDark ? colors.text : '#FFFFFF' }]}>
+          Exportar
+        </Text>
       </TouchableOpacity>
 
       <Modal
@@ -237,9 +223,7 @@ export const ExportButton: React.FC<ExportButtonProps> = ({
           onPress={() => setModalVisible(false)}
         >
           <View style={[styles.modalContent, { backgroundColor: colors.card }]}>
-            <Text style={[styles.modalTitle, { color: colors.text }]}>
-              Exportar Dados
-            </Text>
+            <Text style={[styles.modalTitle, { color: colors.text }]}>Exportar Dados</Text>
             <Text style={[styles.modalSubtitle, { color: colors.textSecondary }]}>
               Escolha o formato de exportação
             </Text>
@@ -251,9 +235,7 @@ export const ExportButton: React.FC<ExportButtonProps> = ({
             >
               <TableIcon size="lg" color={colors.primary} />
               <View style={styles.optionTextContainer}>
-                <Text style={[styles.optionTitle, { color: colors.text }]}>
-                  Exportar CSV
-                </Text>
+                <Text style={[styles.optionTitle, { color: colors.text }]}>Exportar CSV</Text>
                 <Text style={[styles.optionDescription, { color: colors.textSecondary }]}>
                   Dados tabulados para análise em planilhas
                 </Text>
@@ -267,9 +249,7 @@ export const ExportButton: React.FC<ExportButtonProps> = ({
             >
               <FileTextIcon size="lg" color={colors.primary} />
               <View style={styles.optionTextContainer}>
-                <Text style={[styles.optionTitle, { color: colors.text }]}>
-                  Exportar Relatório
-                </Text>
+                <Text style={[styles.optionTitle, { color: colors.text }]}>Exportar Relatório</Text>
                 <Text style={[styles.optionDescription, { color: colors.textSecondary }]}>
                   Relatório completo do seu progresso
                 </Text>
@@ -281,9 +261,7 @@ export const ExportButton: React.FC<ExportButtonProps> = ({
               onPress={() => setModalVisible(false)}
               disabled={exporting}
             >
-              <Text style={[styles.cancelButtonText, { color: colors.text }]}>
-                Cancelar
-              </Text>
+              <Text style={[styles.cancelButtonText, { color: colors.text }]}>Cancelar</Text>
             </TouchableOpacity>
           </View>
         </TouchableOpacity>

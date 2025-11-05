@@ -26,9 +26,7 @@ export function SideEffectsConcernsScreen({ onNext, onBack }: SideEffectsConcern
   const [selected, setSelected] = useState<string[]>([]);
 
   const toggleSelection = (id: string) => {
-    setSelected((prev) =>
-      prev.includes(id) ? prev.filter((item) => item !== id) : [...prev, id]
-    );
+    setSelected((prev) => (prev.includes(id) ? prev.filter((item) => item !== id) : [...prev, id]));
   };
 
   const handleNext = () => {
@@ -60,9 +58,7 @@ export function SideEffectsConcernsScreen({ onNext, onBack }: SideEffectsConcern
             >
               <View style={styles.optionContent}>
                 <Text style={styles.emoji}>{effect.emoji}</Text>
-                <Text style={[styles.optionLabel, { color: colors.text }]}>
-                  {effect.label}
-                </Text>
+                <Text style={[styles.optionLabel, { color: colors.text }]}>{effect.label}</Text>
               </View>
               {selected.includes(effect.id) ? (
                 <Ionicons name="checkbox" size={24} color={currentAccent} />
@@ -93,10 +89,10 @@ const styles = StyleSheet.create({
     gap: 12,
   },
   option: {
-    borderRadius: 16,  // Mudança: 12 → 16px (match Shotsy)
-    paddingVertical: 20,  // Mudança: separar padding vertical
-    paddingHorizontal: 16,  // Mudança: padding horizontal explícito
-    minHeight: 72,  // Mudança: 60 → 72px (match Shotsy)
+    borderRadius: 16, // Mudança: 12 → 16px (match Shotsy)
+    paddingVertical: 20, // Mudança: separar padding vertical
+    paddingHorizontal: 16, // Mudança: padding horizontal explícito
+    minHeight: 72, // Mudança: 60 → 72px (match Shotsy)
     flexDirection: 'row',
     alignItems: 'center',
     justifyContent: 'space-between',
@@ -111,7 +107,7 @@ const styles = StyleSheet.create({
     fontSize: 28,
   },
   optionLabel: {
-    fontSize: 18,  // Mudança: 17 → 18px (match Shotsy)
+    fontSize: 18, // Mudança: 17 → 18px (match Shotsy)
     fontWeight: '500',
   },
   selectedCount: {

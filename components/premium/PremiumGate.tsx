@@ -41,9 +41,7 @@ export function PremiumGate({ children, featureName, fallback }: PremiumGateProp
     // Fallback padrão: botão para abrir paywall
     return (
       <View style={styles.gateContainer}>
-        <Text style={[styles.gateTitle, { color: colors.text }]}>
-          Recurso Premium
-        </Text>
+        <Text style={[styles.gateTitle, { color: colors.text }]}>Recurso Premium</Text>
         <Text style={[styles.gateDescription, { color: colors.textSecondary }]}>
           Este recurso está disponível apenas para assinantes Mounjaro+
         </Text>
@@ -98,4 +96,3 @@ const styles = StyleSheet.create({
     fontWeight: '600',
   },
 });
-

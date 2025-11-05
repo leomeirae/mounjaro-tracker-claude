@@ -1,3 +1,6 @@
+import { createLogger } from '@/lib/logger';
+const logger = createLogger('useAchievements');
+
 import { useState, useEffect } from 'react';
 import { supabase } from '@/lib/supabase';
 import { useUser } from './useUser';
@@ -113,7 +116,7 @@ export function useAchievements() {
       if (fetchError) throw fetchError;
       setAchievements(data || []);
     } catch (err: any) {
-      console.error('Error fetching achievements:', err);
+      logger.error('Error fetching achievements:', err);
       setError(err.message);
     } finally {
       setLoading(false);
@@ -124,21 +127,21 @@ export function useAchievements() {
     if (!user) return;
 
     // Verificar se já tem essa conquista
-    const exists = achievements.some(a => a.type === achievementType);
+    const exists = achievements.some((a) => a.type === achievementType);
     if (exists) {
-      console.log('Achievement already unlocked:', achievementType);
+      logger.debug('Achievement already unlocked', { achievementType });
       return;
     }
 
     // Buscar definição da conquista
-    const definition = ACHIEVEMENT_DEFINITIONS.find(a => a.type === achievementType);
+    const definition = ACHIEVEMENT_DEFINITIONS.find((a) => a.type === achievementType);
     if (!definition) {
-      console.error('Achievement definition not found:', achievementType);
+      logger.error('Achievement definition not found:', achievementType);
       return;
     }
 
     try {
-      console.log('Unlocking achievement:', achievementType);
+      logger.info('Unlocking achievement', { achievementType });
 
       const newAchievement: InsertAchievement = {
         type: definition.type,
@@ -156,19 +159,19 @@ export function useAchievements() {
       if (error) {
         // Se erro for de constraint unique, é porque já existe
         if (error.code === '23505') {
-          console.log('Achievement already exists (race condition)');
+          logger.debug('Achievement already exists (race condition)');
           return;
         }
         throw error;
       }
 
-      console.log('Achievement unlocked!', data);
+      logger.info('Achievement unlocked', { data });
       await fetchAchievements();
-      
+
       // Aqui poderia adicionar uma notificação visual
       return data;
     } catch (err: any) {
-      console.error('Error unlocking achievement:', err);
+      logger.error('Error unlocking achievement:', err);
     }
   }
 
@@ -180,7 +183,13 @@ export function useAchievements() {
     weightLost?: number;
     goalReached?: boolean;
   }) {
-    const { weightLogs = 0, medications = 0, applications = 0, weightLost = 0, goalReached = false } = params;
+    const {
+      weightLogs = 0,
+      medications = 0,
+      applications = 0,
+      weightLost = 0,
+      goalReached = false,
+    } = params;
 
     // Aplicações
     if (applications >= 1) await unlockAchievement('first_application');
@@ -214,5 +223,3 @@ export function useAchievements() {
     refetch: fetchAchievements,
   };
 }
-
-

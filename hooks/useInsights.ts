@@ -31,17 +31,20 @@ export function useInsights() {
     const weightLost = initialWeight - currentWeight;
 
     // INSIGHT 1: Próxima aplicação
-    const activeMed = medications.find(m => m.active);
+    const activeMed = medications.find((m) => m.active);
     if (activeMed && applications.length > 0) {
       const lastApp = applications
-        .filter(a => a.medication_id === activeMed.id)
-        .sort((a, b) => new Date(b.application_date).getTime() - new Date(a.application_date).getTime())[0];
+        .filter((a) => a.medication_id === activeMed.id)
+        .sort(
+          (a, b) => new Date(b.application_date).getTime() - new Date(a.application_date).getTime()
+        )[0];
 
       if (lastApp) {
         const daysSinceLastApp = Math.floor(
           (Date.now() - new Date(lastApp.application_date).getTime()) / (1000 * 60 * 60 * 24)
         );
-        const daysUntilNext = activeMed.frequency === 'weekly' ? 7 - daysSinceLastApp : 1 - daysSinceLastApp;
+        const daysUntilNext =
+          activeMed.frequency === 'weekly' ? 7 - daysSinceLastApp : 1 - daysSinceLastApp;
 
         if (daysUntilNext === 0) {
           insights.push({
@@ -104,7 +107,7 @@ export function useInsights() {
       const daysSinceStart = Math.floor(
         (Date.now() - new Date(firstLog.date).getTime()) / (1000 * 60 * 60 * 24)
       );
-      
+
       if (daysSinceStart >= 7 && weightLost > 0) {
         const dailyAvgLoss = weightLost / daysSinceStart;
         const remainingWeight = currentWeight - goalWeight;
@@ -213,17 +216,20 @@ export function useInsights() {
 
     // Próxima aplicação
     let daysUntilNextApplication = null;
-    const activeMed = medications.find(m => m.active);
+    const activeMed = medications.find((m) => m.active);
     if (activeMed && applications.length > 0) {
       const lastApp = applications
-        .filter(a => a.medication_id === activeMed.id)
-        .sort((a, b) => new Date(b.application_date).getTime() - new Date(a.application_date).getTime())[0];
+        .filter((a) => a.medication_id === activeMed.id)
+        .sort(
+          (a, b) => new Date(b.application_date).getTime() - new Date(a.application_date).getTime()
+        )[0];
 
       if (lastApp) {
         const daysSinceLastApp = Math.floor(
           (Date.now() - new Date(lastApp.application_date).getTime()) / (1000 * 60 * 60 * 24)
         );
-        daysUntilNextApplication = activeMed.frequency === 'weekly' ? 7 - daysSinceLastApp : 1 - daysSinceLastApp;
+        daysUntilNextApplication =
+          activeMed.frequency === 'weekly' ? 7 - daysSinceLastApp : 1 - daysSinceLastApp;
       }
     }
 
@@ -246,10 +252,3 @@ export function useInsights() {
     stats,
   };
 }
-
-
-
-
-
-
-

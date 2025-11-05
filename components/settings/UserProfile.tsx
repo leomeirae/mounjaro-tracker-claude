@@ -31,22 +31,19 @@ export const UserProfile: React.FC = () => {
     >
       <View style={styles.content}>
         {user?.imageUrl ? (
-          <Image
-            source={{ uri: user.imageUrl }}
-            style={styles.avatar}
-          />
+          <Image source={{ uri: user.imageUrl }} style={styles.avatar} />
         ) : (
           <View style={[styles.avatarPlaceholder, { backgroundColor: colors.primary }]}>
-            <Text style={[styles.initials, { color: colors.isDark ? colors.text : '#FFFFFF' }]}>{getInitials(userName)}</Text>
+            <Text style={[styles.initials, { color: colors.isDark ? colors.text : '#FFFFFF' }]}>
+              {getInitials(userName)}
+            </Text>
           </View>
         )}
 
         <View style={styles.info}>
           <Text style={[styles.name, { color: colors.text }]}>{userName}</Text>
           {userEmail && (
-            <Text style={[styles.email, { color: colors.textSecondary }]}>
-              {userEmail}
-            </Text>
+            <Text style={[styles.email, { color: colors.textSecondary }]}>{userEmail}</Text>
           )}
         </View>
 

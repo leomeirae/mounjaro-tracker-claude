@@ -3,6 +3,7 @@
 ## 🔍 Problema Identificado
 
 ### Erro Original
+
 ```
 ERROR [TypeError: Cannot read property 'extension' of undefined]
 
@@ -12,6 +13,7 @@ Code: AudioRecorder.tsx
 ```
 
 ### Causa
+
 O hook `useAudioRecorder()` do `expo-audio` **requer** um objeto de configuração com as opções de gravação para cada plataforma. Quando chamado sem parâmetros, ele tenta acessar a propriedade `extension` que é `undefined`, causando o erro.
 
 ---
@@ -19,24 +21,26 @@ O hook `useAudioRecorder()` do `expo-audio` **requer** um objeto de configuraç�
 ## 🛠️ Correção Aplicada
 
 ### Antes
+
 ```typescript
-const audioRecorder = useAudioRecorder();  // ❌ Sem configuração
+const audioRecorder = useAudioRecorder(); // ❌ Sem configuração
 ```
 
 ### Depois
+
 ```typescript
 const audioRecorder = useAudioRecorder({
   android: {
     extension: '.m4a',
-    outputFormat: 2,        // MPEG_4
-    audioEncoder: 3,        // AAC
+    outputFormat: 2, // MPEG_4
+    audioEncoder: 3, // AAC
     sampleRate: 44100,
     numberOfChannels: 2,
     bitRate: 128000,
   },
   ios: {
     extension: '.m4a',
-    audioQuality: 0x7F,     // High quality
+    audioQuality: 0x7f, // High quality
     sampleRate: 44100,
     numberOfChannels: 2,
     bitRate: 128000,
@@ -56,6 +60,7 @@ const audioRecorder = useAudioRecorder({
 ## 📝 Detalhes da Configuração
 
 ### Android
+
 - **Formato:** M4A (MPEG-4)
 - **Codec:** AAC (Advanced Audio Coding)
 - **Sample Rate:** 44.1 kHz (qualidade CD)
@@ -63,6 +68,7 @@ const audioRecorder = useAudioRecorder({
 - **Bitrate:** 128 kbps
 
 ### iOS
+
 - **Formato:** M4A
 - **Qualidade:** Alta (0x7F)
 - **Sample Rate:** 44.1 kHz
@@ -71,6 +77,7 @@ const audioRecorder = useAudioRecorder({
 - **PCM:** 16-bit linear
 
 ### Web
+
 - **Formato:** WebM
 - **Bitrate:** 128 kbps
 
@@ -79,12 +86,14 @@ const audioRecorder = useAudioRecorder({
 ## ✅ Resultado
 
 **Antes:**
+
 ```
 ❌ Erro: Cannot read property 'extension' of undefined
 ❌ AudioRecorder não inicializa
 ```
 
 **Depois:**
+
 ```
 ✅ useAudioRecorder inicializa corretamente
 ✅ Configurações otimizadas para cada plataforma
@@ -118,6 +127,7 @@ const audioRecorder = useAudioRecorder({
 ## 📚 Referência
 
 **Documentação oficial do expo-audio:**
+
 - `useAudioRecorder()` sempre requer configuração
 - A propriedade `extension` é obrigatória para Android e iOS
 - Formatos recomendados: M4A (mobile), WebM (web)
@@ -127,4 +137,3 @@ const audioRecorder = useAudioRecorder({
 **Data:** 03/11/2025  
 **Status:** ✅ Corrigido  
 **Arquivo Modificado:** `components/nutrition/AudioRecorder.tsx`
-

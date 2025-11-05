@@ -1,6 +1,9 @@
 import { useState, useEffect } from 'react';
 import { supabase } from '@/lib/supabase';
 import { useUser } from './useUser';
+import { createLogger } from '@/lib/logger';
+
+const logger = createLogger('useWeights');
 
 export interface Weight {
   id: string;
@@ -39,7 +42,7 @@ export const useWeights = () => {
       if (fetchError) throw fetchError;
 
       // Parse dates
-      const parsedData = (data || []).map(weight => ({
+      const parsedData = (data || []).map((weight) => ({
         ...weight,
         date: new Date(weight.date),
         created_at: new Date(weight.created_at),
@@ -47,7 +50,7 @@ export const useWeights = () => {
 
       setWeights(parsedData);
     } catch (err) {
-      console.error('Error fetching weights:', err);
+      logger.error('Error fetching weights:', err);
       setError(err as Error);
     } finally {
       setLoading(false);
@@ -62,17 +65,17 @@ export const useWeights = () => {
         throw new Error('User not found. Please wait for sync to complete.');
       }
 
-      const { error: insertError } = await supabase
-        .from('weights')
-        .insert([{
+      const { error: insertError } = await supabase.from('weights').insert([
+        {
           user_id: user.id,
           ...weightData,
-        }]);
+        },
+      ]);
 
       if (insertError) throw insertError;
       await fetchWeights();
     } catch (err) {
-      console.error('Error creating weight:', err);
+      logger.error('Error creating weight:', err);
       setError(err as Error);
       throw err;
     }
@@ -82,15 +85,12 @@ export const useWeights = () => {
     try {
       setError(null);
 
-      const { error: updateError } = await supabase
-        .from('weights')
-        .update(updates)
-        .eq('id', id);
+      const { error: updateError } = await supabase.from('weights').update(updates).eq('id', id);
 
       if (updateError) throw updateError;
       await fetchWeights();
     } catch (err) {
-      console.error('Error updating weight:', err);
+      logger.error('Error updating weight:', err);
       setError(err as Error);
       throw err;
     }
@@ -100,15 +100,12 @@ export const useWeights = () => {
     try {
       setError(null);
 
-      const { error: deleteError } = await supabase
-        .from('weights')
-        .delete()
-        .eq('id', id);
+      const { error: deleteError } = await supabase.from('weights').delete().eq('id', id);
 
       if (deleteError) throw deleteError;
       await fetchWeights();
     } catch (err) {
-      console.error('Error deleting weight:', err);
+      logger.error('Error deleting weight:', err);
       setError(err as Error);
       throw err;
     }

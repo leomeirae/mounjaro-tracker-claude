@@ -14,13 +14,20 @@ import { useProfile } from '@/hooks/useProfile';
 import { useNutrition } from '@/hooks/useNutrition';
 import { NextShotWidgetSkeleton, ShotHistoryCardsSkeleton } from '@/components/ui/shotsy-skeleton';
 import { calculateNextShotDate } from '@/lib/pharmacokinetics';
+import { createLogger } from '@/lib/logger';
+
+const logger = createLogger('Dashboard');
 
 export default function DashboardScreen() {
   const colors = useShotsyColors();
   const [refreshing, setRefreshing] = React.useState(false);
 
   // Fetch real data from Supabase
-  const { applications, loading: applicationsLoading, refetch: refetchApplications } = useApplications();
+  const {
+    applications,
+    loading: applicationsLoading,
+    refetch: refetchApplications,
+  } = useApplications();
   const { weights, loading: weightsLoading } = useWeights();
   const { profile, loading: profileLoading } = useProfile();
   const { getTodayNutrition, loading: nutritionLoading } = useNutrition();
@@ -51,7 +58,7 @@ export default function DashboardScreen() {
     }
 
     // Convert applications to pharmacokinetics format
-    const medicationApps = applications.map(app => ({
+    const medicationApps = applications.map((app) => ({
       dose: app.dosage,
       date: app.date,
     }));
@@ -129,14 +136,14 @@ export default function DashboardScreen() {
     today.setHours(0, 0, 0, 0);
 
     // Get today's weight
-    const todayWeight = weights.find(w => {
+    const todayWeight = weights.find((w) => {
       const weightDate = new Date(w.date);
       weightDate.setHours(0, 0, 0, 0);
       return weightDate.getTime() === today.getTime();
     });
 
     // Get today's side effects from applications
-    const todayApplication = applications.find(app => {
+    const todayApplication = applications.find((app) => {
       const appDate = new Date(app.date);
       appDate.setHours(0, 0, 0, 0);
       return appDate.getTime() === today.getTime();
@@ -161,7 +168,7 @@ export default function DashboardScreen() {
     try {
       await refetchApplications();
     } catch (error) {
-      console.error('Error refreshing data:', error);
+      logger.error('Error refreshing data:', error as Error);
     } finally {
       setRefreshing(false);
     }
@@ -277,8 +284,8 @@ const styles = StyleSheet.create({
     flex: 1,
   },
   scrollContent: {
-    padding: 20,  // Mudança: 16 → 20px (Shotsy horizontal padding)
-    paddingTop: 64,  // Mudança: 60 → 64px (Shotsy status bar + title space)
+    padding: 20, // Mudança: 16 → 20px (Shotsy horizontal padding)
+    paddingTop: 64, // Mudança: 60 → 64px (Shotsy status bar + title space)
   },
   buttonContainer: {
     marginVertical: 16,
@@ -290,7 +297,7 @@ const styles = StyleSheet.create({
     height: 24,
   },
   chartPlaceholder: {
-    height: 220,  // Mudança: 200 → 220px (Shotsy chart height)
+    height: 220, // Mudança: 200 → 220px (Shotsy chart height)
     marginBottom: 16,
   },
   emptyStateContainer: {
@@ -301,11 +308,11 @@ const styles = StyleSheet.create({
     paddingHorizontal: 32,
   },
   emptyStateEmoji: {
-    fontSize: 72,  // Mudança: 80 → 72px (Shotsy emoji size)
+    fontSize: 72, // Mudança: 80 → 72px (Shotsy emoji size)
     marginBottom: 24,
   },
   emptyStateTitle: {
-    fontSize: 22,  // Mudança: 24 → 22px (Shotsy title size)
+    fontSize: 22, // Mudança: 24 → 22px (Shotsy title size)
     fontWeight: '700',
     textAlign: 'center',
     marginBottom: 12,

@@ -40,14 +40,12 @@ export function BodyDiagram({ selectedSites, onSiteToggle, history = [] }: BodyD
     const recentSites = history.slice(-3);
 
     // Find sites that haven't been used recently
-    const availableSites = INJECTION_SITES.filter(
-      site => !recentSites.includes(site.id)
-    );
+    const availableSites = INJECTION_SITES.filter((site) => !recentSites.includes(site.id));
 
     if (availableSites.length === 0) {
       // All sites used recently, suggest least recently used
       const leastRecentSite = INJECTION_SITES.find(
-        site => !recentSites.slice(-1).includes(site.id)
+        (site) => !recentSites.slice(-1).includes(site.id)
       );
       return leastRecentSite?.id || null;
     }
@@ -56,22 +54,22 @@ export function BodyDiagram({ selectedSites, onSiteToggle, history = [] }: BodyD
     const lastSite = history[history.length - 1];
 
     if (lastSite.startsWith('stomach_')) {
-      const thighSites = availableSites.filter(s => s.id.startsWith('thigh_'));
+      const thighSites = availableSites.filter((s) => s.id.startsWith('thigh_'));
       return thighSites[0]?.id || availableSites[0]?.id || null;
     }
 
     if (lastSite.startsWith('thigh_')) {
-      const armSites = availableSites.filter(s => s.id.startsWith('arm_'));
+      const armSites = availableSites.filter((s) => s.id.startsWith('arm_'));
       return armSites[0]?.id || availableSites[0]?.id || null;
     }
 
     if (lastSite.startsWith('arm_')) {
-      const buttockSites = availableSites.filter(s => s.id.startsWith('buttock_'));
+      const buttockSites = availableSites.filter((s) => s.id.startsWith('buttock_'));
       return buttockSites[0]?.id || availableSites[0]?.id || null;
     }
 
     if (lastSite.startsWith('buttock_')) {
-      const stomachSites = availableSites.filter(s => s.id.startsWith('stomach_'));
+      const stomachSites = availableSites.filter((s) => s.id.startsWith('stomach_'));
       return stomachSites[0]?.id || availableSites[0]?.id || null;
     }
 
@@ -165,12 +163,7 @@ export function BodyDiagram({ selectedSites, onSiteToggle, history = [] }: BodyD
 
                 {/* Inner dot for selected sites */}
                 {isSelected(site.id) && (
-                  <Circle
-                    cx={site.x}
-                    cy={site.y}
-                    r="8"
-                    fill={colors.primary}
-                  />
+                  <Circle cx={site.x} cy={site.y} r="8" fill={colors.primary} />
                 )}
               </G>
             );

@@ -1,4 +1,12 @@
-export type ShotsyTheme = 'classic' | 'ocean' | 'drizzle' | 'galaxy' | 'petal' | 'sunset' | 'monster' | 'phantom';
+export type ShotsyTheme =
+  | 'classic'
+  | 'ocean'
+  | 'drizzle'
+  | 'galaxy'
+  | 'petal'
+  | 'sunset'
+  | 'monster'
+  | 'phantom';
 export type AccentColor = 'yellow' | 'orange' | 'pink' | 'purple' | 'blue';
 
 interface ThemeColors {

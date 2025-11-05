@@ -12,7 +12,7 @@ import {
   calculateSingleDoseLevel,
   calculatePercentageRemaining,
   getTimeUntilNextShot,
-  MedicationApplication
+  MedicationApplication,
 } from '../pharmacokinetics';
 
 describe('Pharmacokinetics Library', () => {
@@ -75,7 +75,7 @@ describe('Pharmacokinetics Library', () => {
 
     it('should calculate level from a single recent application', () => {
       const applications: MedicationApplication[] = [
-        { dose: 5, date: createDate(-1) } // 1 day ago
+        { dose: 5, date: createDate(-1) }, // 1 day ago
       ];
 
       const level = getCurrentEstimatedLevel(applications);
@@ -89,7 +89,7 @@ describe('Pharmacokinetics Library', () => {
       const now = new Date();
       const applications: MedicationApplication[] = [
         { dose: 5, date: createDate(-14) }, // 14 days ago
-        { dose: 5, date: createDate(-7) }   // 7 days ago
+        { dose: 5, date: createDate(-7) }, // 7 days ago
       ];
 
       const level = getCurrentEstimatedLevel(applications, now);
@@ -102,8 +102,8 @@ describe('Pharmacokinetics Library', () => {
     it('should ignore future applications', () => {
       const now = new Date();
       const applications: MedicationApplication[] = [
-        { dose: 5, date: createDate(-7) },  // 7 days ago
-        { dose: 5, date: createDate(1) }    // 1 day in future
+        { dose: 5, date: createDate(-7) }, // 7 days ago
+        { dose: 5, date: createDate(1) }, // 1 day in future
       ];
 
       const level = getCurrentEstimatedLevel(applications, now);
@@ -114,9 +114,7 @@ describe('Pharmacokinetics Library', () => {
     });
 
     it('should handle custom date parameter', () => {
-      const applications: MedicationApplication[] = [
-        { dose: 10, date: new Date('2024-01-01') }
-      ];
+      const applications: MedicationApplication[] = [{ dose: 10, date: new Date('2024-01-01') }];
 
       // Check level 5 days later (should be ~50%)
       const checkDate = new Date('2024-01-06');
@@ -133,9 +131,7 @@ describe('Pharmacokinetics Library', () => {
     });
 
     it('should calculate levels over time for single application', () => {
-      const applications: MedicationApplication[] = [
-        { dose: 10, date: new Date('2024-01-01') }
-      ];
+      const applications: MedicationApplication[] = [{ dose: 10, date: new Date('2024-01-01') }];
 
       const levels = calculateEstimatedLevels(
         applications,
@@ -162,7 +158,7 @@ describe('Pharmacokinetics Library', () => {
     it('should calculate levels for multiple applications', () => {
       const applications: MedicationApplication[] = [
         { dose: 5, date: new Date('2024-01-01') },
-        { dose: 5, date: new Date('2024-01-08') }
+        { dose: 5, date: new Date('2024-01-08') },
       ];
 
       const levels = calculateEstimatedLevels(
@@ -183,9 +179,7 @@ describe('Pharmacokinetics Library', () => {
     });
 
     it('should respect custom interval hours', () => {
-      const applications: MedicationApplication[] = [
-        { dose: 10, date: new Date('2024-01-01') }
-      ];
+      const applications: MedicationApplication[] = [{ dose: 10, date: new Date('2024-01-01') }];
 
       const levels12h = calculateEstimatedLevels(
         applications,
@@ -206,9 +200,7 @@ describe('Pharmacokinetics Library', () => {
     });
 
     it('should never return negative levels', () => {
-      const applications: MedicationApplication[] = [
-        { dose: 5, date: new Date('2024-01-01') }
-      ];
+      const applications: MedicationApplication[] = [{ dose: 5, date: new Date('2024-01-01') }];
 
       const levels = calculateEstimatedLevels(
         applications,
@@ -217,7 +209,7 @@ describe('Pharmacokinetics Library', () => {
         24
       );
 
-      levels.forEach(level => {
+      levels.forEach((level) => {
         expect(level.level).toBeGreaterThanOrEqual(0);
       });
     });
@@ -231,9 +223,7 @@ describe('Pharmacokinetics Library', () => {
 
     it('should calculate next shot 7 days after last application by default', () => {
       const lastShotDate = createDate(-3); // 3 days ago
-      const applications: MedicationApplication[] = [
-        { dose: 5, date: lastShotDate }
-      ];
+      const applications: MedicationApplication[] = [{ dose: 5, date: lastShotDate }];
 
       const nextDate = calculateNextShotDate(applications);
 
@@ -247,9 +237,7 @@ describe('Pharmacokinetics Library', () => {
 
     it('should respect custom interval days', () => {
       const lastShotDate = createDate(-2);
-      const applications: MedicationApplication[] = [
-        { dose: 5, date: lastShotDate }
-      ];
+      const applications: MedicationApplication[] = [{ dose: 5, date: lastShotDate }];
 
       const nextDate = calculateNextShotDate(applications, 10); // 10-day interval
 
@@ -265,7 +253,7 @@ describe('Pharmacokinetics Library', () => {
       const applications: MedicationApplication[] = [
         { dose: 5, date: createDate(-14) },
         { dose: 5, date: createDate(-7) },
-        { dose: 7.5, date: createDate(-3) } // Most recent
+        { dose: 7.5, date: createDate(-3) }, // Most recent
       ];
 
       const nextDate = calculateNextShotDate(applications);
@@ -281,9 +269,7 @@ describe('Pharmacokinetics Library', () => {
 
     it('should consider minimum level threshold', () => {
       const lastShotDate = createDate(-1);
-      const applications: MedicationApplication[] = [
-        { dose: 10, date: lastShotDate }
-      ];
+      const applications: MedicationApplication[] = [{ dose: 10, date: lastShotDate }];
 
       // With a high minimum threshold, should recommend sooner
       const nextDateHighThreshold = calculateNextShotDate(applications, 7, 0.8);
@@ -303,9 +289,7 @@ describe('Pharmacokinetics Library', () => {
     });
 
     it('should return ~100% immediately after injection', () => {
-      const applications: MedicationApplication[] = [
-        { dose: 5, date: new Date() }
-      ];
+      const applications: MedicationApplication[] = [{ dose: 5, date: new Date() }];
 
       const percentage = calculatePercentageRemaining(applications);
       expect(percentage).toBeGreaterThan(95);
@@ -313,18 +297,14 @@ describe('Pharmacokinetics Library', () => {
     });
 
     it('should return ~50% after 5 days', () => {
-      const applications: MedicationApplication[] = [
-        { dose: 10, date: createDate(-5) }
-      ];
+      const applications: MedicationApplication[] = [{ dose: 10, date: createDate(-5) }];
 
       const percentage = calculatePercentageRemaining(applications);
       expect(percentage).toBeCloseTo(50, 0);
     });
 
     it('should never exceed 100%', () => {
-      const applications: MedicationApplication[] = [
-        { dose: 5, date: new Date() }
-      ];
+      const applications: MedicationApplication[] = [{ dose: 5, date: new Date() }];
 
       const percentage = calculatePercentageRemaining(applications);
       expect(percentage).toBeLessThanOrEqual(100);
@@ -332,7 +312,7 @@ describe('Pharmacokinetics Library', () => {
 
     it('should never go below 0%', () => {
       const applications: MedicationApplication[] = [
-        { dose: 5, date: createDate(-30) } // 30 days ago
+        { dose: 5, date: createDate(-30) }, // 30 days ago
       ];
 
       const percentage = calculatePercentageRemaining(applications);
@@ -348,7 +328,7 @@ describe('Pharmacokinetics Library', () => {
 
     it('should calculate time until next shot', () => {
       const applications: MedicationApplication[] = [
-        { dose: 5, date: createDate(-3) } // 3 days ago
+        { dose: 5, date: createDate(-3) }, // 3 days ago
       ];
 
       const timeUntil = getTimeUntilNextShot(applications);
@@ -365,7 +345,7 @@ describe('Pharmacokinetics Library', () => {
 
     it('should handle negative time (overdue shot)', () => {
       const applications: MedicationApplication[] = [
-        { dose: 5, date: createDate(-10) } // 10 days ago
+        { dose: 5, date: createDate(-10) }, // 10 days ago
       ];
 
       const timeUntil = getTimeUntilNextShot(applications, 7);
@@ -384,8 +364,8 @@ describe('Pharmacokinetics Library', () => {
       const applications: MedicationApplication[] = [
         { dose: 2.5, date: createDate(-21) }, // Week 1
         { dose: 2.5, date: createDate(-14) }, // Week 2
-        { dose: 5, date: createDate(-7) },    // Week 3
-        { dose: 5, date: createDate(0) }      // Week 4 (today)
+        { dose: 5, date: createDate(-7) }, // Week 3
+        { dose: 5, date: createDate(0) }, // Week 4 (today)
       ];
 
       // Current level should be positive
@@ -413,7 +393,7 @@ describe('Pharmacokinetics Library', () => {
       const applications: MedicationApplication[] = [
         { dose: 2.5, date: createDate(-14) },
         { dose: 5, date: createDate(-7) },
-        { dose: 7.5, date: createDate(0) } // Escalated to 7.5mg today
+        { dose: 7.5, date: createDate(0) }, // Escalated to 7.5mg today
       ];
 
       const currentLevel = getCurrentEstimatedLevel(applications);

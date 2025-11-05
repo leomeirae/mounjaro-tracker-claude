@@ -16,21 +16,13 @@ interface SkeletonProps {
   style?: StyleProp<ViewStyle>;
 }
 
-export function Skeleton({
-  width = '100%',
-  height = 20,
-  borderRadius = 8,
-  style,
-}: SkeletonProps) {
+export function Skeleton({ width = '100%', height = 20, borderRadius = 8, style }: SkeletonProps) {
   const colors = useShotsyColors();
   const opacity = useSharedValue(0.3);
 
   useEffect(() => {
     opacity.value = withRepeat(
-      withSequence(
-        withTiming(0.7, { duration: 800 }),
-        withTiming(0.3, { duration: 800 })
-      ),
+      withSequence(withTiming(0.7, { duration: 800 }), withTiming(0.3, { duration: 800 })),
       -1,
       false
     );
@@ -92,7 +84,12 @@ export function NextShotWidgetSkeleton() {
 
   return (
     <View style={[styles.widgetContainer, { backgroundColor: colors.card }]}>
-      <Skeleton width={150} height={150} borderRadius={75} style={{ alignSelf: 'center', marginBottom: 16 }} />
+      <Skeleton
+        width={150}
+        height={150}
+        borderRadius={75}
+        style={{ alignSelf: 'center', marginBottom: 16 }}
+      />
       <Skeleton width="60%" height={20} style={{ alignSelf: 'center', marginBottom: 8 }} />
       <Skeleton width="80%" height={16} style={{ alignSelf: 'center', marginBottom: 16 }} />
       <Skeleton width="70%" height={40} borderRadius={20} style={{ alignSelf: 'center' }} />

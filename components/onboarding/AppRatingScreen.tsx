@@ -4,6 +4,9 @@ import { OnboardingScreenBase } from './OnboardingScreenBase';
 import { useShotsyColors } from '@/hooks/useShotsyColors';
 import { ShotsyCard } from '@/components/ui/shotsy-card';
 import { ShotsyButton } from '@/components/ui/shotsy-button';
+import { createLogger } from '@/lib/logger';
+
+const logger = createLogger('AppRatingScreen');
 
 interface AppRatingScreenProps {
   onNext: () => void;
@@ -23,7 +26,7 @@ export function AppRatingScreen({ onNext, onBack }: AppRatingScreenProps) {
       try {
         await Linking.openURL(appStoreUrl);
       } catch (error) {
-        console.error('Erro ao abrir App Store:', error);
+        logger.error('Erro ao abrir App Store:', error as Error);
       }
     }
 
@@ -47,8 +50,8 @@ export function AppRatingScreen({ onNext, onBack }: AppRatingScreenProps) {
             Sua opinião é muito importante!
           </Text>
           <Text style={[styles.messageText, { color: colors.textSecondary }]}>
-            Se você está gostando do Shotsy, considere deixar uma avaliação na App Store.
-            Isso nos ajuda tremendamente a continuar desenvolvendo e melhorando o app.
+            Se você está gostando do Shotsy, considere deixar uma avaliação na App Store. Isso nos
+            ajuda tremendamente a continuar desenvolvendo e melhorando o app.
           </Text>
         </ShotsyCard>
 
@@ -60,16 +63,10 @@ export function AppRatingScreen({ onNext, onBack }: AppRatingScreenProps) {
           <Text style={styles.star}>⭐</Text>
         </View>
 
-        <ShotsyButton
-          title="Avaliar agora"
-          onPress={handleRateNow}
-          variant="primary"
-        />
+        <ShotsyButton title="Avaliar agora" onPress={handleRateNow} variant="primary" />
 
         <ShotsyCard style={styles.benefitsCard}>
-          <Text style={[styles.benefitsTitle, { color: colors.text }]}>
-            Por que avaliar ajuda?
-          </Text>
+          <Text style={[styles.benefitsTitle, { color: colors.text }]}>Por que avaliar ajuda?</Text>
           <View style={styles.benefitsList}>
             <View style={styles.benefit}>
               <Text style={styles.benefitEmoji}>📱</Text>

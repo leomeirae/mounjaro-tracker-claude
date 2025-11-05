@@ -4,6 +4,9 @@ import { View, ActivityIndicator, Text } from 'react-native';
 import { ClipboardText, Syringe, ChartLineUp, Calendar, GearSix } from 'phosphor-react-native';
 import { useShotsyColors } from '@/hooks/useShotsyColors';
 import { useAuth } from '@/lib/clerk';
+import { createLogger } from '@/lib/logger';
+
+const logger = createLogger('_layout');
 
 export default function Layout() {
   const colors = useShotsyColors();
@@ -15,7 +18,7 @@ export default function Layout() {
   useEffect(() => {
     if (isLoaded) {
       if (!isSignedIn && !hasRedirectedRef.current) {
-        console.log('User not authenticated, redirecting to welcome...');
+        logger.info('User not authenticated, redirecting to welcome');
         hasRedirectedRef.current = true;
         router.replace('/(auth)/welcome');
       } else if (isSignedIn) {
@@ -28,7 +31,14 @@ export default function Layout() {
   // Mostrar loading enquanto verifica autenticação
   if (!isLoaded) {
     return (
-      <View style={{ flex: 1, justifyContent: 'center', alignItems: 'center', backgroundColor: colors.background }}>
+      <View
+        style={{
+          flex: 1,
+          justifyContent: 'center',
+          alignItems: 'center',
+          backgroundColor: colors.background,
+        }}
+      >
         <ActivityIndicator size="large" color={colors.primary} />
       </View>
     );
@@ -61,11 +71,7 @@ export default function Layout() {
         options={{
           title: 'Resumo',
           tabBarIcon: ({ color, focused }) => (
-            <ClipboardText
-              size={28}
-              color={color}
-              weight={focused ? 'fill' : 'regular'}
-            />
+            <ClipboardText size={28} color={color} weight={focused ? 'fill' : 'regular'} />
           ),
         }}
       />
@@ -74,11 +80,7 @@ export default function Layout() {
         options={{
           title: 'Injeções',
           tabBarIcon: ({ color, focused }) => (
-            <Syringe
-              size={28}
-              color={color}
-              weight={focused ? 'fill' : 'regular'}
-            />
+            <Syringe size={28} color={color} weight={focused ? 'fill' : 'regular'} />
           ),
         }}
       />
@@ -87,11 +89,7 @@ export default function Layout() {
         options={{
           title: 'Resultados',
           tabBarIcon: ({ color, focused }) => (
-            <ChartLineUp
-              size={28}
-              color={color}
-              weight={focused ? 'fill' : 'regular'}
-            />
+            <ChartLineUp size={28} color={color} weight={focused ? 'fill' : 'regular'} />
           ),
         }}
       />
@@ -100,11 +98,7 @@ export default function Layout() {
         options={{
           title: 'Calendário',
           tabBarIcon: ({ color, focused }) => (
-            <Calendar
-              size={28}
-              color={color}
-              weight={focused ? 'fill' : 'regular'}
-            />
+            <Calendar size={28} color={color} weight={focused ? 'fill' : 'regular'} />
           ),
         }}
       />
@@ -113,12 +107,14 @@ export default function Layout() {
         options={{
           title: 'IA',
           tabBarIcon: ({ color, focused }) => (
-            <Text style={{
-              fontSize: 16,
-              fontWeight: focused ? '700' : '600',
-              color: color,
-              letterSpacing: 0.5,
-            }}>
+            <Text
+              style={{
+                fontSize: 16,
+                fontWeight: focused ? '700' : '600',
+                color: color,
+                letterSpacing: 0.5,
+              }}
+            >
               IA
             </Text>
           ),
@@ -129,48 +125,20 @@ export default function Layout() {
         options={{
           title: 'Ajustes',
           tabBarIcon: ({ color, focused }) => (
-            <GearSix
-              size={28}
-              color={color}
-              weight={focused ? 'fill' : 'regular'}
-            />
+            <GearSix size={28} color={color} weight={focused ? 'fill' : 'regular'} />
           ),
         }}
       />
 
       {/* Telas adicionais que NÃO devem aparecer no tab bar */}
-      <Tabs.Screen
-        name="add-application"
-        options={{ href: null }}
-      />
-      <Tabs.Screen
-        name="add-medication"
-        options={{ href: null }}
-      />
-      <Tabs.Screen
-        name="add-side-effect"
-        options={{ href: null }}
-      />
-      <Tabs.Screen
-        name="add-weight"
-        options={{ href: null }}
-      />
-      <Tabs.Screen
-        name="notification-settings"
-        options={{ href: null }}
-      />
-      <Tabs.Screen
-        name="profile"
-        options={{ href: null }}
-      />
-      <Tabs.Screen
-        name="faq"
-        options={{ href: null }}
-      />
-      <Tabs.Screen
-        name="premium"
-        options={{ href: null }}
-      />
+      <Tabs.Screen name="add-application" options={{ href: null }} />
+      <Tabs.Screen name="add-medication" options={{ href: null }} />
+      <Tabs.Screen name="add-side-effect" options={{ href: null }} />
+      <Tabs.Screen name="add-weight" options={{ href: null }} />
+      <Tabs.Screen name="notification-settings" options={{ href: null }} />
+      <Tabs.Screen name="profile" options={{ href: null }} />
+      <Tabs.Screen name="faq" options={{ href: null }} />
+      <Tabs.Screen name="premium" options={{ href: null }} />
       {/* Removido add-nutrition daqui pois agora está no tab bar */}
     </Tabs>
   );

@@ -16,15 +16,15 @@ interface WeightChartProps {
   periodFilter: 'week' | 'month' | '90days' | 'all';
 }
 
-export const WeightChart: React.FC<WeightChartProps> = ({
-  data,
-  targetWeight,
-  periodFilter,
-}) => {
+export const WeightChart: React.FC<WeightChartProps> = ({ data, targetWeight, periodFilter }) => {
   const colors = useShotsyColors();
   const { currentAccent } = useTheme();
   const { width } = useWindowDimensions();
-  const [selectedPoint, setSelectedPoint] = useState<{ index: number; value: number; date: Date } | null>(null);
+  const [selectedPoint, setSelectedPoint] = useState<{
+    index: number;
+    value: number;
+    date: Date;
+  } | null>(null);
 
   // Filtrar dados baseado no período
   const filteredData = useMemo(() => {
@@ -32,13 +32,13 @@ export const WeightChart: React.FC<WeightChartProps> = ({
     switch (periodFilter) {
       case 'week':
         const weekAgo = new Date(now.getTime() - 7 * 24 * 60 * 60 * 1000);
-        return data.filter(d => d.date >= weekAgo);
+        return data.filter((d) => d.date >= weekAgo);
       case 'month':
         const monthAgo = new Date(now.getTime() - 30 * 24 * 60 * 60 * 1000);
-        return data.filter(d => d.date >= monthAgo);
+        return data.filter((d) => d.date >= monthAgo);
       case '90days':
         const ninetyDaysAgo = new Date(now.getTime() - 90 * 24 * 60 * 60 * 1000);
-        return data.filter(d => d.date >= ninetyDaysAgo);
+        return data.filter((d) => d.date >= ninetyDaysAgo);
       default:
         return data;
     }
@@ -50,7 +50,7 @@ export const WeightChart: React.FC<WeightChartProps> = ({
 
     const n = filteredData.length;
     const xValues = filteredData.map((_, i) => i);
-    const yValues = filteredData.map(d => d.weight);
+    const yValues = filteredData.map((d) => d.weight);
 
     const sumX = xValues.reduce((a, b) => a + b, 0);
     const sumY = yValues.reduce((a, b) => a + b, 0);
@@ -60,7 +60,7 @@ export const WeightChart: React.FC<WeightChartProps> = ({
     const slope = (n * sumXY - sumX * sumY) / (n * sumX2 - sumX * sumX);
     const intercept = (sumY - slope * sumX) / n;
 
-    return xValues.map(x => slope * x + intercept);
+    return xValues.map((x) => slope * x + intercept);
   }, [filteredData]);
 
   // Calculate average weekly loss for projection
@@ -68,14 +68,15 @@ export const WeightChart: React.FC<WeightChartProps> = ({
     if (filteredData.length < 2) return 0.5;
     const firstWeight = filteredData[filteredData.length - 1].weight;
     const lastWeight = filteredData[0].weight;
-    const timeDiff = filteredData[0].date.getTime() - filteredData[filteredData.length - 1].date.getTime();
+    const timeDiff =
+      filteredData[0].date.getTime() - filteredData[filteredData.length - 1].date.getTime();
     const weeks = timeDiff / (7 * 24 * 60 * 60 * 1000);
     return weeks > 0 ? (firstWeight - lastWeight) / weeks : 0.5;
   }, [filteredData]);
 
   // Preparar dados para o gráfico
-  const weights = filteredData.map(d => d.weight);
-  const labels = filteredData.map(d => {
+  const weights = filteredData.map((d) => d.weight);
+  const labels = filteredData.map((d) => {
     const day = d.date.getDate();
     const month = d.date.getMonth() + 1;
     return `${day}/${month}`;
@@ -103,19 +104,20 @@ export const WeightChart: React.FC<WeightChartProps> = ({
       setSelectedPoint({
         index,
         value: weights[index],
-        date: filteredData[index].date
+        date: filteredData[index].date,
       });
     }
   };
 
   // Adicionar projeção até a meta
   const lastWeight = weights[weights.length - 1];
-  const weeksToGoal = avgWeeklyLoss > 0 ? Math.ceil((lastWeight - targetWeight) / avgWeeklyLoss) : 0;
+  const weeksToGoal =
+    avgWeeklyLoss > 0 ? Math.ceil((lastWeight - targetWeight) / avgWeeklyLoss) : 0;
 
   // Adicionar pontos de projeção (máximo 12 semanas)
   const projectionWeights = [];
   for (let i = 1; i <= Math.min(weeksToGoal, 12); i++) {
-    projectionWeights.push(Math.max(lastWeight - (avgWeeklyLoss * i), targetWeight));
+    projectionWeights.push(Math.max(lastWeight - avgWeeklyLoss * i, targetWeight));
   }
 
   // Prepare datasets with trend line and goal line
@@ -130,7 +132,10 @@ export const WeightChart: React.FC<WeightChartProps> = ({
   // Add trend line dataset
   if (trendLine) {
     datasets.push({
-      data: [...trendLine, ...Array(projectionWeights.length).fill(trendLine[trendLine.length - 1])],
+      data: [
+        ...trendLine,
+        ...Array(projectionWeights.length).fill(trendLine[trendLine.length - 1]),
+      ],
       color: () => colors.textSecondary + '40',
       strokeWidth: 2,
       withDots: false,
@@ -169,7 +174,7 @@ export const WeightChart: React.FC<WeightChartProps> = ({
             {new Intl.DateTimeFormat('pt-BR', {
               day: '2-digit',
               month: 'long',
-              year: 'numeric'
+              year: 'numeric',
             }).format(selectedPoint.date)}
           </Text>
         </TouchableOpacity>
@@ -212,15 +217,13 @@ export const WeightChart: React.FC<WeightChartProps> = ({
       <View style={styles.legend}>
         <View style={styles.legendItem}>
           <View style={[styles.legendDot, { backgroundColor: currentAccent }]} />
-          <Text style={[styles.legendText, { color: colors.textSecondary }]}>
-            Peso atual
-          </Text>
+          <Text style={[styles.legendText, { color: colors.textSecondary }]}>Peso atual</Text>
         </View>
         <View style={styles.legendItem}>
-          <View style={[styles.legendDot, { backgroundColor: colors.textSecondary, opacity: 0.25 }]} />
-          <Text style={[styles.legendText, { color: colors.textSecondary }]}>
-            Tendência
-          </Text>
+          <View
+            style={[styles.legendDot, { backgroundColor: colors.textSecondary, opacity: 0.25 }]}
+          />
+          <Text style={[styles.legendText, { color: colors.textSecondary }]}>Tendência</Text>
         </View>
         <View style={styles.legendItem}>
           <View style={[styles.legendDot, { backgroundColor: colors.success }]} />

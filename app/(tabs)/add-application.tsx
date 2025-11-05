@@ -21,6 +21,9 @@ import { EstimatedLevelsChart } from '@/components/dashboard/EstimatedLevelsChar
 import Slider from '@react-native-community/slider';
 import DateTimePicker from '@react-native-community/datetimepicker';
 import * as Haptics from 'expo-haptics';
+import { createLogger } from '@/lib/logger';
+
+const logger = createLogger('Add-application');
 
 interface ApplicationData {
   id?: string;
@@ -85,9 +88,9 @@ export default function AddApplicationScreen() {
 
   const { profile } = useProfile();
   const { medications, loading: medicationsLoading, addMedication } = useMedications();
-  
+
   // Get active medication
-  const activeMedication = medications.find(m => m.active);
+  const activeMedication = medications.find((m) => m.active);
 
   // State
   const [data, setData] = useState<ApplicationData>({
@@ -156,7 +159,7 @@ export default function AddApplicationScreen() {
       // Tentar criar medicação automaticamente com dados do formulário
       try {
         setIsSaving(true);
-        
+
         // Usar dados do profile se disponível, senão usar valores do formulário
         const medicationType = data.medication || profile?.medication || 'mounjaro';
         const dosage = data.dosage; // Já validado acima
@@ -172,7 +175,7 @@ export default function AddApplicationScreen() {
 
         medicationToUse = newMedication;
       } catch (error) {
-        console.error('Error creating medication:', error);
+        logger.error('Error creating medication', error as Error);
         Alert.alert(
           'Erro',
           'Não foi possível criar a medicação automaticamente. Por favor, adicione uma medicação primeiro.',
@@ -194,7 +197,7 @@ export default function AddApplicationScreen() {
     try {
       // Format date as YYYY-MM-DD
       const dateString = data.date.toISOString().split('T')[0];
-      
+
       // Format time as HH:MM
       const timeString = data.date.toTimeString().split(' ')[0].substring(0, 5);
 
@@ -216,19 +219,14 @@ export default function AddApplicationScreen() {
 
       Haptics.notificationAsync(Haptics.NotificationFeedbackType.Success);
 
-      Alert.alert(
-        'Sucesso',
-        isEditMode ? 'Aplicação atualizada!' : 'Aplicação adicionada!',
-        [{ text: 'OK', onPress: () => router.back() }]
-      );
+      Alert.alert('Sucesso', isEditMode ? 'Aplicação atualizada!' : 'Aplicação adicionada!', [
+        { text: 'OK', onPress: () => router.back() },
+      ]);
     } catch (error) {
       Haptics.notificationAsync(Haptics.NotificationFeedbackType.Error);
-      console.error('Error saving application:', error);
+      logger.error('Error saving application', error as Error);
 
-      Alert.alert(
-        'Erro',
-        'Não foi possível salvar a aplicação. Tente novamente.'
-      );
+      Alert.alert('Erro', 'Não foi possível salvar a aplicação. Tente novamente.');
     } finally {
       setIsSaving(false);
     }
@@ -238,27 +236,27 @@ export default function AddApplicationScreen() {
     if (!data.id) return;
 
     Alert.alert('Deletar Aplicação', 'Tem certeza que deseja deletar esta aplicação?', [
-        { text: 'Cancelar', style: 'cancel' },
-        {
-          text: 'Deletar',
-          style: 'destructive',
-          onPress: async () => {
-            try {
-              setIsSaving(true);
-              await deleteApplication(data.id!);
-              Haptics.notificationAsync(Haptics.NotificationFeedbackType.Success);
+      { text: 'Cancelar', style: 'cancel' },
+      {
+        text: 'Deletar',
+        style: 'destructive',
+        onPress: async () => {
+          try {
+            setIsSaving(true);
+            await deleteApplication(data.id!);
+            Haptics.notificationAsync(Haptics.NotificationFeedbackType.Success);
 
             Alert.alert('Sucesso', 'Aplicação deletada com sucesso!', [
               { text: 'OK', onPress: () => router.back() },
             ]);
-            } catch (error) {
-              Haptics.notificationAsync(Haptics.NotificationFeedbackType.Error);
-              console.error('Error deleting application:', error);
+          } catch (error) {
+            Haptics.notificationAsync(Haptics.NotificationFeedbackType.Error);
+            logger.error('Error deleting application', error as Error);
             Alert.alert('Erro', 'Não foi possível deletar a aplicação. Tente novamente.');
-              setIsSaving(false);
-            }
-          },
+            setIsSaving(false);
+          }
         },
+      },
     ]);
   };
 
@@ -269,9 +267,9 @@ export default function AddApplicationScreen() {
     return isToday
       ? 'Hoje'
       : date.toLocaleDateString('pt-BR', {
-      day: 'numeric',
-      month: 'long',
-    });
+          day: 'numeric',
+          month: 'long',
+        });
   };
 
   const formatTime = (date: Date) => {
@@ -339,9 +337,16 @@ export default function AddApplicationScreen() {
           {/* DATA */}
           <View style={styles.section}>
             <Text style={[styles.sectionLabel, { color: colors.textSecondary }]}>DATA</Text>
-            <View style={[styles.inputCard, { backgroundColor: colors.card, borderColor: colors.border }]}>
+            <View
+              style={[
+                styles.inputCard,
+                { backgroundColor: colors.card, borderColor: colors.border },
+              ]}
+            >
               <TouchableOpacity onPress={() => setShowDatePicker(true)} style={styles.dateInput}>
-                <Text style={[styles.dateInputText, { color: colors.text }]}>{formatDate(data.date)}</Text>
+                <Text style={[styles.dateInputText, { color: colors.text }]}>
+                  {formatDate(data.date)}
+                </Text>
                 <Text style={{ color: colors.textSecondary }}>▼</Text>
               </TouchableOpacity>
             </View>
@@ -350,12 +355,21 @@ export default function AddApplicationScreen() {
           {/* HORÁRIO */}
           <View style={styles.section}>
             <Text style={[styles.sectionLabel, { color: colors.textSecondary }]}>HORÁRIO</Text>
-            <View style={[styles.inputCard, { backgroundColor: colors.card, borderColor: colors.border }]}>
+            <View
+              style={[
+                styles.inputCard,
+                { backgroundColor: colors.card, borderColor: colors.border },
+              ]}
+            >
               <View style={styles.timeRow}>
                 <View style={styles.timeInput}>
-                  <Text style={[styles.timeInputText, { color: colors.text }]}>Tempo Decorrido</Text>
+                  <Text style={[styles.timeInputText, { color: colors.text }]}>
+                    Tempo Decorrido
+                  </Text>
                 </View>
-                <Text style={[styles.timeValue, { color: colors.text }]}>{formatTimeElapsed()}</Text>
+                <Text style={[styles.timeValue, { color: colors.text }]}>
+                  {formatTimeElapsed()}
+                </Text>
               </View>
             </View>
           </View>
@@ -365,32 +379,36 @@ export default function AddApplicationScreen() {
             <Text style={[styles.sectionLabel, { color: colors.textSecondary }]}>DETALHES</Text>
 
             {/* Nome do Medicamento */}
-            <View style={[styles.detailRow, { backgroundColor: colors.card, borderColor: colors.border }]}>
+            <View
+              style={[
+                styles.detailRow,
+                { backgroundColor: colors.card, borderColor: colors.border },
+              ]}
+            >
               <Text style={[styles.detailLabel, { color: colors.text }]}>Nome do Medicamento</Text>
-            <TouchableOpacity
+              <TouchableOpacity
                 style={styles.detailValue}
                 onPress={() => setShowMedicationModal(true)}
-            >
+              >
                 <Text style={[styles.detailValueText, { color: colors.primary }]}>
                   {getMedicationName()}
                 </Text>
                 <Text style={{ color: colors.textSecondary }}>▼</Text>
-            </TouchableOpacity>
+              </TouchableOpacity>
             </View>
 
             {/* Dosagem */}
-            <View style={[styles.detailRow, { backgroundColor: colors.card, borderColor: colors.border }]}>
+            <View
+              style={[
+                styles.detailRow,
+                { backgroundColor: colors.card, borderColor: colors.border },
+              ]}
+            >
               <Text style={[styles.detailLabel, { color: colors.text }]}>Dosagem</Text>
-            <TouchableOpacity
-                style={styles.detailValue}
-                onPress={() => setShowDosageModal(true)}
-              >
+              <TouchableOpacity style={styles.detailValue} onPress={() => setShowDosageModal(true)}>
                 {data.dosage ? (
                   <View
-                    style={[
-                      styles.dosageTag,
-                      { backgroundColor: getDosageColor(data.dosage) },
-                    ]}
+                    style={[styles.dosageTag, { backgroundColor: getDosageColor(data.dosage) }]}
                   >
                     <Text style={styles.dosageTagText}>{data.dosage}mg</Text>
                   </View>
@@ -400,11 +418,16 @@ export default function AddApplicationScreen() {
                   </Text>
                 )}
                 <Text style={{ color: colors.textSecondary }}>▼</Text>
-            </TouchableOpacity>
+              </TouchableOpacity>
             </View>
 
             {/* Local de Injeção */}
-            <View style={[styles.detailRow, { backgroundColor: colors.card, borderColor: colors.border }]}>
+            <View
+              style={[
+                styles.detailRow,
+                { backgroundColor: colors.card, borderColor: colors.border },
+              ]}
+            >
               <Text style={[styles.detailLabel, { color: colors.text }]}>Local de Injeção</Text>
               <TouchableOpacity
                 style={styles.detailValue}
@@ -423,7 +446,12 @@ export default function AddApplicationScreen() {
             </View>
 
             {/* Nível de Dor */}
-            <View style={[styles.detailRow, { backgroundColor: colors.card, borderColor: colors.border }]}>
+            <View
+              style={[
+                styles.detailRow,
+                { backgroundColor: colors.card, borderColor: colors.border },
+              ]}
+            >
               <Text style={[styles.detailLabel, { color: colors.text }]}>Nível de Dor</Text>
               <View style={styles.painSliderContainer}>
                 <Slider
@@ -435,7 +463,7 @@ export default function AddApplicationScreen() {
                   minimumTrackTintColor={colors.primary}
                   maximumTrackTintColor={colors.border}
                   thumbTintColor={colors.primary}
-            />
+                />
                 <Text style={[styles.painValue, { color: colors.primary }]}>
                   {Math.round(data.painLevel)}
                 </Text>
@@ -449,7 +477,12 @@ export default function AddApplicationScreen() {
               <Text style={[styles.sectionLabel, { color: colors.textSecondary }]}>
                 PRÉVIA NÍVEL ESTIMADO
               </Text>
-              <View style={[styles.chartContainer, { backgroundColor: colors.card, borderColor: colors.border }]}>
+              <View
+                style={[
+                  styles.chartContainer,
+                  { backgroundColor: colors.card, borderColor: colors.border },
+                ]}
+              >
                 <EstimatedLevelsChart
                   applications={[
                     {
@@ -466,23 +499,30 @@ export default function AddApplicationScreen() {
                     ...applications,
                   ]}
                   period="week"
-            />
+                />
               </View>
             </View>
           )}
 
           {/* NOTAS */}
           <View style={styles.section}>
-            <Text style={[styles.sectionLabel, { color: colors.textSecondary }]}>NOTAS DE INJEÇÃO</Text>
-            <View style={[styles.inputCard, { backgroundColor: colors.card, borderColor: colors.border }]}>
-            <TextInput
+            <Text style={[styles.sectionLabel, { color: colors.textSecondary }]}>
+              NOTAS DE INJEÇÃO
+            </Text>
+            <View
+              style={[
+                styles.inputCard,
+                { backgroundColor: colors.card, borderColor: colors.border },
+              ]}
+            >
+              <TextInput
                 style={[styles.notesInput, { color: colors.text }]}
                 placeholder="Adicionar notas"
-              placeholderTextColor={colors.textSecondary}
-              multiline
-              value={data.notes}
-              onChangeText={(notes) => setData({ ...data, notes })}
-            />
+                placeholderTextColor={colors.textSecondary}
+                multiline
+                value={data.notes}
+                onChangeText={(notes) => setData({ ...data, notes })}
+              />
             </View>
           </View>
 
@@ -510,9 +550,7 @@ export default function AddApplicationScreen() {
                 <TouchableOpacity onPress={() => setShowMedicationModal(false)}>
                   <Text style={[styles.modalCloseButton, { color: colors.primary }]}>Fechar</Text>
                 </TouchableOpacity>
-                <Text style={[styles.modalTitle, { color: colors.text }]}>
-                  Nome do Medicamento
-                </Text>
+                <Text style={[styles.modalTitle, { color: colors.text }]}>Nome do Medicamento</Text>
                 <View style={{ width: 60 }} />
               </View>
               <FlatList
@@ -578,12 +616,7 @@ export default function AddApplicationScreen() {
                       <Text style={styles.dosageTagText}>{item.value}mg</Text>
                     </View>
                     {data.dosage === item.value && (
-                      <View
-                        style={[
-                          styles.dosageCheck,
-                          { borderColor: item.color },
-                        ]}
-                      >
+                      <View style={[styles.dosageCheck, { borderColor: item.color }]}>
                         <View style={[styles.dosageCheckInner, { backgroundColor: item.color }]} />
                       </View>
                     )}
@@ -750,7 +783,7 @@ const styles = StyleSheet.create({
     flexDirection: 'row',
     alignItems: 'center',
     justifyContent: 'space-between',
-    minHeight: 56,  // Adicionar minHeight para touch target adequado
+    minHeight: 56, // Adicionar minHeight para touch target adequado
     padding: 16,
     borderRadius: 12,
     borderWidth: 1,
@@ -771,7 +804,7 @@ const styles = StyleSheet.create({
     fontWeight: '600',
   },
   dosageTag: {
-    paddingHorizontal: 8,  // Mudança: 12 → 8px (Shotsy badge padding)
+    paddingHorizontal: 8, // Mudança: 12 → 8px (Shotsy badge padding)
     paddingVertical: 6,
     borderRadius: 16,
   },
@@ -859,7 +892,7 @@ const styles = StyleSheet.create({
     flexDirection: 'row',
     alignItems: 'center',
     justifyContent: 'space-between',
-    minHeight: 60,  // Adicionar minHeight para touch target adequado
+    minHeight: 60, // Adicionar minHeight para touch target adequado
     paddingHorizontal: 16,
     paddingVertical: 16,
     borderBottomWidth: 1,

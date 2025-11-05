@@ -6,6 +6,7 @@
 ## ✅ Concluído
 
 ### Database Schema
+
 - ✅ Migration 006: Sistema de Insights
   - Tabela `user_insights` (insights gerados por IA)
   - Tabela `detected_patterns` (padrões automáticos)
@@ -14,15 +15,18 @@
   - RLS policies completas
 
 ### TypeScript Types
+
 - ✅ `lib/types/insights.ts`
   - UserInsight, DetectedPattern, HealthScore
   - Helpers: getInsightIcon, getInsightColor, getScoreLevel
 
 ### Hooks
+
 - ✅ `hooks/useInsights.ts` - CRUD de insights
 - ✅ `hooks/useHealthScore.ts` - Cálculo e fetch de score
 
 ### Componentes
+
 - ✅ `HealthScoreCard` - Card visual do score
 - ✅ `InsightCard` - Card individual de insight
 

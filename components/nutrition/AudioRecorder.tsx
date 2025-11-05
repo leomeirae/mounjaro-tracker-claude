@@ -1,13 +1,12 @@
 import { useState, useEffect } from 'react';
 import { TouchableOpacity, Text, StyleSheet, View, Alert } from 'react-native';
-import { 
-  useAudioRecorder, 
-  RecordingOptions, 
-  AudioModule,
-} from 'expo-audio';
+import { useAudioRecorder, RecordingOptions, AudioModule } from 'expo-audio';
 import { Microphone, Stop } from 'phosphor-react-native';
 import { useShotsyColors } from '@/hooks/useShotsyColors';
 import * as Haptics from 'expo-haptics';
+import { createLogger } from '@/lib/logger';
+
+const logger = createLogger('AudioRecorder');
 
 interface AudioRecorderProps {
   onRecordComplete: (text: string) => void;
@@ -30,7 +29,7 @@ export function AudioRecorder({ onRecordComplete, disabled }: AudioRecorderProps
     },
     ios: {
       extension: '.m4a',
-      audioQuality: 0x7F, // High quality
+      audioQuality: 0x7f, // High quality
       sampleRate: 44100,
       numberOfChannels: 2,
       bitRate: 128000,
@@ -43,15 +42,15 @@ export function AudioRecorder({ onRecordComplete, disabled }: AudioRecorderProps
       bitsPerSecond: 128000,
     },
   });
-  
+
   const [duration, setDuration] = useState(0);
 
   useEffect(() => {
     let interval: NodeJS.Timeout;
-    
+
     if (audioRecorder.isRecording) {
       interval = setInterval(() => {
-        setDuration(prev => prev + 1);
+        setDuration((prev) => prev + 1);
       }, 1000);
     } else {
       setDuration(0);
@@ -66,21 +65,18 @@ export function AudioRecorder({ onRecordComplete, disabled }: AudioRecorderProps
     try {
       // Request permissions
       const permission = await AudioModule.requestRecordingPermissionsAsync();
-      
+
       if (!permission.granted) {
-        Alert.alert(
-          'Permissão necessária',
-          'Precisamos de acesso ao microfone para gravar áudio.'
-        );
+        Alert.alert('Permissão necessária', 'Precisamos de acesso ao microfone para gravar áudio.');
         return;
       }
 
       // Start recording
       await audioRecorder.record();
-      
+
       await Haptics.impactAsync(Haptics.ImpactFeedbackStyle.Medium);
     } catch (err) {
-      console.error('Failed to start recording', err);
+      logger.error('Failed to start recording', err as Error);
       Alert.alert('Erro', 'Não foi possível iniciar a gravação');
     }
   }
@@ -88,7 +84,7 @@ export function AudioRecorder({ onRecordComplete, disabled }: AudioRecorderProps
   async function stopRecording() {
     try {
       const uri = await audioRecorder.stop();
-      
+
       await Haptics.impactAsync(Haptics.ImpactFeedbackStyle.Medium);
 
       // For now, we'll show a placeholder message
@@ -103,9 +99,8 @@ export function AudioRecorder({ onRecordComplete, disabled }: AudioRecorderProps
       // - Google Cloud Speech-to-Text
       // - OpenAI Whisper API
       // - Azure Speech Services
-      
     } catch (err) {
-      console.error('Failed to stop recording', err);
+      logger.error('Failed to stop recording', err as Error);
       Alert.alert('Erro', 'Não foi possível parar a gravação');
     }
   }
@@ -138,36 +133,36 @@ export function AudioRecorder({ onRecordComplete, disabled }: AudioRecorderProps
   );
 }
 
-const getStyles = (colors: any) => StyleSheet.create({
-  button: {
-    width: 44,
-    height: 44,
-    borderRadius: 22,
-    backgroundColor: colors.card,
-    borderWidth: 2,
-    borderColor: colors.primary,
-    alignItems: 'center',
-    justifyContent: 'center',
-  },
-  recordingButton: {
-    backgroundColor: '#EF4444',
-    borderColor: '#DC2626',
-    paddingHorizontal: 16,
-    width: 'auto',
-    minWidth: 80,
-  },
-  disabledButton: {
-    opacity: 0.5,
-  },
-  recordingContent: {
-    flexDirection: 'row',
-    alignItems: 'center',
-    gap: 8,
-  },
-  durationText: {
-    color: '#fff',
-    fontSize: 14,
-    fontWeight: '600',
-  },
-});
-
+const getStyles = (colors: any) =>
+  StyleSheet.create({
+    button: {
+      width: 44,
+      height: 44,
+      borderRadius: 22,
+      backgroundColor: colors.card,
+      borderWidth: 2,
+      borderColor: colors.primary,
+      alignItems: 'center',
+      justifyContent: 'center',
+    },
+    recordingButton: {
+      backgroundColor: '#EF4444',
+      borderColor: '#DC2626',
+      paddingHorizontal: 16,
+      width: 'auto',
+      minWidth: 80,
+    },
+    disabledButton: {
+      opacity: 0.5,
+    },
+    recordingContent: {
+      flexDirection: 'row',
+      alignItems: 'center',
+      gap: 8,
+    },
+    durationText: {
+      color: '#fff',
+      fontSize: 14,
+      fontWeight: '600',
+    },
+  });

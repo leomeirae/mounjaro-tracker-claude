@@ -1,10 +1,21 @@
 import React, { useState, useMemo } from 'react';
-import { View, Text, StyleSheet, ScrollView, TouchableOpacity, RefreshControl, ActivityIndicator } from 'react-native';
+import {
+  View,
+  Text,
+  StyleSheet,
+  ScrollView,
+  TouchableOpacity,
+  RefreshControl,
+  ActivityIndicator,
+} from 'react-native';
 import { useShotsyColors } from '@/hooks/useShotsyColors';
 import { MonthCalendar } from '@/components/calendar/MonthCalendar';
 import { DayEventsList } from '@/components/calendar/DayEventsList';
 import { useApplications } from '@/hooks/useApplications';
 import { useWeights } from '@/hooks/useWeights';
+import { createLogger } from '@/lib/logger';
+
+const logger = createLogger('Calendar');
 
 // Event type to match calendar components
 type CalendarEvent = {
@@ -25,18 +36,30 @@ export default function CalendarViewScreen() {
   const [refreshing, setRefreshing] = useState(false);
 
   // Fetch data from Supabase
-  const { applications, loading: loadingApplications, refetch: refetchApplications } = useApplications();
-  const { weights, loading: loadingWeights, getWeightDifference, refetch: refetchWeights } = useWeights();
+  const {
+    applications,
+    loading: loadingApplications,
+    refetch: refetchApplications,
+  } = useApplications();
+  const {
+    weights,
+    loading: loadingWeights,
+    getWeightDifference,
+    refetch: refetchWeights,
+  } = useWeights();
 
   // Calculate weight difference for a given weight entry
-  const calculateDifference = (currentWeight: number, previousWeight: number | undefined): number | undefined => {
+  const calculateDifference = (
+    currentWeight: number,
+    previousWeight: number | undefined
+  ): number | undefined => {
     if (previousWeight === undefined) return undefined;
     return currentWeight - previousWeight;
   };
 
   // Transform applications and weights into calendar events
   const events: CalendarEvent[] = useMemo(() => {
-    const shotEvents: CalendarEvent[] = applications.map(app => ({
+    const shotEvents: CalendarEvent[] = applications.map((app) => ({
       id: app.id,
       type: 'shot' as const,
       date: app.date,
@@ -70,7 +93,7 @@ export default function CalendarViewScreen() {
     try {
       await Promise.all([refetchApplications(), refetchWeights()]);
     } catch (error) {
-      console.error('Error refreshing data:', error);
+      logger.error('Error refreshing data:', error as Error);
     } finally {
       setRefreshing(false);
     }
@@ -114,39 +137,22 @@ export default function CalendarViewScreen() {
   return (
     <View style={[styles.container, { backgroundColor: colors.background }]}>
       <ScrollView
-        refreshControl={
-          <RefreshControl refreshing={refreshing} onRefresh={handleRefresh} />
-        }
+        refreshControl={<RefreshControl refreshing={refreshing} onRefresh={handleRefresh} />}
       >
         {/* Header de navegação do mês */}
         <View style={styles.header}>
-          <TouchableOpacity
-            style={styles.navButton}
-            onPress={handlePreviousMonth}
-          >
-            <Text style={[styles.navButtonText, { color: colors.primary }]}>
-              ← Anterior
-            </Text>
+          <TouchableOpacity style={styles.navButton} onPress={handlePreviousMonth}>
+            <Text style={[styles.navButtonText, { color: colors.primary }]}>← Anterior</Text>
           </TouchableOpacity>
 
           <View style={styles.monthTitle}>
-            <Text
-              style={[
-                styles.monthText,
-                { color: colors.text, textTransform: 'capitalize' },
-              ]}
-            >
+            <Text style={[styles.monthText, { color: colors.text, textTransform: 'capitalize' }]}>
               {formatMonthYear(currentDate)}
             </Text>
           </View>
 
-          <TouchableOpacity
-            style={styles.navButton}
-            onPress={handleNextMonth}
-          >
-            <Text style={[styles.navButtonText, { color: colors.primary }]}>
-              Próximo →
-            </Text>
+          <TouchableOpacity style={styles.navButton} onPress={handleNextMonth}>
+            <Text style={[styles.navButtonText, { color: colors.primary }]}>Próximo →</Text>
           </TouchableOpacity>
         </View>
 
@@ -163,9 +169,7 @@ export default function CalendarViewScreen() {
               ]}
               onPress={handleGoToToday}
             >
-              <Text style={[styles.todayButtonText, { color: colors.primary }]}>
-                Ir para Hoje
-              </Text>
+              <Text style={[styles.todayButtonText, { color: colors.primary }]}>Ir para Hoje</Text>
             </TouchableOpacity>
           </View>
         )}
@@ -190,10 +194,7 @@ export default function CalendarViewScreen() {
 
             {/* Lista de eventos do dia selecionado */}
             <View style={styles.eventsSection}>
-              <DayEventsList
-                selectedDate={selectedDate}
-                events={events}
-              />
+              <DayEventsList selectedDate={selectedDate} events={events} />
             </View>
 
             {/* Empty State */}
@@ -246,8 +247,8 @@ const styles = StyleSheet.create({
     marginBottom: 8,
   },
   todayButton: {
-    paddingVertical: 12,  // Mudança: 10 → 12px (Shotsy vertical padding)
-    paddingHorizontal: 20,  // Mudança: 16 → 20px (Shotsy horizontal padding)
+    paddingVertical: 12, // Mudança: 10 → 12px (Shotsy vertical padding)
+    paddingHorizontal: 20, // Mudança: 16 → 20px (Shotsy horizontal padding)
     borderRadius: 12,
     borderWidth: 1.5,
     alignItems: 'center',

@@ -3,6 +3,9 @@ import { createClient } from '@supabase/supabase-js';
 import * as SecureStore from 'expo-secure-store';
 import { Platform } from 'react-native';
 import { useAuth } from '@/lib/clerk';
+import { createLogger } from '@/lib/logger';
+
+const logger = createLogger('Supabase');
 
 const supabaseUrl = process.env.EXPO_PUBLIC_SUPABASE_URL!;
 const supabaseAnonKey = process.env.EXPO_PUBLIC_SUPABASE_ANON_KEY!;
@@ -210,19 +213,19 @@ export function useSupabaseAuth() {
 
   const setSupabaseAuth = async () => {
     if (!userId) {
-      console.log('🔐 No user ID found for Supabase auth');
+      logger.debug('No user ID found for Supabase auth');
       return;
     }
 
     try {
-      console.log('🔐 Attempting to get Clerk token for Supabase...');
-      
+      logger.debug('Attempting to get Clerk token for Supabase');
+
       // Get Clerk JWT token with Supabase template
       const token = await getToken({ template: 'supabase' });
-      
+
       if (token) {
-        console.log('🔐 Setting Supabase auth with Clerk token');
-        
+        logger.debug('Setting Supabase auth with Clerk token');
+
         // Set the auth session in Supabase
         const { error } = await supabase.auth.setSession({
           access_token: token,
@@ -230,27 +233,29 @@ export function useSupabaseAuth() {
         });
 
         if (error) {
-          console.error('❌ Error setting Supabase session:', error);
+          logger.error('Error setting Supabase session', error as Error);
           // Se o template 'supabase' não existir, tentar sem template
-          console.log('⚠️ Falling back to default token...');
+          logger.warn('Falling back to default token');
           try {
             const defaultToken = await getToken();
             if (defaultToken) {
-              console.log('🔐 Trying with default token');
+              logger.debug('Trying with default token');
             }
           } catch (fallbackError) {
-            console.error('❌ Error getting default token:', fallbackError);
+            logger.error('Error getting default token', fallbackError as Error);
           }
         } else {
-          console.log('✅ Supabase session set successfully');
+          logger.info('Supabase session set successfully');
         }
       } else {
-        console.warn('⚠️ No token received from Clerk');
+        logger.warn('No token received from Clerk');
       }
     } catch (error) {
-      console.error('❌ Error getting Clerk token:', error);
+      logger.error('Error getting Clerk token', error as Error);
       // Se o template não existir, isso é esperado - vamos continuar sem ele
-      console.log('ℹ️ Note: Clerk template "supabase" may not be configured. This is OK if RLS allows inserts.');
+      logger.info(
+        'Note: Clerk template "supabase" may not be configured. This is OK if RLS allows inserts.'
+      );
     }
   };
 

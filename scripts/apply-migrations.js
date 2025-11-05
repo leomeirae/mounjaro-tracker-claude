@@ -34,8 +34,9 @@ const MIGRATIONS_DIR = path.join(__dirname, '..', 'supabase', 'migrations');
 
 // Get list of migration files
 function getMigrationFiles() {
-  const files = fs.readdirSync(MIGRATIONS_DIR)
-    .filter(file => file.endsWith('.sql'))
+  const files = fs
+    .readdirSync(MIGRATIONS_DIR)
+    .filter((file) => file.endsWith('.sql'))
     .sort();
 
   return files;
@@ -60,12 +61,12 @@ async function applyMigration(filename) {
       // Split by semicolon and execute each statement
       const statements = sql
         .split(';')
-        .map(s => s.trim())
-        .filter(s => s.length > 0 && !s.startsWith('--'));
+        .map((s) => s.trim())
+        .filter((s) => s.length > 0 && !s.startsWith('--'));
 
       for (const statement of statements) {
         const { error: execError } = await supabase.rpc('exec', {
-          sql: statement + ';'
+          sql: statement + ';',
         });
 
         if (execError) {
@@ -76,7 +77,6 @@ async function applyMigration(filename) {
 
     console.log(`✅ Successfully applied: ${filename}`);
     return { success: true, filename };
-
   } catch (error) {
     console.error(`❌ Error applying ${filename}:`);
     console.error(`   ${error.message}`);
@@ -97,7 +97,7 @@ async function main() {
   }
 
   console.log(`\n📋 Found ${migrationFiles.length} migration(s):`);
-  migrationFiles.forEach(file => console.log(`   - ${file}`));
+  migrationFiles.forEach((file) => console.log(`   - ${file}`));
 
   const results = [];
 
@@ -117,8 +117,8 @@ async function main() {
   console.log('📊 Migration Summary:');
   console.log('='.repeat(60));
 
-  const successful = results.filter(r => r.success).length;
-  const failed = results.filter(r => !r.success).length;
+  const successful = results.filter((r) => r.success).length;
+  const failed = results.filter((r) => !r.success).length;
 
   console.log(`✅ Successful: ${successful}`);
   console.log(`❌ Failed: ${failed}`);
@@ -133,7 +133,7 @@ async function main() {
 }
 
 // Run
-main().catch(error => {
+main().catch((error) => {
   console.error('💥 Fatal error:', error);
   process.exit(1);
 });

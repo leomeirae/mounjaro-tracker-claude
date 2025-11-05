@@ -15,10 +15,7 @@ export function StreakCard({ currentStreak, longestStreak, type }: StreakCardPro
   const styles = getStyles(colors);
 
   return (
-    <View style={[
-      styles.container,
-      currentStreak === 0 && styles.containerInactive
-    ]}>
+    <View style={[styles.container, currentStreak === 0 && styles.containerInactive]}>
       <Text style={styles.emoji}>{emoji}</Text>
 
       <View style={styles.content}>
@@ -31,9 +28,7 @@ export function StreakCard({ currentStreak, longestStreak, type }: StreakCardPro
         <Text style={styles.type}>{label} Consecutivas</Text>
 
         {longestStreak > currentStreak && (
-          <Text style={styles.record}>
-            Recorde: {longestStreak} dias
-          </Text>
+          <Text style={styles.record}>Recorde: {longestStreak} dias</Text>
         )}
       </View>
 
@@ -46,64 +41,65 @@ export function StreakCard({ currentStreak, longestStreak, type }: StreakCardPro
   );
 }
 
-const getStyles = (colors: any) => StyleSheet.create({
-  container: {
-    backgroundColor: colors.card,
-    borderRadius: 16,
-    padding: 20,
-    flexDirection: 'row',
-    alignItems: 'center',
-    borderWidth: 2,
-    borderColor: colors.primary + '40',
-  },
-  containerInactive: {
-    opacity: 0.6,
-    borderColor: colors.border,
-  },
-  emoji: {
-    fontSize: 40,
-    marginRight: 16,
-  },
-  content: {
-    flex: 1,
-  },
-  streakRow: {
-    flexDirection: 'row',
-    alignItems: 'center',
-    marginBottom: 4,
-  },
-  fireEmoji: {
-    fontSize: 20,
-    marginRight: 4,
-  },
-  currentStreak: {
-    fontSize: 28,
-    fontWeight: 'bold',
-    color: colors.text,
-    marginRight: 4,
-  },
-  streakLabel: {
-    fontSize: 14,
-    color: colors.textSecondary,
-  },
-  type: {
-    fontSize: 14,
-    color: colors.textSecondary,
-    marginBottom: 4,
-  },
-  record: {
-    fontSize: 12,
-    color: colors.textMuted,
-  },
-  brokenBadge: {
-    backgroundColor: colors.error,
-    borderRadius: 8,
-    paddingHorizontal: 12,
-    paddingVertical: 6,
-  },
-  brokenText: {
-    fontSize: 12,
-    fontWeight: 'bold',
-    color: colors.text,
-  },
-});
+const getStyles = (colors: any) =>
+  StyleSheet.create({
+    container: {
+      backgroundColor: colors.card,
+      borderRadius: 16,
+      padding: 20,
+      flexDirection: 'row',
+      alignItems: 'center',
+      borderWidth: 2,
+      borderColor: colors.primary + '40',
+    },
+    containerInactive: {
+      opacity: 0.6,
+      borderColor: colors.border,
+    },
+    emoji: {
+      fontSize: 40,
+      marginRight: 16,
+    },
+    content: {
+      flex: 1,
+    },
+    streakRow: {
+      flexDirection: 'row',
+      alignItems: 'center',
+      marginBottom: 4,
+    },
+    fireEmoji: {
+      fontSize: 20,
+      marginRight: 4,
+    },
+    currentStreak: {
+      fontSize: 28,
+      fontWeight: 'bold',
+      color: colors.text,
+      marginRight: 4,
+    },
+    streakLabel: {
+      fontSize: 14,
+      color: colors.textSecondary,
+    },
+    type: {
+      fontSize: 14,
+      color: colors.textSecondary,
+      marginBottom: 4,
+    },
+    record: {
+      fontSize: 12,
+      color: colors.textMuted,
+    },
+    brokenBadge: {
+      backgroundColor: colors.error,
+      borderRadius: 8,
+      paddingHorizontal: 12,
+      paddingVertical: 6,
+    },
+    brokenText: {
+      fontSize: 12,
+      fontWeight: 'bold',
+      color: colors.text,
+    },
+  });

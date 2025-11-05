@@ -42,9 +42,7 @@ export function CustomizationIntroScreen({ onNext, onBack }: CustomizationIntroS
           <View style={styles.feature}>
             <Text style={styles.featureEmoji}>🎯</Text>
             <View style={styles.featureText}>
-              <Text style={[styles.featureTitle, { color: colors.text }]}>
-                Cores de destaque
-              </Text>
+              <Text style={[styles.featureTitle, { color: colors.text }]}>Cores de destaque</Text>
               <Text style={[styles.featureDescription, { color: colors.textSecondary }]}>
                 Personalize a cor principal dos botões e elementos interativos
               </Text>

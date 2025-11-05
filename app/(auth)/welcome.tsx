@@ -18,6 +18,9 @@ import { useFeatureFlag } from '@/lib/feature-flags';
 import { useAuth } from '@/lib/clerk';
 import { useUser } from '@/hooks/useUser';
 import { trackEvent } from '@/lib/analytics';
+import { createLogger } from '@/lib/logger';
+
+const logger = createLogger('Welcome');
 
 const { width } = Dimensions.get('window');
 
@@ -27,7 +30,8 @@ const slides = [
     id: '1',
     image: require('../../assets/imagens_carrossel_tela_inicial/imagem_1 (1).png'),
     title: 'Aproveite ao máximo seu medicamento GLP-1',
-    subtitle: 'Mounjaro Tracker foi projetado para ajudar você a entender e acompanhar suas aplicações semanais.',
+    subtitle:
+      'Mounjaro Tracker foi projetado para ajudar você a entender e acompanhar suas aplicações semanais.',
     accessibilityLabel: 'Aproveite ao máximo seu medicamento GLP-1',
   },
   {
@@ -41,7 +45,8 @@ const slides = [
     id: '3',
     image: require('../../assets/imagens_carrossel_tela_inicial/imagem_3 (1).png'),
     title: 'Entenda seu progresso com gráficos bonitos',
-    subtitle: 'Aprenda mais sobre seu medicamento com ferramentas baseadas em resultados de ensaios clínicos.',
+    subtitle:
+      'Aprenda mais sobre seu medicamento com ferramentas baseadas em resultados de ensaios clínicos.',
     accessibilityLabel: 'Entenda seu progresso com gráficos bonitos',
   },
   {
@@ -59,7 +64,7 @@ export default function WelcomeScreen() {
   const { isSignedIn, isLoaded } = useAuth();
   const { user } = useUser();
   const showCarousel = useFeatureFlag('FF_MARKETING_CAROUSEL_SHOTSY');
-  
+
   const [currentIndex, setCurrentIndex] = useState(0);
   const flatListRef = useRef<FlatList>(null);
 
@@ -69,14 +74,14 @@ export default function WelcomeScreen() {
 
     // Se estiver logado e já completou onboarding, ir para dashboard
     if (isSignedIn && user?.onboarding_completed) {
-      console.log('✅ Usuário já autenticado e onboarding completo, redirecionando para dashboard');
+      logger.info('User authenticated with completed onboarding, redirecting to dashboard');
       router.replace('/(tabs)');
       return;
     }
 
     // Se estiver logado mas não completou onboarding, ir para onboarding
     if (isSignedIn && !user?.onboarding_completed) {
-      console.log('📋 Usuário autenticado mas sem onboarding, redirecionando para onboarding');
+      logger.info('User authenticated without onboarding, redirecting to onboarding');
       router.replace('/(auth)/onboarding-flow');
       return;
     }
@@ -149,10 +154,7 @@ export default function WelcomeScreen() {
       <SafeAreaView style={[styles.container, { backgroundColor: colors.background }]}>
         <View style={styles.fallbackContainer}>
           <View style={styles.buttonContainer}>
-            <ShotsyButton
-              title="Começar"
-              onPress={handleStart}
-            />
+            <ShotsyButton title="Começar" onPress={handleStart} />
           </View>
 
           <View style={styles.termsContainer}>
@@ -160,9 +162,12 @@ export default function WelcomeScreen() {
               Ao continuar, você concorda com os{'\n'}
               <Text style={[styles.termsLink, { color: colors.primary }]} onPress={handleOpenTerms}>
                 Termos de Uso
-              </Text>
-              {' '}e a{' '}
-              <Text style={[styles.termsLink, { color: colors.primary }]} onPress={handleOpenPrivacy}>
+              </Text>{' '}
+              e a{' '}
+              <Text
+                style={[styles.termsLink, { color: colors.primary }]}
+                onPress={handleOpenPrivacy}
+              >
                 Política de Privacidade
               </Text>
             </Text>
@@ -189,9 +194,9 @@ export default function WelcomeScreen() {
         renderItem={({ item }) => (
           <View style={[styles.slide, { width }]}>
             <View style={styles.imageContainer}>
-              <Image 
-                source={item.image} 
-                style={styles.appImage} 
+              <Image
+                source={item.image}
+                style={styles.appImage}
                 resizeMode="contain"
                 accessible={true}
                 accessibilityLabel={item.accessibilityLabel}
@@ -205,9 +210,7 @@ export default function WelcomeScreen() {
       <View style={[styles.contentWrapper, { backgroundColor: colors.background }]}>
         {/* Título e Subtítulo */}
         <View style={styles.textContainer}>
-          <Text style={[styles.title, { color: colors.text }]}>
-            {currentSlide.title}
-          </Text>
+          <Text style={[styles.title, { color: colors.text }]}>{currentSlide.title}</Text>
           {currentSlide.subtitle && (
             <Text style={[styles.subtitle, { color: colors.textSecondary }]}>
               {currentSlide.subtitle}
@@ -245,8 +248,8 @@ export default function WelcomeScreen() {
             Ao continuar, você concorda com os{'\n'}
             <Text style={[styles.termsLink, { color: colors.primary }]} onPress={handleOpenTerms}>
               Termos de Uso
-            </Text>
-            {' '}e a{' '}
+            </Text>{' '}
+            e a{' '}
             <Text style={[styles.termsLink, { color: colors.primary }]} onPress={handleOpenPrivacy}>
               Política de Privacidade
             </Text>
@@ -291,7 +294,7 @@ const styles = StyleSheet.create({
   contentWrapper: {
     paddingHorizontal: 24,
     paddingBottom: 40,
-    paddingTop: 32,  // Mudança: 24 → 32px (Shotsy spacing)
+    paddingTop: 32, // Mudança: 24 → 32px (Shotsy spacing)
   },
   textContainer: {
     marginBottom: 24,
@@ -302,18 +305,18 @@ const styles = StyleSheet.create({
     fontWeight: 'bold',
     textAlign: 'center',
     marginBottom: 12,
-    lineHeight: 42,  // Mudança: 40 → 42px (Shotsy line height)
+    lineHeight: 42, // Mudança: 40 → 42px (Shotsy line height)
   },
   subtitle: {
     fontSize: 16,
     textAlign: 'center',
-    lineHeight: 26,  // Mudança: 24 → 26px (Shotsy line height)
+    lineHeight: 26, // Mudança: 24 → 26px (Shotsy line height)
   },
   pagination: {
     flexDirection: 'row',
     justifyContent: 'center',
     alignItems: 'center',
-    gap: 10,  // Mudança: 8 → 10px (Shotsy dot spacing)
+    gap: 10, // Mudança: 8 → 10px (Shotsy dot spacing)
     marginBottom: 24,
   },
   dot: {
@@ -321,7 +324,7 @@ const styles = StyleSheet.create({
     borderRadius: 4,
   },
   buttonContainer: {
-    marginBottom: 20,  // Mudança: 16 → 20px (Shotsy spacing to terms)
+    marginBottom: 20, // Mudança: 16 → 20px (Shotsy spacing to terms)
   },
   termsContainer: {
     paddingHorizontal: 12,

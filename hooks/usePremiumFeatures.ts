@@ -6,6 +6,9 @@ import { useSubscription } from './useSubscription';
 import { useFeatureFlag } from '@/lib/feature-flags';
 import { supabase } from '@/lib/supabase';
 import { useAuth } from '@clerk/clerk-expo';
+import { createLogger } from '@/lib/logger';
+
+const logger = createLogger('usePremiumFeatures');
 
 interface EntitlementResult {
   user_id: string;
@@ -37,11 +40,14 @@ export function usePremiumFeatures() {
     }
 
     fetchEntitlement();
-    
+
     // Refresh a cada 24h ou quando app abre
-    const interval = setInterval(() => {
-      fetchEntitlement();
-    }, 24 * 60 * 60 * 1000); // 24 horas
+    const interval = setInterval(
+      () => {
+        fetchEntitlement();
+      },
+      24 * 60 * 60 * 1000
+    ); // 24 horas
 
     return () => clearInterval(interval);
   }, [userId]);
@@ -51,18 +57,16 @@ export function usePremiumFeatures() {
       setLoading(true);
       setError(null);
 
-      const { data, error: rpcError } = await supabase
-        .rpc('get_entitlement')
-        .single();
+      const { data, error: rpcError } = await supabase.rpc('get_entitlement').single();
 
       if (rpcError) {
         // Se RPC falhar, usar fallback local
         // Erro PGRST116 significa que não há resultado (usuário sem subscription)
         if (rpcError.code === 'PGRST116') {
-          console.log('ℹ️ No entitlement found (user has no subscription), using free tier');
+          logger.info('ℹ️ No entitlement found (user has no subscription), using free tier');
           setEntitlement(null);
         } else {
-          console.warn('⚠️ RPC get_entitlement failed, using local fallback:', rpcError);
+          logger.warn('⚠️ RPC get_entitlement failed, using local fallback:', rpcError);
           setError(`Failed to fetch premium status: ${rpcError.message}`);
           setEntitlement(null);
         }
@@ -71,7 +75,7 @@ export function usePremiumFeatures() {
 
       setEntitlement(data);
     } catch (err: any) {
-      console.error('❌ Error fetching entitlement:', err);
+      logger.error('❌ Error fetching entitlement:', err);
       setError(err.message || 'Unknown error fetching premium status');
       // Em caso de erro, assumir tier gratuito como fallback seguro
       setEntitlement(null);
@@ -81,13 +85,11 @@ export function usePremiumFeatures() {
   }
 
   // Se paywall desativado, todos têm acesso
-  const hasPremium = paywallEnabled
-    ? (entitlement?.has_plus ?? status.hasPremium)
-    : true;
+  const hasPremium = paywallEnabled ? (entitlement?.has_plus ?? status.hasPremium) : true;
 
   const hasActiveTrial = entitlement?.status === 'trial' || status.hasActiveTrial;
   const isTrialExpired = entitlement?.status === 'expired' || status.isTrialExpired;
-  
+
   const daysUntilTrialExpires = entitlement?.trial_ends_at
     ? Math.ceil(
         (new Date(entitlement.trial_ends_at).getTime() - new Date().getTime()) /
@@ -110,4 +112,3 @@ export function usePremiumFeatures() {
     refetch: fetchEntitlement,
   };
 }
-

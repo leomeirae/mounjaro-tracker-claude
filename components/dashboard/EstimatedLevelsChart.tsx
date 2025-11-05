@@ -5,6 +5,9 @@ import { useShotsyColors } from '@/hooks/useShotsyColors';
 import { useApplications } from '@/hooks/useApplications';
 import { Info, CalendarBlank } from 'phosphor-react-native';
 import { calculateEstimatedLevels, getCurrentEstimatedLevel } from '@/lib/pharmacokinetics';
+import { createLogger } from '@/lib/logger';
+
+const logger = createLogger('EstimatedLevelsChart');
 
 const screenWidth = Dimensions.get('window').width;
 
@@ -32,7 +35,7 @@ export const EstimatedLevelsChart: React.FC = () => {
   const currentLevel = useMemo(() => {
     if (applications.length === 0) return 0;
 
-    const medApplications = applications.map(app => ({
+    const medApplications = applications.map((app) => ({
       dose: app.dosage,
       date: app.date,
     }));
@@ -45,18 +48,20 @@ export const EstimatedLevelsChart: React.FC = () => {
     if (applications.length === 0) {
       return {
         labels: [''],
-        datasets: [{ data: [0] }]
+        datasets: [{ data: [0] }],
       };
     }
 
-    const periodConfig = PERIOD_TABS.find(p => p.key === selectedPeriod)!;
+    const periodConfig = PERIOD_TABS.find((p) => p.key === selectedPeriod)!;
     const now = new Date();
 
     // Convert applications to pharmacokinetics format
-    const medApplications = applications.map(app => ({
-      dose: app.dosage,
-      date: app.date,
-    })).sort((a, b) => a.date.getTime() - b.date.getTime());
+    const medApplications = applications
+      .map((app) => ({
+        dose: app.dosage,
+        date: app.date,
+      }))
+      .sort((a, b) => a.date.getTime() - b.date.getTime());
 
     // Find first application date
     const firstApplicationDate = medApplications[0].date;
@@ -72,7 +77,7 @@ export const EstimatedLevelsChart: React.FC = () => {
       // Start from first application or 7 days ago (whichever is more recent)
       const sevenDaysAgo = new Date(now.getTime() - 7 * 24 * 60 * 60 * 1000);
       startDate = firstApplicationDate < sevenDaysAgo ? sevenDaysAgo : firstApplicationDate;
-      
+
       // End at now + 7 days (to show decay projection)
       endDate = new Date(now.getTime() + 7 * 24 * 60 * 60 * 1000);
     } else if (selectedPeriod === 'month') {
@@ -94,17 +99,12 @@ export const EstimatedLevelsChart: React.FC = () => {
     const intervalHours = Math.max(1, Math.floor(totalHours / 30));
 
     // Get estimated levels
-    const levels = calculateEstimatedLevels(
-      medApplications,
-      startDate,
-      now,
-      intervalHours
-    );
+    const levels = calculateEstimatedLevels(medApplications, startDate, now, intervalHours);
 
     if (levels.length === 0) {
       return {
         labels: [''],
-        datasets: [{ data: [0] }]
+        datasets: [{ data: [0] }],
       };
     }
 
@@ -113,7 +113,10 @@ export const EstimatedLevelsChart: React.FC = () => {
     const sampledLevels = levels.filter((_, index) => index % step === 0);
 
     // Ensure we always include the last point (current)
-    if (sampledLevels.length > 0 && sampledLevels[sampledLevels.length - 1] !== levels[levels.length - 1]) {
+    if (
+      sampledLevels.length > 0 &&
+      sampledLevels[sampledLevels.length - 1] !== levels[levels.length - 1]
+    ) {
       sampledLevels.push(levels[levels.length - 1]);
     }
 
@@ -126,7 +129,7 @@ export const EstimatedLevelsChart: React.FC = () => {
       if (selectedPeriod === 'week') {
         const days = ['Dom', 'Seg', 'Ter', 'Qua', 'Qui', 'Sex', 'Sáb'];
         const dayLabel = days[date.getDay()];
-        
+
         // Mark today and future projection
         if (isToday) return `● ${dayLabel}`;
         if (isFuture) return `${dayLabel}*`;
@@ -143,18 +146,31 @@ export const EstimatedLevelsChart: React.FC = () => {
         return dateLabel;
       } else {
         // 'all' - show months
-        const months = ['Jan', 'Fev', 'Mar', 'Abr', 'Mai', 'Jun', 'Jul', 'Ago', 'Set', 'Out', 'Nov', 'Dez'];
+        const months = [
+          'Jan',
+          'Fev',
+          'Mar',
+          'Abr',
+          'Mai',
+          'Jun',
+          'Jul',
+          'Ago',
+          'Set',
+          'Out',
+          'Nov',
+          'Dez',
+        ];
         const monthLabel = months[date.getMonth()];
         if (isFuture) return `${monthLabel}*`;
         return monthLabel;
       }
     });
 
-    const data = sampledLevels.map(level => level.level);
+    const data = sampledLevels.map((level) => level.level);
 
     return {
       labels,
-      datasets: [{ data }]
+      datasets: [{ data }],
     };
   }, [applications, selectedPeriod]);
 
@@ -163,9 +179,7 @@ export const EstimatedLevelsChart: React.FC = () => {
     return (
       <View style={[styles.container, { backgroundColor: colors.card }]}>
         <View style={styles.header}>
-          <Text style={[styles.title, { color: colors.text }]}>
-            Níveis Estimados de Medicação
-          </Text>
+          <Text style={[styles.title, { color: colors.text }]}>Níveis Estimados de Medicação</Text>
           <Info size={20} color={colors.textSecondary} weight="regular" />
         </View>
         <View style={styles.emptyState}>
@@ -182,21 +196,17 @@ export const EstimatedLevelsChart: React.FC = () => {
     <View style={[styles.container, { backgroundColor: colors.card }]}>
       {/* Header */}
       <View style={styles.header}>
-        <Text style={[styles.title, { color: colors.text }]}>
-          Níveis Estimados de Medicação
-        </Text>
+        <Text style={[styles.title, { color: colors.text }]}>Níveis Estimados de Medicação</Text>
         <View style={styles.headerRight}>
           <Pressable
             style={styles.jumpButton}
             onPress={() => {
               // TODO: Implement scroll to today functionality
-              console.log('Jump to today');
+              logger.debug('Jump to today');
             }}
           >
             <CalendarBlank size={18} color={colors.primary} weight="regular" />
-            <Text style={[styles.jumpButtonText, { color: colors.primary }]}>
-              Hoje
-            </Text>
+            <Text style={[styles.jumpButtonText, { color: colors.primary }]}>Hoje</Text>
           </Pressable>
           <Info size={20} color={colors.textSecondary} weight="regular" style={styles.infoIcon} />
         </View>
@@ -225,9 +235,7 @@ export const EstimatedLevelsChart: React.FC = () => {
             style={[
               styles.filterButton,
               {
-                backgroundColor: selectedPeriod === tab.key
-                  ? colors.primary
-                  : colors.cardSecondary,
+                backgroundColor: selectedPeriod === tab.key ? colors.primary : colors.cardSecondary,
               },
             ]}
           >
@@ -235,9 +243,12 @@ export const EstimatedLevelsChart: React.FC = () => {
               style={[
                 styles.filterText,
                 {
-                  color: selectedPeriod === tab.key
-                    ? colors.isDark ? colors.text : '#FFFFFF'
-                    : colors.textSecondary,
+                  color:
+                    selectedPeriod === tab.key
+                      ? colors.isDark
+                        ? colors.text
+                        : '#FFFFFF'
+                      : colors.textSecondary,
                 },
               ]}
             >
@@ -291,11 +302,11 @@ export const EstimatedLevelsChart: React.FC = () => {
           withShadow={false}
           fromZero={false}
         />
-        
+
         {/* Legend */}
         <View style={styles.legendContainer}>
           <Text style={[styles.legendText, { color: colors.textSecondary }]}>
-            ● Hoje  |  * Projeção (declínio estimado)
+            ● Hoje | * Projeção (declínio estimado)
           </Text>
           <Text style={[styles.legendSubtext, { color: colors.textSecondary }]}>
             Baseado em meia-vida de ~5 dias

@@ -8,9 +8,11 @@ Code: 42501
 ```
 
 ### Causa
+
 Você está usando **Clerk** para autenticação, mas as políticas RLS (Row-Level Security) do Supabase estão configuradas para usar `auth.uid()`, que só funciona com **Supabase Auth**.
 
 Com Clerk:
+
 - ❌ `auth.uid()` retorna `null`
 - ❌ Políticas RLS bloqueiam inserções
 - ✅ Você precisa desabilitar RLS ou ajustar as políticas
@@ -24,6 +26,7 @@ Com Clerk:
 Esta é a solução mais simples e segura quando você usa Clerk.
 
 #### Por que é seguro?
+
 1. ✅ Clerk já autentica o usuário
 2. ✅ Seu app sempre filtra por `user_id`
 3. ✅ O `anon key` do Supabase só funciona via seu app
@@ -105,13 +108,13 @@ Após executar o SQL:
 
 ## 📊 Comparação das Opções
 
-| Característica | Opção 1: Desabilitar RLS | Opção 2: RLS Permissivo |
-|----------------|--------------------------|-------------------------|
-| **Facilidade** | ✅ Muito fácil | ⚠️ Um pouco mais complexo |
-| **Segurança** | ✅ Seguro com Clerk | ⚠️ Requer confiança no app |
-| **Performance** | ✅ Mais rápido | ⚠️ Overhead do RLS |
-| **Manutenção** | ✅ Menos código | ⚠️ Mais políticas |
-| **Recomendado para Clerk** | ✅ **SIM** | ⚠️ Opcional |
+| Característica             | Opção 1: Desabilitar RLS | Opção 2: RLS Permissivo    |
+| -------------------------- | ------------------------ | -------------------------- |
+| **Facilidade**             | ✅ Muito fácil           | ⚠️ Um pouco mais complexo  |
+| **Segurança**              | ✅ Seguro com Clerk      | ⚠️ Requer confiança no app |
+| **Performance**            | ✅ Mais rápido           | ⚠️ Overhead do RLS         |
+| **Manutenção**             | ✅ Menos código          | ⚠️ Mais políticas          |
+| **Recomendado para Clerk** | ✅ **SIM**               | ⚠️ Opcional                |
 
 ---
 
@@ -120,12 +123,14 @@ Após executar o SQL:
 ### Com RLS Desabilitado + Clerk:
 
 **Camadas de segurança que você TEM:**
+
 1. ✅ Clerk autentica usuários (JWT tokens)
 2. ✅ Supabase valida anon key
 3. ✅ App filtra por `user_id` sempre
 4. ✅ HTTPS encripta requisições
 
 **O que um atacante precisaria:**
+
 - Seu `anon key` do Supabase
 - Conhecer o `user_id` de outro usuário
 - Interceptar ou fazer requisições diretas
@@ -137,6 +142,7 @@ Após executar o SQL:
 ## 📝 Arquivos de Referência
 
 O SQL está disponível em:
+
 ```
 supabase/migrations/fix_daily_nutrition_rls.sql
 ```
@@ -146,13 +152,17 @@ supabase/migrations/fix_daily_nutrition_rls.sql
 ## ❓ FAQ
 
 ### P: E se eu quiser máxima segurança?
+
 **R:** Use Supabase Auth ao invés de Clerk, ou implemente uma função Edge no Supabase que valida o JWT do Clerk.
 
 ### P: Preciso desabilitar RLS em outras tabelas?
+
 **R:** Sim, se você tiver o mesmo erro em `medications`, `medication_applications`, etc.
 
 ### P: Posso reverter depois?
+
 **R:** Sim, basta executar:
+
 ```sql
 ALTER TABLE daily_nutrition ENABLE ROW LEVEL SECURITY;
 ```
@@ -173,4 +183,3 @@ ALTER TABLE daily_nutrition ENABLE ROW LEVEL SECURITY;
 **Data:** 03/11/2025  
 **Status:** Aguardando execução manual no Supabase  
 **Próximo passo:** Execute o SQL no Supabase Dashboard
-

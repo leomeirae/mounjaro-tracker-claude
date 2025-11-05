@@ -1,6 +1,9 @@
 import { useState, useEffect } from 'react';
 import { supabase } from '@/lib/supabase';
 import { useUser } from './useUser';
+import { createLogger } from '@/lib/logger';
+
+const logger = createLogger('useNutrition');
 
 export interface DailyNutrition {
   id: string;
@@ -54,7 +57,7 @@ export const useNutrition = () => {
       if (fetchError) throw fetchError;
 
       // Parse dates
-      const parsedData = (data || []).map(item => ({
+      const parsedData = (data || []).map((item) => ({
         ...item,
         date: new Date(item.date),
         created_at: new Date(item.created_at),
@@ -63,7 +66,7 @@ export const useNutrition = () => {
 
       setNutrition(parsedData);
     } catch (err) {
-      console.error('Error fetching nutrition:', err);
+      logger.error('Error fetching nutrition', err as Error);
       setError(err as Error);
     } finally {
       setLoading(false);
@@ -77,7 +80,7 @@ export const useNutrition = () => {
     const today = new Date();
     today.setHours(0, 0, 0, 0);
 
-    return nutrition.find(item => {
+    return nutrition.find((item) => {
       const itemDate = new Date(item.date);
       itemDate.setHours(0, 0, 0, 0);
       return itemDate.getTime() === today.getTime();
@@ -91,7 +94,7 @@ export const useNutrition = () => {
     const targetDate = new Date(date);
     targetDate.setHours(0, 0, 0, 0);
 
-    return nutrition.find(item => {
+    return nutrition.find((item) => {
       const itemDate = new Date(item.date);
       itemDate.setHours(0, 0, 0, 0);
       return itemDate.getTime() === targetDate.getTime();
@@ -108,7 +111,7 @@ export const useNutrition = () => {
     const end = new Date(endDate);
     end.setHours(23, 59, 59, 999);
 
-    return nutrition.filter(item => {
+    return nutrition.filter((item) => {
       const itemDate = new Date(item.date);
       return itemDate >= start && itemDate <= end;
     });
@@ -126,19 +129,20 @@ export const useNutrition = () => {
       }
 
       // Use upsert to insert or update
-      const { error: upsertError } = await supabase
-        .from('daily_nutrition')
-        .upsert({
+      const { error: upsertError } = await supabase.from('daily_nutrition').upsert(
+        {
           user_id: user.id,
           ...nutritionData,
-        }, {
+        },
+        {
           onConflict: 'user_id,date',
-        });
+        }
+      );
 
       if (upsertError) throw upsertError;
       await fetchNutrition();
     } catch (err) {
-      console.error('Error creating/updating nutrition:', err);
+      logger.error('Error creating or updating nutrition', err as Error);
       setError(err as Error);
       throw err;
     }
@@ -164,7 +168,7 @@ export const useNutrition = () => {
       if (deleteError) throw deleteError;
       await fetchNutrition();
     } catch (err) {
-      console.error('Error deleting nutrition:', err);
+      logger.error('Error deleting nutrition', err as Error);
       setError(err as Error);
       throw err;
     }
@@ -191,13 +195,16 @@ export const useNutrition = () => {
       };
     }
 
-    const totals = weekData.reduce((acc, item) => ({
-      calories: acc.calories + (item.calories || 0),
-      protein: acc.protein + (item.protein || 0),
-      carbs: acc.carbs + (item.carbs || 0),
-      fats: acc.fats + (item.fats || 0),
-      water: acc.water + (item.water_ml || 0),
-    }), { calories: 0, protein: 0, carbs: 0, fats: 0, water: 0 });
+    const totals = weekData.reduce(
+      (acc, item) => ({
+        calories: acc.calories + (item.calories || 0),
+        protein: acc.protein + (item.protein || 0),
+        carbs: acc.carbs + (item.carbs || 0),
+        fats: acc.fats + (item.fats || 0),
+        water: acc.water + (item.water_ml || 0),
+      }),
+      { calories: 0, protein: 0, carbs: 0, fats: 0, water: 0 }
+    );
 
     const count = weekData.length;
 

@@ -9,7 +9,7 @@ import { useUserSync } from '@/hooks/useUserSync';
 function RootStack() {
   const colors = useColors();
   const { effectiveMode } = useTheme();
-  
+
   // Sincronizar usuário do Clerk com Supabase automaticamente
   // Não precisamos configurar Supabase Auth porque usamos Clerk + RLS permite INSERTs
   useUserSync();
@@ -32,23 +32,23 @@ function RootStack() {
           animation: 'fade',
         }}
       >
-        <Stack.Screen 
-          name="index" 
-          options={{ 
+        <Stack.Screen
+          name="index"
+          options={{
             headerShown: false,
-          }} 
+          }}
         />
-        <Stack.Screen 
-          name="(auth)" 
-          options={{ 
+        <Stack.Screen
+          name="(auth)"
+          options={{
             headerShown: false,
-          }} 
+          }}
         />
-        <Stack.Screen 
-          name="(tabs)" 
-          options={{ 
+        <Stack.Screen
+          name="(tabs)"
+          options={{
             headerShown: false,
-          }} 
+          }}
         />
       </Stack>
     </>
@@ -59,10 +59,7 @@ export default function RootLayout() {
   const publishableKey = validateClerkKey();
 
   return (
-    <ClerkProvider 
-      publishableKey={publishableKey} 
-      tokenCache={tokenCache}
-    >
+    <ClerkProvider publishableKey={publishableKey} tokenCache={tokenCache}>
       <ThemeProvider>
         <RootStack />
       </ThemeProvider>

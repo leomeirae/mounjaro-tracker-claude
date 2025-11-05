@@ -8,7 +8,11 @@ interface JourneyMilestonesProps {
   initialWeight: number;
 }
 
-export function JourneyMilestones({ applications, currentWeight, initialWeight }: JourneyMilestonesProps) {
+export function JourneyMilestones({
+  applications,
+  currentWeight,
+  initialWeight,
+}: JourneyMilestonesProps) {
   const colors = useColors();
   if (applications.length === 0) {
     return null;
@@ -17,9 +21,11 @@ export function JourneyMilestones({ applications, currentWeight, initialWeight }
   const totalApplications = applications.length;
   const firstApplication = applications[applications.length - 1];
   const lastApplication = applications[0];
-  
-  const daysSinceStart = firstApplication 
-    ? Math.ceil((Date.now() - new Date(firstApplication.application_date).getTime()) / (1000 * 60 * 60 * 24))
+
+  const daysSinceStart = firstApplication
+    ? Math.ceil(
+        (Date.now() - new Date(firstApplication.application_date).getTime()) / (1000 * 60 * 60 * 24)
+      )
     : 0;
 
   const weekNumber = Math.floor(daysSinceStart / 7) + 1;
@@ -30,7 +36,7 @@ export function JourneyMilestones({ applications, currentWeight, initialWeight }
   return (
     <View style={styles.container}>
       <Text style={styles.title}>🎯 Marcos da Jornada</Text>
-      
+
       <View style={styles.milestonesGrid}>
         <View style={styles.milestoneCard}>
           <Text style={styles.milestoneEmoji}>💉</Text>
@@ -61,73 +67,72 @@ export function JourneyMilestones({ applications, currentWeight, initialWeight }
               year: 'numeric',
             })}
           </Text>
-          <Text style={styles.lastAppDosage}>
-            Dosagem: {lastApplication.dosage}mg
-          </Text>
+          <Text style={styles.lastAppDosage}>Dosagem: {lastApplication.dosage}mg</Text>
         </View>
       )}
     </View>
   );
 }
 
-const getStyles = (colors: any) => StyleSheet.create({
-  container: {
-    paddingVertical: 16,
-  },
-  title: {
-    fontSize: 18,
-    fontWeight: 'bold',
-    color: colors.text,
-    marginBottom: 16,
-  },
-  milestonesGrid: {
-    flexDirection: 'row',
-    // gap: 12, // Not supported in React Native StyleSheet
-    marginBottom: 16,
-  },
-  milestoneCard: {
-    flex: 1,
-    backgroundColor: colors.card,
-    borderRadius: 12,
-    padding: 16,
-    alignItems: 'center',
-    marginHorizontal: 6,
-  },
-  milestoneEmoji: {
-    fontSize: 32,
-    marginBottom: 8,
-  },
-  milestoneValue: {
-    fontSize: 18,
-    fontWeight: 'bold',
-    color: colors.text,
-    marginBottom: 4,
-  },
-  milestoneLabel: {
-    fontSize: 12,
-    color: colors.textMuted,
-    textAlign: 'center',
-  },
-  lastApplicationCard: {
-    backgroundColor: colors.primary + '20',
-    borderRadius: 12,
-    padding: 16,
-    borderLeftWidth: 4,
-    borderLeftColor: colors.primary,
-  },
-  lastAppTitle: {
-    fontSize: 12,
-    color: colors.textMuted,
-    marginBottom: 4,
-  },
-  lastAppDate: {
-    fontSize: 16,
-    fontWeight: '600',
-    color: colors.text,
-    marginBottom: 4,
-  },
-  lastAppDosage: {
-    fontSize: 14,
-    color: colors.textSecondary,
-  },
-});
+const getStyles = (colors: any) =>
+  StyleSheet.create({
+    container: {
+      paddingVertical: 16,
+    },
+    title: {
+      fontSize: 18,
+      fontWeight: 'bold',
+      color: colors.text,
+      marginBottom: 16,
+    },
+    milestonesGrid: {
+      flexDirection: 'row',
+      // gap: 12, // Not supported in React Native StyleSheet
+      marginBottom: 16,
+    },
+    milestoneCard: {
+      flex: 1,
+      backgroundColor: colors.card,
+      borderRadius: 12,
+      padding: 16,
+      alignItems: 'center',
+      marginHorizontal: 6,
+    },
+    milestoneEmoji: {
+      fontSize: 32,
+      marginBottom: 8,
+    },
+    milestoneValue: {
+      fontSize: 18,
+      fontWeight: 'bold',
+      color: colors.text,
+      marginBottom: 4,
+    },
+    milestoneLabel: {
+      fontSize: 12,
+      color: colors.textMuted,
+      textAlign: 'center',
+    },
+    lastApplicationCard: {
+      backgroundColor: colors.primary + '20',
+      borderRadius: 12,
+      padding: 16,
+      borderLeftWidth: 4,
+      borderLeftColor: colors.primary,
+    },
+    lastAppTitle: {
+      fontSize: 12,
+      color: colors.textMuted,
+      marginBottom: 4,
+    },
+    lastAppDate: {
+      fontSize: 16,
+      fontWeight: '600',
+      color: colors.text,
+      marginBottom: 4,
+    },
+    lastAppDosage: {
+      fontSize: 14,
+      color: colors.textSecondary,
+    },
+  });

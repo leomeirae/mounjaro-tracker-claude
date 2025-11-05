@@ -1,11 +1,32 @@
 import { useState, useEffect } from 'react';
-import { View, Text, StyleSheet, Alert, Pressable, ScrollView, KeyboardAvoidingView, Platform, TouchableWithoutFeedback, Keyboard } from 'react-native';
+import {
+  View,
+  Text,
+  StyleSheet,
+  Alert,
+  Pressable,
+  ScrollView,
+  KeyboardAvoidingView,
+  Platform,
+  TouchableWithoutFeedback,
+  Keyboard,
+} from 'react-native';
 import { useRouter, useLocalSearchParams } from 'expo-router';
 import { Button } from '@/components/ui/button';
 import { Input } from '@/components/ui/input';
 import { useWeightLogs } from '@/hooks/useWeightLogs';
 import { useColors } from '@/constants/colors';
-import { AppIcon, SmileyIcon, FistIcon, CheckCircleIcon, FaceNeutralIcon, FaceSadIcon, FaceAngryIcon, StomachIcon, MoonStarsIcon } from '@/components/ui/icons';
+import {
+  AppIcon,
+  SmileyIcon,
+  FistIcon,
+  CheckCircleIcon,
+  FaceNeutralIcon,
+  FaceSadIcon,
+  FaceAngryIcon,
+  StomachIcon,
+  MoonStarsIcon,
+} from '@/components/ui/icons';
 
 const MOOD_OPTIONS = [
   { icon: 'smiley', label: 'Feliz', value: 'Feliz' },
@@ -33,16 +54,18 @@ export default function AddWeightScreen() {
   // Load weight log data for editing
   useEffect(() => {
     if (editId && weightLogs.length > 0) {
-      const log = weightLogs.find(l => l.id === editId);
+      const log = weightLogs.find((l) => l.id === editId);
       if (log) {
         setWeight(log.weight.toString());
         // Parse notes to extract mood if it exists
         if (log.notes) {
-          const moodOption = MOOD_OPTIONS.find(m => log.notes?.includes(m.value));
+          const moodOption = MOOD_OPTIONS.find((m) => log.notes?.includes(m.value));
           if (moodOption) {
             setSelectedMood(moodOption.value);
             // Remove mood from notes to get additional notes
-            const additionalNotesText = log.notes.replace(moodOption.value, '').replace(/^[\s-]+|[\s-]+$/g, '');
+            const additionalNotesText = log.notes
+              .replace(moodOption.value, '')
+              .replace(/^[\s-]+|[\s-]+$/g, '');
             setAdditionalNotes(additionalNotesText);
           } else {
             setAdditionalNotes(log.notes);
@@ -60,10 +83,10 @@ export default function AddWeightScreen() {
 
     try {
       setLoading(true);
-      
+
       // Combinar mood e notas adicionais
       const finalNotes = [selectedMood, additionalNotes].filter(Boolean).join(' - ');
-      
+
       if (editId) {
         // Update existing weight log
         await updateWeightLog(editId, {
@@ -124,10 +147,12 @@ export default function AddWeightScreen() {
                   onPress={() => setSelectedMood(mood.value)}
                 >
                   <AppIcon name={mood.icon as any} size="xl" color={colors.text} />
-                  <Text style={[
-                    styles.moodButtonLabel,
-                    selectedMood === mood.value && styles.moodLabelSelected,
-                  ]}>
+                  <Text
+                    style={[
+                      styles.moodButtonLabel,
+                      selectedMood === mood.value && styles.moodLabelSelected,
+                    ]}
+                  >
                     {mood.label}
                   </Text>
                 </Pressable>
@@ -146,7 +171,7 @@ export default function AddWeightScreen() {
           {weightLogsLoading && (
             <Text style={styles.loadingText}>Carregando dados do usuário...</Text>
           )}
-          
+
           <Button
             label={editId ? 'Salvar Alterações' : 'Salvar Peso'}
             onPress={handleSubmit}
@@ -159,66 +184,67 @@ export default function AddWeightScreen() {
   );
 }
 
-const getStyles = (colors: any) => StyleSheet.create({
-  container: {
-    flex: 1,
-    backgroundColor: colors.background,
-  },
-  scrollContent: {
-    padding: 24,
-    flexGrow: 1,
-    justifyContent: 'center',
-  },
-  title: {
-    fontSize: 28,
-    fontWeight: 'bold',
-    color: colors.text,
-    marginBottom: 24,
-  },
-  moodSection: {
-    marginVertical: 20,
-  },
-  moodLabel: {
-    fontSize: 16,
-    fontWeight: '600',
-    color: colors.text,
-    marginBottom: 12,
-  },
-  moodGrid: {
-    flexDirection: 'row',
-    flexWrap: 'wrap',
-    gap: 12,
-  },
-  moodButton: {
-    backgroundColor: colors.card,
-    borderRadius: 12,
-    padding: 12,
-    alignItems: 'center',
-    width: '22%',
-    borderWidth: 2,
-    borderColor: 'transparent',
-  },
-  moodButtonSelected: {
-    borderColor: colors.primary,
-    backgroundColor: colors.backgroundLight,
-  },
-  moodEmoji: {
-    // fontSize: 32, // Removed as AppIcon handles its own size
-    marginBottom: 4,
-  },
-  moodButtonLabel: {
-    fontSize: 10,
-    color: colors.textSecondary,
-    textAlign: 'center',
-  },
-  moodLabelSelected: {
-    color: colors.primary,
-    fontWeight: 'bold',
-  },
-  loadingText: {
-    color: colors.textSecondary,
-    fontSize: 14,
-    textAlign: 'center',
-    marginTop: 8,
-  },
-});
+const getStyles = (colors: any) =>
+  StyleSheet.create({
+    container: {
+      flex: 1,
+      backgroundColor: colors.background,
+    },
+    scrollContent: {
+      padding: 24,
+      flexGrow: 1,
+      justifyContent: 'center',
+    },
+    title: {
+      fontSize: 28,
+      fontWeight: 'bold',
+      color: colors.text,
+      marginBottom: 24,
+    },
+    moodSection: {
+      marginVertical: 20,
+    },
+    moodLabel: {
+      fontSize: 16,
+      fontWeight: '600',
+      color: colors.text,
+      marginBottom: 12,
+    },
+    moodGrid: {
+      flexDirection: 'row',
+      flexWrap: 'wrap',
+      gap: 12,
+    },
+    moodButton: {
+      backgroundColor: colors.card,
+      borderRadius: 12,
+      padding: 12,
+      alignItems: 'center',
+      width: '22%',
+      borderWidth: 2,
+      borderColor: 'transparent',
+    },
+    moodButtonSelected: {
+      borderColor: colors.primary,
+      backgroundColor: colors.backgroundLight,
+    },
+    moodEmoji: {
+      // fontSize: 32, // Removed as AppIcon handles its own size
+      marginBottom: 4,
+    },
+    moodButtonLabel: {
+      fontSize: 10,
+      color: colors.textSecondary,
+      textAlign: 'center',
+    },
+    moodLabelSelected: {
+      color: colors.primary,
+      fontWeight: 'bold',
+    },
+    loadingText: {
+      color: colors.textSecondary,
+      fontSize: 14,
+      textAlign: 'center',
+      marginTop: 8,
+    },
+  });

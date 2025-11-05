@@ -55,7 +55,7 @@ export function NextShotWidget({
       if (lastShot.getTime() === today.getTime()) {
         const timeString = lastShotDate.toLocaleTimeString('pt-BR', {
           hour: '2-digit',
-          minute: '2-digit'
+          minute: '2-digit',
         });
 
         return {
@@ -125,7 +125,10 @@ export function NextShotWidget({
     // Calculate progress based on frequency
     let totalDays = 7; // Default weekly
 
-    if (frequency?.toLowerCase().includes('biweekly') || frequency?.toLowerCase().includes('bi-weekly')) {
+    if (
+      frequency?.toLowerCase().includes('biweekly') ||
+      frequency?.toLowerCase().includes('bi-weekly')
+    ) {
       totalDays = 14;
     } else if (frequency?.toLowerCase().includes('daily')) {
       totalDays = 1;
@@ -164,9 +167,7 @@ export function NextShotWidget({
             {/* Emoji indicator */}
             <Text style={styles.emoji}>{state.emoji}</Text>
 
-            <Text style={[styles.widgetTitle, { color: colors.text }]}>
-              {state.title}
-            </Text>
+            <Text style={[styles.widgetTitle, { color: colors.text }]}>{state.title}</Text>
             <Text style={[styles.widgetSubtitle, { color: colors.textSecondary }]}>
               {state.subtitle}
             </Text>

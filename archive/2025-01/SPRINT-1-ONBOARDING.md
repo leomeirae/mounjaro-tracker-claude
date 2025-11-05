@@ -19,12 +19,14 @@
 ## Status Atual
 
 ✅ **Concluído:**
+
 - Sistema de feature flags criado (`lib/feature-flags.ts`)
 - Sistema de analytics criado (`lib/analytics.ts`)
 - Estrutura base do onboarding-flow.tsx refatorada
 - Todos os 23 componentes de onboarding já existem
 
 ⚠️ **Em Progresso:**
+
 - Ajustar assinaturas dos componentes para compatibilidade
 - Implementar salvamento de dados no Supabase
 - Adicionar tracking completo de eventos
@@ -34,10 +36,12 @@
 ## Tarefas Detalhadas
 
 ### Tarefa 1: Ajustar Assinaturas dos Componentes
+
 **Prioridade:** Alta  
 **Estimativa:** 4-6h
 
 Alguns componentes têm assinaturas diferentes:
+
 - `WelcomeScreen`: apenas `onNext`
 - `WidgetsIntroScreen`: `onNext` e `onBack`
 - `MotivationScreen`: `onNext(data)` com dados
@@ -46,10 +50,12 @@ Alguns componentes têm assinaturas diferentes:
 **Ação:** Verificar cada componente e ajustar o `onboarding-flow.tsx` para passar os callbacks corretos.
 
 ### Tarefa 2: Implementar Salvamento de Dados no Supabase
+
 **Prioridade:** Alta  
 **Estimativa:** 6-8h
 
 Após completar onboarding, salvar dados no perfil do usuário:
+
 - Dados de medicação (medication, dose, frequency, device)
 - Dados físicos (height, currentWeight, startingWeight, targetWeight)
 - Preferências (motivation, concerns, etc.)
@@ -57,10 +63,12 @@ Após completar onboarding, salvar dados no perfil do usuário:
 **Ação:** Criar/atualizar hook `useOnboarding` que salva dados no Supabase.
 
 ### Tarefa 3: Implementar Tracking Completo
+
 **Prioridade:** Média  
 **Estimativa:** 3-4h
 
 Adicionar todos os eventos de tracking conforme TRACKING-EVENTS-SPEC.md:
+
 - `onboarding_started`
 - `onboarding_step_viewed`
 - `onboarding_step_completed`
@@ -71,6 +79,7 @@ Adicionar todos os eventos de tracking conforme TRACKING-EVENTS-SPEC.md:
 **Ação:** Integrar chamadas de `trackEvent` em pontos estratégicos.
 
 ### Tarefa 4: Testar Fluxo Completo
+
 **Prioridade:** Alta  
 **Estimativa:** 4-6h
 
@@ -127,4 +136,3 @@ Lista de componentes a verificar assinatura:
 ---
 
 **Próxima Sprint:** FAQ + Busca Remissiva (P0-003, P0-004)
-

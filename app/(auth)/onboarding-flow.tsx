@@ -11,8 +11,11 @@ import { OnboardingProgressBar } from '@/components/onboarding';
 import { useFeatureFlag } from '@/lib/feature-flags';
 import { useOnboarding } from '@/hooks/useOnboarding';
 import { trackEvent } from '@/lib/analytics';
+import { createLogger } from '@/lib/logger';
 import { useAuth } from '@/lib/clerk';
 import { useUser } from '@/hooks/useUser';
+
+const logger = createLogger('OnboardingFlow');
 
 // Importar todas as 22 telas de onboarding (sem welcome - carrossel já foi mostrado antes do login)
 import {
@@ -105,10 +108,14 @@ export default function OnboardingFlowScreen() {
   const { isSignedIn, isLoaded: authLoaded } = useAuth();
   const { user, loading: userLoading } = useUser();
   const use23Steps = useFeatureFlag('FF_ONBOARDING_23');
-  
+
   const [currentStep, setCurrentStep] = useState<OnboardingStep>('widgets');
   const [onboardingData, setOnboardingData] = useState<OnboardingData>({});
   const [isLoading, setIsLoading] = useState(true);
+
+  // Time tracking for analytics
+  const [onboardingStartTime] = useState(() => Date.now());
+  const [stepStartTime, setStepStartTime] = useState(Date.now());
 
   // GUARD CRÍTICO: Verificar autenticação PRIMEIRO antes de qualquer coisa
   useEffect(() => {
@@ -119,7 +126,7 @@ export default function OnboardingFlowScreen() {
 
     // Se não estiver logado, LIMPAR progresso e redirecionar para welcome
     if (!isSignedIn) {
-      console.log('🚫 Usuário não autenticado, limpando progresso e redirecionando para welcome');
+      logger.debug('User not authenticated, clearing progress and redirecting to welcome');
       // Limpar progresso salvo se não estiver autenticado
       AsyncStorage.removeItem(ONBOARDING_PROGRESS_KEY).catch(() => {});
       router.replace('/(auth)/welcome');
@@ -128,7 +135,7 @@ export default function OnboardingFlowScreen() {
 
     // Se já completou o onboarding, redirecionar para dashboard
     if (user && user.onboarding_completed) {
-      console.log('✅ Onboarding já completado, redirecionando para dashboard');
+      logger.info('Onboarding already completed, redirecting to dashboard', { userId: user.id });
       // Limpar progresso salvo pois já completou
       AsyncStorage.removeItem(ONBOARDING_PROGRESS_KEY).catch(() => {});
       router.replace('/(tabs)');
@@ -165,6 +172,11 @@ export default function OnboardingFlowScreen() {
     }
   }, [currentStep, isLoading, authLoaded, isSignedIn]);
 
+  // Reset step start time when step changes
+  useEffect(() => {
+    setStepStartTime(Date.now());
+  }, [currentStep]);
+
   const loadProgress = async () => {
     // Só carregar se estiver autenticado
     if (!isSignedIn) {
@@ -182,7 +194,7 @@ export default function OnboardingFlowScreen() {
         }
       }
     } catch (error) {
-      console.error('Error loading onboarding progress:', error);
+      logger.error('Error loading onboarding progress', error as Error);
     } finally {
       setIsLoading(false);
     }
@@ -190,24 +202,24 @@ export default function OnboardingFlowScreen() {
 
   const saveProgress = async (step: OnboardingStep, data: OnboardingData) => {
     try {
-      await AsyncStorage.setItem(
-        ONBOARDING_PROGRESS_KEY,
-        JSON.stringify({ step, data })
-      );
+      await AsyncStorage.setItem(ONBOARDING_PROGRESS_KEY, JSON.stringify({ step, data }));
     } catch (error) {
-      console.error('Error saving onboarding progress:', error);
+      logger.error('Error saving onboarding progress', error as Error);
     }
   };
 
   const handleStepComplete = (step: OnboardingStep, data?: Partial<OnboardingData>) => {
     const stepIndex = ONBOARDING_STEPS.indexOf(step);
     const newData = { ...onboardingData, ...data };
-    
+
+    // Calculate time spent on this step
+    const timeSpentSeconds = Math.floor((Date.now() - stepStartTime) / 1000);
+
     // Track step completion
     trackEvent('onboarding_step_completed', {
       step_number: stepIndex + 1,
       step_name: step,
-      time_spent_seconds: 0, // TODO: calcular tempo real
+      time_spent_seconds: timeSpentSeconds,
       data_collected: data,
     });
 
@@ -225,7 +237,7 @@ export default function OnboardingFlowScreen() {
         from_step_name: step,
         to_step_name: ONBOARDING_STEPS[nextIndex],
       });
-      
+
       setCurrentStep(ONBOARDING_STEPS[nextIndex]);
     } else {
       // Onboarding completo
@@ -237,7 +249,7 @@ export default function OnboardingFlowScreen() {
     const stepIndex = ONBOARDING_STEPS.indexOf(currentStep);
     if (stepIndex > 0) {
       const previousStep = ONBOARDING_STEPS[stepIndex - 1];
-      
+
       // Track voltar para step anterior
       trackEvent('onboarding_step_back', {
         from_step: stepIndex + 1,
@@ -245,15 +257,18 @@ export default function OnboardingFlowScreen() {
         from_step_name: currentStep,
         to_step_name: previousStep,
       });
-      
+
       setCurrentStep(previousStep);
     }
   };
 
   const completeOnboarding = async (data: OnboardingData) => {
+    // Calculate total onboarding time
+    const totalTimeSeconds = Math.floor((Date.now() - onboardingStartTime) / 1000);
+
     // Track completion
     trackEvent('onboarding_completed', {
-      total_time_seconds: 0, // TODO: calcular tempo total
+      total_time_seconds: totalTimeSeconds,
       skipped_steps: [],
       data_completed: {
         has_medication: !!data.medication,
@@ -266,20 +281,16 @@ export default function OnboardingFlowScreen() {
     try {
       // Salvar dados no Supabase
       await saveOnboardingData(data);
-      
+
       // Limpar progresso salvo
       await AsyncStorage.removeItem(ONBOARDING_PROGRESS_KEY);
 
       // Redirecionar para dashboard
       router.replace('/(tabs)');
     } catch (error) {
-      console.error('Error completing onboarding:', error);
+      logger.error('Error completing onboarding', error as Error);
       // Mostrar erro ao usuário (implementar toast/alert)
-      Alert.alert(
-        'Erro',
-        'Não foi possível salvar seus dados. Tente novamente.',
-        [{ text: 'OK' }]
-      );
+      Alert.alert('Erro', 'Não foi possível salvar seus dados. Tente novamente.', [{ text: 'OK' }]);
     }
   };
 
@@ -289,7 +300,7 @@ export default function OnboardingFlowScreen() {
       step_number: stepIndex + 1,
       step_name: currentStep,
     });
-    
+
     // Avançar para próximo step sem dados
     handleStepComplete(currentStep);
   };
@@ -303,9 +314,7 @@ export default function OnboardingFlowScreen() {
       <SafeAreaView style={[styles.container, { backgroundColor: colors.background }]}>
         <View style={styles.loadingContainer}>
           <ActivityIndicator size="large" color={colors.primary} />
-          <Text style={[styles.loadingText, { color: colors.textSecondary }]}>
-            Carregando...
-          </Text>
+          <Text style={[styles.loadingText, { color: colors.textSecondary }]}>Carregando...</Text>
         </View>
       </SafeAreaView>
     );
@@ -327,9 +336,7 @@ export default function OnboardingFlowScreen() {
       <SafeAreaView style={[styles.container, { backgroundColor: colors.background }]}>
         <View style={styles.loadingContainer}>
           <ActivityIndicator size="large" color={colors.primary} />
-          <Text style={[styles.loadingText, { color: colors.textSecondary }]}>
-            Carregando...
-          </Text>
+          <Text style={[styles.loadingText, { color: colors.textSecondary }]}>Carregando...</Text>
         </View>
       </SafeAreaView>
     );
@@ -348,11 +355,23 @@ export default function OnboardingFlowScreen() {
 
     switch (currentStep) {
       case 'widgets':
-        return <WidgetsIntroScreen onNext={() => handleStepComplete('widgets')} onBack={handleStepBack} />;
+        return (
+          <WidgetsIntroScreen
+            onNext={() => handleStepComplete('widgets')}
+            onBack={handleStepBack}
+          />
+        );
       case 'charts':
-        return <ChartsIntroScreen onNext={() => handleStepComplete('charts')} onBack={handleStepBack} />;
+        return (
+          <ChartsIntroScreen onNext={() => handleStepComplete('charts')} onBack={handleStepBack} />
+        );
       case 'customization':
-        return <CustomizationIntroScreen onNext={() => handleStepComplete('customization')} onBack={handleStepBack} />;
+        return (
+          <CustomizationIntroScreen
+            onNext={() => handleStepComplete('customization')}
+            onBack={handleStepBack}
+          />
+        );
       case 'already-using':
         return <AlreadyUsingGLP1Screen onNext={handleNextWithData} onBack={handleStepBack} />;
       case 'medication':
@@ -364,7 +383,12 @@ export default function OnboardingFlowScreen() {
       case 'frequency':
         return <InjectionFrequencyScreen onNext={handleNextWithData} onBack={handleStepBack} />;
       case 'education-graph':
-        return <EducationGraphScreen onNext={() => handleStepComplete('education-graph')} onBack={handleStepBack} />;
+        return (
+          <EducationGraphScreen
+            onNext={() => handleStepComplete('education-graph')}
+            onBack={handleStepBack}
+          />
+        );
       case 'health-disclaimer':
         return (
           <HealthDisclaimerScreen
@@ -383,12 +407,7 @@ export default function OnboardingFlowScreen() {
       case 'height':
         return <HeightInputScreen onNext={handleNextWithData} onBack={handleStepBack} />;
       case 'current-weight':
-        return (
-          <CurrentWeightScreen
-            onNext={handleNextWithData}
-            onBack={handleStepBack}
-          />
-        );
+        return <CurrentWeightScreen onNext={handleNextWithData} onBack={handleStepBack} />;
       case 'starting-weight':
         return (
           <StartingWeightScreen
@@ -415,7 +434,12 @@ export default function OnboardingFlowScreen() {
       case 'daily-routine':
         return <DailyRoutineScreen onNext={handleNextWithData} onBack={handleStepBack} />;
       case 'fluctuations':
-        return <FluctuationsEducationScreen onNext={() => handleStepComplete('fluctuations')} onBack={handleStepBack} />;
+        return (
+          <FluctuationsEducationScreen
+            onNext={() => handleStepComplete('fluctuations')}
+            onBack={handleStepBack}
+          />
+        );
       case 'food-noise':
         return <FoodNoiseScreen onNext={handleNextWithData} onBack={handleStepBack} />;
       case 'side-effects':
@@ -423,7 +447,12 @@ export default function OnboardingFlowScreen() {
       case 'motivation':
         return <MotivationScreen onNext={handleNextWithData} onBack={handleStepBack} />;
       case 'app-rating':
-        return <AppRatingScreen onNext={() => handleStepComplete('app-rating')} onBack={handleStepBack} />;
+        return (
+          <AppRatingScreen
+            onNext={() => handleStepComplete('app-rating')}
+            onBack={handleStepBack}
+          />
+        );
       default:
         return null;
     }
@@ -432,7 +461,7 @@ export default function OnboardingFlowScreen() {
   return (
     <SafeAreaView style={[styles.container, { backgroundColor: colors.background }]}>
       <StatusBar barStyle="dark-content" />
-      
+
       {/* Progress Bar */}
       <OnboardingProgressBar
         current={ONBOARDING_STEPS.indexOf(currentStep) + 1}

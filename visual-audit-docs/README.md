@@ -13,6 +13,7 @@ Este diretório contém toda a documentação da auditoria visual para alinhar o
 **Data:** 5 de novembro de 2025
 
 #### Componentes Auditados:
+
 1. ✅ **Initial Dose Screen** (Onboarding Step 6)
    - Seletor arcaico de dose inicial
    - 4 gaps visuais identificados
@@ -27,6 +28,7 @@ Este diretório contém toda a documentação da auditoria visual para alinhar o
    - Resultado: 80-90% fidelidade [A] ou 100% [B]
 
 #### Decisões Necessárias:
+
 - [ ] Metodologia está aprovada?
 - [ ] Qual opção para o gráfico? (A ou B)
 - [ ] Implementar piloto agora ou continuar documentação?
@@ -36,10 +38,12 @@ Este diretório contém toda a documentação da auditoria visual para alinhar o
 ## 📸 Screenshots de Referência
 
 Todos os screenshots do Shotsy estão organizados em:
+
 - **`/FIGMA-SCREENSHOTS/`** - Screenshots originais do Figma/Shotsy
 - **`/COMPARISON-SCREENSHOTS/`** - Comparações lado a lado (quando disponível)
 
 ### Screenshots do Piloto:
+
 - `shotsy-onboarding-06-initial-dose.PNG` - Initial Dose Screen
 - `shotsy-dashboard-estimated-levels-chart.PNG` - Estimated Levels Chart
 
@@ -50,6 +54,7 @@ Todos os screenshots do Shotsy estão organizados em:
 ### Níveis de Detalhamento
 
 **P0 (DETALHADO) - Onboarding + Gráficos:**
+
 - ✅ Specs técnicas completas (px, hex, weights)
 - ✅ Code snippets das mudanças
 - ✅ Comparação propriedade por propriedade
@@ -58,6 +63,7 @@ Todos os screenshots do Shotsy estão organizados em:
 - ✅ Critérios de aceitação testáveis
 
 **P1/P2 (ALTO NÍVEL) - Demais Telas:**
+
 - Layout geral (estrutura de seções)
 - Hierarquia visual (problemas de contraste)
 - Espaçamentos críticos
@@ -71,23 +77,29 @@ Cada componente auditado segue o template:
 ## [NOME DO COMPONENTE]
 
 ### 📸 Referências Visuais
+
 - Shotsy (Original): screenshot + path
 - Mounjaro (Atual): componente + linhas
 - Comparação Side-by-Side: (se disponível)
 
 ### 🎯 Impacto UX
+
 [Por que essa mudança importa? 1-2 frases em linguagem de negócio]
 
 ### 🔍 Gaps Visuais Identificados
+
 [Comparação detalhada: Shotsy vs Mounjaro]
 
 ### 🛠️ Mudanças Necessárias
+
 [Code snippets com antes/depois]
 
 ### ⚙️ Especificações Técnicas
+
 - Arquivo, linhas, esforço, risco, dependências
 
 ### ✅ Critérios de Aceitação
+
 - [ ] Lista testável de requisitos
 ```
 
@@ -96,19 +108,23 @@ Cada componente auditado segue o template:
 ## 📊 Status do Projeto
 
 ### FASE 0 - PILOTO
+
 **Status:** ✅ Completo (Aguardando Aprovação)  
 **Tempo investido:** ~3h de auditoria + documentação  
 **Componentes:** 2/2 auditados
 
 ### SEMANA 1 - P0 Onboarding (Parte 1)
+
 **Status:** ⏸️ Pendente (Aguardando aprovação do piloto)  
 **Componentes:** 0/22 auditados
 
 ### SEMANA 2 - P0 Onboarding (Parte 2) + Gráficos
+
 **Status:** ⏸️ Pendente  
 **Componentes:** 0/4 gráficos auditados
 
 ### SEMANA 3 - P1 + P2
+
 **Status:** ⏸️ Condicional (Depende de checkpoint P0)
 
 ---
@@ -116,6 +132,7 @@ Cada componente auditado segue o template:
 ## 🚀 Próximos Passos
 
 ### Opção 1: Implementar Piloto Agora
+
 1. Revisar `FASE-0-PILOTO-AUDIT.md`
 2. Aprovar metodologia
 3. Decidir opção A ou B para gráfico
@@ -125,6 +142,7 @@ Cada componente auditado segue o template:
 7. Continuar documentação P0 completo
 
 ### Opção 2: Continuar Documentação P0
+
 1. Revisar `FASE-0-PILOTO-AUDIT.md`
 2. Aprovar metodologia
 3. Mapear todos os 37 screenshots
@@ -164,6 +182,7 @@ Cada componente auditado segue o template:
 ## 🎨 Design System Reference
 
 ### Cores Principais (Shotsy)
+
 - Primary: `#0891B2` (cyan/teal)
 - Background (Light): `#FFFFFF`
 - Background (Dark): `#1F1F1F`
@@ -173,6 +192,7 @@ Cada componente auditado segue o template:
 - Border (Dark): `#374151`
 
 ### Espaçamentos Padrão
+
 - XS: 4px
 - S: 8px
 - M: 12px
@@ -182,6 +202,7 @@ Cada componente auditado segue o template:
 - XXXL: 32px
 
 ### Border Radius
+
 - Small: 8px
 - Medium: 12px
 - Large: 16px
@@ -189,6 +210,7 @@ Cada componente auditado segue o template:
 - Pill: 999px
 
 ### Tipografia
+
 - Display: 32px / 700
 - H1: 26px / 700
 - H2: 22px / 700
@@ -216,6 +238,7 @@ Documente o gap e crie issue para revisão.
 ## 📈 Métricas de Progresso
 
 ### Componentes Auditados: 2 / ~50
+
 - ✅ Initial Dose Screen (P0)
 - ✅ Estimated Levels Chart (P0)
 - ⏸️ 20 telas de onboarding restantes
@@ -233,4 +256,3 @@ Documente o gap e crie issue para revisão.
 **Última atualização:** 5 de novembro de 2025  
 **Versão:** 1.0 (Piloto)  
 **Status:** 🟡 Aguardando Aprovação
-

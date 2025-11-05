@@ -69,6 +69,7 @@
 ## What Gets Saved to Database
 
 ### Profiles Table
+
 - Name
 - Height
 - Starting weight
@@ -78,6 +79,7 @@
 - Injection frequency
 
 ### Settings Table
+
 - Shot reminders (enabled/disabled)
 - Shot reminder time
 - Achievement notifications (enabled/disabled)
@@ -96,16 +98,19 @@
 ## Troubleshooting
 
 ### Changes Not Saving
+
 1. Check your internet connection
 2. Ensure you're logged in (Clerk authentication)
 3. Try again - the app will show an error message if it fails
 
 ### Modal Won't Open
+
 1. Ensure you have a valid profile
 2. Check if the app is fully loaded
 3. Restart the app if needed
 
 ### Old Data Still Showing
+
 1. Pull down to refresh on the Settings screen
 2. Close and reopen the Settings tab
 3. The app auto-refreshes after saves

@@ -20,9 +20,7 @@ export function ShotHistoryCards({ data }: ShotHistoryCardsProps) {
   return (
     <View style={styles.container}>
       <View style={styles.header}>
-        <Text style={[styles.title, { color: colors.text }]}>
-          Histórico de Injeções
-        </Text>
+        <Text style={[styles.title, { color: colors.text }]}>Histórico de Injeções</Text>
         <TouchableOpacity onPress={() => router.push('/(tabs)/shots')}>
           <Text style={[styles.link, { color: colors.primary }]}>Ver tudo ›</Text>
         </TouchableOpacity>
@@ -31,19 +29,13 @@ export function ShotHistoryCards({ data }: ShotHistoryCardsProps) {
       <View style={styles.cards}>
         <ShotsyCard style={styles.card}>
           <Text style={[styles.cardIcon, { color: colors.textSecondary }]}>💉</Text>
-          <Text style={[styles.cardLabel, { color: colors.textSecondary }]}>
-            Injeções tomadas
-          </Text>
-          <Text style={[styles.cardValue, { color: colors.text }]}>
-            {data.totalShots}
-          </Text>
+          <Text style={[styles.cardLabel, { color: colors.textSecondary }]}>Injeções tomadas</Text>
+          <Text style={[styles.cardValue, { color: colors.text }]}>{data.totalShots}</Text>
         </ShotsyCard>
 
         <ShotsyCard style={styles.card}>
           <Text style={[styles.cardIcon, { color: colors.textSecondary }]}>💊</Text>
-          <Text style={[styles.cardLabel, { color: colors.textSecondary }]}>
-            Última dose
-          </Text>
+          <Text style={[styles.cardLabel, { color: colors.textSecondary }]}>Última dose</Text>
           <Text style={[styles.cardValue, { color: colors.text }]}>
             {data.lastDose ? `${data.lastDose}mg` : '--'}
           </Text>
@@ -51,9 +43,7 @@ export function ShotHistoryCards({ data }: ShotHistoryCardsProps) {
 
         <ShotsyCard style={styles.card}>
           <Text style={[styles.cardIcon, { color: colors.textSecondary }]}>📈</Text>
-          <Text style={[styles.cardLabel, { color: colors.textSecondary }]}>
-            Nível Est.
-          </Text>
+          <Text style={[styles.cardLabel, { color: colors.textSecondary }]}>Nível Est.</Text>
           <Text style={[styles.cardValue, { color: colors.text }]}>
             {data.estimatedLevel ? `${data.estimatedLevel}mg` : '--'}
           </Text>

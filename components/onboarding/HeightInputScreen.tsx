@@ -28,7 +28,7 @@ export function HeightInputScreen({ onNext, onBack }: HeightInputScreenProps) {
     if (unit === 'cm') {
       onNext({ height: heightCm, heightUnit: 'cm' });
     } else {
-      const totalCm = (heightFt * 30.48) + (heightIn * 2.54);
+      const totalCm = heightFt * 30.48 + heightIn * 2.54;
       onNext({ height: totalCm, heightUnit: 'ft' });
     }
   };

@@ -6,6 +6,9 @@ import { useRouter } from 'expo-router';
 import { useColors } from '@/constants/colors';
 import { useTheme } from '@/lib/theme-context';
 import { supabase } from '@/lib/supabase';
+import { createLogger } from '@/lib/logger';
+
+const logger = createLogger('Profile');
 
 export default function ProfileScreen() {
   const { signOut } = useAuth();
@@ -16,36 +19,32 @@ export default function ProfileScreen() {
   const { mode, setMode } = useTheme();
 
   async function handleSignOut() {
-    Alert.alert(
-      'Confirmar Saída',
-      'Tem certeza que deseja sair?',
-      [
-        { text: 'Cancelar', style: 'cancel' },
-        {
-          text: 'Sair',
-          style: 'destructive',
-          onPress: async () => {
-            try {
-              console.log('Signing out...');
-              
-              // Clear Supabase session
-              await supabase.auth.signOut();
-              console.log('Supabase session cleared');
-              
-              // Sign out from Clerk
-              await signOut();
-              console.log('Clerk sign out successful');
-              
-              // Redirect to welcome (carrossel)
-              router.replace('/(auth)/welcome');
-              console.log('Redirected to login');
-            } catch (error) {
-              console.error('Error signing out:', error);
-            }
-          },
+    Alert.alert('Confirmar Saída', 'Tem certeza que deseja sair?', [
+      { text: 'Cancelar', style: 'cancel' },
+      {
+        text: 'Sair',
+        style: 'destructive',
+        onPress: async () => {
+          try {
+            logger.info('Signing out');
+
+            // Clear Supabase session
+            await supabase.auth.signOut();
+            logger.debug('Supabase session cleared');
+
+            // Sign out from Clerk
+            await signOut();
+            logger.debug('Clerk sign out successful');
+
+            // Redirect to welcome (carrossel)
+            router.replace('/(auth)/welcome');
+            logger.debug('Redirected to login');
+          } catch (error) {
+            logger.error('Error signing out', error as Error);
+          }
         },
-      ]
-    );
+      },
+    ]);
   }
 
   return (
@@ -66,7 +65,7 @@ export default function ProfileScreen() {
 
       <View style={styles.section}>
         <Text style={[styles.sectionTitle, { color: colors.text }]}>Informações da Conta</Text>
-        
+
         <View style={[styles.infoCard, { backgroundColor: colors.card }]}>
           <Text style={[styles.infoLabel, { color: colors.textMuted }]}>ID do Usuário</Text>
           <Text style={[styles.infoValue, { color: colors.text }]}>
@@ -77,18 +76,20 @@ export default function ProfileScreen() {
         <View style={[styles.infoCard, { backgroundColor: colors.card }]}>
           <Text style={[styles.infoLabel, { color: colors.textMuted }]}>Membro desde</Text>
           <Text style={[styles.infoValue, { color: colors.text }]}>
-            {dbUser ? new Date(dbUser.created_at).toLocaleDateString('pt-BR', {
-              day: '2-digit',
-              month: 'long',
-              year: 'numeric',
-            }) : '--'}
+            {dbUser
+              ? new Date(dbUser.created_at).toLocaleDateString('pt-BR', {
+                  day: '2-digit',
+                  month: 'long',
+                  year: 'numeric',
+                })
+              : '--'}
           </Text>
         </View>
       </View>
 
       <View style={styles.section}>
         <Text style={[styles.sectionTitle, { color: colors.text }]}>Configurações</Text>
-        
+
         {/* Theme Selector */}
         <View style={[styles.themeCard, { backgroundColor: colors.card }]}>
           <Text style={[styles.themeTitle, { color: colors.text }]}>🌓 Tema</Text>
@@ -97,18 +98,20 @@ export default function ProfileScreen() {
               style={[
                 styles.themeOption,
                 { backgroundColor: colors.backgroundLight, borderColor: colors.border },
-                mode === 'light' && { 
-                  borderColor: colors.primary, 
-                  backgroundColor: colors.primary + '20' 
-                }
+                mode === 'light' && {
+                  borderColor: colors.primary,
+                  backgroundColor: colors.primary + '20',
+                },
               ]}
               onPress={() => setMode('light')}
             >
-              <Text style={[
-                styles.themeOptionText,
-                { color: colors.textSecondary },
-                mode === 'light' && { color: colors.primary }
-              ]}>
+              <Text
+                style={[
+                  styles.themeOptionText,
+                  { color: colors.textSecondary },
+                  mode === 'light' && { color: colors.primary },
+                ]}
+              >
                 ☀️ Claro
               </Text>
             </TouchableOpacity>
@@ -117,18 +120,20 @@ export default function ProfileScreen() {
               style={[
                 styles.themeOption,
                 { backgroundColor: colors.backgroundLight, borderColor: colors.border },
-                mode === 'dark' && { 
-                  borderColor: colors.primary, 
-                  backgroundColor: colors.primary + '20' 
-                }
+                mode === 'dark' && {
+                  borderColor: colors.primary,
+                  backgroundColor: colors.primary + '20',
+                },
               ]}
               onPress={() => setMode('dark')}
             >
-              <Text style={[
-                styles.themeOptionText,
-                { color: colors.textSecondary },
-                mode === 'dark' && { color: colors.primary }
-              ]}>
+              <Text
+                style={[
+                  styles.themeOptionText,
+                  { color: colors.textSecondary },
+                  mode === 'dark' && { color: colors.primary },
+                ]}
+              >
                 🌙 Escuro
               </Text>
             </TouchableOpacity>
@@ -138,49 +143,39 @@ export default function ProfileScreen() {
                 styles.themeOption,
                 styles.themeOptionLast,
                 { backgroundColor: colors.backgroundLight, borderColor: colors.border },
-                mode === 'system' && { 
-                  borderColor: colors.primary, 
-                  backgroundColor: colors.primary + '20' 
-                }
+                mode === 'system' && {
+                  borderColor: colors.primary,
+                  backgroundColor: colors.primary + '20',
+                },
               ]}
               onPress={() => setMode('system')}
             >
-              <Text style={[
-                styles.themeOptionText,
-                { color: colors.textSecondary },
-                mode === 'system' && { color: colors.primary }
-              ]}>
+              <Text
+                style={[
+                  styles.themeOptionText,
+                  { color: colors.textSecondary },
+                  mode === 'system' && { color: colors.primary },
+                ]}
+              >
                 ⚙️ Sistema
               </Text>
             </TouchableOpacity>
           </View>
         </View>
-        
-        <Button
-          label="📊 Ver Estatísticas Completas"
-          onPress={() => {}}
-          variant="secondary"
-        />
-        
+
+        <Button label="📊 Ver Estatísticas Completas" onPress={() => {}} variant="secondary" />
+
         <Button
           label="🔔 Notificações"
           onPress={() => router.push('/(tabs)/notification-settings')}
           variant="secondary"
         />
-        
-        <Button
-          label="❓ Ajuda e Suporte"
-          onPress={() => {}}
-          variant="secondary"
-        />
+
+        <Button label="❓ Ajuda e Suporte" onPress={() => {}} variant="secondary" />
       </View>
 
       <View style={styles.section}>
-        <Button
-          label="Sair da Conta"
-          onPress={handleSignOut}
-          variant="outline"
-        />
+        <Button label="Sair da Conta" onPress={handleSignOut} variant="outline" />
       </View>
 
       <Text style={[styles.version, { color: colors.textMuted }]}>Versão 1.0.0</Text>

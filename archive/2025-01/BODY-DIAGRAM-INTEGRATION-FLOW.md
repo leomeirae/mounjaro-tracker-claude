@@ -145,6 +145,7 @@ Stomach → Thighs → Arms → Buttocks
 ```
 
 **Example Sequence:**
+
 ```
 1. stomach_left   → Suggest: thigh_*
 2. thigh_right    → Suggest: arm_*
@@ -164,7 +165,7 @@ interface ApplicationData {
   id?: string;
   date: Date;
   dosage: number | null;
-  injectionSites: string[];  // ← Managed here
+  injectionSites: string[]; // ← Managed here
   sideEffects: string[];
   notes: string;
 }
@@ -195,45 +196,48 @@ const isRecentlyUsed = (siteId: string) => recentlyUsedSites.includes(siteId);
 
 ## Visual State Matrix
 
-| State          | Selected | Suggested | Recent | Available |
-|----------------|----------|-----------|--------|-----------|
-| **SVG Circle** |          |           |        |           |
-| Fill Color     | Primary  | Success   | Muted  | Border    |
-| Fill Opacity   | 0.3      | 0.15      | 0.05   | 0         |
-| Stroke Width   | 4px      | 3px       | 2px    | 2px       |
-| Inner Dot      | Yes (5px)| No        | No     | No        |
-| Outer Ring     | No       | Yes (dash)| No     | No        |
-|                |          |           |        |           |
-| **Button**     |          |           |        |           |
-| BG Color       | Primary  | Secondary | Secondary | Secondary |
-| Border Color   | Primary  | Success   | Border | Border    |
-| Border Width   | 1px      | 2px       | 1px    | 1px       |
-| Opacity        | 1.0      | 1.0       | 0.5    | 1.0       |
-| Badge          | None     | 💡        | 🕐     | None      |
-| Text Color     | White    | Secondary | Secondary | Secondary |
+| State          | Selected  | Suggested  | Recent    | Available |
+| -------------- | --------- | ---------- | --------- | --------- |
+| **SVG Circle** |           |            |           |           |
+| Fill Color     | Primary   | Success    | Muted     | Border    |
+| Fill Opacity   | 0.3       | 0.15       | 0.05      | 0         |
+| Stroke Width   | 4px       | 3px        | 2px       | 2px       |
+| Inner Dot      | Yes (5px) | No         | No        | No        |
+| Outer Ring     | No        | Yes (dash) | No        | No        |
+|                |           |            |           |           |
+| **Button**     |           |            |           |           |
+| BG Color       | Primary   | Secondary  | Secondary | Secondary |
+| Border Color   | Primary   | Success    | Border    | Border    |
+| Border Width   | 1px       | 2px        | 1px       | 1px       |
+| Opacity        | 1.0       | 1.0        | 0.5       | 1.0       |
+| Badge          | None      | 💡         | 🕐        | None      |
+| Text Color     | White     | Secondary  | Secondary | Secondary |
 
 ---
 
 ## Integration Points
 
 ### 1. Import Declaration
+
 ```typescript
 // File: app/(tabs)/add-application.tsx (line 18)
 import { BodyDiagram } from '@/components/application/BodyDiagram';
 ```
 
 ### 2. History Function
+
 ```typescript
 // File: app/(tabs)/add-application.tsx (lines 58-64)
 const getInjectionHistory = (): string[] => {
   return applications
-    .filter(app => !isEditMode || app.id !== params.editId)
+    .filter((app) => !isEditMode || app.id !== params.editId)
     .sort((a, b) => b.date.getTime() - a.date.getTime())
-    .flatMap(app => app.injection_sites);
+    .flatMap((app) => app.injection_sites);
 };
 ```
 
 ### 3. Component Usage
+
 ```typescript
 // File: app/(tabs)/add-application.tsx (lines 294-304)
 <BodyDiagram
@@ -277,6 +281,7 @@ add-application.tsx
 ## Testing Scenarios
 
 ### Scenario 1: First Time User (No History)
+
 ```
 Input:
   - selectedSites: []
@@ -290,6 +295,7 @@ Expected Output:
 ```
 
 ### Scenario 2: User with 1 Previous Injection
+
 ```
 Input:
   - selectedSites: []
@@ -303,6 +309,7 @@ Expected Output:
 ```
 
 ### Scenario 3: User with Full History (3+ injections)
+
 ```
 Input:
   - selectedSites: []
@@ -316,6 +323,7 @@ Expected Output:
 ```
 
 ### Scenario 4: Editing Existing Application
+
 ```
 Input:
   - selectedSites: ['stomach_right']
@@ -329,6 +337,7 @@ Expected Output:
 ```
 
 ### Scenario 5: All Sites Recently Used
+
 ```
 Input:
   - selectedSites: []
@@ -346,6 +355,7 @@ Expected Output:
 ## Performance Considerations
 
 ### Optimizations:
+
 1. **Memoization Candidates:**
    - `getInjectionHistory()` - could use `useMemo`
    - `suggestedSite` calculation - already computed once per render
@@ -360,6 +370,7 @@ Expected Output:
    - SVG elements are static (no animations)
 
 ### Current Performance:
+
 - **Component Size:** 347 lines, 11KB
 - **Render Time:** <16ms (estimated)
 - **Memory Footprint:** <100KB
@@ -415,6 +426,7 @@ Expected Output:
 ## Future Enhancements Roadmap
 
 ### Phase 1 (Current): ✅ COMPLETED
+
 - Basic SVG body diagram
 - 8 injection sites
 - Rotation logic
@@ -422,12 +434,14 @@ Expected Output:
 - Button grid
 
 ### Phase 2 (Planned):
+
 - Animated site selection
 - Site usage statistics
 - Pain/irritation tracking
 - Export as PDF
 
 ### Phase 3 (Future):
+
 - 3D body rotation
 - Photo upload per site
 - AI-powered site suggestions
@@ -438,25 +452,33 @@ Expected Output:
 ## Troubleshooting Guide
 
 ### Issue: SVG not rendering
+
 **Solution:**
+
 1. Check react-native-svg installed: `npm list react-native-svg`
 2. Rebuild project: `expo prebuild --clean`
 3. Clear Metro cache: `npx expo start --clear`
 
 ### Issue: Rotation not working
+
 **Solution:**
+
 1. Verify `history` prop is passed
 2. Check site IDs match exactly (case-sensitive)
 3. Console log `getInjectionHistory()` output
 
 ### Issue: Haptic feedback not working
+
 **Solution:**
+
 1. Test on physical device (not simulator)
 2. Check device haptic settings enabled
 3. Verify expo-haptics installed
 
 ### Issue: Theme colors wrong
+
 **Solution:**
+
 1. Verify useShotsyColors hook working
 2. Check ThemeContext is provided
 3. Test theme toggle functionality
@@ -466,6 +488,7 @@ Expected Output:
 ## Summary
 
 The BodyDiagram component is now fully integrated into the add-application screen with:
+
 - ✅ 348 lines of code
 - ✅ 8 injection sites
 - ✅ Intelligent rotation logic

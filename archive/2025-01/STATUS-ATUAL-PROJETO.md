@@ -8,6 +8,7 @@
 ## ✅ O QUE JÁ ESTÁ IMPLEMENTADO (100%)
 
 ### 🏗️ INFRAESTRUTURA
+
 - [x] Expo SDK 54 + React Native 0.81.5
 - [x] TypeScript strict mode
 - [x] Clerk Authentication (Google OAuth)
@@ -17,6 +18,7 @@
 - [x] Hooks pattern para data fetching
 
 ### 📊 DASHBOARD (100% ✅)
+
 - [x] **Dados Reais:** useApplications, useWeights, useProfile integrados
 - [x] **EstimatedLevelsChart:** Farmacocinética real (meia-vida 120h, tabs período)
 - [x] **NextShotWidget:** Estados dinâmicos (Welcome, Success, It's Shot Day, etc)
@@ -28,6 +30,7 @@
 - [x] Loading skeletons
 
 ### 💉 INJECTIONS (100% ✅)
+
 - [x] **Dados Reais:** useApplications + useProfile
 - [x] Lista com agrupamento por mês/ano
 - [x] Filtros de período (7d, 30d, 90d, ano)
@@ -39,6 +42,7 @@
 - [x] Loading state
 
 ### ➕ ADD APPLICATION (100% ✅)
+
 - [x] **BodyDiagram SVG:** Silhueta humana com 8 sítios
 - [x] **Rotação Inteligente:** Stomach → Thighs → Arms → Buttocks
 - [x] Visual indicators (selected, suggested, recently used)
@@ -53,6 +57,7 @@
 - [x] Edit mode (carrega dados existentes)
 
 ### 📈 RESULTS (100% ✅)
+
 - [x] **Dados Reais:** useWeights, useProfile, useApplications
 - [x] WeightChart com dados reais
 - [x] BMIChart com altura do perfil
@@ -62,6 +67,7 @@
 - [x] Cálculo de progresso real
 
 ### 📅 CALENDAR (100% ✅)
+
 - [x] **Dados Reais:** useApplications + useWeights
 - [x] MonthCalendar com eventos reais
 - [x] DayEventsList integrado
@@ -71,6 +77,7 @@
 - [x] Pull to refresh
 
 ### ⚙️ SETTINGS (70% ⚠️)
+
 - [x] ThemeSelector (8 temas)
 - [x] AccentColorSelector (5 cores)
 - [x] Structure completa
@@ -82,6 +89,7 @@
 - [ ] **Export Data:** Placeholder alert
 
 ### 🎨 ONBOARDING (100% ✅)
+
 - [x] **Welcome Carousel:** 3 imagens (slide-1, slide-2, slide-3)
 - [x] Pagination dots
 - [x] Botões "Pular", "Próximo", "Começar"
@@ -90,6 +98,7 @@
 - [x] Sign-In + Sign-Up funcionais
 
 ### 👤 PERSONALIZAÇÃO (85% ✅)
+
 - [x] **Avatar:** 4 estilos (abstract, minimal, illustrated, photo)
 - [x] **Goals:** Sistema de metas com milestones
 - [x] **Personality:** 4 estilos (coach, friend, scientist, minimalist)
@@ -98,6 +107,7 @@
 - [ ] Aplicar migrations no Supabase
 
 ### 📚 BIBLIOTECAS CORE
+
 - [x] **Pharmacokinetics.ts:** calculateEstimatedLevels, calculateNextShotDate
 - [x] **react-native-svg:** 15.12.1 (BodyDiagram)
 - [x] **react-native-chart-kit:** 6.12.0 (EstimatedLevelsChart)
@@ -189,6 +199,7 @@
 ## ✅ VALIDAÇÕES FINAIS
 
 ### Checklist Core Features:
+
 - [x] Dashboard com dados reais
 - [x] Injections com Supabase
 - [x] Results com gráficos reais
@@ -205,6 +216,7 @@
 - [ ] Export data
 
 ### Checklist UX Polish:
+
 - [x] Empty states
 - [x] Loading states
 - [x] Haptic feedback
@@ -215,6 +227,7 @@
 - [ ] Animations
 
 ### Checklist Advanced:
+
 - [x] Farmacocinética
 - [x] Rotação de sítios
 - [ ] Conquistas
@@ -232,6 +245,7 @@
 O projeto está **muito mais completo** do que a auditoria de outubro indica. Muitas features consideradas "pendentes" já foram implementadas desde então.
 
 **Principais Conquistas:**
+
 - ✅ Todas as telas principais funcionando com dados reais
 - ✅ Farmacocinética implementada
 - ✅ SVG BodyDiagram

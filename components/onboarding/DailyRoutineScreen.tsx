@@ -11,11 +11,36 @@ interface DailyRoutineScreenProps {
 }
 
 const activityLevels = [
-  { id: 'sedentary', label: 'Sedentário', description: 'Pouca ou nenhuma atividade física', emoji: '🛋️' },
-  { id: 'light', label: 'Levemente ativo', description: 'Exercícios leves 1-3 vezes/semana', emoji: '🚶' },
-  { id: 'moderate', label: 'Moderadamente ativo', description: 'Exercícios moderados 3-5 vezes/semana', emoji: '🏃' },
-  { id: 'very', label: 'Muito ativo', description: 'Exercícios intensos 6-7 vezes/semana', emoji: '💪' },
-  { id: 'extra', label: 'Extremamente ativo', description: 'Exercícios intensos diários + trabalho físico', emoji: '🏋️' },
+  {
+    id: 'sedentary',
+    label: 'Sedentário',
+    description: 'Pouca ou nenhuma atividade física',
+    emoji: '🛋️',
+  },
+  {
+    id: 'light',
+    label: 'Levemente ativo',
+    description: 'Exercícios leves 1-3 vezes/semana',
+    emoji: '🚶',
+  },
+  {
+    id: 'moderate',
+    label: 'Moderadamente ativo',
+    description: 'Exercícios moderados 3-5 vezes/semana',
+    emoji: '🏃',
+  },
+  {
+    id: 'very',
+    label: 'Muito ativo',
+    description: 'Exercícios intensos 6-7 vezes/semana',
+    emoji: '💪',
+  },
+  {
+    id: 'extra',
+    label: 'Extremamente ativo',
+    description: 'Exercícios intensos diários + trabalho físico',
+    emoji: '🏋️',
+  },
 ];
 
 export function DailyRoutineScreen({ onNext, onBack }: DailyRoutineScreenProps) {
@@ -54,9 +79,7 @@ export function DailyRoutineScreen({ onNext, onBack }: DailyRoutineScreenProps) 
             <View style={styles.optionContent}>
               <Text style={styles.emoji}>{level.emoji}</Text>
               <View style={styles.optionText}>
-                <Text style={[styles.optionTitle, { color: colors.text }]}>
-                  {level.label}
-                </Text>
+                <Text style={[styles.optionTitle, { color: colors.text }]}>{level.label}</Text>
                 <Text style={[styles.optionDescription, { color: colors.textSecondary }]}>
                   {level.description}
                 </Text>
@@ -77,9 +100,9 @@ const styles = StyleSheet.create({
     gap: 12,
   },
   option: {
-    borderRadius: 12,  // Mudança: 16 → 12px (design system)
+    borderRadius: 12, // Mudança: 16 → 12px (design system)
     padding: 16,
-    minHeight: 60,  // Touch target adequado
+    minHeight: 60, // Touch target adequado
     flexDirection: 'row',
     alignItems: 'center',
     justifyContent: 'space-between',

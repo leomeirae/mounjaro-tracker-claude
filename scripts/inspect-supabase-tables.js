@@ -43,7 +43,7 @@ async function inspectDatabase() {
 
     if (tables && tables.length > 0) {
       console.log('✅ Found tables:');
-      tables.forEach(t => console.log('   -', t.table_name));
+      tables.forEach((t) => console.log('   -', t.table_name));
     }
   } catch (error) {
     console.log('⚠️  Error querying database:', error.message);
@@ -62,20 +62,21 @@ async function checkKnownTables() {
     'side_effects',
     'applications',
     'weights',
-    'settings'
+    'settings',
   ];
 
   console.log('🔎 Checking for known tables:\n');
 
   for (const table of tablesToCheck) {
     try {
-      const { data, error } = await supabase
-        .from(table)
-        .select('*')
-        .limit(0);
+      const { data, error } = await supabase.from(table).select('*').limit(0);
 
       if (error) {
-        if (error.code === 'PGRST204' || error.message.includes('relation') || error.message.includes('does not exist')) {
+        if (
+          error.code === 'PGRST204' ||
+          error.message.includes('relation') ||
+          error.message.includes('does not exist')
+        ) {
           console.log(`❌ ${table.padEnd(25)} - Does not exist`);
         } else if (error.code === '42501' || error.message.includes('permission denied')) {
           console.log(`⚠️  ${table.padEnd(25)} - Exists but no permission (need RLS policies)`);
@@ -98,22 +99,40 @@ async function compareWithRequirements() {
   console.log('📋 REQUIRED TABLES FOR MOUNJARO TRACKER:\n');
 
   const requiredTables = {
-    'profiles': {
+    profiles: {
       description: 'User profile data (height, weight goals, medication)',
-      columns: ['id', 'name', 'email', 'height', 'start_weight', 'target_weight', 'medication', 'current_dose', 'frequency']
+      columns: [
+        'id',
+        'name',
+        'email',
+        'height',
+        'start_weight',
+        'target_weight',
+        'medication',
+        'current_dose',
+        'frequency',
+      ],
     },
-    'applications': {
+    applications: {
       description: 'Injection records (shots)',
-      columns: ['id', 'user_id', 'date', 'dosage', 'injection_sites', 'side_effects', 'notes']
+      columns: ['id', 'user_id', 'date', 'dosage', 'injection_sites', 'side_effects', 'notes'],
     },
-    'weights': {
+    weights: {
       description: 'Weight tracking logs',
-      columns: ['id', 'user_id', 'date', 'weight', 'notes']
+      columns: ['id', 'user_id', 'date', 'weight', 'notes'],
     },
-    'settings': {
+    settings: {
       description: 'User preferences (theme, notifications)',
-      columns: ['id', 'user_id', 'theme', 'accent_color', 'dark_mode', 'shot_reminder', 'weight_reminder']
-    }
+      columns: [
+        'id',
+        'user_id',
+        'theme',
+        'accent_color',
+        'dark_mode',
+        'shot_reminder',
+        'weight_reminder',
+      ],
+    },
   };
 
   for (const [table, info] of Object.entries(requiredTables)) {
@@ -127,14 +146,20 @@ async function compareWithRequirements() {
   console.log('🔧 EXISTING TABLES COMPARISON:\n');
 
   // Check if existing tables match our needs
-  const existingTables = ['users', 'medications', 'medication_applications', 'weight_logs', 'side_effects'];
+  const existingTables = [
+    'users',
+    'medications',
+    'medication_applications',
+    'weight_logs',
+    'side_effects',
+  ];
   const ourTables = ['profiles', 'applications', 'weights', 'settings'];
 
   console.log('Existing (from lib/supabase.ts types):');
-  existingTables.forEach(t => console.log(`   - ${t}`));
+  existingTables.forEach((t) => console.log(`   - ${t}`));
 
   console.log('\nRequired for new structure:');
-  ourTables.forEach(t => console.log(`   - ${t}`));
+  ourTables.forEach((t) => console.log(`   - ${t}`));
 
   console.log('\n💡 RECOMMENDATION:\n');
   console.log('The existing tables (users, medications, medication_applications, weight_logs)');

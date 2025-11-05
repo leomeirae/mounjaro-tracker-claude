@@ -21,14 +21,16 @@ export function useTimeline() {
     const events: TimelineEvent[] = [];
 
     // Adicionar aplicações
-    applications.forEach(app => {
-      const medication = medications.find(m => m.id === app.medication_id);
+    applications.forEach((app) => {
+      const medication = medications.find((m) => m.id === app.medication_id);
       events.push({
         id: app.id,
         type: 'application',
         date: app.application_date,
         time: app.application_time || undefined,
-        medicationName: medication ? MEDICATION_NAMES[medication.type] || medication.type : 'Medicação',
+        medicationName: medication
+          ? MEDICATION_NAMES[medication.type] || medication.type
+          : 'Medicação',
         dosage: app.dosage,
         applicationNotes: app.notes || undefined,
       });
@@ -62,10 +64,3 @@ export function useTimeline() {
     loading: appsLoading || weightsLoading,
   };
 }
-
-
-
-
-
-
-

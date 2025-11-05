@@ -18,7 +18,12 @@ export function ShotsyCard({ children, style, variant = 'default' }: ShotsyCardP
         styles.card,
         {
           backgroundColor: isDark ? colors.cardDark : colors.cardLight,
-          borderColor: variant === 'outline' ? (isDark ? colors.borderDark : colors.borderLight) : 'transparent',
+          borderColor:
+            variant === 'outline'
+              ? isDark
+                ? colors.borderDark
+                : colors.borderLight
+              : 'transparent',
         },
         variant === 'elevated' && styles.elevated,
         variant === 'outline' && styles.outline,

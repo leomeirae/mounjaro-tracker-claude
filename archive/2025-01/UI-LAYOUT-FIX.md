@@ -5,11 +5,13 @@
 Os botões "Cancelar" e "Salvar" nas telas de formulário estavam visualmente desalinhados com a área de toque real. Isso acontecia porque os headers não tinham `paddingTop` suficiente para compensar a área da notch/status bar do iPhone.
 
 ### Sintoma
+
 - Botões apareciam muito acima de onde realmente respondiam ao toque
 - Usuário tinha que tocar abaixo da posição visual do botão para acionar a função
 - Problema afetava todas as telas com headers customizados no topo
 
 ### Causa Raiz
+
 Headers com `paddingVertical: 16` não compensavam a altura da status bar (~44px) + notch (~48px) = ~60px necessários.
 
 ---
@@ -17,9 +19,11 @@ Headers com `paddingVertical: 16` não compensavam a altura da status bar (~44px
 ## Correções Aplicadas
 
 ### ✅ 1. add-application.tsx
+
 **Arquivo:** `app/(tabs)/add-application.tsx`
 
 **Antes:**
+
 ```typescript
 header: {
   flexDirection: 'row',
@@ -32,6 +36,7 @@ header: {
 ```
 
 **Depois:**
+
 ```typescript
 header: {
   flexDirection: 'row',
@@ -49,9 +54,11 @@ header: {
 ---
 
 ### ✅ 2. results.tsx
+
 **Arquivo:** `app/(tabs)/results.tsx`
 
 **Antes:**
+
 ```typescript
 header: {
   flexDirection: 'row',
@@ -65,6 +72,7 @@ header: {
 ```
 
 **Depois:**
+
 ```typescript
 header: {
   flexDirection: 'row',
@@ -84,22 +92,27 @@ header: {
 ## Telas Verificadas (Já Corretas)
 
 ### ✅ add-nutrition.tsx
+
 - **Status:** Já tinha `paddingTop: 60`
 - **Nenhuma correção necessária**
 
 ### ✅ dashboard.tsx
+
 - **Status:** Já tinha `paddingTop: 60` no scrollContent
 - **Nenhuma correção necessária**
 
 ### ✅ add-weight.tsx
+
 - **Status:** Usa layout centrado sem header customizado
 - **Nenhuma correção necessária**
 
 ### ✅ add-medication.tsx
+
 - **Status:** Usa layout centrado sem header customizado
 - **Nenhuma correção necessária**
 
 ### ✅ add-side-effect.tsx
+
 - **Status:** Usa layout centrado sem header customizado
 - **Nenhuma correção necessária**
 
@@ -153,4 +166,3 @@ header: {
 
 **Data:** 03/11/2025  
 **Status:** ✅ Resolvido e testado
-

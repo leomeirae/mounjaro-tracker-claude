@@ -9,17 +9,20 @@
 **File:** `/supabase/migrations/001_initial_schema.sql`
 
 ### What it does:
+
 - Creates 4 completely new tables
 - Ignores your existing tables
 - Duplicates functionality
 
 ### Tables Created:
+
 - `profiles` (new table)
 - `applications` (new table)
 - `weights` (new table)
 - `settings` (new table)
 
 ### ❌ Problems:
+
 - Your existing data (`users`, `medication_applications`, `weight_logs`) is **ignored**
 - You'd have **2 sets of tables** for same data
 - Data duplication
@@ -35,6 +38,7 @@
 **File:** `/supabase/migrations/002_optimize_existing_schema.sql`
 
 ### What it does:
+
 - **Uses your existing tables**
 - Adds missing columns
 - Creates views for compatibility
@@ -43,19 +47,23 @@
 ### Strategy:
 
 #### Existing Tables (Keep & Enhance):
+
 - ✅ `users` → Add columns (height, start_weight, target_weight)
 - ✅ `medication_applications` → Add columns (injection_sites, side_effects_list)
 - ✅ `weight_logs` → Keep as is
 
 #### Create Views (Adapters):
+
 - 🔄 `profiles` VIEW → Queries `users` + `medications`
 - 🔄 `applications` VIEW → Queries `medication_applications`
 - 🔄 `weights` VIEW → Queries `weight_logs`
 
 #### Create New:
+
 - 🆕 `settings` TABLE → User preferences (theme, notifications)
 
 ### ✅ Advantages:
+
 - **No data loss** - All existing data preserved
 - **No duplication** - One source of truth
 - **Backward compatible** - Old code still works
@@ -67,16 +75,16 @@
 
 ## 📊 Side-by-Side Comparison
 
-| Feature | Option 1 (New Tables) | Option 2 (Optimize) |
-|---------|----------------------|---------------------|
-| **Data Loss** | ❌ Loses existing data | ✅ Keeps all data |
-| **Duplication** | ❌ Duplicate tables | ✅ Single source |
-| **Migration Effort** | ❌ High (manual data copy) | ✅ Low (automatic) |
-| **Backward Compat** | ❌ Breaks old code | ✅ Works with both |
-| **Database Size** | ❌ Larger | ✅ Smaller |
-| **Complexity** | ❌ More complex | ✅ Simpler |
-| **Performance** | ⚠️ Same | ✅ Same or better |
-| **Maintenance** | ❌ Harder | ✅ Easier |
+| Feature              | Option 1 (New Tables)      | Option 2 (Optimize) |
+| -------------------- | -------------------------- | ------------------- |
+| **Data Loss**        | ❌ Loses existing data     | ✅ Keeps all data   |
+| **Duplication**      | ❌ Duplicate tables        | ✅ Single source    |
+| **Migration Effort** | ❌ High (manual data copy) | ✅ Low (automatic)  |
+| **Backward Compat**  | ❌ Breaks old code         | ✅ Works with both  |
+| **Database Size**    | ❌ Larger                  | ✅ Smaller          |
+| **Complexity**       | ❌ More complex            | ✅ Simpler          |
+| **Performance**      | ⚠️ Same                    | ✅ Same or better   |
+| **Maintenance**      | ❌ Harder                  | ✅ Easier           |
 
 ---
 
@@ -98,6 +106,7 @@
 ### Step 1: Apply Option 2 Migration
 
 Go to Supabase SQL Editor and run:
+
 ```
 /Users/user/Desktop/mounjaro-tracker/supabase/migrations/002_optimize_existing_schema.sql
 ```
@@ -175,6 +184,7 @@ Your hooks don't know they're using views. They think they're real tables. Postg
 **DO use:** `002_optimize_existing_schema.sql` (optimizes existing tables)
 
 **Result:**
+
 - ✅ All existing data preserved
 - ✅ New features work perfectly
 - ✅ Nothing breaks

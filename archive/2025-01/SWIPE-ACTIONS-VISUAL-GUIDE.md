@@ -36,6 +36,7 @@
 ```
 
 **Animation Details:**
+
 - Scale: 0 → 1 (smooth fade-in)
 - Input Range: 0 to 80px
 - Interpolation: Clamped
@@ -60,6 +61,7 @@
 ```
 
 **Animation Details:**
+
 - Scale: 0 → 1 (smooth fade-in)
 - Input Range: 0 to -80px
 - Interpolation: Clamped
@@ -89,6 +91,7 @@
 ## Animation Timeline
 
 ### Edit Action (Swipe Right)
+
 ```
 Time: 0ms ──────────────────────────────────────── 300ms
            │                                      │
@@ -104,6 +107,7 @@ Action:    [User swipes] ───→ [Button reveals] ──→ [Tap] ──→
 ```
 
 ### Delete Action (Swipe Left)
+
 ```
 Time: 0ms ──────────────────────────────────────── 300ms
            │                                      │
@@ -124,6 +128,7 @@ Action:    [User swipes] ───→ [Button reveals] ──→ [Tap] ──→
 ## Color Scheme
 
 ### Light Mode
+
 ```
 ┌──────────────────────────────────┐
 │ Edit Button:                     │
@@ -142,6 +147,7 @@ Action:    [User swipes] ───→ [Button reveals] ──→ [Tap] ──→
 ```
 
 ### Dark Mode
+
 ```
 ┌──────────────────────────────────┐
 │ Edit Button:                     │
@@ -255,11 +261,11 @@ Action:    [User swipes] ───→ [Button reveals] ──→ [Tap] ──→
 
 ```typescript
 const SWIPE_CONFIG = {
-  friction: 2,              // Smooth but responsive
-  overshootLeft: false,     // No overshoot for cleaner UX
-  overshootRight: false,    // No overshoot for cleaner UX
-  leftThreshold: 40,        // 40px to activate edit
-  rightThreshold: 40,       // 40px to activate delete
+  friction: 2, // Smooth but responsive
+  overshootLeft: false, // No overshoot for cleaner UX
+  overshootRight: false, // No overshoot for cleaner UX
+  leftThreshold: 40, // 40px to activate edit
+  rightThreshold: 40, // 40px to activate delete
 
   // Edit Action (Left)
   editButton: {

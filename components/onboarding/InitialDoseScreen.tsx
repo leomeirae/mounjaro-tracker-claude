@@ -29,12 +29,17 @@ const doses = {
   ],
 };
 
-export function InitialDoseScreen({ onNext, onBack, medication = 'tirzepatide' }: InitialDoseScreenProps) {
+export function InitialDoseScreen({
+  onNext,
+  onBack,
+  medication = 'tirzepatide',
+}: InitialDoseScreenProps) {
   const colors = useShotsyColors();
   const { currentAccent } = useTheme();
   const [selected, setSelected] = useState<string | null>(null);
 
-  const isSemaglutide = medication === 'ozempic' || medication === 'wegovy' || medication === 'semaglutide';
+  const isSemaglutide =
+    medication === 'ozempic' || medication === 'wegovy' || medication === 'semaglutide';
   const availableDoses = isSemaglutide ? doses.semaglutide : doses.tirzepatide;
 
   const handleNext = () => {
@@ -67,9 +72,7 @@ export function InitialDoseScreen({ onNext, onBack, medication = 'tirzepatide' }
           >
             <View style={styles.optionContent}>
               <View style={styles.optionText}>
-                <Text style={[styles.optionTitle, { color: colors.text }]}>
-                  {dose.label}
-                </Text>
+                <Text style={[styles.optionTitle, { color: colors.text }]}>{dose.label}</Text>
                 <Text style={[styles.optionDescription, { color: colors.textSecondary }]}>
                   {dose.description}
                 </Text>
@@ -90,9 +93,9 @@ const styles = StyleSheet.create({
     gap: 12,
   },
   option: {
-    borderRadius: 12,  // Mudança: 16 → 12px (design system)
+    borderRadius: 12, // Mudança: 16 → 12px (design system)
     padding: 16,
-    minHeight: 60,  // Touch target adequado
+    minHeight: 60, // Touch target adequado
     flexDirection: 'row',
     alignItems: 'center',
     justifyContent: 'space-between',

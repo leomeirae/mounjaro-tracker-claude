@@ -3,14 +3,16 @@
 ## 🔍 Problema Identificado
 
 ### Erro Original
+
 ```
-ERROR: [GoogleGenerativeAI Error]: Error fetching from 
-https://generativelanguage.googleapis.com/v1beta/models/gemini-1.5-flash:generateContent: 
-[404] models/gemini-1.5-flash is not found for API version v1beta, 
+ERROR: [GoogleGenerativeAI Error]: Error fetching from
+https://generativelanguage.googleapis.com/v1beta/models/gemini-1.5-flash:generateContent:
+[404] models/gemini-1.5-flash is not found for API version v1beta,
 or is not supported for generateContent.
 ```
 
 ### Causa
+
 O modelo `gemini-1.5-flash` não está disponível ou foi descontinuado na API v1beta do Google Generative AI.
 
 ---
@@ -18,17 +20,19 @@ O modelo `gemini-1.5-flash` não está disponível ou foi descontinuado na API v
 ## 🛠️ Correção Aplicada
 
 ### Antes
+
 ```typescript
-this.model = this.genAI.getGenerativeModel({ 
-  model: 'gemini-1.5-flash',  // ❌ Modelo não encontrado
+this.model = this.genAI.getGenerativeModel({
+  model: 'gemini-1.5-flash', // ❌ Modelo não encontrado
   systemInstruction: SYSTEM_PROMPT,
 });
 ```
 
 ### Depois
+
 ```typescript
-this.model = this.genAI.getGenerativeModel({ 
-  model: 'models/gemini-flash-lite-latest',  // ✅ Modelo correto e atual
+this.model = this.genAI.getGenerativeModel({
+  model: 'models/gemini-flash-lite-latest', // ✅ Modelo correto e atual
   systemInstruction: SYSTEM_PROMPT,
 });
 ```
@@ -40,6 +44,7 @@ this.model = this.genAI.getGenerativeModel({
 ### `models/gemini-flash-lite-latest`
 
 **Características:**
+
 - ✅ Modelo otimizado e mais leve
 - ✅ Menor latência de resposta
 - ✅ Custo reduzido por requisição
@@ -47,6 +52,7 @@ this.model = this.genAI.getGenerativeModel({
 - ✅ Suporta `systemInstruction` (guardrails)
 
 **Ideal para:**
+
 - Análise de mensagens de texto
 - Resumo de conteúdo
 - Extração de informações estruturadas
@@ -57,12 +63,14 @@ this.model = this.genAI.getGenerativeModel({
 ## ✅ Resultado
 
 **Antes:**
+
 ```
 ❌ Erro 404: modelo não encontrado
 ❌ Chat de nutrição não funcionava
 ```
 
 **Depois:**
+
 ```
 ✅ Modelo correto configurado
 ✅ Chat de nutrição funcional
@@ -74,6 +82,7 @@ this.model = this.genAI.getGenerativeModel({
 ## 🧪 Como Testar
 
 1. **Certifique-se de ter a API key configurada:**
+
    ```bash
    # Arquivo .env
    EXPO_PUBLIC_GEMINI_API_KEY=sua_api_key_aqui
@@ -96,11 +105,13 @@ this.model = this.genAI.getGenerativeModel({
 ## 📚 Referência
 
 **Documentação Google Generative AI:**
+
 - Modelo `gemini-flash-lite-latest` é a versão otimizada do Gemini Flash
 - Suporta até 1 milhão de tokens de contexto
 - Ideal para aplicações mobile com respostas rápidas
 
 **Outros modelos disponíveis:**
+
 - `models/gemini-1.5-pro-latest` - Para tarefas mais complexas
 - `models/gemini-flash-lite-latest` - **Recomendado** para chat simples
 - `models/gemini-pro-vision` - Para análise de imagens
@@ -110,4 +121,3 @@ this.model = this.genAI.getGenerativeModel({
 **Data:** 03/11/2025  
 **Status:** ✅ Corrigido  
 **Arquivo Modificado:** `lib/gemini.ts`
-

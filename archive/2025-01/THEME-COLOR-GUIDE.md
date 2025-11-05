@@ -3,6 +3,7 @@
 This guide explains how to properly use the theme system to ensure perfect dark mode support across all components.
 
 ## Table of Contents
+
 1. [Theme System Overview](#theme-system-overview)
 2. [Available Colors](#available-colors)
 3. [Usage Examples](#usage-examples)
@@ -42,42 +43,48 @@ function MyComponent() {
 ## Available Colors
 
 ### Background Colors
+
 ```typescript
-colors.background      // Main background (white in light, #1F1F1F in dark)
-colors.card            // Card background (slightly lighter/darker than background)
-colors.cardSecondary   // Secondary card background with subtle opacity
+colors.background; // Main background (white in light, #1F1F1F in dark)
+colors.card; // Card background (slightly lighter/darker than background)
+colors.cardSecondary; // Secondary card background with subtle opacity
 ```
 
 ### Text Colors
+
 ```typescript
-colors.text            // Primary text (#0F0F1E in light, #FFFFFF in dark)
-colors.textSecondary   // Secondary text with reduced emphasis
-colors.textMuted       // Muted text for hints and less important content
+colors.text; // Primary text (#0F0F1E in light, #FFFFFF in dark)
+colors.textSecondary; // Secondary text with reduced emphasis
+colors.textMuted; // Muted text for hints and less important content
 ```
 
 ### Border Colors
+
 ```typescript
-colors.border          // Standard border color (#E5E7EB in light, #374151 in dark)
+colors.border; // Standard border color (#E5E7EB in light, #374151 in dark)
 ```
 
 ### Status Colors (consistent across themes)
+
 ```typescript
-colors.success         // #10B981 - Success states
-colors.warning         // #F59E0B - Warning states
-colors.error           // #EF4444 - Error states
-colors.info            // #0891B2 - Info states
+colors.success; // #10B981 - Success states
+colors.warning; // #F59E0B - Warning states
+colors.error; // #EF4444 - Error states
+colors.info; // #0891B2 - Info states
 ```
 
 ### Primary Colors (consistent across themes)
+
 ```typescript
-colors.primary         // #0891B2 - Primary brand color
-colors.primaryDark     // #0E7490 - Darker variant
-colors.primaryLight    // #06B6D4 - Lighter variant
+colors.primary; // #0891B2 - Primary brand color
+colors.primaryDark; // #0E7490 - Darker variant
+colors.primaryLight; // #06B6D4 - Lighter variant
 ```
 
 ### Theme Detection
+
 ```typescript
-colors.isDark          // boolean - true if dark mode is active
+colors.isDark; // boolean - true if dark mode is active
 ```
 
 ---
@@ -137,6 +144,7 @@ colors.isDark          // boolean - true if dark mode is active
 ### 1. Hardcoded White Text on Primary Background
 
 **Problem:**
+
 ```typescript
 <View style={{ backgroundColor: colors.primary }}>
   <Text style={{ color: '#FFFFFF' }}>Text</Text>  // ❌ Won't work in dark mode
@@ -144,6 +152,7 @@ colors.isDark          // boolean - true if dark mode is active
 ```
 
 **Solution:**
+
 ```typescript
 <View style={{ backgroundColor: colors.primary }}>
   <Text style={{ color: colors.isDark ? colors.text : '#FFFFFF' }}>Text</Text>  // ✅
@@ -153,11 +162,13 @@ colors.isDark          // boolean - true if dark mode is active
 ### 2. Hardcoded Border Colors
 
 **Problem:**
+
 ```typescript
 <View style={{ borderColor: '#E5E5E5' }}>  // ❌ Won't adapt to dark mode
 ```
 
 **Solution:**
+
 ```typescript
 <View style={{ borderColor: colors.border }}>  // ✅
 ```
@@ -165,12 +176,14 @@ colors.isDark          // boolean - true if dark mode is active
 ### 3. Hardcoded Shadow Colors
 
 **Problem:**
+
 ```typescript
 shadowColor: '#000000',  // ❌ Shadows should be subtle in both modes
 shadowOpacity: 0.5,      // Too strong
 ```
 
 **Solution:**
+
 ```typescript
 shadowColor: '#000',     // ✅ Black shadow is okay
 shadowOpacity: 0.1,      // Lower opacity works for both themes
@@ -179,6 +192,7 @@ shadowOpacity: 0.1,      // Lower opacity works for both themes
 ### 4. Wrong Header Background
 
 **Problem:**
+
 ```typescript
 headerStyle: {
   backgroundColor: colors.backgroundLight,  // ❌ Always light
@@ -186,6 +200,7 @@ headerStyle: {
 ```
 
 **Solution:**
+
 ```typescript
 headerStyle: {
   backgroundColor: colors.card,  // ✅ Adapts to theme
@@ -201,14 +216,16 @@ headerStyle: {
 Theme colors are hex values. To add opacity:
 
 #### Method 1: Hex Alpha Channel
+
 ```typescript
 // Add alpha to hex color (00 = 0%, FF = 100%)
-backgroundColor: colors.primary + '20'  // 20% opacity
-backgroundColor: colors.primary + '80'  // 50% opacity
-backgroundColor: colors.primary + 'CC'  // 80% opacity
+backgroundColor: colors.primary + '20'; // 20% opacity
+backgroundColor: colors.primary + '80'; // 50% opacity
+backgroundColor: colors.primary + 'CC'; // 80% opacity
 ```
 
 #### Method 2: Convert to RGBA (for charts)
+
 ```typescript
 const hexToRgba = (hex: string, opacity: number) => {
   const r = parseInt(hex.substring(1, 3), 16);
@@ -218,12 +235,13 @@ const hexToRgba = (hex: string, opacity: number) => {
 };
 
 // Usage
-color: (opacity = 1) => hexToRgba(colors.primary, opacity)
+color: (opacity = 1) => hexToRgba(colors.primary, opacity);
 ```
 
 ### Predefined Opacity Colors
+
 ```typescript
-colors.cardSecondary  // Pre-defined with subtle opacity
+colors.cardSecondary; // Pre-defined with subtle opacity
 ```
 
 ---
@@ -297,18 +315,18 @@ function MyChart() {
 const datasets = [
   {
     data: actualWeights,
-    color: () => currentAccent,  // Primary line
+    color: () => currentAccent, // Primary line
     strokeWidth: 3,
   },
   {
     data: trendLine,
-    color: () => colors.textSecondary + '40',  // Subtle trend line
+    color: () => colors.textSecondary + '40', // Subtle trend line
     strokeWidth: 2,
     withDots: false,
   },
   {
     data: goalLine,
-    color: () => colors.success,  // Goal line
+    color: () => colors.success, // Goal line
     strokeWidth: 2,
     strokeDasharray: [5, 5],
   },
@@ -374,6 +392,7 @@ Test every screen in BOTH light and dark modes:
 ### Automated Validation
 
 Search for hardcoded colors:
+
 ```bash
 # Find hardcoded hex colors
 grep -r "#[0-9A-Fa-f]\{6\}" --include="*.tsx" --include="*.ts" ./components ./app
@@ -388,21 +407,21 @@ grep -r "rgba(" --include="*.tsx" --include="*.ts" ./components ./app
 
 ```typescript
 // ALWAYS USE:
-colors.background       // Main backgrounds
-colors.card             // Card backgrounds
-colors.text             // Primary text
-colors.textSecondary    // Secondary text
-colors.border           // Borders
-colors.primary          // Primary actions
-colors.success/error    // Status colors
+colors.background; // Main backgrounds
+colors.card; // Card backgrounds
+colors.text; // Primary text
+colors.textSecondary; // Secondary text
+colors.border; // Borders
+colors.primary; // Primary actions
+colors.success / error; // Status colors
 
 // CONDITIONAL USE (for selected/highlighted states):
-colors.isDark ? colors.text : '#FFFFFF'  // Text on primary bg
+colors.isDark ? colors.text : '#FFFFFF'; // Text on primary bg
 
 // NEVER USE:
-'#FFFFFF'              // Unless conditional on isDark
-'#000000'              // Unless for shadows
-'#RGB codes'           // Use theme colors instead
+('#FFFFFF'); // Unless conditional on isDark
+('#000000'); // Unless for shadows
+('#RGB codes'); // Use theme colors instead
 ```
 
 ---
@@ -432,6 +451,7 @@ function RootLayout() {
 ## Common Color Patterns
 
 ### Selected Button/Chip
+
 ```typescript
 <Pressable
   style={{
@@ -449,6 +469,7 @@ function RootLayout() {
 ```
 
 ### Avatar with Initials
+
 ```typescript
 <View style={{ backgroundColor: colors.primary }}>
   <Text style={{
@@ -460,6 +481,7 @@ function RootLayout() {
 ```
 
 ### Switch/Toggle
+
 ```typescript
 <Switch
   value={isOn}

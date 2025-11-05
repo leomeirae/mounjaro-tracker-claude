@@ -43,22 +43,13 @@ export const SettingsRow: React.FC<SettingsRowProps> = ({
     >
       <View style={styles.leftContent}>
         {icon && <View style={styles.iconContainer}>{icon}</View>}
-        <Text
-          style={[
-            styles.label,
-            { color: destructive ? colors.error : colors.text },
-          ]}
-        >
+        <Text style={[styles.label, { color: destructive ? colors.error : colors.text }]}>
           {label}
         </Text>
       </View>
 
       <View style={styles.rightContent}>
-        {value && (
-          <Text style={[styles.value, { color: colors.textSecondary }]}>
-            {value}
-          </Text>
-        )}
+        {value && <Text style={[styles.value, { color: colors.textSecondary }]}>{value}</Text>}
         {showSwitch && (
           <Switch
             value={switchValue}
@@ -72,9 +63,7 @@ export const SettingsRow: React.FC<SettingsRowProps> = ({
           />
         )}
         {showArrow && !showSwitch && (
-          <Text style={[styles.arrow, { color: colors.textSecondary }]}>
-            ›
-          </Text>
+          <Text style={[styles.arrow, { color: colors.textSecondary }]}>›</Text>
         )}
       </View>
     </View>
@@ -97,8 +86,8 @@ const styles = StyleSheet.create({
     alignItems: 'center',
     justifyContent: 'space-between',
     paddingHorizontal: 16,
-    paddingVertical: 12,  // Mudança: 14 → 12px (Shotsy vertical padding)
-    minHeight: 56,  // Mudança: 50 → 56px (Shotsy touch target, better UX)
+    paddingVertical: 12, // Mudança: 14 → 12px (Shotsy vertical padding)
+    minHeight: 56, // Mudança: 50 → 56px (Shotsy touch target, better UX)
   },
   leftContent: {
     flexDirection: 'row',

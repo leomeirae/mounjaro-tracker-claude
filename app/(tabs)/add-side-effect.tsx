@@ -1,5 +1,16 @@
 import { useState, useEffect } from 'react';
-import { View, Text, StyleSheet, ScrollView, Alert, KeyboardAvoidingView, Platform, TouchableWithoutFeedback, Keyboard, Pressable } from 'react-native';
+import {
+  View,
+  Text,
+  StyleSheet,
+  ScrollView,
+  Alert,
+  KeyboardAvoidingView,
+  Platform,
+  TouchableWithoutFeedback,
+  Keyboard,
+  Pressable,
+} from 'react-native';
 import { useRouter, useLocalSearchParams } from 'expo-router';
 import { Button } from '@/components/ui/button';
 import { Input } from '@/components/ui/input';
@@ -31,7 +42,12 @@ export default function AddSideEffectScreen() {
   const router = useRouter();
   const params = useLocalSearchParams();
   const editId = params.editId as string | undefined;
-  const { addSideEffect, updateSideEffect, sideEffects, loading: sideEffectsLoading } = useSideEffects();
+  const {
+    addSideEffect,
+    updateSideEffect,
+    sideEffects,
+    loading: sideEffectsLoading,
+  } = useSideEffects();
 
   const [selectedType, setSelectedType] = useState<string | null>(null);
   const [customType, setCustomType] = useState('');
@@ -42,9 +58,9 @@ export default function AddSideEffectScreen() {
   // Load side effect data for editing
   useEffect(() => {
     if (editId && sideEffects.length > 0) {
-      const effect = sideEffects.find(e => e.id === editId);
+      const effect = sideEffects.find((e) => e.id === editId);
       if (effect) {
-        const commonEffect = COMMON_SIDE_EFFECTS.find(e => e.value === effect.type);
+        const commonEffect = COMMON_SIDE_EFFECTS.find((e) => e.value === effect.type);
         if (commonEffect) {
           setSelectedType(commonEffect.value);
         } else {
@@ -72,7 +88,7 @@ export default function AddSideEffectScreen() {
 
     try {
       setLoading(true);
-      
+
       if (editId) {
         // Update existing side effect
         await updateSideEffect(editId, {
@@ -112,7 +128,9 @@ export default function AddSideEffectScreen() {
           contentContainerStyle={styles.scrollContent}
           keyboardShouldPersistTaps="handled"
         >
-          <Text style={styles.title}>{editId ? 'Editar Efeito Colateral' : 'Registrar Efeito Colateral'}</Text>
+          <Text style={styles.title}>
+            {editId ? 'Editar Efeito Colateral' : 'Registrar Efeito Colateral'}
+          </Text>
           <Text style={styles.subtitle}>
             Registre qualquer sintoma ou desconforto que você está sentindo
           </Text>
@@ -167,12 +185,7 @@ export default function AddSideEffectScreen() {
                   ]}
                   onPress={() => setSeverity(level.value as 1 | 2 | 3 | 4 | 5)}
                 >
-                  <View
-                    style={[
-                      styles.severityIndicator,
-                      { backgroundColor: level.color },
-                    ]}
-                  />
+                  <View style={[styles.severityIndicator, { backgroundColor: level.color }]} />
                   <View style={styles.severityContent}>
                     <Text
                       style={[
@@ -213,109 +226,110 @@ export default function AddSideEffectScreen() {
   );
 }
 
-const getStyles = (colors: any) => StyleSheet.create({
-  container: {
-    flex: 1,
-    backgroundColor: colors.background,
-  },
-  scrollContent: {
-    padding: 24,
-    flexGrow: 1,
-  },
-  title: {
-    fontSize: 28,
-    fontWeight: 'bold',
-    color: colors.text,
-    marginBottom: 8,
-  },
-  subtitle: {
-    fontSize: 14,
-    color: colors.textSecondary,
-    marginBottom: 24,
-  },
-  section: {
-    marginBottom: 24,
-  },
-  label: {
-    fontSize: 16,
-    fontWeight: '600',
-    color: colors.text,
-    marginBottom: 12,
-  },
-  effectsGrid: {
-    flexDirection: 'row',
-    flexWrap: 'wrap',
-    gap: 12,
-    marginBottom: 16,
-  },
-  effectButton: {
-    backgroundColor: colors.card,
-    borderRadius: 12,
-    padding: 12,
-    alignItems: 'center',
-    width: '30%',
-    borderWidth: 2,
-    borderColor: 'transparent',
-  },
-  effectButtonSelected: {
-    borderColor: colors.primary,
-    backgroundColor: colors.backgroundLight,
-  },
-  effectEmoji: {
-    fontSize: 32,
-    marginBottom: 4,
-  },
-  effectLabel: {
-    fontSize: 11,
-    color: colors.textSecondary,
-    textAlign: 'center',
-  },
-  effectLabelSelected: {
-    color: colors.primary,
-    fontWeight: 'bold',
-  },
-  severityContainer: {
-    gap: 12,
-  },
-  severityButton: {
-    flexDirection: 'row',
-    backgroundColor: colors.card,
-    borderRadius: 12,
-    padding: 16,
-    alignItems: 'center',
-    borderWidth: 2,
-    borderColor: 'transparent',
-  },
-  severityButtonSelected: {
-    borderWidth: 2,
-    backgroundColor: colors.backgroundLight,
-  },
-  severityIndicator: {
-    width: 12,
-    height: 12,
-    borderRadius: 6,
-    marginRight: 12,
-  },
-  severityContent: {
-    flex: 1,
-  },
-  severityLabel: {
-    fontSize: 16,
-    fontWeight: '600',
-    color: colors.text,
-    marginBottom: 2,
-  },
-  severityLabelSelected: {
-    color: colors.primary,
-  },
-  severityDescription: {
-    fontSize: 12,
-    color: colors.textMuted,
-  },
-  loadingText: {
-    color: colors.textSecondary,
-    fontSize: 14,
-    textAlign: 'center',
-    marginTop: 8,
-  },
-});
+const getStyles = (colors: any) =>
+  StyleSheet.create({
+    container: {
+      flex: 1,
+      backgroundColor: colors.background,
+    },
+    scrollContent: {
+      padding: 24,
+      flexGrow: 1,
+    },
+    title: {
+      fontSize: 28,
+      fontWeight: 'bold',
+      color: colors.text,
+      marginBottom: 8,
+    },
+    subtitle: {
+      fontSize: 14,
+      color: colors.textSecondary,
+      marginBottom: 24,
+    },
+    section: {
+      marginBottom: 24,
+    },
+    label: {
+      fontSize: 16,
+      fontWeight: '600',
+      color: colors.text,
+      marginBottom: 12,
+    },
+    effectsGrid: {
+      flexDirection: 'row',
+      flexWrap: 'wrap',
+      gap: 12,
+      marginBottom: 16,
+    },
+    effectButton: {
+      backgroundColor: colors.card,
+      borderRadius: 12,
+      padding: 12,
+      alignItems: 'center',
+      width: '30%',
+      borderWidth: 2,
+      borderColor: 'transparent',
+    },
+    effectButtonSelected: {
+      borderColor: colors.primary,
+      backgroundColor: colors.backgroundLight,
+    },
+    effectEmoji: {
+      fontSize: 32,
+      marginBottom: 4,
+    },
+    effectLabel: {
+      fontSize: 11,
+      color: colors.textSecondary,
+      textAlign: 'center',
+    },
+    effectLabelSelected: {
+      color: colors.primary,
+      fontWeight: 'bold',
+    },
+    severityContainer: {
+      gap: 12,
+    },
+    severityButton: {
+      flexDirection: 'row',
+      backgroundColor: colors.card,
+      borderRadius: 12,
+      padding: 16,
+      alignItems: 'center',
+      borderWidth: 2,
+      borderColor: 'transparent',
+    },
+    severityButtonSelected: {
+      borderWidth: 2,
+      backgroundColor: colors.backgroundLight,
+    },
+    severityIndicator: {
+      width: 12,
+      height: 12,
+      borderRadius: 6,
+      marginRight: 12,
+    },
+    severityContent: {
+      flex: 1,
+    },
+    severityLabel: {
+      fontSize: 16,
+      fontWeight: '600',
+      color: colors.text,
+      marginBottom: 2,
+    },
+    severityLabelSelected: {
+      color: colors.primary,
+    },
+    severityDescription: {
+      fontSize: 12,
+      color: colors.textMuted,
+    },
+    loadingText: {
+      color: colors.textSecondary,
+      fontSize: 14,
+      textAlign: 'center',
+      marginTop: 8,
+    },
+  });

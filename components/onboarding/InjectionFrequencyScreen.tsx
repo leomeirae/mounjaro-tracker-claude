@@ -37,9 +37,10 @@ export function InjectionFrequencyScreen({ onNext, onBack }: InjectionFrequencyS
     }
   };
 
-  const isValid = selected === 'custom'
-    ? customDays && !isNaN(parseFloat(customDays)) && parseFloat(customDays) > 0
-    : selected !== null;
+  const isValid =
+    selected === 'custom'
+      ? customDays && !isNaN(parseFloat(customDays)) && parseFloat(customDays) > 0
+      : selected !== null;
 
   return (
     <OnboardingScreenBase
@@ -65,9 +66,7 @@ export function InjectionFrequencyScreen({ onNext, onBack }: InjectionFrequencyS
             >
               <View style={styles.optionContent}>
                 <View style={styles.optionText}>
-                  <Text style={[styles.optionTitle, { color: colors.text }]}>
-                    {freq.label}
-                  </Text>
+                  <Text style={[styles.optionTitle, { color: colors.text }]}>{freq.label}</Text>
                 </View>
               </View>
               {selected === freq.id && (
@@ -76,7 +75,12 @@ export function InjectionFrequencyScreen({ onNext, onBack }: InjectionFrequencyS
             </TouchableOpacity>
 
             {freq.id === 'custom' && selected === 'custom' && (
-              <View style={[styles.customInput, { backgroundColor: colors.card, borderColor: colors.border }]}>
+              <View
+                style={[
+                  styles.customInput,
+                  { backgroundColor: colors.card, borderColor: colors.border },
+                ]}
+              >
                 <Text style={[styles.customLabel, { color: colors.textSecondary }]}>
                   A cada quantos dias?
                 </Text>
@@ -89,9 +93,7 @@ export function InjectionFrequencyScreen({ onNext, onBack }: InjectionFrequencyS
                     placeholder="7"
                     placeholderTextColor={colors.textMuted}
                   />
-                  <Text style={[styles.inputSuffix, { color: colors.textSecondary }]}>
-                    dias
-                  </Text>
+                  <Text style={[styles.inputSuffix, { color: colors.textSecondary }]}>dias</Text>
                 </View>
               </View>
             )}
@@ -107,10 +109,10 @@ const styles = StyleSheet.create({
     gap: 12,
   },
   option: {
-    borderRadius: 16,  // Mudança: 12 → 16px (match Shotsy)
-    paddingVertical: 20,  // Mudança: separar padding vertical
-    paddingHorizontal: 16,  // Mudança: padding horizontal explícito
-    minHeight: 72,  // Mudança: 60 → 72px (match Shotsy)
+    borderRadius: 16, // Mudança: 12 → 16px (match Shotsy)
+    paddingVertical: 20, // Mudança: separar padding vertical
+    paddingHorizontal: 16, // Mudança: padding horizontal explícito
+    minHeight: 72, // Mudança: 60 → 72px (match Shotsy)
     flexDirection: 'row',
     alignItems: 'center',
     justifyContent: 'space-between',
@@ -124,7 +126,7 @@ const styles = StyleSheet.create({
     flex: 1,
   },
   optionTitle: {
-    fontSize: 18,  // Mudança: 17 → 18px (match Shotsy)
+    fontSize: 18, // Mudança: 17 → 18px (match Shotsy)
     fontWeight: '600',
   },
   customInput: {

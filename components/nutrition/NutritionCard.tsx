@@ -31,22 +31,18 @@ export function NutritionCard({
 
   const handleDelete = async () => {
     await Haptics.impactAsync(Haptics.ImpactFeedbackStyle.Medium);
-    
-    Alert.alert(
-      'Excluir registro',
-      'Tem certeza que deseja excluir este registro de nutrição?',
-      [
-        { text: 'Cancelar', style: 'cancel' },
-        {
-          text: 'Excluir',
-          style: 'destructive',
-          onPress: async () => {
-            await Haptics.notificationAsync(Haptics.NotificationFeedbackType.Success);
-            onDelete?.(id);
-          },
+
+    Alert.alert('Excluir registro', 'Tem certeza que deseja excluir este registro de nutrição?', [
+      { text: 'Cancelar', style: 'cancel' },
+      {
+        text: 'Excluir',
+        style: 'destructive',
+        onPress: async () => {
+          await Haptics.notificationAsync(Haptics.NotificationFeedbackType.Success);
+          onDelete?.(id);
         },
-      ]
-    );
+      },
+    ]);
   };
 
   const handleEdit = async () => {
@@ -134,67 +130,67 @@ function formatTime(date: Date): string {
   });
 }
 
-const getStyles = (colors: any) => StyleSheet.create({
-  container: {
-    backgroundColor: colors.card,
-    borderRadius: 12,  // Mudança: 16 → 12px (consistência com ShotCard e design system)
-    padding: 16,
-    marginBottom: 12,
-    borderWidth: 1,
-    borderColor: colors.border,
-  },
-  header: {
-    flexDirection: 'row',
-    justifyContent: 'space-between',
-    alignItems: 'flex-start',
-    marginBottom: 16,
-  },
-  date: {
-    fontSize: 16,
-    fontWeight: '700',
-    color: colors.text,
-  },
-  time: {
-    fontSize: 13,
-    color: colors.textSecondary,
-    marginTop: 2,
-  },
-  actions: {
-    flexDirection: 'row',
-    gap: 8,
-  },
-  actionButton: {
-    padding: 4,
-  },
-  macrosContainer: {
-    flexDirection: 'row',
-    flexWrap: 'wrap',
-    gap: 12,
-    marginBottom: 12,
-  },
-  macroItem: {
-    flexDirection: 'row',
-    alignItems: 'center',
-    gap: 4,
-  },
-  macroValue: {
-    fontSize: 15,
-    fontWeight: '600',
-    color: colors.text,
-  },
-  macroLabel: {
-    fontSize: 13,
-    color: colors.textSecondary,
-  },
-  notesContainer: {
-    paddingTop: 12,
-    borderTopWidth: 1,
-    borderTopColor: colors.border,
-  },
-  notes: {
-    fontSize: 14,
-    lineHeight: 20,
-    color: colors.text,
-  },
-});
-
+const getStyles = (colors: any) =>
+  StyleSheet.create({
+    container: {
+      backgroundColor: colors.card,
+      borderRadius: 12, // Mudança: 16 → 12px (consistência com ShotCard e design system)
+      padding: 16,
+      marginBottom: 12,
+      borderWidth: 1,
+      borderColor: colors.border,
+    },
+    header: {
+      flexDirection: 'row',
+      justifyContent: 'space-between',
+      alignItems: 'flex-start',
+      marginBottom: 16,
+    },
+    date: {
+      fontSize: 16,
+      fontWeight: '700',
+      color: colors.text,
+    },
+    time: {
+      fontSize: 13,
+      color: colors.textSecondary,
+      marginTop: 2,
+    },
+    actions: {
+      flexDirection: 'row',
+      gap: 8,
+    },
+    actionButton: {
+      padding: 4,
+    },
+    macrosContainer: {
+      flexDirection: 'row',
+      flexWrap: 'wrap',
+      gap: 12,
+      marginBottom: 12,
+    },
+    macroItem: {
+      flexDirection: 'row',
+      alignItems: 'center',
+      gap: 4,
+    },
+    macroValue: {
+      fontSize: 15,
+      fontWeight: '600',
+      color: colors.text,
+    },
+    macroLabel: {
+      fontSize: 13,
+      color: colors.textSecondary,
+    },
+    notesContainer: {
+      paddingTop: 12,
+      borderTopWidth: 1,
+      borderTopColor: colors.border,
+    },
+    notes: {
+      fontSize: 14,
+      lineHeight: 20,
+      color: colors.text,
+    },
+  });

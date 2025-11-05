@@ -1,6 +1,9 @@
 import * as Print from 'expo-print';
 import * as Sharing from 'expo-sharing';
 import { WeightLog } from './types';
+import { createLogger } from '@/lib/logger';
+
+const logger = createLogger('Pdf-generator');
 
 interface PDFReportData {
   userName: string;
@@ -29,13 +32,13 @@ interface PDFReportData {
 export async function generatePDFReport(data: PDFReportData): Promise<void> {
   try {
     const html = createHTMLReport(data);
-    
+
     const { uri } = await Print.printToFileAsync({
       html,
       base64: false,
     });
 
-    console.log('PDF generated at:', uri);
+    logger.debug('PDF generated at', { uri });
 
     // Compartilhar o PDF
     if (await Sharing.isAvailableAsync()) {
@@ -48,7 +51,7 @@ export async function generatePDFReport(data: PDFReportData): Promise<void> {
       throw new Error('Sharing não está disponível neste dispositivo');
     }
   } catch (error) {
-    console.error('Error generating PDF:', error);
+    logger.error('Error generating PDF:', error as Error);
     throw error;
   }
 }
@@ -367,14 +370,22 @@ function createHTMLReport(data: PDFReportData): string {
 
   <div class="section">
     <h2 class="section-title">💊 Medicações Ativas</h2>
-    ${medications.length > 0 ? medications.map(med => `
+    ${
+      medications.length > 0
+        ? medications
+            .map(
+              (med) => `
       <div class="medication-card">
         <div class="medication-name">${med.name}</div>
         <div>Dosagem: ${med.dosage}mg</div>
         <div>Frequência: ${med.frequency === 'weekly' ? 'Semanal' : 'Diária'}</div>
         <div>Início: ${new Date(med.startDate).toLocaleDateString('pt-BR')}</div>
       </div>
-    `).join('') : '<p>Nenhuma medicação cadastrada.</p>'}
+    `
+            )
+            .join('')
+        : '<p>Nenhuma medicação cadastrada.</p>'
+    }
   </div>
 
   <div class="section">
@@ -389,33 +400,44 @@ function createHTMLReport(data: PDFReportData): string {
         </tr>
       </thead>
       <tbody>
-        ${weightLogs.slice(0, 10).map((log, index) => {
-          const previousLog = index < weightLogs.length - 1 ? weightLogs[index + 1] : null;
-          const diff = previousLog ? log.weight - previousLog.weight : 0;
-          return `
+        ${weightLogs
+          .slice(0, 10)
+          .map((log, index) => {
+            const previousLog = index < weightLogs.length - 1 ? weightLogs[index + 1] : null;
+            const diff = previousLog ? log.weight - previousLog.weight : 0;
+            return `
             <tr>
               <td>${new Date(log.date).toLocaleDateString('pt-BR')}</td>
               <td>${log.weight}kg</td>
               <td>
-                ${diff !== 0 ? `
+                ${
+                  diff !== 0
+                    ? `
                   <span class="weight-change ${diff < 0 ? 'weight-down' : 'weight-up'}">
                     ${diff < 0 ? '↓' : '↑'} ${Math.abs(diff).toFixed(1)}kg
                   </span>
-                ` : '-'}
+                `
+                    : '-'
+                }
               </td>
               <td>${log.notes || '-'}</td>
             </tr>
           `;
-        }).join('')}
+          })
+          .join('')}
       </tbody>
     </table>
   </div>
 
-  ${achievements.length > 0 ? `
+  ${
+    achievements.length > 0
+      ? `
     <div class="section">
       <h2 class="section-title">🏆 Conquistas Alcançadas</h2>
       <div class="achievement-grid">
-        ${achievements.map(ach => `
+        ${achievements
+          .map(
+            (ach) => `
           <div class="achievement-card">
             <div class="achievement-title">${ach.title}</div>
             <div style="font-size: 11px; color: #666;">${ach.description}</div>
@@ -423,10 +445,14 @@ function createHTMLReport(data: PDFReportData): string {
               ${new Date(ach.earnedAt).toLocaleDateString('pt-BR')}
             </div>
           </div>
-        `).join('')}
+        `
+          )
+          .join('')}
       </div>
     </div>
-  ` : ''}
+  `
+      : ''
+  }
 
   <div class="footer">
     <p>Este relatório foi gerado automaticamente pelo aplicativo Mounjaro Tracker.</p>
@@ -436,4 +462,3 @@ function createHTMLReport(data: PDFReportData): string {
 </html>
   `;
 }
-

@@ -10,23 +10,18 @@ import {
   Alert,
 } from 'react-native';
 import { useGoals } from '@/hooks/useGoals';
-import {
-  GoalType,
-  CelebrationStyle,
-  GOAL_TEMPLATES,
-  createMilestones,
-} from '@/lib/types/goals';
+import { GoalType, CelebrationStyle, GOAL_TEMPLATES, createMilestones } from '@/lib/types/goals';
 import { useShotsyColors } from '@/hooks/useShotsyColors';
+import { createLogger } from '@/lib/logger';
+
+const logger = createLogger('GoalBuilder');
 
 interface GoalBuilderProps {
   onComplete?: () => void;
   showSkip?: boolean;
 }
 
-export const GoalBuilder: React.FC<GoalBuilderProps> = ({
-  onComplete,
-  showSkip = false,
-}) => {
+export const GoalBuilder: React.FC<GoalBuilderProps> = ({ onComplete, showSkip = false }) => {
   const { createGoal } = useGoals();
   const colors = useShotsyColors();
 
@@ -90,7 +85,7 @@ export const GoalBuilder: React.FC<GoalBuilderProps> = ({
         [{ text: 'Great!', onPress: onComplete }]
       );
     } catch (error) {
-      console.error('Error creating goal:', error);
+      logger.error('Error creating goal:', error as Error);
       Alert.alert('Error', 'Failed to create goal. Please try again.');
     } finally {
       setSaving(false);
@@ -126,16 +121,14 @@ export const GoalBuilder: React.FC<GoalBuilderProps> = ({
       {/* Header */}
       <View style={styles.header}>
         <Text style={styles.title}>Set Your Goal</Text>
-        <Text style={styles.subtitle}>
-          Define what success looks like for you
-        </Text>
+        <Text style={styles.subtitle}>Define what success looks like for you</Text>
       </View>
 
       {/* Goal Type Selection */}
       <View style={styles.section}>
         <Text style={styles.sectionTitle}>What do you want to achieve?</Text>
         <View style={styles.typeGrid}>
-          {(['weight_loss', 'energy_boost', 'consistency', 'custom'] as GoalType[]).map(type => (
+          {(['weight_loss', 'energy_boost', 'consistency', 'custom'] as GoalType[]).map((type) => (
             <TouchableOpacity
               key={type}
               style={[
@@ -144,20 +137,20 @@ export const GoalBuilder: React.FC<GoalBuilderProps> = ({
                   backgroundColor: colors.primary + '20',
                   borderColor: colors.primary,
                   borderWidth: 2,
-                }
+                },
               ]}
               onPress={() => setSelectedType(type)}
             >
               <Text style={styles.typeIcon}>{getTypeIcon(type)}</Text>
-              <Text style={[
-                styles.typeTitle,
-                selectedType === type && { color: colors.primary, fontWeight: '600' }
-              ]}>
+              <Text
+                style={[
+                  styles.typeTitle,
+                  selectedType === type && { color: colors.primary, fontWeight: '600' },
+                ]}
+              >
                 {type.replace('_', ' ')}
               </Text>
-              <Text style={styles.typeDescription}>
-                {getTypeDescription(type)}
-              </Text>
+              <Text style={styles.typeDescription}>{getTypeDescription(type)}</Text>
             </TouchableOpacity>
           ))}
         </View>
@@ -216,9 +209,7 @@ export const GoalBuilder: React.FC<GoalBuilderProps> = ({
               placeholderTextColor="#999"
             />
           </View>
-          <Text style={styles.inputHint}>
-            Example: 10 kg, 30 days, 5 levels
-          </Text>
+          <Text style={styles.inputHint}>Example: 10 kg, 30 days, 5 levels</Text>
         </View>
       </View>
 
@@ -229,7 +220,7 @@ export const GoalBuilder: React.FC<GoalBuilderProps> = ({
           Choose how you want to be celebrated when you hit milestones
         </Text>
         <View style={styles.celebrationGrid}>
-          {(['subtle', 'energetic', 'zen'] as CelebrationStyle[]).map(style => {
+          {(['subtle', 'energetic', 'zen'] as CelebrationStyle[]).map((style) => {
             const icons = { subtle: '✨', energetic: '🎉', zen: '🧘' };
             const descriptions = {
               subtle: 'Quiet acknowledgment',
@@ -245,20 +236,20 @@ export const GoalBuilder: React.FC<GoalBuilderProps> = ({
                   celebrationStyle === style && {
                     backgroundColor: colors.primary + '20',
                     borderColor: colors.primary,
-                  }
+                  },
                 ]}
                 onPress={() => setCelebrationStyle(style)}
               >
                 <Text style={styles.celebrationIcon}>{icons[style]}</Text>
-                <Text style={[
-                  styles.celebrationLabel,
-                  celebrationStyle === style && { color: colors.primary, fontWeight: '600' }
-                ]}>
+                <Text
+                  style={[
+                    styles.celebrationLabel,
+                    celebrationStyle === style && { color: colors.primary, fontWeight: '600' },
+                  ]}
+                >
                   {style}
                 </Text>
-                <Text style={styles.celebrationDescription}>
-                  {descriptions[style]}
-                </Text>
+                <Text style={styles.celebrationDescription}>{descriptions[style]}</Text>
               </TouchableOpacity>
             );
           })}
@@ -269,9 +260,7 @@ export const GoalBuilder: React.FC<GoalBuilderProps> = ({
       {targetValue && !isNaN(Number(targetValue)) && Number(targetValue) > 0 && (
         <View style={styles.section}>
           <Text style={styles.sectionTitle}>Milestones</Text>
-          <Text style={styles.sectionDescription}>
-            You'll celebrate at these points:
-          </Text>
+          <Text style={styles.sectionDescription}>You'll celebrate at these points:</Text>
           <View style={styles.milestonesPreview}>
             {createMilestones(Number(targetValue), targetUnit, 4).map((milestone, index) => (
               <View key={index} style={styles.milestoneItem}>
@@ -300,13 +289,8 @@ export const GoalBuilder: React.FC<GoalBuilderProps> = ({
         </TouchableOpacity>
 
         {showSkip && (
-          <TouchableOpacity
-            style={styles.skipButton}
-            onPress={onComplete}
-          >
-            <Text style={[styles.skipButtonText, { color: colors.primary }]}>
-              Skip for now
-            </Text>
+          <TouchableOpacity style={styles.skipButton} onPress={onComplete}>
+            <Text style={[styles.skipButtonText, { color: colors.primary }]}>Skip for now</Text>
           </TouchableOpacity>
         )}
       </View>
@@ -315,7 +299,8 @@ export const GoalBuilder: React.FC<GoalBuilderProps> = ({
       <View style={styles.infoBox}>
         <Text style={styles.infoIcon}>💡</Text>
         <Text style={styles.infoText}>
-          You can create multiple goals and track your progress for each one. Don't worry, you can always edit or delete goals later!
+          You can create multiple goals and track your progress for each one. Don't worry, you can
+          always edit or delete goals later!
         </Text>
       </View>
     </ScrollView>

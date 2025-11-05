@@ -21,12 +21,8 @@ export const ThemeSelector: React.FC = () => {
           style={[
             styles.themeOption,
             {
-              backgroundColor:
-                mode === theme.id
-                  ? colors.primary + '20'
-                  : colors.card,
-              borderColor:
-                mode === theme.id ? colors.primary : colors.border,
+              backgroundColor: mode === theme.id ? colors.primary + '20' : colors.card,
+              borderColor: mode === theme.id ? colors.primary : colors.border,
             },
             index === 0 && styles.firstOption,
             index === themes.length - 1 && styles.lastOption,
@@ -40,8 +36,7 @@ export const ThemeSelector: React.FC = () => {
               style={[
                 styles.label,
                 {
-                  color:
-                    mode === theme.id ? colors.primary : colors.text,
+                  color: mode === theme.id ? colors.primary : colors.text,
                 },
               ]}
             >
@@ -50,7 +45,11 @@ export const ThemeSelector: React.FC = () => {
           </View>
           {mode === theme.id && (
             <View style={[styles.checkmark, { backgroundColor: colors.primary }]}>
-              <Text style={[styles.checkmarkIcon, { color: colors.isDark ? colors.text : '#FFFFFF' }]}>✓</Text>
+              <Text
+                style={[styles.checkmarkIcon, { color: colors.isDark ? colors.text : '#FFFFFF' }]}
+              >
+                ✓
+              </Text>
             </View>
           )}
         </TouchableOpacity>

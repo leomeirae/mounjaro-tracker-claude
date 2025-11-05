@@ -20,25 +20,19 @@ export const ShotsStats: React.FC<ShotsStatsProps> = ({
     <View style={styles.container}>
       <ShotsyCard style={styles.statCard}>
         <Text style={[styles.statValue, { color: colors.primary }]}>{totalShots}</Text>
-        <Text style={[styles.statLabel, { color: colors.textSecondary }]}>
-          Total de Injeções
-        </Text>
+        <Text style={[styles.statLabel, { color: colors.textSecondary }]}>Total de Injeções</Text>
       </ShotsyCard>
 
       <ShotsyCard style={styles.statCard}>
         <Text style={[styles.statValue, { color: colors.primary }]}>{currentDose}mg</Text>
-        <Text style={[styles.statLabel, { color: colors.textSecondary }]}>
-          Dose Atual
-        </Text>
+        <Text style={[styles.statLabel, { color: colors.textSecondary }]}>Dose Atual</Text>
       </ShotsyCard>
 
       <ShotsyCard style={styles.statCard}>
         <Text style={[styles.statValue, { color: colors.primary }]}>
           {daysUntilNext === 0 ? 'Hoje' : `${daysUntilNext}d`}
         </Text>
-        <Text style={[styles.statLabel, { color: colors.textSecondary }]}>
-          Próxima em
-        </Text>
+        <Text style={[styles.statLabel, { color: colors.textSecondary }]}>Próxima em</Text>
       </ShotsyCard>
     </View>
   );

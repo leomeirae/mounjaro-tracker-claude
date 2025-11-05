@@ -19,6 +19,9 @@ import { usePremiumFeatures } from '@/hooks/usePremiumFeatures';
 import { Ionicons } from '@expo/vector-icons';
 import { trackEvent } from '@/lib/analytics';
 import { useFeatureFlag } from '@/lib/feature-flags';
+import { createLogger } from '@/lib/logger';
+
+const logger = createLogger('Premium');
 
 const PREMIUM_FEATURES = [
   {
@@ -82,7 +85,7 @@ export default function PremiumScreen() {
   const handleStartTrial = async () => {
     try {
       setIsStartingTrial(true);
-      
+
       trackEvent('paywall_trial_start_attempt', {
         source: 'premium_screen',
       });
@@ -101,17 +104,15 @@ export default function PremiumScreen() {
         [{ text: 'OK', onPress: () => router.back() }]
       );
     } catch (error: any) {
-      console.error('Error starting trial:', error);
-      
+      logger.error('Error starting trial:', error as Error);
+
       trackEvent('trial_start_failed', {
         error_message: error.message,
       });
 
-      Alert.alert(
-        'Erro',
-        error.message || 'Não foi possível iniciar o trial. Tente novamente.',
-        [{ text: 'OK' }]
-      );
+      Alert.alert('Erro', error.message || 'Não foi possível iniciar o trial. Tente novamente.', [
+        { text: 'OK' },
+      ]);
     } finally {
       setIsStartingTrial(false);
     }
@@ -124,11 +125,9 @@ export default function PremiumScreen() {
       source: 'premium_screen',
     });
 
-    Alert.alert(
-      'Em breve',
-      'A integração com pagamentos estará disponível em breve.',
-      [{ text: 'OK' }]
-    );
+    Alert.alert('Em breve', 'A integração com pagamentos estará disponível em breve.', [
+      { text: 'OK' },
+    ]);
   };
 
   // Se já é premium, mostrar tela de confirmação
@@ -136,10 +135,7 @@ export default function PremiumScreen() {
     return (
       <SafeAreaView style={[styles.container, { backgroundColor: colors.background }]}>
         <View style={styles.header}>
-          <TouchableOpacity
-            style={styles.backButton}
-            onPress={() => router.back()}
-          >
+          <TouchableOpacity style={styles.backButton} onPress={() => router.back()}>
             <Ionicons name="arrow-back" size={24} color={colors.text} />
           </TouchableOpacity>
           <Text style={[styles.headerTitle, { color: colors.text }]}>Mounjaro+</Text>
@@ -172,10 +168,7 @@ export default function PremiumScreen() {
     <SafeAreaView style={[styles.container, { backgroundColor: colors.background }]}>
       {/* Header */}
       <View style={styles.header}>
-        <TouchableOpacity
-          style={styles.backButton}
-          onPress={() => router.back()}
-        >
+        <TouchableOpacity style={styles.backButton} onPress={() => router.back()}>
           <Ionicons name="arrow-back" size={24} color={colors.text} />
         </TouchableOpacity>
         <Text style={[styles.headerTitle, { color: colors.text }]}>Mounjaro+</Text>
@@ -236,16 +229,12 @@ export default function PremiumScreen() {
 
         {/* Features List */}
         <View style={styles.featuresSection}>
-          <Text style={[styles.featuresTitle, { color: colors.text }]}>
-            O que está incluído:
-          </Text>
+          <Text style={[styles.featuresTitle, { color: colors.text }]}>O que está incluído:</Text>
           {PREMIUM_FEATURES.map((feature, index) => (
             <View key={index} style={styles.featureItem}>
               <Ionicons name={feature.icon as any} size={24} color={colors.primary} />
               <View style={styles.featureText}>
-                <Text style={[styles.featureTitle, { color: colors.text }]}>
-                  {feature.title}
-                </Text>
+                <Text style={[styles.featureTitle, { color: colors.text }]}>{feature.title}</Text>
                 <Text style={[styles.featureDescription, { color: colors.textSecondary }]}>
                   {feature.description}
                 </Text>
@@ -269,9 +258,12 @@ export default function PremiumScreen() {
               )}
             </TouchableOpacity>
           )}
-          
+
           <TouchableOpacity
-            style={[styles.purchaseButton, { backgroundColor: colors.card, borderColor: colors.border }]}
+            style={[
+              styles.purchaseButton,
+              { backgroundColor: colors.card, borderColor: colors.border },
+            ]}
             onPress={handlePurchase}
           >
             <Text style={[styles.purchaseButtonText, { color: colors.text }]}>
@@ -282,9 +274,7 @@ export default function PremiumScreen() {
 
         {/* Footer */}
         <View style={styles.footer}>
-          <TouchableOpacity
-            onPress={() => router.push('/(tabs)/faq')}
-          >
+          <TouchableOpacity onPress={() => router.push('/(tabs)/faq')}>
             <Text style={[styles.footerLink, { color: colors.textSecondary }]}>
               Saiba mais na FAQ
             </Text>
@@ -475,4 +465,3 @@ const styles = StyleSheet.create({
     textAlign: 'center',
   },
 });
-

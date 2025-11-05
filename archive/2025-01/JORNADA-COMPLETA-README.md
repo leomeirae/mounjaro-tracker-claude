@@ -3,24 +3,29 @@
 ## 📋 O que foi configurado
 
 ### 1. ✅ Feature Flag Ativado
+
 - `FF_ONBOARDING_23: true` - Onboarding de 23 telas está ATIVO
 
 ### 2. ✅ Fluxo de Redirecionamento
+
 - **Sign-Up** → Verifica email → **Onboarding** → Dashboard
 - **Index Screen** verifica `onboarding_completed` antes de redirecionar
 - **Verify Email** redireciona para onboarding após verificação
 
 ### 3. ✅ Sincronização de Usuário
+
 - `useUserSync` cria usuário no Supabase automaticamente após login
 - Aguarda até 5 tentativas (2.5s) para o usuário do Clerk estar disponível
 - Logs detalhados para debug
 
 ### 4. ✅ Salvamento de Dados do Onboarding
+
 - `useOnboarding` aguarda usuário ser criado no Supabase antes de salvar
 - Salva dados em: `users`, `medications`, `weight_logs`
 - Previne duplicação de registros de peso inicial
 
 ### 5. ✅ Tracking de Analytics
+
 - Eventos: `onboarding_started`, `onboarding_step_viewed`, `onboarding_step_next`, `onboarding_step_back`, `onboarding_consent_accepted`, `onboarding_completed`
 
 ## 🚀 Como testar a jornada completa
@@ -68,6 +73,7 @@
 ## 🔍 Verificações no Console
 
 Durante o teste, você verá logs como:
+
 - `🔄 Syncing user with Supabase...`
 - `✅ User created successfully in Supabase`
 - `🔄 Syncing user with Supabase...` (do onboarding)
@@ -85,4 +91,3 @@ Durante o teste, você verá logs como:
 ---
 
 **Tudo pronto para testar!** 🎉
-

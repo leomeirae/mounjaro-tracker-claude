@@ -16,6 +16,7 @@ Abra: https://supabase.com/dashboard
 → Seu projeto → SQL Editor
 
 Execute em ordem (copiar/colar + Run):
+
 1. `supabase/migrations/003_personalization_avatar.sql`
 2. `supabase/migrations/004_personalization_goals.sql`
 3. `supabase/migrations/005_personalization_communication.sql`
@@ -23,6 +24,7 @@ Execute em ordem (copiar/colar + Run):
 ### 2. Aguarde Build Terminar
 
 O simulador está rebuilding. Quando terminar:
+
 - Faça logout
 - Crie nova conta
 - Teste o novo onboarding (4 steps)
@@ -39,6 +41,7 @@ Progress bar mostra onde você está.
 ## Próximo
 
 Após testar, posso:
+
 - Ajustar UX
 - Começar Fase 2 (Insights)
 - Criar settings screen

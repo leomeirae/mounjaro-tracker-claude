@@ -1,4 +1,5 @@
 <!-- eb69187c-ebae-435c-bbb8-a09c3d3acd3a 7bbd19a2-5da0-49bb-8162-3c4eb9b33244 -->
+
 # Plano de Paridade: Shotsy → Mounjaro Tracker (Atualizado)
 
 ## Contexto Expandido
@@ -31,7 +32,7 @@ Matriz com colunas: Funcionalidade | Tela/Fluxo | Shotsy | Mounjaro | Gap | Prio
 Áreas cobertas:
 
 - Onboarding (23 telas vs 4)
-- Summary/Dashboard  
+- Summary/Dashboard
 - Add Shot/Injection
 - Shots List (swipe edit/delete)
 - Results & Gráficos
@@ -76,7 +77,7 @@ Exemplo P0 NOVO:
 ```
 [P0-015] Shotsy+ Paywall - Trial 1 semana
 Descrição: Implementar paywall com Clerk Payments
-Aceite: 
+Aceite:
 - Given usuário free
 - When usa >X features premium
 - Then vê modal Shotsy+ com trial 1 semana

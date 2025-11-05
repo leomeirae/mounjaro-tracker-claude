@@ -17,7 +17,11 @@ interface BMIChartProps {
 export const BMIChart: React.FC<BMIChartProps> = ({ data, periodFilter }) => {
   const colors = useShotsyColors();
   const { width } = useWindowDimensions();
-  const [selectedPoint, setSelectedPoint] = useState<{ index: number; value: number; date: Date } | null>(null);
+  const [selectedPoint, setSelectedPoint] = useState<{
+    index: number;
+    value: number;
+    date: Date;
+  } | null>(null);
 
   // Filtrar dados baseado no período
   const filteredData = useMemo(() => {
@@ -25,19 +29,19 @@ export const BMIChart: React.FC<BMIChartProps> = ({ data, periodFilter }) => {
     switch (periodFilter) {
       case 'week':
         const weekAgo = new Date(now.getTime() - 7 * 24 * 60 * 60 * 1000);
-        return data.filter(d => d.date >= weekAgo);
+        return data.filter((d) => d.date >= weekAgo);
       case 'month':
         const monthAgo = new Date(now.getTime() - 30 * 24 * 60 * 60 * 1000);
-        return data.filter(d => d.date >= monthAgo);
+        return data.filter((d) => d.date >= monthAgo);
       case '90days':
         const ninetyDaysAgo = new Date(now.getTime() - 90 * 24 * 60 * 60 * 1000);
-        return data.filter(d => d.date >= ninetyDaysAgo);
+        return data.filter((d) => d.date >= ninetyDaysAgo);
       default:
         return data;
     }
   }, [data, periodFilter]);
 
-  const bmis = filteredData.map(d => d.bmi);
+  const bmis = filteredData.map((d) => d.bmi);
   const labels = filteredData.map((d, index) => {
     return index % 3 === 0 ? `${d.date.getDate()}/${d.date.getMonth() + 1}` : '';
   });
@@ -57,7 +61,7 @@ export const BMIChart: React.FC<BMIChartProps> = ({ data, periodFilter }) => {
       setSelectedPoint({
         index,
         value: bmis[index],
-        date: filteredData[index].date
+        date: filteredData[index].date,
       });
     }
   };
@@ -108,7 +112,9 @@ export const BMIChart: React.FC<BMIChartProps> = ({ data, periodFilter }) => {
           style={[styles.selectedPointBanner, { backgroundColor: colors.background }]}
           onPress={() => setSelectedPoint(null)}
         >
-          <Text style={[styles.selectedPointBMI, { color: getBMICategory(selectedPoint.value).color }]}>
+          <Text
+            style={[styles.selectedPointBMI, { color: getBMICategory(selectedPoint.value).color }]}
+          >
             IMC: {selectedPoint.value.toFixed(1)}
           </Text>
           <Text style={[styles.selectedPointCategory, { color: colors.text }]}>
@@ -118,7 +124,7 @@ export const BMIChart: React.FC<BMIChartProps> = ({ data, periodFilter }) => {
             {new Intl.DateTimeFormat('pt-BR', {
               day: '2-digit',
               month: 'long',
-              year: 'numeric'
+              year: 'numeric',
             }).format(selectedPoint.date)}
           </Text>
         </TouchableOpacity>
@@ -157,9 +163,7 @@ export const BMIChart: React.FC<BMIChartProps> = ({ data, periodFilter }) => {
       <View style={styles.zones}>
         <View style={styles.zoneItem}>
           <View style={[styles.zoneDot, { backgroundColor: colors.success }]} />
-          <Text style={[styles.zoneText, { color: colors.textSecondary }]}>
-            Normal (18.5-24.9)
-          </Text>
+          <Text style={[styles.zoneText, { color: colors.textSecondary }]}>Normal (18.5-24.9)</Text>
         </View>
         <View style={styles.zoneItem}>
           <View style={[styles.zoneDot, { backgroundColor: colors.warning }]} />
@@ -169,9 +173,7 @@ export const BMIChart: React.FC<BMIChartProps> = ({ data, periodFilter }) => {
         </View>
         <View style={styles.zoneItem}>
           <View style={[styles.zoneDot, { backgroundColor: colors.error }]} />
-          <Text style={[styles.zoneText, { color: colors.textSecondary }]}>
-            Obesidade (30+)
-          </Text>
+          <Text style={[styles.zoneText, { color: colors.textSecondary }]}>Obesidade (30+)</Text>
         </View>
       </View>
     </ShotsyCard>

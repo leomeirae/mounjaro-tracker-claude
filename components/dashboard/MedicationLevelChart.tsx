@@ -39,9 +39,7 @@ export function MedicationLevelChart({}: MedicationLevelChartProps) {
   return (
     <View style={styles.container}>
       <View style={styles.header}>
-        <Text style={[styles.title, { color: colors.text }]}>
-          Níveis Estimados de Medicação
-        </Text>
+        <Text style={[styles.title, { color: colors.text }]}>Níveis Estimados de Medicação</Text>
         <Text style={[styles.info, { color: colors.textMuted }]}>ⓘ</Text>
       </View>
 
@@ -53,10 +51,7 @@ export function MedicationLevelChart({}: MedicationLevelChartProps) {
             style={[
               styles.tab,
               {
-                backgroundColor:
-                  selectedPeriod === period.key
-                    ? colors.card
-                    : 'transparent',
+                backgroundColor: selectedPeriod === period.key ? colors.card : 'transparent',
               },
             ]}
             onPress={() => setSelectedPeriod(period.key)}
@@ -65,10 +60,7 @@ export function MedicationLevelChart({}: MedicationLevelChartProps) {
               style={[
                 styles.tabText,
                 {
-                  color:
-                    selectedPeriod === period.key
-                      ? colors.text
-                      : colors.textMuted,
+                  color: selectedPeriod === period.key ? colors.text : colors.textMuted,
                   fontWeight: selectedPeriod === period.key ? '600' : '400',
                 },
               ]}
@@ -81,20 +73,14 @@ export function MedicationLevelChart({}: MedicationLevelChartProps) {
 
       {/* Botão Jump to Today */}
       <View style={styles.jumpContainer}>
-        <TouchableOpacity
-          style={[styles.jumpButton, { backgroundColor: colors.card }]}
-        >
-          <Text style={[styles.jumpText, { color: colors.textSecondary }]}>
-            Jump to Today
-          </Text>
+        <TouchableOpacity style={[styles.jumpButton, { backgroundColor: colors.card }]}>
+          <Text style={[styles.jumpText, { color: colors.textSecondary }]}>Jump to Today</Text>
         </TouchableOpacity>
       </View>
 
       {/* Valor atual */}
       <View style={styles.currentValue}>
-        <Text style={[styles.currentValueNumber, { color: colors.text }]}>
-          1.17mg
-        </Text>
+        <Text style={[styles.currentValueNumber, { color: colors.text }]}>1.17mg</Text>
         <Text style={[styles.currentValueDate, { color: colors.textSecondary }]}>
           Jul 6, 2025 at 7 PM
         </Text>

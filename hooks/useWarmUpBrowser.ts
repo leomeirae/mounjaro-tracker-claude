@@ -10,20 +10,13 @@ import * as WebBrowser from 'expo-web-browser';
 export function useWarmUpBrowser() {
   useEffect(() => {
     if (Platform.OS !== 'android') return;
-    
+
     // Pré-aquece o browser (melhora UX em Android)
     void WebBrowser.warmUpAsync();
-    
+
     return () => {
       // Limpa recursos quando componente desmonta
       void WebBrowser.coolDownAsync();
     };
   }, []);
 }
-
-
-
-
-
-
-

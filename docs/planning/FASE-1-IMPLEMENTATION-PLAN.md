@@ -20,12 +20,14 @@ A Fase 1 transforma Shotsy de um app genérico em um companheiro verdadeiramente
 ## 🎯 Objetivos da Fase 1
 
 ### O Que Queremos Alcançar
+
 - Usuários sentem que o app é "deles"
 - Cada pessoa tem experiência única e relevante
 - Engajamento aumenta através de personalização profunda
 - Foundation para todas as outras fases
 
 ### Métricas de Sucesso
+
 - **Personalização:** 90%+ dos usuários completam setup de preferências
 - **Engajamento:** 30% aumento em sessões diárias
 - **Satisfação:** NPS aumenta em 15+ pontos
@@ -54,6 +56,7 @@ A Fase 1 transforma Shotsy de um app genérico em um companheiro verdadeiramente
 ### Mudanças Necessárias
 
 #### 1. Database Schema (Supabase)
+
 ```sql
 -- Expandir tabela profiles
 ALTER TABLE public.profiles ADD COLUMN IF NOT EXISTS personalization JSONB DEFAULT '{}'::jsonb;
@@ -69,6 +72,7 @@ CREATE TABLE public.communication_preferences (...)
 ```
 
 #### 2. Types (TypeScript)
+
 ```typescript
 interface UserAvatar { ... }
 interface PersonalGoal { ... }
@@ -76,17 +80,19 @@ interface AppPersonality { ... }
 ```
 
 #### 3. Hooks
+
 ```typescript
-useAvatar()
-useGoals()
-usePersonality()
+useAvatar();
+useGoals();
+usePersonality();
 ```
 
 #### 4. Components
+
 ```typescript
-AvatarCustomizer
-GoalBuilder
-PersonalitySelector
+AvatarCustomizer;
+GoalBuilder;
+PersonalitySelector;
 ```
 
 ---
@@ -96,11 +102,13 @@ PersonalitySelector
 ## Feature 1.1: Sistema de Avatar Personalizável
 
 ### Objetivo
+
 Avatar visual que representa o usuário e evolui com progresso.
 
 ### Spec Técnica
 
 #### Database Schema
+
 ```sql
 -- Migration: 003_personalization_avatar.sql
 CREATE TABLE IF NOT EXISTS public.user_avatars (
@@ -156,6 +164,7 @@ CREATE TRIGGER update_user_avatars_updated_at
 ```
 
 #### TypeScript Types
+
 ```typescript
 // lib/types/avatar.ts
 export type AvatarStyle = 'abstract' | 'minimal' | 'illustrated' | 'photo';
@@ -191,6 +200,7 @@ export interface AvatarCustomization {
 ```
 
 #### Hook: useAvatar
+
 ```typescript
 // hooks/useAvatar.ts
 import { useState, useEffect } from 'react';
@@ -300,6 +310,7 @@ export const useAvatar = () => {
 ```
 
 #### Component: AvatarCustomizer
+
 ```typescript
 // components/personalization/AvatarCustomizer.tsx
 import React, { useState } from 'react';
@@ -506,11 +517,13 @@ const styles = StyleSheet.create({
 ## Feature 1.2: Metas Personalizadas
 
 ### Objetivo
+
 Sistema de metas além de peso, com milestones e celebrações customizáveis.
 
 ### Spec Técnica
 
 #### Database Schema
+
 ```sql
 -- Migration: 004_personalization_goals.sql
 CREATE TABLE IF NOT EXISTS public.user_goals (
@@ -584,6 +597,7 @@ CREATE TRIGGER update_user_goals_updated_at
 ```
 
 #### TypeScript Types
+
 ```typescript
 // lib/types/goals.ts
 export type GoalType = 'weight_loss' | 'energy_boost' | 'consistency' | 'custom';
@@ -634,6 +648,7 @@ export interface PersonalGoal {
 ```
 
 #### Hook: useGoals
+
 ```typescript
 // hooks/useGoals.ts
 import { useState, useEffect } from 'react';
@@ -671,14 +686,21 @@ export const useGoals = () => {
     }
   };
 
-  const createGoal = async (goalData: Omit<PersonalGoal, 'id' | 'user_id' | 'created_at' | 'updated_at' | 'current_value' | 'progress_percentage'>) => {
+  const createGoal = async (
+    goalData: Omit<
+      PersonalGoal,
+      'id' | 'user_id' | 'created_at' | 'updated_at' | 'current_value' | 'progress_percentage'
+    >
+  ) => {
     try {
       const { data, error } = await supabase
         .from('user_goals')
-        .insert([{
-          user_id: user?.id,
-          ...goalData,
-        }])
+        .insert([
+          {
+            user_id: user?.id,
+            ...goalData,
+          },
+        ])
         .select()
         .single();
 
@@ -693,10 +715,7 @@ export const useGoals = () => {
 
   const updateGoal = async (goalId: string, updates: Partial<PersonalGoal>) => {
     try {
-      const { error } = await supabase
-        .from('user_goals')
-        .update(updates)
-        .eq('id', goalId);
+      const { error } = await supabase.from('user_goals').update(updates).eq('id', goalId);
 
       if (error) throw error;
       await fetchGoals();
@@ -707,7 +726,7 @@ export const useGoals = () => {
   };
 
   const updateProgress = async (goalId: string, newValue: number) => {
-    const goal = goals.find(g => g.id === goalId);
+    const goal = goals.find((g) => g.id === goalId);
     if (!goal || !goal.target_value) return;
 
     const percentage = Math.min(100, Math.round((newValue / goal.target_value) * 100));
@@ -721,10 +740,7 @@ export const useGoals = () => {
 
   const deleteGoal = async (goalId: string) => {
     try {
-      const { error } = await supabase
-        .from('user_goals')
-        .delete()
-        .eq('id', goalId);
+      const { error } = await supabase.from('user_goals').delete().eq('id', goalId);
 
       if (error) throw error;
       await fetchGoals();
@@ -736,8 +752,8 @@ export const useGoals = () => {
 
   return {
     goals,
-    activeGoals: goals.filter(g => g.status === 'active'),
-    completedGoals: goals.filter(g => g.status === 'completed'),
+    activeGoals: goals.filter((g) => g.status === 'active'),
+    completedGoals: goals.filter((g) => g.status === 'completed'),
     loading,
     error,
     createGoal,
@@ -754,11 +770,13 @@ export const useGoals = () => {
 ## Feature 1.3: Tone & Voice Personalizado
 
 ### Objetivo
+
 App que se comunica no tom e estilo preferido pelo usuário.
 
 ### Spec Técnica
 
 #### Database Schema
+
 ```sql
 -- Migration: 005_personalization_communication.sql
 CREATE TABLE IF NOT EXISTS public.communication_preferences (
@@ -819,6 +837,7 @@ CREATE TRIGGER update_communication_preferences_updated_at
 ```
 
 #### TypeScript Types
+
 ```typescript
 // lib/types/communication.ts
 export type CommunicationStyle = 'coach' | 'friend' | 'scientist' | 'minimalist';
@@ -851,6 +870,7 @@ export interface AppPersonality {
 ```
 
 #### Hook: usePersonality
+
 ```typescript
 // hooks/usePersonality.ts
 import { useState, useEffect } from 'react';
@@ -976,7 +996,9 @@ export const usePersonality = () => {
 ## 📅 Cronograma de Implementação
 
 ### Semana 1: Database & Foundation
+
 **Dias 1-2: Setup do Schema**
+
 - [ ] Criar migration 003_personalization_avatar.sql
 - [ ] Criar migration 004_personalization_goals.sql
 - [ ] Criar migration 005_personalization_communication.sql
@@ -985,6 +1007,7 @@ export const usePersonality = () => {
 - [ ] Testar queries básicas
 
 **Dias 3-5: Types & Hooks**
+
 - [ ] Criar types (avatar.ts, goals.ts, communication.ts)
 - [ ] Implementar useAvatar hook
 - [ ] Implementar useGoals hook
@@ -993,7 +1016,9 @@ export const usePersonality = () => {
 - [ ] Integração com Clerk auth
 
 ### Semana 2: UI Components
+
 **Dias 1-3: Avatar System**
+
 - [ ] Criar AvatarCustomizer component
 - [ ] Implementar preview visual
 - [ ] Sistema de cores e estilos
@@ -1001,23 +1026,28 @@ export const usePersonality = () => {
 - [ ] Animações de transição
 
 **Dias 4-5: Goals System**
+
 - [ ] Criar GoalBuilder component
 - [ ] Goal cards com progresso
 - [ ] Milestone tracker
 - [ ] Celebration animations
 
 ### Semana 3: Integration & Polish
+
 **Dias 1-2: Personality System**
+
 - [ ] PersonalitySelector component
 - [ ] Message tone preview
 - [ ] Integration com notificações
 
 **Dias 3-4: Onboarding Update**
+
 - [ ] Adicionar personalização ao onboarding
 - [ ] Flow de descoberta de preferências
 - [ ] Tutoriais interativos
 
 **Dia 5: Testing & QA**
+
 - [ ] Testes de integração
 - [ ] Beta testing
 - [ ] Bug fixes
@@ -1028,6 +1058,7 @@ export const usePersonality = () => {
 ## 🧪 Testing Strategy
 
 ### Unit Tests
+
 ```typescript
 // __tests__/hooks/useAvatar.test.ts
 describe('useAvatar', () => {
@@ -1046,11 +1077,13 @@ describe('useAvatar', () => {
 ```
 
 ### Integration Tests
+
 - Avatar + Profile integration
 - Goals + Weight tracking correlation
 - Personality + Notifications integration
 
 ### E2E Tests
+
 - Complete onboarding personalization flow
 - Avatar customization flow
 - Goal creation and tracking flow
@@ -1060,6 +1093,7 @@ describe('useAvatar', () => {
 ## 📊 Success Metrics
 
 ### Technical Metrics
+
 - **Performance:**
   - Avatar load time < 200ms
   - Goal updates < 100ms
@@ -1071,6 +1105,7 @@ describe('useAvatar', () => {
   - All E2E tests passing
 
 ### User Metrics
+
 - **Engagement:**
   - 90%+ complete personalization setup
   - 70%+ customize avatar
@@ -1085,21 +1120,27 @@ describe('useAvatar', () => {
 ## 🚧 Risks & Mitigations
 
 ### Risk 1: Too Complex for Users
+
 **Mitigation:**
+
 - Progressive disclosure
 - Smart defaults
 - Skip options
 - Wizard-style flows
 
 ### Risk 2: Performance Issues
+
 **Mitigation:**
+
 - Aggressive caching
 - Lazy loading
 - Optimistic updates
 - Database indexing
 
 ### Risk 3: Low Adoption
+
 **Mitigation:**
+
 - Show value upfront
 - Before/after previews
 - Gamification of setup
@@ -1110,12 +1151,14 @@ describe('useAvatar', () => {
 ## 📝 Next Steps After Fase 1
 
 Com a Fase 1 completa, teremos:
+
 - ✅ Foundation de personalização sólida
 - ✅ Database schema expandido
 - ✅ Hooks reutilizáveis
 - ✅ Components de UI prontos
 
 Isso nos prepara para:
+
 - **Fase 2:** Insights que Surpreendem (usar personalização para customizar insights)
 - **Fase 3:** Comunidade (perfis anônimos personalizados)
 - **Fase 7:** Experiência Premium (micro-interactions baseadas em preferências)

@@ -9,7 +9,11 @@ interface WeightChartProps {
   initialWeight?: number | null;
 }
 
-export function WeightChart({ data, goalWeight, initialWeight: userInitialWeight }: WeightChartProps) {
+export function WeightChart({
+  data,
+  goalWeight,
+  initialWeight: userInitialWeight,
+}: WeightChartProps) {
   const colors = useColors();
 
   if (data.length === 0) {
@@ -27,9 +31,12 @@ export function WeightChart({ data, goalWeight, initialWeight: userInitialWeight
   // Calcular estatísticas
   const currentWeight = data[0]?.weight || 0;
   const initialWeight = userInitialWeight || data[data.length - 1]?.weight || currentWeight;
-  const calculatedGoalWeight = goalWeight || (initialWeight - 10); // Usar meta do usuário ou fallback para -10kg
+  const calculatedGoalWeight = goalWeight || initialWeight - 10; // Usar meta do usuário ou fallback para -10kg
   const totalLost = initialWeight - currentWeight;
-  const progressPercentage = Math.min(Math.max(((initialWeight - currentWeight) / (initialWeight - calculatedGoalWeight)) * 100, 0), 100);
+  const progressPercentage = Math.min(
+    Math.max(((initialWeight - currentWeight) / (initialWeight - calculatedGoalWeight)) * 100, 0),
+    100
+  );
 
   const styles = getStyles(colors);
 
@@ -41,26 +48,26 @@ export function WeightChart({ data, goalWeight, initialWeight: userInitialWeight
           <WeightIcon size="md" color={colors.text} />
           <Text style={styles.title}>Peso e Meta</Text>
         </View>
-        
+
         <View style={styles.weightFlow}>
           <View style={styles.weightPoint}>
             <Text style={styles.weightLabel}>Inicial</Text>
             <Text style={styles.weightValue}>{initialWeight}kg</Text>
           </View>
-          
+
           <View style={styles.arrow}>
             <ArrowRightIcon size="md" color={colors.primary} />
           </View>
-          
+
           <View style={styles.weightPoint}>
             <Text style={styles.weightLabel}>Atual</Text>
             <Text style={[styles.weightValue, styles.currentWeight]}>{currentWeight}kg</Text>
           </View>
-          
+
           <View style={styles.arrow}>
             <ArrowRightIcon size="md" color={colors.primary} />
           </View>
-          
+
           <View style={styles.weightPoint}>
             <Text style={styles.weightLabel}>Meta</Text>
             <Text style={styles.weightValue}>{calculatedGoalWeight.toFixed(1)}kg</Text>
@@ -80,90 +87,91 @@ export function WeightChart({ data, goalWeight, initialWeight: userInitialWeight
   );
 }
 
-const getStyles = (colors: any) => StyleSheet.create({
-  container: {
-    // gap: 16, // Not supported in React Native StyleSheet
-  },
-  emptyContainer: {
-    backgroundColor: colors.card,
-    borderRadius: 16,
-    padding: 32,
-    alignItems: 'center',
-    marginBottom: 16,
-  },
-  emptyText: {
-    fontSize: 16,
-    color: colors.text,
-    marginBottom: 8,
-  },
-  emptySubtext: {
-    fontSize: 14,
-    color: colors.textMuted,
-  },
-  
-  // Progress Card
-  progressCard: {
-    backgroundColor: colors.card,
-    borderRadius: 16,
-    padding: 20,
-  },
-  titleContainer: {
-    flexDirection: 'row',
-    alignItems: 'center',
-    gap: 8,
-    marginBottom: 16,
-  },
-  title: {
-    fontSize: 18,
-    fontWeight: 'bold',
-    color: colors.text,
-  },
-  weightFlow: {
-    flexDirection: 'row',
-    justifyContent: 'space-between',
-    alignItems: 'center',
-    marginBottom: 20,
-  },
-  weightPoint: {
-    alignItems: 'center',
-    flex: 1,
-  },
-  weightLabel: {
-    fontSize: 12,
-    color: colors.textMuted,
-    marginBottom: 4,
-  },
-  weightValue: {
-    fontSize: 20,
-    fontWeight: 'bold',
-    color: colors.text,
-  },
-  currentWeight: {
-    color: colors.primary,
-    fontSize: 24,
-  },
-  arrow: {
-    marginHorizontal: 8,
-  },
-  arrowText: {
-    // fontSize: 20, // Removed as AppIcon handles its own size
-    color: colors.primary,
-  },
-  progressBarContainer: {
-    height: 8,
-    backgroundColor: colors.background,
-    borderRadius: 4,
-    overflow: 'hidden',
-    marginBottom: 8,
-  },
-  progressBar: {
-    height: '100%',
-    backgroundColor: colors.primary,
-    borderRadius: 4,
-  },
-  progressText: {
-    fontSize: 14,
-    color: colors.textSecondary,
-    textAlign: 'center',
-  },
-});
+const getStyles = (colors: any) =>
+  StyleSheet.create({
+    container: {
+      // gap: 16, // Not supported in React Native StyleSheet
+    },
+    emptyContainer: {
+      backgroundColor: colors.card,
+      borderRadius: 16,
+      padding: 32,
+      alignItems: 'center',
+      marginBottom: 16,
+    },
+    emptyText: {
+      fontSize: 16,
+      color: colors.text,
+      marginBottom: 8,
+    },
+    emptySubtext: {
+      fontSize: 14,
+      color: colors.textMuted,
+    },
+
+    // Progress Card
+    progressCard: {
+      backgroundColor: colors.card,
+      borderRadius: 16,
+      padding: 20,
+    },
+    titleContainer: {
+      flexDirection: 'row',
+      alignItems: 'center',
+      gap: 8,
+      marginBottom: 16,
+    },
+    title: {
+      fontSize: 18,
+      fontWeight: 'bold',
+      color: colors.text,
+    },
+    weightFlow: {
+      flexDirection: 'row',
+      justifyContent: 'space-between',
+      alignItems: 'center',
+      marginBottom: 20,
+    },
+    weightPoint: {
+      alignItems: 'center',
+      flex: 1,
+    },
+    weightLabel: {
+      fontSize: 12,
+      color: colors.textMuted,
+      marginBottom: 4,
+    },
+    weightValue: {
+      fontSize: 20,
+      fontWeight: 'bold',
+      color: colors.text,
+    },
+    currentWeight: {
+      color: colors.primary,
+      fontSize: 24,
+    },
+    arrow: {
+      marginHorizontal: 8,
+    },
+    arrowText: {
+      // fontSize: 20, // Removed as AppIcon handles its own size
+      color: colors.primary,
+    },
+    progressBarContainer: {
+      height: 8,
+      backgroundColor: colors.background,
+      borderRadius: 4,
+      overflow: 'hidden',
+      marginBottom: 8,
+    },
+    progressBar: {
+      height: '100%',
+      backgroundColor: colors.primary,
+      borderRadius: 4,
+    },
+    progressText: {
+      fontSize: 14,
+      color: colors.textSecondary,
+      textAlign: 'center',
+    },
+  });

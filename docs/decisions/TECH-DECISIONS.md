@@ -34,6 +34,7 @@ Cada decisão segue o formato:
 
 **Contexto:**
 Precisávamos de framework para app mobile multiplataforma (iOS + Android) com:
+
 - Development velocity alta
 - Single codebase
 - Acesso a features nativas
@@ -59,6 +60,7 @@ Precisávamos de framework para app mobile multiplataforma (iOS + Android) com:
 **Decisão: React Native (Expo)**
 
 **Por quê:**
+
 - **Velocidade:** Single codebase = 2x mais rápido
 - **Expertise:** Time já conhece React
 - **TypeScript:** Type safety critical em health app
@@ -69,12 +71,14 @@ Precisávamos de framework para app mobile multiplataforma (iOS + Android) com:
 **Consequências:**
 
 Positivas:
+
 - Development 2x mais rápido
 - Contratar devs mais fácil (React popular)
 - Hot reload = iteração rápida
 - Expo managed workflow = menos config
 
 Negativas:
+
 - Bundle size maior que native
 - Algumas features nativas requerem custom modules
 - Performance < native puro (mas ok para nosso caso)
@@ -94,6 +98,7 @@ Negativas:
 
 **Contexto:**
 Precisávamos de backend que oferecesse:
+
 - Database relacional (health data é relacional)
 - Real-time capabilities (comunidade)
 - Auth (já temos Clerk, mas good to have)
@@ -126,6 +131,7 @@ Precisávamos de backend que oferecesse:
 **Decisão: Supabase**
 
 **Por quê:**
+
 - **PostgreSQL:** Melhor para relational health data
 - **Real-time:** Built-in (critical para comunidade)
 - **Row Level Security:** Privacy por design
@@ -138,6 +144,7 @@ Precisávamos de backend que oferecesse:
 **Consequências:**
 
 Positivas:
+
 - Setup rápido (~1 dia vs semanas)
 - RLS = security by default
 - Real-time sem infra extra
@@ -146,6 +153,7 @@ Positivas:
 - Backup automático
 
 Negativas:
+
 - Vendor lock-in (mitigado: PostgreSQL standard)
 - Menos controle que self-hosted
 - Custo pode crescer (mas previsível)
@@ -165,6 +173,7 @@ Negativas:
 
 **Contexto:**
 Precisávamos de auth robusto com:
+
 - OAuth social (Google, Apple)
 - Security (health data = crítico)
 - User management
@@ -191,6 +200,7 @@ Precisávamos de auth robusto com:
 **Decisão: Clerk**
 
 **Por quê:**
+
 - **UX:** Componentes pre-built lindos
 - **OAuth:** Google, Apple out-of-box
 - **Security:** Enterprise-grade por padrão
@@ -201,12 +211,14 @@ Precisávamos de auth robusto com:
 **Consequências:**
 
 Positivas:
+
 - Auth implementado em dias, não semanas
 - UX premium sem esforço
 - Security battle-tested
 - User management fácil
 
 Negativas:
+
 - Custo adicional (~$25/mês após free tier)
 - Vendor lock-in (migrar auth é difícil)
 - Dependência de serviço externo
@@ -225,6 +237,7 @@ Negativas:
 
 **Contexto:**
 Precisávamos gerenciar:
+
 - Estado global (user, preferences)
 - Estado de servidor (API data)
 - Cache de dados
@@ -255,6 +268,7 @@ Precisávamos gerenciar:
 **Decisão: Zustand + React Query**
 
 **Por quê:**
+
 - **Zustand:** Global state minimal, sem boilerplate
 - **React Query:** Server state/cache expert
 - **Separation of concerns:** Client state (Zustand) vs Server state (React Query)
@@ -265,6 +279,7 @@ Precisávamos gerenciar:
 **Consequências:**
 
 Positivas:
+
 - Código limpo, pouco boilerplate
 - Performance excelente
 - Cache automático com React Query
@@ -272,6 +287,7 @@ Positivas:
 - DevTools úteis
 
 Negativas:
+
 - Dois sistemas (mas é feature, não bug)
 - Curva de aprendizado mínima
 
@@ -289,6 +305,7 @@ Negativas:
 
 **Contexto:**
 Precisávamos de animações:
+
 - 60fps garantido
 - Complexas (avatar, micro-interactions)
 - Gesture-based
@@ -314,6 +331,7 @@ Precisávamos de animações:
 **Decisão: Reanimated 3 (+ Skia para casos específicos)**
 
 **Por quê:**
+
 - **UI Thread:** Animações rodam fora do JS thread = 60fps
 - **Worklets:** JavaScript no UI thread
 - **Gesture Handler:** Integração perfeita
@@ -323,12 +341,14 @@ Precisávamos de animações:
 **Consequências:**
 
 Positivas:
+
 - Animações buttery smooth
 - Gestos naturais
 - Performance excelente
 - Comunidade ativa
 
 Negativas:
+
 - Bundle size maior
 - Debugging mais difícil (worklets)
 - Curva de aprendizado
@@ -347,6 +367,7 @@ Negativas:
 
 **Contexto:**
 Precisávamos de charts:
+
 - Bonitos e customizáveis
 - Performáticos (muitos data points)
 - Touch interactions
@@ -372,6 +393,7 @@ Precisávamos de charts:
 **Decisão: Victory Native XL**
 
 **Por quê:**
+
 - **Skia-based:** Performance excelente
 - **Declarativo:** React-like API
 - **Customização:** Total controle
@@ -382,12 +404,14 @@ Precisávamos de charts:
 **Consequências:**
 
 Positivas:
+
 - Charts lindos e performáticos
 - Animações smooth
 - Customização total
 - Type-safe
 
 Negativas:
+
 - Novo (menos maduro)
 - Bundle size
 - Menos examples que alternatives
@@ -406,6 +430,7 @@ Negativas:
 
 **Contexto:**
 Precisávamos de IA para:
+
 - Personalização de conteúdo
 - Chatbot educacional (Fase 4)
 - Pattern detection (Fase 2)
@@ -431,6 +456,7 @@ Precisávamos de IA para:
 **Decisão: OpenAI GPT-4 Turbo**
 
 **Por quê:**
+
 - **Quality:** Best-in-class para generation
 - **API:** Excellent DX
 - **Features:** Function calling, JSON mode, etc
@@ -441,18 +467,21 @@ Precisávamos de IA para:
 **Consequências:**
 
 Positivas:
+
 - Insights de alta qualidade
 - Chatbot inteligente
 - RAG para educational content
 - API confiável
 
 Negativas:
+
 - Custo variável (mitigar com cache)
 - Dependência de OpenAI
 - Latência (mitigar com streaming)
 - Rate limits
 
 **Mitigações:**
+
 - Cache responses quando possível
 - Fallback para templates quando API falhar
 - Rate limiting próprio
@@ -472,6 +501,7 @@ Negativas:
 
 **Contexto:**
 Precisávamos de:
+
 - Product analytics
 - Error tracking
 - Performance monitoring
@@ -499,6 +529,7 @@ Precisávamos de:
 **Por quê:**
 
 **Mixpanel:**
+
 - Event-based analytics perfeito para app
 - Funnels, cohorts, retention
 - User profiles
@@ -506,6 +537,7 @@ Precisávamos de:
 - Free tier generoso
 
 **Sentry:**
+
 - Best error tracking
 - Source maps
 - Release tracking
@@ -515,12 +547,14 @@ Precisávamos de:
 **Consequências:**
 
 Positivas:
+
 - Insights profundos de uso
 - Bugs caught rapidamente
 - Performance issues visíveis
 - Data-driven decisions
 
 Negativas:
+
 - Custo (mas worth it)
 - Dois sistemas
 - Privacy considerations (mitigar com PII scrubbing)
@@ -539,6 +573,7 @@ Negativas:
 
 **Contexto:**
 Precisávamos de sistema de styling:
+
 - Type-safe
 - Theme support
 - Performance
@@ -570,6 +605,7 @@ Precisávamos de sistema de styling:
 **Decisão: Avaliar Tamagui primeiro, fallback para NativeWind**
 
 **Por quê:**
+
 - **Tamagui:** More opinionated design system
 - **NativeWind:** Se Tamagui não fit
 
@@ -589,6 +625,7 @@ Precisávamos de sistema de styling:
 
 **Contexto:**
 Precisávamos de testing stack:
+
 - Unit tests
 - Component tests
 - Integration tests
@@ -602,10 +639,12 @@ Precisávamos de testing stack:
    - Por que talvez: Considerar no futuro
 
 **Decisão:**
+
 - **Unit/Integration:** Jest + React Native Testing Library
 - **E2E:** Detox
 
 **Por quê:**
+
 - **Jest:** Padrão da indústria, fast
 - **RTL:** Best practices testing
 - **Detox:** Maduro, confiável para E2E
@@ -624,6 +663,7 @@ Precisávamos de testing stack:
 
 **Contexto:**
 Precisávamos de subscription management:
+
 - IAP (Apple + Google)
 - Cross-platform
 - Analytics
@@ -645,6 +685,7 @@ Precisávamos de subscription management:
 **Decisão: RevenueCat**
 
 **Por quê:**
+
 - **Abstração:** Unifica Apple + Google
 - **Analytics:** Built-in revenue analytics
 - **Webhooks:** Integração backend fácil
@@ -653,6 +694,7 @@ Precisávamos de subscription management:
 - **DX:** SDK excelente
 
 **Consequências:**
+
 - 1-2% fee (worth it)
 - Vendor dependency (mitigável)
 
@@ -663,18 +705,21 @@ Precisávamos de subscription management:
 ## Decisões Pendentes
 
 ### 1. Design System Final
+
 **Status:** Under Review
 **Deadline:** Fase 1
 **Opções:** Tamagui vs NativeWind
 **Próximo Passo:** Prototype comparison
 
 ### 2. Notification Service
+
 **Status:** Planned
 **Deadline:** Fase 1
 **Opções:** Expo Notifications vs OneSignal
 **Próximo Passo:** Requirements finalization
 
 ### 3. ML Training Infrastructure
+
 **Status:** Planned
 **Deadline:** Fase 6
 **Opções:** Google Vertex AI vs AWS SageMaker
@@ -697,6 +742,7 @@ Quando adicionar nova tecnologia, documente:
 [Problema que estávamos resolvendo]
 
 **Alternativas Consideradas:**
+
 1. **[Alternativa]**
    - Pros:
    - Cons:
@@ -709,11 +755,9 @@ Quando adicionar nova tecnologia, documente:
 
 **Consequências:**
 Positivas:
--
-Negativas:
--
 
-**Próxima Revisão:** YYYY-MM-DD
+- Negativas:
+- **Próxima Revisão:** YYYY-MM-DD
 ```
 
 ---

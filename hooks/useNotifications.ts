@@ -11,6 +11,9 @@ import {
   cancelAllNotifications,
 } from '@/lib/notifications';
 import { supabase } from '@/lib/supabase';
+import { createLogger } from '@/lib/logger';
+
+const logger = createLogger('useNotifications');
 
 export function useNotifications() {
   const { user } = useUser();
@@ -52,17 +55,21 @@ export function useNotifications() {
 
       // Lembrete de próxima aplicação
       if (user.application_reminders && medications.length > 0) {
-        const activeMed = medications.find(m => m.active);
+        const activeMed = medications.find((m) => m.active);
         if (activeMed) {
           const lastApp = applications
-            .filter(a => a.medication_id === activeMed.id)
-            .sort((a, b) => new Date(b.application_date).getTime() - new Date(a.application_date).getTime())[0];
+            .filter((a) => a.medication_id === activeMed.id)
+            .sort(
+              (a, b) =>
+                new Date(b.application_date).getTime() - new Date(a.application_date).getTime()
+            )[0];
 
           if (lastApp) {
             const daysSinceLastApp = Math.floor(
               (Date.now() - new Date(lastApp.application_date).getTime()) / (1000 * 60 * 60 * 24)
             );
-            const daysUntilNext = activeMed.frequency === 'weekly' ? 7 - daysSinceLastApp : 1 - daysSinceLastApp;
+            const daysUntilNext =
+              activeMed.frequency === 'weekly' ? 7 - daysSinceLastApp : 1 - daysSinceLastApp;
 
             if (daysUntilNext === 1 || daysUntilNext === 0) {
               await scheduleApplicationReminder(
@@ -87,7 +94,7 @@ export function useNotifications() {
         }
       }
     } catch (error) {
-      console.error('Erro ao agendar lembretes:', error);
+      logger.error('Erro ao agendar lembretes:', error);
     }
   }
 
@@ -105,7 +112,7 @@ export function useNotifications() {
 
       if (settings.enabled !== undefined) {
         updates.notifications_enabled = settings.enabled;
-        
+
         if (!settings.enabled) {
           await cancelAllNotifications();
         }
@@ -127,15 +134,12 @@ export function useNotifications() {
         updates.achievement_notifications = settings.achievementNotifications;
       }
 
-      await supabase
-        .from('users')
-        .update(updates)
-        .eq('id', user.id);
+      await supabase.from('users').update(updates).eq('id', user.id);
 
       // Reagendar notificações
       await scheduleReminders();
     } catch (error) {
-      console.error('Erro ao atualizar configurações:', error);
+      logger.error('Erro ao atualizar configurações:', error);
       throw error;
     }
   }
@@ -146,9 +150,3 @@ export function useNotifications() {
     scheduleReminders,
   };
 }
-
-
-
-
-
-

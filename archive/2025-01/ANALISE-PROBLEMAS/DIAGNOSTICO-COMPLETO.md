@@ -14,7 +14,7 @@ O app Mounjaro Tracker está **40% diferente da referência Shotsy**. A principa
 ```
 ✅ CONCLUÍDAS (Fases 1-6): 40%
 ├─ ✅ Design System Shotsy
-├─ ✅ Onboarding Completo  
+├─ ✅ Onboarding Completo
 ├─ ✅ Navegação Principal
 ├─ ✅ Tela de Adicionar Injeção
 ├─ ✅ Tela de Injeções (Lista)
@@ -60,6 +60,7 @@ A primeira tab deveria ser **"Resumo"** (Summary) com um dashboard completo:
 ```
 
 **O que está acontecendo agora:**
+
 ```typescript
 // ❌ ERRADO - app/(tabs)/index.tsx
 export default function TabsIndex() {
@@ -78,6 +79,7 @@ A primeira tab está **redirecionando** para `/injections` em vez de mostrar o D
 ### 2. ⚠️ ESTRUTURA DAS TABS INCORRETA
 
 **SHOTSY (Referência - CORRETO):**
+
 ```
 1. 📋 Summary (Resumo)    ← TELA PRINCIPAL/DASHBOARD
 2. 💉 Shots (Injeções)
@@ -87,6 +89,7 @@ A primeira tab está **redirecionando** para `/injections` em vez de mostrar o D
 ```
 
 **MOUNJARO TRACKER (Atual - INCORRETO):**
+
 ```
 1. 💉 Injections (Injeções)  ← ❌ DEVERIA SER O DASHBOARD!
 2. 📊 Results (Resultados)
@@ -103,6 +106,7 @@ A primeira tab está **redirecionando** para `/injections` em vez de mostrar o D
 Baseado na análise do PDF do Shotsy, a tela Summary deve conter:
 
 #### 3.1 Widget "Estimated Medication Levels"
+
 ```typescript
 ┌─────────────────────────────────────┐
 │ Níveis Estimados de Medicação   ℹ️  │
@@ -124,6 +128,7 @@ Baseado na análise do PDF do Shotsy, a tela Summary deve conter:
 ---
 
 #### 3.2 Widget "Next Shot" (Próxima Injeção)
+
 ```typescript
 ┌─────────────────────────────────────┐
 │        Next Shot                    │
@@ -151,6 +156,7 @@ Baseado na análise do PDF do Shotsy, a tela Summary deve conter:
 ---
 
 #### 3.3 Widget "Histórico de Injeções"
+
 ```typescript
 ┌─────────────────────────────────────┐
 │  Histórico de Injeções   [Ver tudo]│
@@ -175,6 +181,7 @@ Baseado na análise do PDF do Shotsy, a tela Summary deve conter:
 ### 4. ⚠️ PROBLEMAS NA TELA DE NOTIFICAÇÕES
 
 **Situação atual:**
+
 - Existe como arquivo separado: `notification-settings.tsx`
 - Mas está **FORMATADA E FUNCIONANDO**! ✅
 - Problema: Não está integrada corretamente nas Settings
@@ -195,17 +202,20 @@ Settings (⚙️)
 ### PRIORIDADE MÁXIMA ⚡
 
 #### PASSO 1: Criar Tela de Dashboard/Resumo
+
 ```bash
 # Arquivo: /app/(tabs)/dashboard.tsx (ou summary.tsx)
 ```
 
 **Componentes necessários:**
+
 1. `EstimatedLevelsChart` - Gráfico de níveis
 2. `NextShotWidget` - Widget circular com status
 3. `ShotsHistoryWidget` - Resumo de injeções
 4. `AddShotButton` - Botão de ação primária
 
 #### PASSO 2: Corrigir Estrutura de Tabs
+
 ```typescript
 // app/(tabs)/_layout.tsx
 
@@ -218,12 +228,12 @@ export default function Layout() {
         options={{
           title: 'Resumo',
           tabBarIcon: ({ color, focused }) => (
-            <ClipboardText size={28} color={color} 
+            <ClipboardText size={28} color={color}
               weight={focused ? 'fill' : 'regular'} />
           ),
         }}
       />
-      
+
       {/* Tabs existentes continuam */}
       <Tabs.Screen name="injections" ... />
       <Tabs.Screen name="results" ... />
@@ -235,6 +245,7 @@ export default function Layout() {
 ```
 
 #### PASSO 3: Remover Redirecionamento
+
 ```typescript
 // ❌ DELETAR: app/(tabs)/index.tsx
 // ou transformar em:
@@ -270,6 +281,7 @@ Após correções, validar:
 ## 📊 COMPARAÇÃO VISUAL
 
 ### SHOTSY (Referência)
+
 ```
 Tabs: [ 📋 Resumo ]  [ 💉 Injeções ]  [ 📊 Resultados ]  [ 📅 Calendário ]  [ ⚙️ Ajustes ]
           ↑
@@ -277,6 +289,7 @@ Tabs: [ 📋 Resumo ]  [ 💉 Injeções ]  [ 📊 Resultados ]  [ 📅 Calendá
 ```
 
 ### MOUNJARO TRACKER (Atual - ERRADO)
+
 ```
 Tabs: [ 💉 Injeções ]  [ 📊 Resultados ]  [ 📅 Calendário ]  [ ⚙️ Ajustes ]
           ↑
@@ -284,6 +297,7 @@ Tabs: [ 💉 Injeções ]  [ 📊 Resultados ]  [ 📅 Calendário ]  [ ⚙️ A
 ```
 
 ### MOUNJARO TRACKER (Depois da Correção)
+
 ```
 Tabs: [ 📋 Resumo ]  [ 💉 Injeções ]  [ 📊 Resultados ]  [ 📅 Calendário ]  [ ⚙️ Ajustes ]
           ↑
@@ -305,6 +319,7 @@ Tabs: [ 📋 Resumo ]  [ 💉 Injeções ]  [ 📊 Resultados ]  [ 📅 Calendá
 ## 💡 OBSERVAÇÕES IMPORTANTES
 
 ### O que JÁ está funcionando bem ✅
+
 - Sistema de temas (Shotsy colors)
 - Autenticação (Clerk)
 - Navegação básica (Expo Router)
@@ -313,6 +328,7 @@ Tabs: [ 📋 Resumo ]  [ 💉 Injeções ]  [ 📊 Resultados ]  [ 📅 Calendá
 - Componentes UI base
 
 ### O que precisa de atenção ⚠️
+
 - **Dashboard/Resumo** (não existe!)
 - Gráficos (falta implementação)
 - Widgets interativos
@@ -323,7 +339,7 @@ Tabs: [ 📋 Resumo ]  [ 💉 Injeções ]  [ 📊 Resultados ]  [ 📅 Calendá
 
 ## 📞 SUPORTE
 
-Se tiver dúvidas sobre qualquer parte desta análise, me avise que explico em detalhes! 
+Se tiver dúvidas sobre qualquer parte desta análise, me avise que explico em detalhes!
 
 Podemos começar imediatamente pela **criação do Dashboard** que é o problema mais crítico.
 

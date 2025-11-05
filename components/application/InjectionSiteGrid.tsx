@@ -21,7 +21,7 @@ export function InjectionSiteGrid({ value, onChange }: InjectionSiteGridProps) {
 
   const toggleSite = (siteId: string) => {
     if (value.includes(siteId)) {
-      onChange(value.filter(id => id !== siteId));
+      onChange(value.filter((id) => id !== siteId));
     } else {
       onChange([...value, siteId]);
     }
@@ -40,17 +40,14 @@ export function InjectionSiteGrid({ value, onChange }: InjectionSiteGridProps) {
                 backgroundColor: colors.cardSecondary,
                 borderColor: isSelected ? colors.primary : colors.border,
                 borderWidth: isSelected ? 3 : 1,
-              }
+              },
             ]}
             onPress={() => toggleSite(site.id)}
             activeOpacity={0.7}
           >
             <Text style={styles.icon}>{site.icon}</Text>
             <Text
-              style={[
-                styles.label,
-                { color: isSelected ? colors.primary : colors.textSecondary }
-              ]}
+              style={[styles.label, { color: isSelected ? colors.primary : colors.textSecondary }]}
             >
               {site.label}
             </Text>

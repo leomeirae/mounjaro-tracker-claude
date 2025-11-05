@@ -1,32 +1,37 @@
 # 📝 AUDITORIA VISUAL: Inputs de Dados Antropométricos
+
 ## SEMANA 1 - DIA 5
 
 **Data:** 05 de novembro de 2025  
 **Escopo:** P0 - Onboarding Critical Screens  
-**Categoria:** Telas de input numérico (altura, peso)  
+**Categoria:** Telas de input numérico (altura, peso)
 
 ---
 
 ## 📋 SUMÁRIO EXECUTIVO
 
 ### Telas Auditadas
+
 1. **Height Input Screen** (Step 11) - Entrada de altura
-2. **Current Weight Screen** (Step 12) - Peso atual  
-3. **Starting Weight Screen** (Step 13) - Peso inicial + data  
+2. **Current Weight Screen** (Step 12) - Peso atual
+3. **Starting Weight Screen** (Step 13) - Peso inicial + data
 4. **Target Weight Screen** (Step 14) - Peso meta + IMC
 
 ### Status Geral
-| Tela | Gap Visual | Impacto UX | Esforço | Prioridade |
-|------|-----------|-----------|---------|------------|
-| Height Input | 🔴 CRÍTICO | 🔴 ALTO | 10-12h | P0 |
-| Current Weight | 🔴 CRÍTICO | 🔴 ALTO | 8-10h | P0 |
-| Starting Weight | 🟡 MODERADO | 🟡 MÉDIO | 4-6h | P0 |
-| Target Weight | 🔴 CRÍTICO | 🔴 ALTO | 10-14h | P0 |
+
+| Tela            | Gap Visual  | Impacto UX | Esforço | Prioridade |
+| --------------- | ----------- | ---------- | ------- | ---------- |
+| Height Input    | 🔴 CRÍTICO  | 🔴 ALTO    | 10-12h  | P0         |
+| Current Weight  | 🔴 CRÍTICO  | 🔴 ALTO    | 8-10h   | P0         |
+| Starting Weight | 🟡 MODERADO | 🟡 MÉDIO   | 4-6h    | P0         |
+| Target Weight   | 🔴 CRÍTICO  | 🔴 ALTO    | 10-14h  | P0         |
 
 ### Gap Principal Identificado
+
 🚨 **MOUNJARO USA TEXT INPUT vs SHOTSY USA PICKER NATIVO iOS**
 
 **Impacto:**
+
 - ❌ UX inferior (teclado numérico vs scroll nativo)
 - ❌ Validação manual necessária
 - ❌ Sem fade effect visual
@@ -37,6 +42,7 @@
 ## 🎨 TELA 1: HEIGHT INPUT SCREEN
 
 ### 📸 Referências Visuais
+
 **Screenshot Shotsy:** `FIGMA-SCREENSHOTS/shotsy-onboarding-11-height-input.PNG`  
 **Arquivo Mounjaro:** `components/onboarding/HeightInputScreen.tsx`
 
@@ -45,6 +51,7 @@
 #### 1. COMPONENTE PRINCIPAL: PICKER vs TEXT INPUT
 
 **Shotsy (Referência):**
+
 - **iOS Native Picker** com scroll vertical
 - Fade effect nas extremidades (gradient mask)
 - Múltiplos valores visíveis simultaneamente:
@@ -59,6 +66,7 @@
 - Visual minimalista e limpo
 
 **Mounjaro (Atual):**
+
 ```tsx:components/onboarding/HeightInputScreen.tsx
 <TextInput
   style={[styles.input, { color: colors.text, borderColor: colors.border }]}
@@ -71,6 +79,7 @@
 ```
 
 **Problemas:**
+
 - ❌ TextInput genérico com teclado numérico
 - ❌ Sem contexto visual (não vê valores ao redor)
 - ❌ Sem fade effect
@@ -80,16 +89,19 @@
 ### 🎯 GAPS VISUAIS IDENTIFICADOS
 
 #### GAP 1: Picker Nativo iOS (CRÍTICO)
+
 **Impacto UX:** 🔴 CRÍTICO  
 **Razão:** UX nativa do iOS é superior; usuários esperam picker para seleção de valores fixos.
 
 **Mudança necessária:**
+
 1. Substituir `TextInput` por `@react-native-picker/picker`
 2. Implementar fade effect visual
 3. Configurar range de valores (100cm - 250cm)
 4. Adicionar haptic feedback
 
 **Código sugerido:**
+
 ```tsx
 import { Picker } from '@react-native-picker/picker';
 import * as Haptics from 'expo-haptics';
@@ -110,7 +122,7 @@ export function HeightInputScreen({ onNext, onBack }: HeightInputScreenProps) {
     if (unit === 'cm') {
       onNext({ height: heightCm, heightUnit: 'cm' });
     } else {
-      const totalCm = (heightFt * 30.48) + (heightIn * 2.54);
+      const totalCm = heightFt * 30.48 + heightIn * 2.54;
       onNext({ height: totalCm, heightUnit: 'ft' });
     }
   };
@@ -296,6 +308,7 @@ const styles = StyleSheet.create({
 ```
 
 **Dependências:**
+
 ```bash
 npm install @react-native-picker/picker
 npm install expo-linear-gradient
@@ -308,13 +321,15 @@ npm install expo-haptics
 ---
 
 #### GAP 2: Unit Toggle - Layout e Microcopy
+
 **Impacto UX:** 🟢 BAIXO  
 **Razão:** Labels atuais são curtos demais.
 
 **Shotsy:** "centímetros" / "polegadas" (texto completo)  
-**Mounjaro:** "cm" / "pés/pol" (abreviado)  
+**Mounjaro:** "cm" / "pés/pol" (abreviado)
 
 **Mudança necessária:**
+
 ```tsx
 // Antes
 <Text>cm</Text>
@@ -331,17 +346,21 @@ npm install expo-haptics
 ---
 
 #### GAP 3: Título e Subtítulo
+
 **Impacto UX:** 🟢 BAIXO
 
-**Shotsy:**  
+**Shotsy:**
+
 - Título: "Sua altura"
 - Subtítulo: "Sua altura nos ajuda a calcular seu IMC e personalizar seus objetivos."
 
-**Mounjaro:**  
+**Mounjaro:**
+
 - Título: "Qual é a sua altura?"
 - Subtítulo: "Essa informação nos ajuda a calcular seu IMC"
 
 **Mudança necessária:**
+
 ```tsx
 <OnboardingScreenBase
   title="Sua altura"
@@ -356,12 +375,14 @@ npm install expo-haptics
 ---
 
 #### GAP 4: Emoji 📏 - Desnecessário
+
 **Impacto UX:** 🟢 BAIXO
 
 **Shotsy:** Sem emoji  
-**Mounjaro:** Emoji 📏 no final  
+**Mounjaro:** Emoji 📏 no final
 
 **Mudança necessária:**
+
 ```tsx
 // REMOVER
 <Text style={styles.emoji}>📏</Text>
@@ -374,15 +395,15 @@ npm install expo-haptics
 
 ### 📊 RESUMO: HEIGHT INPUT SCREEN
 
-| Elemento | Status | Ação Necessária |
-|----------|--------|-----------------|
-| Título | 🟡 Ajustar | "Qual é a sua altura?" → "Sua altura" |
-| Subtítulo | 🟡 Ajustar | Expandir copy completo |
-| Unit toggle | 🟡 Ajustar | "cm" → "centímetros", "pés/pol" → "polegadas" |
-| TextInput | 🔴 Substituir | Por iOS Picker nativo |
-| Fade effect | ❌ Faltando | Adicionar gradients top/bottom |
-| Haptic feedback | ❌ Faltando | Adicionar ao selecionar |
-| Emoji 📏 | 🔴 Remover | Não existe no Shotsy |
+| Elemento        | Status        | Ação Necessária                               |
+| --------------- | ------------- | --------------------------------------------- |
+| Título          | 🟡 Ajustar    | "Qual é a sua altura?" → "Sua altura"         |
+| Subtítulo       | 🟡 Ajustar    | Expandir copy completo                        |
+| Unit toggle     | 🟡 Ajustar    | "cm" → "centímetros", "pés/pol" → "polegadas" |
+| TextInput       | 🔴 Substituir | Por iOS Picker nativo                         |
+| Fade effect     | ❌ Faltando   | Adicionar gradients top/bottom                |
+| Haptic feedback | ❌ Faltando   | Adicionar ao selecionar                       |
+| Emoji 📏        | 🔴 Remover    | Não existe no Shotsy                          |
 
 **Prioridade:** 🔴 P0 - Crítico  
 **Esforço Total:** 10-12 horas  
@@ -393,6 +414,7 @@ npm install expo-haptics
 ## 🎨 TELA 2: CURRENT WEIGHT SCREEN
 
 ### 📸 Referências Visuais
+
 **Screenshot Shotsy:** `IMG_0625.PNG` (Current Weight com picker decimal)  
 **Arquivo Mounjaro:** `components/onboarding/CurrentWeightScreen.tsx`
 
@@ -401,6 +423,7 @@ npm install expo-haptics
 #### 1. COMPONENTE PRINCIPAL: PICKER DECIMAL
 
 **Shotsy (Referência):**
+
 - **Picker decimal de 3 colunas:**
   - Coluna 1: Parte inteira (101, 102, 103, **104**, 105, 106, 107)
   - Coluna 2: Separador **"."**
@@ -410,6 +433,7 @@ npm install expo-haptics
 - Visual limpo e minimalista
 
 **Mounjaro (Atual):**
+
 ```tsx:components/onboarding/CurrentWeightScreen.tsx
 <TextInput
   style={[styles.input, { color: colors.text, borderColor: colors.border }]}
@@ -422,6 +446,7 @@ npm install expo-haptics
 ```
 
 **Problemas:**
+
 - ❌ TextInput com teclado numérico
 - ❌ Sem contexto visual
 - ❌ Validação manual do decimal
@@ -429,10 +454,12 @@ npm install expo-haptics
 ### 🎯 GAPS VISUAIS IDENTIFICADOS
 
 #### GAP 1: Picker Decimal de 3 Colunas (CRÍTICO)
+
 **Impacto UX:** 🔴 CRÍTICO  
 **Razão:** Peso precisa de precisão decimal; picker é mais intuitivo.
 
 **Mudança necessária:**
+
 ```tsx
 const WEIGHT_INTEGER_RANGE = Array.from({ length: 201 }, (_, i) => i + 30); // 30-230kg
 const WEIGHT_DECIMAL_RANGE = Array.from({ length: 10 }, (_, i) => i); // 0-9
@@ -445,7 +472,7 @@ export function CurrentWeightScreen({ onNext, onBack }: CurrentWeightScreenProps
   const [weightDecimal, setWeightDecimal] = useState(0);
 
   const handleNext = () => {
-    const weight = weightInteger + (weightDecimal / 10);
+    const weight = weightInteger + weightDecimal / 10;
     onNext({ currentWeight: weight, weightUnit: unit });
   };
 
@@ -553,9 +580,7 @@ export function CurrentWeightScreen({ onNext, onBack }: CurrentWeightScreenProps
 
             {/* Unit Suffix */}
             <View style={styles.suffixContainer}>
-              <Text style={[styles.suffix, { color: colors.textSecondary }]}>
-                {unit}
-              </Text>
+              <Text style={[styles.suffix, { color: colors.textSecondary }]}>{unit}</Text>
             </View>
           </View>
 
@@ -657,8 +682,9 @@ const styles = StyleSheet.create({
 ---
 
 #### GAP 2: Unit Toggle - Microcopy
+
 **Shotsy:** "quilogramas" / "libras"  
-**Mounjaro:** "kg" / "lb"  
+**Mounjaro:** "kg" / "lb"
 
 **Mudança:** Usar texto completo  
 **Esforço:** 2 minutos
@@ -666,11 +692,14 @@ const styles = StyleSheet.create({
 ---
 
 #### GAP 3: Título e Subtítulo
-**Shotsy:**  
+
+**Shotsy:**
+
 - Título: "Seu peso atual"
 - Subtítulo: "Agora vamos registrar seu peso atual, para que possamos acompanhar seu progresso."
 
-**Mounjaro:**  
+**Mounjaro:**
+
 - Título: "Qual é o seu peso atual?"
 - Subtítulo: "Essa será a base para acompanhar seu progresso"
 
@@ -680,8 +709,9 @@ const styles = StyleSheet.create({
 ---
 
 #### GAP 4: Emoji ⚖️ - Remover
+
 **Shotsy:** Sem emoji  
-**Mounjaro:** Emoji ⚖️  
+**Mounjaro:** Emoji ⚖️
 
 **Mudança:** Remover  
 **Esforço:** 1 minuto
@@ -689,8 +719,9 @@ const styles = StyleSheet.create({
 ---
 
 #### GAP 5: Tip Card - Manter mas Ajustar
+
 **Shotsy:** Não visível no screenshot, mas pode estar fora do viewport  
-**Mounjaro:** Tem tip card com dica de pesagem  
+**Mounjaro:** Tem tip card com dica de pesagem
 
 **Ação:** Manter, mas verificar posicionamento  
 **Esforço:** 30 minutos (verificação visual)
@@ -699,16 +730,16 @@ const styles = StyleSheet.create({
 
 ### 📊 RESUMO: CURRENT WEIGHT SCREEN
 
-| Elemento | Status | Ação Necessária |
-|----------|--------|-----------------|
-| Título | 🟡 Ajustar | Match exato com Shotsy |
-| Subtítulo | 🟡 Ajustar | Expandir copy completo |
-| Unit toggle | 🟡 Ajustar | "kg/lb" → "quilogramas/libras" |
-| TextInput | 🔴 Substituir | Por Picker decimal 3 colunas |
-| Fade effect | ❌ Faltando | Adicionar gradients |
-| Haptic feedback | ❌ Faltando | Adicionar |
-| Emoji ⚖️ | 🔴 Remover | Não existe no Shotsy |
-| Tip card | 🟡 Manter | Verificar posicionamento |
+| Elemento        | Status        | Ação Necessária                |
+| --------------- | ------------- | ------------------------------ |
+| Título          | 🟡 Ajustar    | Match exato com Shotsy         |
+| Subtítulo       | 🟡 Ajustar    | Expandir copy completo         |
+| Unit toggle     | 🟡 Ajustar    | "kg/lb" → "quilogramas/libras" |
+| TextInput       | 🔴 Substituir | Por Picker decimal 3 colunas   |
+| Fade effect     | ❌ Faltando   | Adicionar gradients            |
+| Haptic feedback | ❌ Faltando   | Adicionar                      |
+| Emoji ⚖️        | 🔴 Remover    | Não existe no Shotsy           |
+| Tip card        | 🟡 Manter     | Verificar posicionamento       |
 
 **Prioridade:** 🔴 P0 - Crítico  
 **Esforço Total:** 8-10 horas  
@@ -719,6 +750,7 @@ const styles = StyleSheet.create({
 ## 🎨 TELA 3: STARTING WEIGHT SCREEN
 
 ### 📸 Referências Visuais
+
 **Screenshot Shotsy:** `IMG_0626.PNG` (Starting Weight com editable cards)  
 **Arquivo Mounjaro:** `components/onboarding/StartingWeightScreen.tsx`
 
@@ -727,13 +759,13 @@ const styles = StyleSheet.create({
 #### 1. LAYOUT PRINCIPAL
 
 **Shotsy (Referência):**
+
 - **Card 1: Peso Inicial**
   - Ícone: ⚖️ (à esquerda)
   - Label: "Peso Inicial"
   - Valor: "104 kg" (bold, grande)
   - Botão edit: ✏️ (à direita, pequeno)
   - Background: card elevado
-  
 - **Card 2: Data de Início**
   - Ícone: 📅 (à esquerda)
   - Label: "Data de Início"
@@ -742,6 +774,7 @@ const styles = StyleSheet.create({
   - Background: card elevado
 
 **Mounjaro (Atual):**
+
 ```tsx:components/onboarding/StartingWeightScreen.tsx
 // 2 cards separados com TextInput
 <ShotsyCard variant="elevated">
@@ -768,24 +801,27 @@ const styles = StyleSheet.create({
 ### 🎯 GAPS VISUAIS IDENTIFICADOS
 
 #### GAP 1: Cards Editáveis vs Inputs Diretos
+
 **Impacto UX:** 🟡 MÉDIO  
 **Razão:** Shotsy usa "apresentação + edição" (2 modos); Mounjaro sempre mostra input.
 
 **Shotsy:** Valor exibido + botão edit → abre modal/picker  
-**Mounjaro:** Input sempre visível  
+**Mounjaro:** Input sempre visível
 
 **Opções:**
+
 1. **OPÇÃO A (Fidelidade Total):** Implementar estado de apresentação + modal de edição
 2. **OPÇÃO B (Pragmática):** Manter inputs mas estilizar como Shotsy (ícones + layout)
 
 **Recomendação:** OPÇÃO B (pragmática) - menor esforço, UX similar
 
 **Mudança necessária (OPÇÃO B):**
+
 ```tsx
-export function StartingWeightScreen({ 
-  onNext, 
-  onBack, 
-  weightUnit = 'kg' 
+export function StartingWeightScreen({
+  onNext,
+  onBack,
+  weightUnit = 'kg',
 }: StartingWeightScreenProps) {
   const colors = useShotsyColors();
   const [weight, setWeight] = useState('');
@@ -793,11 +829,13 @@ export function StartingWeightScreen({
   const [showDatePicker, setShowDatePicker] = useState(false);
 
   const formatDate = (date: Date) => {
-    return date.toLocaleDateString('pt-BR', {
-      day: '2-digit',
-      month: 'short',
-      year: 'numeric',
-    }).replace('.', ' de');
+    return date
+      .toLocaleDateString('pt-BR', {
+        day: '2-digit',
+        month: 'short',
+        year: 'numeric',
+      })
+      .replace('.', ' de');
   };
 
   return (
@@ -815,9 +853,7 @@ export function StartingWeightScreen({
             <Text style={styles.icon}>⚖️</Text>
           </View>
           <View style={styles.cardContent}>
-            <Text style={[styles.cardLabel, { color: colors.textSecondary }]}>
-              Peso Inicial
-            </Text>
+            <Text style={[styles.cardLabel, { color: colors.textSecondary }]}>Peso Inicial</Text>
             <TextInput
               style={[styles.cardValue, { color: colors.text }]}
               value={weight}
@@ -828,16 +864,12 @@ export function StartingWeightScreen({
             />
           </View>
           <View style={styles.cardAction}>
-            <Text style={[styles.unitSuffix, { color: colors.textSecondary }]}>
-              {weightUnit}
-            </Text>
+            <Text style={[styles.unitSuffix, { color: colors.textSecondary }]}>{weightUnit}</Text>
           </View>
         </ShotsyCard>
 
         {/* Date Card */}
-        <TouchableOpacity
-          onPress={() => setShowDatePicker(true)}
-        >
+        <TouchableOpacity onPress={() => setShowDatePicker(true)}>
           <ShotsyCard variant="elevated" style={styles.editableCard}>
             <View style={styles.cardIcon}>
               <Text style={styles.icon}>📅</Text>
@@ -916,6 +948,7 @@ const styles = StyleSheet.create({
 ```
 
 **Dependências:**
+
 ```bash
 npm install @react-native-community/datetimepicker
 npm install @expo/vector-icons
@@ -927,11 +960,14 @@ npm install @expo/vector-icons
 ---
 
 #### GAP 2: Título e Subtítulo
-**Shotsy:**  
+
+**Shotsy:**
+
 - Título: "Conte-nos como você estava quando começou."
 - Subtítulo: "Adicione o peso que você tinha quando começou sua jornada, junto com a data de início."
 
-**Mounjaro:**  
+**Mounjaro:**
+
 - Título: "Qual era seu peso quando começou (ou vai começar) o GLP-1?"
 - Subtítulo: "Isso nos ajuda a calcular seu progresso total"
 
@@ -941,8 +977,9 @@ npm install @expo/vector-icons
 ---
 
 #### GAP 3: Emoji 📅 - Remover (já está no card)
+
 **Shotsy:** Emoji dentro do card (ícone funcional)  
-**Mounjaro:** Emoji decorativo no final + ícone no card  
+**Mounjaro:** Emoji decorativo no final + ícone no card
 
 **Mudança:** Remover emoji decorativo  
 **Esforço:** 1 minuto
@@ -951,13 +988,13 @@ npm install @expo/vector-icons
 
 ### 📊 RESUMO: STARTING WEIGHT SCREEN
 
-| Elemento | Status | Ação Necessária |
-|----------|--------|-----------------|
-| Título | 🟡 Ajustar | Match exato com Shotsy |
-| Subtítulo | 🟡 Ajustar | Expandir copy completo |
-| Weight card layout | 🟡 Ajustar | Adicionar ícone + layout horizontal |
-| Date inputs | 🔴 Substituir | Por DateTimePicker nativo |
-| Emoji 📅 decorativo | 🔴 Remover | Já existe no card |
+| Elemento            | Status        | Ação Necessária                     |
+| ------------------- | ------------- | ----------------------------------- |
+| Título              | 🟡 Ajustar    | Match exato com Shotsy              |
+| Subtítulo           | 🟡 Ajustar    | Expandir copy completo              |
+| Weight card layout  | 🟡 Ajustar    | Adicionar ícone + layout horizontal |
+| Date inputs         | 🔴 Substituir | Por DateTimePicker nativo           |
+| Emoji 📅 decorativo | 🔴 Remover    | Já existe no card                   |
 
 **Prioridade:** 🔴 P0 - Crítico  
 **Esforço Total:** 4-6 horas  
@@ -968,6 +1005,7 @@ npm install @expo/vector-icons
 ## 🎨 TELA 4: TARGET WEIGHT SCREEN
 
 ### 📸 Referências Visuais
+
 **Screenshot Shotsy:** `IMG_0627.PNG` (Target Weight com IMC slider visual)  
 **Arquivo Mounjaro:** `components/onboarding/TargetWeightScreen.tsx`
 
@@ -976,6 +1014,7 @@ npm install @expo/vector-icons
 #### 1. COMPONENTE PRINCIPAL: IMC SLIDER
 
 **Shotsy (Referência):**
+
 - Card principal com:
   - **Valor grande centralizado:** "75kg" (fontSize ~48px)
   - **Slider visual:** Régua horizontal com marcações
@@ -992,6 +1031,7 @@ npm install @expo/vector-icons
     - Indicador visual na posição do IMC atual
 
 **Mounjaro (Atual):**
+
 ```tsx:components/onboarding/TargetWeightScreen.tsx
 // Input simples + 2 cards informativos
 <ShotsyCard variant="elevated">
@@ -1013,7 +1053,7 @@ npm install @expo/vector-icons
         {/* Labels: Início, Atual, Meta */}
       </View>
     </ShotsyCard>
-    
+
     <ShotsyCard>
       {/* IMC simples: Atual → Meta */}
       <Text>IMC</Text>
@@ -1028,6 +1068,7 @@ npm install @expo/vector-icons
 ```
 
 **Problemas:**
+
 - ❌ Sem slider visual (apenas TextInput)
 - ❌ Sem régua de peso com tick marks
 - ❌ Barra IMC simplificada demais
@@ -1037,10 +1078,12 @@ npm install @expo/vector-icons
 ### 🎯 GAPS VISUAIS IDENTIFICADOS
 
 #### GAP 1: Slider Visual com Régua (CRÍTICO)
+
 **Impacto UX:** 🔴 CRÍTICO  
 **Razão:** Usuário precisa feedback visual em tempo real do IMC ao ajustar peso.
 
 **Mudança necessária:**
+
 ```tsx
 import Slider from '@react-native-community/slider';
 
@@ -1054,18 +1097,16 @@ export function TargetWeightScreen({
 }: TargetWeightScreenProps) {
   const colors = useShotsyColors();
   const { currentAccent } = useTheme();
-  
+
   // Calcular range inteligente baseado no peso atual
   const minWeight = Math.max(40, Math.floor(currentWeight * 0.7)); // -30% do atual
   const maxWeight = Math.ceil(currentWeight * 0.95); // -5% do atual (mínimo saudável)
-  
-  const [targetWeight, setTargetWeight] = useState(
-    Math.round((minWeight + maxWeight) / 2)
-  );
+
+  const [targetWeight, setTargetWeight] = useState(Math.round((minWeight + maxWeight) / 2));
 
   const calculateBMI = (weightKg: number, heightCm: number) => {
     const heightM = heightCm / 100;
-    return (weightKg / (heightM * heightM));
+    return weightKg / (heightM * heightM);
   };
 
   const getBMICategory = (bmi: number) => {
@@ -1091,9 +1132,7 @@ export function TargetWeightScreen({
         {/* Main Slider Card */}
         <ShotsyCard variant="elevated" style={styles.sliderCard}>
           {/* Big Weight Display */}
-          <Text style={[styles.weightValue, { color: colors.text }]}>
-            {targetWeight}kg
-          </Text>
+          <Text style={[styles.weightValue, { color: colors.text }]}>{targetWeight}kg</Text>
 
           {/* Ruler Slider */}
           <View style={styles.rulerContainer}>
@@ -1114,9 +1153,7 @@ export function TargetWeightScreen({
                       ]}
                     />
                     {isMultipleOf5 && (
-                      <Text style={[styles.tickLabel, { color: colors.textMuted }]}>
-                        {weight}
-                      </Text>
+                      <Text style={[styles.tickLabel, { color: colors.textMuted }]}>{weight}</Text>
                     )}
                   </View>
                 );
@@ -1145,12 +1182,7 @@ export function TargetWeightScreen({
             <Text style={[styles.bmiValue, { color: bmiCategory.color }]}>
               {targetBMI.toFixed(1)}
             </Text>
-            <View
-              style={[
-                styles.bmiPill,
-                { backgroundColor: bmiCategory.color + '20' },
-              ]}
-            >
+            <View style={[styles.bmiPill, { backgroundColor: bmiCategory.color + '20' }]}>
               <Text style={[styles.bmiLabel, { color: bmiCategory.color }]}>
                 {bmiCategory.label}
               </Text>
@@ -1167,7 +1199,7 @@ export function TargetWeightScreen({
             <View style={[styles.bmiSegment, { flex: 0.5, backgroundColor: '#F59E0B' }]} />
             {/* Obese */}
             <View style={[styles.bmiSegment, { flex: 1, backgroundColor: '#EF4444' }]} />
-            
+
             {/* Current BMI Indicator */}
             <View
               style={[
@@ -1301,6 +1333,7 @@ const styles = StyleSheet.create({
 ```
 
 **Dependências:**
+
 ```bash
 npm install @react-native-community/slider
 ```
@@ -1312,17 +1345,17 @@ npm install @react-native-community/slider
 
 ### 📊 RESUMO: TARGET WEIGHT SCREEN
 
-| Elemento | Status | Ação Necessária |
-|----------|--------|-----------------|
-| Título | 🟡 Ajustar | "Qual é o seu peso meta?" → "Peso meta" |
-| Subtítulo | 🟡 Ajustar | Match com Shotsy |
-| TextInput | 🔴 Substituir | Por Slider com régua visual |
-| Tick marks | ❌ Faltando | Adicionar régua com marcações |
-| IMC display | 🔴 Melhorar | Valor grande + pill colorido |
-| BMI category bar | 🔴 Implementar | Barra 4 cores + indicador posição |
-| Labels BMI | 🔴 Implementar | 4 categorias com ranges |
-| Progress card | 🔴 Remover | Não existe no Shotsy |
-| Emoji 🎯 | 🔴 Remover | Não existe no Shotsy |
+| Elemento         | Status         | Ação Necessária                         |
+| ---------------- | -------------- | --------------------------------------- |
+| Título           | 🟡 Ajustar     | "Qual é o seu peso meta?" → "Peso meta" |
+| Subtítulo        | 🟡 Ajustar     | Match com Shotsy                        |
+| TextInput        | 🔴 Substituir  | Por Slider com régua visual             |
+| Tick marks       | ❌ Faltando    | Adicionar régua com marcações           |
+| IMC display      | 🔴 Melhorar    | Valor grande + pill colorido            |
+| BMI category bar | 🔴 Implementar | Barra 4 cores + indicador posição       |
+| Labels BMI       | 🔴 Implementar | 4 categorias com ranges                 |
+| Progress card    | 🔴 Remover     | Não existe no Shotsy                    |
+| Emoji 🎯         | 🔴 Remover     | Não existe no Shotsy                    |
 
 **Prioridade:** 🔴 P0 - Crítico  
 **Esforço Total:** 10-14 horas  
@@ -1333,6 +1366,7 @@ npm install @react-native-community/slider
 ## 📦 DEPENDÊNCIAS TÉCNICAS
 
 ### Instalação Necessária
+
 ```bash
 # Pickers nativos
 npm install @react-native-picker/picker
@@ -1354,6 +1388,7 @@ npm install @expo/vector-icons
 ```
 
 ### Configuração iOS (react-native-picker)
+
 ```bash
 cd ios && pod install && cd ..
 ```
@@ -1363,18 +1398,16 @@ cd ios && pod install && cd ..
 ## 🎯 PLANO DE IMPLEMENTAÇÃO
 
 ### Ordem Sugerida (por complexidade)
+
 1. **Starting Weight Screen** (4-6h) - Mais simples
    - Layout de cards + DatePicker nativo
    - Baixo risco
-   
 2. **Height Input Screen** (10-12h) - Complexo
    - Picker nativo + fade effects
    - Dual picker (ft/in)
-   
 3. **Current Weight Screen** (8-10h) - Complexo
    - Picker decimal 3 colunas
    - Layout específico
-   
 4. **Target Weight Screen** (10-14h) - Mais complexo
    - Slider com régua visual
    - BMI bar com 4 categorias
@@ -1387,21 +1420,25 @@ cd ios && pod install && cd ..
 ## 🚨 RISCOS E MITIGAÇÕES
 
 ### Risco 1: Performance dos Pickers
+
 **Probabilidade:** 🟡 Média  
 **Impacto:** 🟡 Médio  
 **Mitigação:** Limitar range de valores (não renderizar 1-1000)
 
 ### Risco 2: Picker quirks no iOS/Android
+
 **Probabilidade:** 🟡 Média  
 **Impacto:** 🟡 Médio  
 **Mitigação:** Testar em ambas plataformas; usar bibliotecas mantidas
 
 ### Risco 3: Fade effects com LinearGradient
+
 **Probabilidade:** 🟢 Baixa  
 **Impacto:** 🟢 Baixo  
 **Mitigação:** `expo-linear-gradient` é estável; bem documentado
 
 ### Risco 4: Cálculo de IMC e posicionamento visual
+
 **Probabilidade:** 🟢 Baixa  
 **Impacto:** 🟡 Médio (se incorreto, desacredita o app)  
 **Mitigação:** Validar fórmula BMI com literatura médica; testar edge cases
@@ -1411,6 +1448,7 @@ cd ios && pod install && cd ..
 ## 📋 CHECKLIST DE VALIDAÇÃO
 
 ### Height Input Screen
+
 - [ ] Picker nativo renderiza corretamente (cm e ft/in)
 - [ ] Fade effect visível (top e bottom)
 - [ ] Haptic feedback funciona ao selecionar
@@ -1420,6 +1458,7 @@ cd ios && pod install && cd ..
 - [ ] Conversão ft/in → cm correta
 
 ### Current Weight Screen
+
 - [ ] Picker decimal 3 colunas (integer . decimal kg)
 - [ ] Fade effect visível
 - [ ] Haptic feedback funciona
@@ -1429,6 +1468,7 @@ cd ios && pod install && cd ..
 - [ ] Tip card posicionado corretamente
 
 ### Starting Weight Screen
+
 - [ ] Card layout horizontal (ícone + conteúdo + ação)
 - [ ] Ícone ⚖️ visível no weight card
 - [ ] Ícone 📅 visível no date card
@@ -1438,6 +1478,7 @@ cd ios && pod install && cd ..
 - [ ] Emoji 📅 decorativo removido
 
 ### Target Weight Screen
+
 - [ ] Slider com régua funciona
 - [ ] Tick marks visíveis a cada 1kg (5kg bold)
 - [ ] Valor peso grande e centralizado (48px)
@@ -1451,6 +1492,7 @@ cd ios && pod install && cd ..
 - [ ] Emoji 🎯 removido
 
 ### Geral
+
 - [ ] Todas dependências instaladas
 - [ ] Funciona em iOS e Android
 - [ ] Performance aceitável (sem lag)
@@ -1462,18 +1504,21 @@ cd ios && pod install && cd ..
 ## ✅ CONCLUSÃO DIA 5
 
 ### Resumo de Esforço
-| Tela | Esforço | Prioridade | Status |
-|------|---------|------------|--------|
-| Height Input | 10-12h | P0 | 📋 Documentado |
-| Current Weight | 8-10h | P0 | 📋 Documentado |
-| Starting Weight | 4-6h | P0 | 📋 Documentado |
-| Target Weight | 10-14h | P0 | 📋 Documentado |
-| **TOTAL** | **32-42h** | **P0** | **✅ Auditoria Completa** |
+
+| Tela            | Esforço    | Prioridade | Status                    |
+| --------------- | ---------- | ---------- | ------------------------- |
+| Height Input    | 10-12h     | P0         | 📋 Documentado            |
+| Current Weight  | 8-10h      | P0         | 📋 Documentado            |
+| Starting Weight | 4-6h       | P0         | 📋 Documentado            |
+| Target Weight   | 10-14h     | P0         | 📋 Documentado            |
+| **TOTAL**       | **32-42h** | **P0**     | **✅ Auditoria Completa** |
 
 ### Gap Crítico Universal
+
 🚨 **TODAS as 4 telas usam TextInput ao invés de componentes nativos iOS**
 
 **Impacto:**
+
 - Experiência inferior vs Shotsy
 - Não parece app nativo
 - Validação manual necessária
@@ -1482,11 +1527,13 @@ cd ios && pod install && cd ..
 **Solução:** Migrar para pickers/sliders nativos (decisão arquitetural)
 
 ### Próximos Passos
+
 1. ✅ Semana 1 completa (Dia 1-5)
 2. 📊 **Checkpoint:** Revisar P0 completo
 3. 🚀 Iniciar **implementação** dos componentes auditados
 
 ### Impacto Esperado
+
 - 🎯 **UX:** Inputs nativos = experiência iOS premium
 - 📱 **Consistência:** Match 100% com Shotsy
 - ⚡ **Performance:** Pickers nativos são otimizados
@@ -1494,9 +1541,8 @@ cd ios && pod install && cd ..
 
 **Data de conclusão:** 05 de novembro de 2025  
 **Auditado por:** AI Assistant  
-**Metodologia:** Fase 0 Piloto (validada)  
+**Metodologia:** Fase 0 Piloto (validada)
 
 ---
 
 **📌 NOTA IMPORTANTE:** Esta auditoria documenta APENAS os gaps visuais. A implementação será feita após aprovação do plano completo de P0.
-

@@ -40,14 +40,12 @@ export function TargetWeightScreen({
 }: TargetWeightScreenProps) {
   const colors = useShotsyColors();
   const { currentAccent } = useTheme();
-  
+
   // Calcular range inteligente baseado no peso atual
   const minWeight = Math.max(40, Math.floor(currentWeight * 0.7)); // -30% do atual
   const maxWeight = Math.ceil(currentWeight * 0.95); // -5% do atual
-  
-  const [targetWeight, setTargetWeight] = useState(
-    Math.round((minWeight + maxWeight) / 2)
-  );
+
+  const [targetWeight, setTargetWeight] = useState(Math.round((minWeight + maxWeight) / 2));
 
   const handleNext = () => {
     onNext({ targetWeight });
@@ -72,7 +70,8 @@ export function TargetWeightScreen({
         <ShotsyCard variant="elevated" style={styles.sliderCard}>
           {/* Big Weight Display */}
           <Text style={[styles.weightValue, { color: colors.text }]}>
-            {targetWeight.toFixed(1)}{weightUnit}
+            {targetWeight.toFixed(1)}
+            {weightUnit}
           </Text>
 
           {/* Slider */}
@@ -94,10 +93,12 @@ export function TargetWeightScreen({
             {/* Weight Range Labels */}
             <View style={styles.rangeLabels}>
               <Text style={[styles.rangeLabel, { color: colors.textMuted }]}>
-                {minWeight}{weightUnit}
+                {minWeight}
+                {weightUnit}
               </Text>
               <Text style={[styles.rangeLabel, { color: colors.textMuted }]}>
-                {maxWeight}{weightUnit}
+                {maxWeight}
+                {weightUnit}
               </Text>
             </View>
           </View>
@@ -107,12 +108,7 @@ export function TargetWeightScreen({
             <Text style={[styles.bmiValue, { color: bmiCategory.color }]}>
               IMC: {targetBMI.toFixed(1)}
             </Text>
-            <View
-              style={[
-                styles.bmiPill,
-                { backgroundColor: bmiCategory.color + '20' },
-              ]}
-            >
+            <View style={[styles.bmiPill, { backgroundColor: bmiCategory.color + '20' }]}>
               <Text style={[styles.bmiLabelText, { color: bmiCategory.color }]}>
                 {bmiCategory.label}
               </Text>
@@ -130,7 +126,7 @@ export function TargetWeightScreen({
               <View style={[styles.bmiSegment, { flex: 0.5, backgroundColor: '#F59E0B' }]} />
               {/* Obese */}
               <View style={[styles.bmiSegment, { flex: 1, backgroundColor: '#EF4444' }]} />
-              
+
               {/* Current BMI Indicator */}
               <View
                 style={[
@@ -168,9 +164,7 @@ export function TargetWeightScreen({
         {/* Progress Summary */}
         <ShotsyCard style={styles.summaryCard}>
           <View style={styles.summaryRow}>
-            <Text style={[styles.summaryLabel, { color: colors.textSecondary }]}>
-              Perder:
-            </Text>
+            <Text style={[styles.summaryLabel, { color: colors.textSecondary }]}>Perder:</Text>
             <Text style={[styles.summaryValue, { color: currentAccent }]}>
               {weightToLose.toFixed(1)} {weightUnit}
             </Text>

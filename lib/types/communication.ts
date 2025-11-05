@@ -39,11 +39,14 @@ export interface PersonalityUpdate {
 }
 
 // Communication style descriptions
-export const COMMUNICATION_STYLES: Record<CommunicationStyle, {
-  label: string;
-  description: string;
-  example: string;
-}> = {
+export const COMMUNICATION_STYLES: Record<
+  CommunicationStyle,
+  {
+    label: string;
+    description: string;
+    example: string;
+  }
+> = {
   coach: {
     label: 'Coach',
     description: 'Motivating and results-focused',
@@ -52,7 +55,7 @@ export const COMMUNICATION_STYLES: Record<CommunicationStyle, {
   friend: {
     label: 'Friend',
     description: 'Casual and supportive',
-    example: 'Hey! Awesome job today! You\'re doing amazing 🎉',
+    example: "Hey! Awesome job today! You're doing amazing 🎉",
   },
   scientist: {
     label: 'Scientist',
@@ -66,10 +69,13 @@ export const COMMUNICATION_STYLES: Record<CommunicationStyle, {
   },
 };
 
-export const MOTIVATION_TYPES: Record<MotivationType, {
-  label: string;
-  description: string;
-}> = {
+export const MOTIVATION_TYPES: Record<
+  MotivationType,
+  {
+    label: string;
+    description: string;
+  }
+> = {
   'data-driven': {
     label: 'Data-Driven',
     description: 'Focus on numbers, trends, and analytics',
@@ -84,10 +90,13 @@ export const MOTIVATION_TYPES: Record<MotivationType, {
   },
 };
 
-export const NOTIFICATION_TONES: Record<NotificationTone, {
-  label: string;
-  description: string;
-}> = {
+export const NOTIFICATION_TONES: Record<
+  NotificationTone,
+  {
+    label: string;
+    description: string;
+  }
+> = {
   encouraging: {
     label: 'Encouraging',
     description: 'Positive and uplifting',
@@ -146,7 +155,10 @@ export const personalizeMessage = (
 };
 
 // Get default personality based on other preferences
-export const getDefaultPersonality = (): Omit<AppPersonality, 'id' | 'user_id' | 'created_at' | 'updated_at'> => ({
+export const getDefaultPersonality = (): Omit<
+  AppPersonality,
+  'id' | 'user_id' | 'created_at' | 'updated_at'
+> => ({
   style: 'friend',
   humor_level: 3,
   motivation_type: 'balanced',

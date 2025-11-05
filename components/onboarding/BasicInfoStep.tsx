@@ -14,6 +14,9 @@ import {
 import { useUser } from '@clerk/clerk-expo';
 import { supabase } from '@/lib/supabase';
 import { useShotsyColors } from '@/hooks/useShotsyColors';
+import { createLogger } from '@/lib/logger';
+
+const logger = createLogger('BasicInfoStep');
 
 interface BasicInfoStepProps {
   onComplete: () => void;
@@ -52,56 +55,49 @@ export const BasicInfoStep: React.FC<BasicInfoStepProps> = ({ onComplete }) => {
       setLoading(true);
 
       // Create or update profile in Supabase
-      const { error: profileError } = await supabase
-        .from('profiles')
-        .upsert({
-          id: user?.id,
-          name: name.trim(),
-          email: user?.primaryEmailAddress?.emailAddress || '',
-          start_weight: current,
-          target_weight: goal,
-        });
+      const { error: profileError } = await supabase.from('profiles').upsert({
+        id: user?.id,
+        name: name.trim(),
+        email: user?.primaryEmailAddress?.emailAddress || '',
+        start_weight: current,
+        target_weight: goal,
+      });
 
       if (profileError) throw profileError;
 
       // Create initial weight log
-      const { error: weightError } = await supabase
-        .from('weights')
-        .insert({
-          user_id: user?.id,
-          date: new Date().toISOString(),
-          weight: current,
-          notes: 'Initial weight',
-        });
+      const { error: weightError } = await supabase.from('weights').insert({
+        user_id: user?.id,
+        date: new Date().toISOString(),
+        weight: current,
+        notes: 'Initial weight',
+      });
 
       if (weightError) {
         // Don't fail if weight already exists
-        console.warn('Weight log error:', weightError);
+        logger.warn('Weight log error', { weightError });
       }
 
       // Create default settings
-      const { error: settingsError } = await supabase
-        .from('settings')
-        .upsert({
-          user_id: user?.id,
-        });
+      const { error: settingsError } = await supabase.from('settings').upsert({
+        user_id: user?.id,
+      });
 
       if (settingsError) {
-        console.warn('Settings error:', settingsError);
+        logger.warn('Settings error', { settingsError });
       }
 
       onComplete();
     } catch (error: any) {
-      console.error('Error saving basic info:', error);
+      logger.error('Error saving basic info:', error as Error);
       Alert.alert('Error', 'Failed to save your information. Please try again.');
     } finally {
       setLoading(false);
     }
   };
 
-  const weightDifference = currentWeight && goalWeight
-    ? Math.abs(parseFloat(currentWeight) - parseFloat(goalWeight))
-    : 0;
+  const weightDifference =
+    currentWeight && goalWeight ? Math.abs(parseFloat(currentWeight) - parseFloat(goalWeight)) : 0;
 
   return (
     <KeyboardAvoidingView
@@ -116,9 +112,7 @@ export const BasicInfoStep: React.FC<BasicInfoStepProps> = ({ onComplete }) => {
         {/* Welcome Message */}
         <View style={styles.welcomeBox}>
           <Text style={styles.emoji}>👋</Text>
-          <Text style={styles.welcomeText}>
-            Let's personalize Shotsy for you!
-          </Text>
+          <Text style={styles.welcomeText}>Let's personalize Shotsy for you!</Text>
         </View>
 
         {/* Form */}
@@ -172,9 +166,7 @@ export const BasicInfoStep: React.FC<BasicInfoStepProps> = ({ onComplete }) => {
                 <Text style={styles.arrow}> → </Text>
                 <Text style={[styles.goalWeight, { color: colors.primary }]}>{goalWeight} kg</Text>
               </Text>
-              <Text style={styles.difference}>
-                Goal: {weightDifference.toFixed(1)} kg to go!
-              </Text>
+              <Text style={styles.difference}>Goal: {weightDifference.toFixed(1)} kg to go!</Text>
             </View>
           )}
         </View>
@@ -183,7 +175,8 @@ export const BasicInfoStep: React.FC<BasicInfoStepProps> = ({ onComplete }) => {
         <View style={styles.infoBox}>
           <Text style={styles.infoIcon}>💡</Text>
           <Text style={styles.infoText}>
-            This helps us personalize your experience and track your progress. You can always update these later!
+            This helps us personalize your experience and track your progress. You can always update
+            these later!
           </Text>
         </View>
 
@@ -251,7 +244,7 @@ const styles = StyleSheet.create({
   },
   previewCard: {
     padding: 20,
-    borderRadius: 12,  // Mudança: 16 → 12px (design system)
+    borderRadius: 12, // Mudança: 16 → 12px (design system)
     alignItems: 'center',
     marginTop: 8,
   },
