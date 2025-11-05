@@ -42,7 +42,8 @@ Crie um arquivo `.env` na raiz do projeto (ou edite o existente) e adicione:
 EXPO_PUBLIC_GEMINI_API_KEY=SUA_CHAVE_API_AQUI
 ```
 
-**⚠️ IMPORTANTE:** 
+**⚠️ IMPORTANTE:**
+
 - Substitua `SUA_CHAVE_API_AQUI` pela chave que você copiou no Passo 1
 - Não adicione aspas ou espaços ao redor da chave
 - O arquivo `.env` já existe no projeto com outras variáveis (Clerk, Supabase)
@@ -65,7 +66,7 @@ npx expo start -c
 2. Você verá duas abas: **Chat** e **Histórico**
 3. Na aba **Chat**:
    - Digite o que você comeu (ex: "No café da manhã comi pão com ovo")
-   - Ou grave um áudio (botão do microfone)*
+   - Ou grave um áudio (botão do microfone)\*
    - Envie a mensagem
 4. A IA vai:
    - Resumir suas refeições
@@ -73,7 +74,7 @@ npx expo start -c
    - Dar feedback motivacional
 5. Confirme ou cancele o registro no modal
 
-*Nota: Transcrição de áudio ainda não está implementada. Por enquanto, use apenas texto.
+\*Nota: Transcrição de áudio ainda não está implementada. Por enquanto, use apenas texto.
 
 ### Funcionalidade de Histórico
 
@@ -85,30 +86,34 @@ npx expo start -c
    - Resumo da IA
 4. Você pode:
    - Excluir registros (ícone da lixeira)
-   - *Editar* (em breve)
+   - _Editar_ (em breve)
 
 ---
 
 ## 🎯 Recursos Implementados
 
 ### ✅ Guardrails de IA
+
 - A IA só responde sobre nutrição
 - Não dá diagnósticos médicos
 - Não sugere mudanças em medicações
 - Tom amigável e motivacional
 
 ### ✅ Estimativa de Macros
+
 - Calorias aproximadas
 - Proteína
 - Carboidratos
 - Gorduras
 
 ### ✅ Integração com Supabase
+
 - Logs salvos na tabela `daily_nutrition`
 - RLS ativado (segurança)
 - Histórico completo
 
 ### ✅ UX Otimizada
+
 - Chat em tempo real
 - Feedback haptic
 - Loading states
@@ -132,6 +137,7 @@ O sistema tem proteções para garantir uso adequado:
 ## 💰 Custos
 
 ### Google Gemini (Free Tier)
+
 - **15 requisições/minuto**
 - **1.500 requisições/dia**
 - **$0 de custo** até o limite
@@ -139,6 +145,7 @@ O sistema tem proteções para garantir uso adequado:
 Isso significa que cada usuário pode fazer **até 1.500 análises por dia gratuitamente**.
 
 Para uso em produção, considere:
+
 - Implementar rate limiting por usuário (ex: 10 análises/dia)
 - Monitorar uso via Google Cloud Console
 - Upgrade para plano pago se necessário
@@ -148,15 +155,18 @@ Para uso em produção, considere:
 ## 🐛 Troubleshooting
 
 ### "Gemini API não configurada"
+
 - ✅ Certifique-se de criar o arquivo `.env`
 - ✅ Reinicie o servidor Expo com `npx expo start -c`
 - ✅ Verifique se a chave está correta
 
 ### "API key inválida"
+
 - ✅ Gere uma nova chave em https://makersuite.google.com/app/apikey
 - ✅ Verifique se não tem espaços antes/depois da chave
 
 ### Gravação de áudio não funciona
+
 - ℹ️ Transcrição de áudio ainda não implementada
 - ℹ️ Use o input de texto por enquanto
 - 🔜 Será implementado em versão futura
@@ -199,6 +209,7 @@ Para uso em produção, considere:
 ## 📞 Suporte
 
 Se encontrar problemas:
+
 1. Verifique o console do Expo para erros
 2. Confirme que a API key está configurada
 3. Teste com uma mensagem simples: "Comi arroz e feijão"
@@ -211,6 +222,6 @@ Se encontrar problemas:
 O sistema está completamente funcional. Basta configurar a API key e começar a usar!
 
 **Diferencial competitivo implementado: ✅**
+
 - Shotsy: Input manual de macros
 - Mounjaro Tracker: **Chat de IA que estima automaticamente!**
-

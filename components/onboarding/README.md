@@ -5,18 +5,21 @@ Este diretório contém toda a estrutura de onboarding do aplicativo Shotsy, um 
 ## Estrutura de Arquivos
 
 ### Componentes Base
+
 - `OnboardingProgressBar.tsx` - Barra de progresso horizontal mostrando progresso atual/total
 - `OnboardingScreenBase.tsx` - Componente base reutilizável para todas as telas com header, botão voltar, ScrollView e footer
 
 ### Telas de Onboarding (Sequência Completa)
 
 #### Introdução (Telas 1-4)
+
 1. **WelcomeScreen.tsx** - Carrossel de boas-vindas com 3 slides, dots de navegação e termos
 2. **WidgetsIntroScreen.tsx** - Apresentação dos widgets personalizáveis
 3. **ChartsIntroScreen.tsx** - Apresentação dos gráficos e insights
 4. **CustomizationIntroScreen.tsx** - Apresentação de temas e cores de destaque
 
 #### Medicação (Telas 5-9)
+
 5. **AlreadyUsingGLP1Screen.tsx** - Pergunta se já está usando GLP-1 (radio buttons)
 6. **MedicationSelectionScreen.tsx** - Seleção do medicamento (Zepbound, Mounjaro, etc.)
 7. **InitialDoseScreen.tsx** - Seleção da dose inicial recomendada
@@ -24,16 +27,19 @@ Este diretório contém toda a estrutura de onboarding do aplicativo Shotsy, um 
 9. **InjectionFrequencyScreen.tsx** - Frequência de aplicação com opção personalizada
 
 #### Educação (Telas 10-11)
+
 10. **EducationGraphScreen.tsx** - Gráfico educacional sobre níveis do medicamento
 11. **HealthDisclaimerScreen.tsx** - Aviso de saúde com checkbox obrigatório
 
 #### Dados Físicos (Telas 12-15)
+
 12. **HeightInputScreen.tsx** - Input de altura com toggle cm/pés
 13. **CurrentWeightScreen.tsx** - Input de peso atual com toggle kg/lb
 14. **StartingWeightScreen.tsx** - Peso inicial e data de início
 15. **TargetWeightScreen.tsx** - Peso meta com cálculo de IMC e barra de progresso
 
 #### Motivação e Rotina (Telas 16-22)
+
 16. **MotivationalMessageScreen.tsx** - Mensagem motivacional personalizada
 17. **WeightLossRateScreen.tsx** - Velocidade esperada de perda de peso (lento/moderado/rápido)
 18. **DailyRoutineScreen.tsx** - Nível de atividade física (5 opções)
@@ -43,11 +49,13 @@ Este diretório contém toda a estrutura de onboarding do aplicativo Shotsy, um 
 22. **MotivationScreen.tsx** - Motivação principal para usar GLP-1
 
 #### Finalização (Tela 23)
+
 23. **AppRatingScreen.tsx** - Solicitação de avaliação na App Store
 
 ## Fluxo Principal
 
 O arquivo `/app/(auth)/onboarding-flow.tsx` gerencia:
+
 - Estado global de onboarding
 - Navegação entre as 23 telas
 - Coleta de dados de cada tela
@@ -56,6 +64,7 @@ O arquivo `/app/(auth)/onboarding-flow.tsx` gerencia:
 ## Padrões Utilizados
 
 ### Componentes
+
 - Todas as telas usam `OnboardingScreenBase` como wrapper
 - Radio buttons para seleção única (com `Ionicons`)
 - Checkboxes para múltipla escolha
@@ -65,17 +74,21 @@ O arquivo `/app/(auth)/onboarding-flow.tsx` gerencia:
 - ShotsyButton para botões principais
 
 ### Temas
+
 - `useShotsyColors()` para cores consistentes
 - `useTheme()` para accent colors e temas
 - Suporte completo a modo claro/escuro
 
 ### Coleta de Dados
+
 Cada tela coleta dados via callback `onNext`:
+
 ```typescript
-onNext({ key: value })
+onNext({ key: value });
 ```
 
 Dados coletados:
+
 - Informações de medicação (tipo, dose, frequência)
 - Dados físicos (altura, peso atual, peso inicial, peso meta)
 - Preferências (nível de atividade, preocupações)
@@ -84,6 +97,7 @@ Dados coletados:
 ## Como Usar
 
 ### Navegação para o Onboarding
+
 ```typescript
 import { useRouter } from 'expo-router';
 
@@ -92,6 +106,7 @@ router.push('/(auth)/onboarding-flow');
 ```
 
 ### Importação de Componentes Individuais
+
 ```typescript
 import { WelcomeScreen, OnboardingProgressBar } from '@/components/onboarding';
 ```
@@ -107,6 +122,7 @@ import { WelcomeScreen, OnboardingProgressBar } from '@/components/onboarding';
 ## Dependências
 
 O sistema usa apenas dependências já presentes no projeto:
+
 - React Native (componentes nativos)
 - Expo Router (navegação)
 - Ionicons (ícones)
@@ -117,6 +133,7 @@ O sistema usa apenas dependências já presentes no projeto:
 ## Personalização
 
 Para adicionar novas telas:
+
 1. Crie o componente usando `OnboardingScreenBase`
 2. Adicione ao array de telas em `onboarding-flow.tsx`
 3. Atualize `totalScreens`
@@ -125,6 +142,7 @@ Para adicionar novas telas:
 ## Estado do Onboarding
 
 Interface completa dos dados coletados:
+
 ```typescript
 interface OnboardingData {
   alreadyUsing?: boolean;
@@ -150,6 +168,7 @@ interface OnboardingData {
 ## Conclusão do Onboarding
 
 Ao completar todas as telas:
+
 1. Dados são consolidados em `onboardingData`
 2. Podem ser salvos no Supabase
 3. Flag de conclusão é salva localmente

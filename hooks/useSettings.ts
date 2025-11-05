@@ -1,5 +1,5 @@
-import { createLogger } from "@/lib/logger";
-const logger = createLogger("useSettings");
+import { createLogger } from '@/lib/logger';
+const logger = createLogger('useSettings');
 
 import { useState, useEffect } from 'react';
 import { supabase } from '@/lib/supabase';
@@ -70,7 +70,7 @@ export const useSettings = () => {
           await createSettings(DEFAULT_SETTINGS);
           return;
         }
-        
+
         // Se erro é de RLS, usar configurações padrão localmente
         if (fetchError.code === '42501') {
           logger.warn('RLS policy error on settings, using default settings locally');
@@ -84,7 +84,7 @@ export const useSettings = () => {
           setLoading(false);
           return;
         }
-        
+
         throw fetchError;
       }
 
@@ -97,7 +97,7 @@ export const useSettings = () => {
     } catch (err) {
       logger.error('Error fetching settings:', err);
       setError(err as Error);
-      
+
       // Fallback: usar configurações padrão se houver erro
       if (user) {
         logger.warn('Using default settings as fallback');
@@ -136,7 +136,9 @@ export const useSettings = () => {
     }
   };
 
-  const createSettings = async (settingsData: Omit<UserSettings, 'id' | 'user_id' | 'created_at' | 'updated_at'>) => {
+  const createSettings = async (
+    settingsData: Omit<UserSettings, 'id' | 'user_id' | 'created_at' | 'updated_at'>
+  ) => {
     try {
       setError(null);
 
@@ -167,7 +169,7 @@ export const useSettings = () => {
     } catch (err) {
       logger.error('Error creating settings:', err);
       setError(err as Error);
-      
+
       // Se falhou por RLS, não lançar erro (já configuramos fallback acima)
       const error = err as any;
       if (error.code !== '42501') {

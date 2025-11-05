@@ -61,12 +61,12 @@ class ThemeManager {
   subscribe(listener: (mode: ThemeMode) => void) {
     this.listeners.push(listener);
     return () => {
-      this.listeners = this.listeners.filter(l => l !== listener);
+      this.listeners = this.listeners.filter((l) => l !== listener);
     };
   }
 
   private notifyListeners() {
-    this.listeners.forEach(listener => listener(this.mode));
+    this.listeners.forEach((listener) => listener(this.mode));
   }
 }
 

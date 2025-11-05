@@ -230,7 +230,9 @@ export const PersonalInfoEditor: React.FC<PersonalInfoEditorProps> = ({
               autoCapitalize="words"
             />
 
-            <Text style={[styles.label, { color: colors.text, marginTop: 16 }]}>Dose Atual (mg)</Text>
+            <Text style={[styles.label, { color: colors.text, marginTop: 16 }]}>
+              Dose Atual (mg)
+            </Text>
             <TextInput
               style={[styles.input, { color: colors.text, borderColor: colors.border }]}
               value={currentDose}

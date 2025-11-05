@@ -11,7 +11,12 @@ interface DeviceTypeScreenProps {
 }
 
 const devices = [
-  { id: 'pen', name: 'Caneta pré-preenchida', emoji: '🖊️', description: 'Dispositivo pronto para uso' },
+  {
+    id: 'pen',
+    name: 'Caneta pré-preenchida',
+    emoji: '🖊️',
+    description: 'Dispositivo pronto para uso',
+  },
   { id: 'syringe', name: 'Seringa', emoji: '💉', description: 'Seringa convencional' },
   { id: 'autoinjector', name: 'Auto-injetor', emoji: '⚡', description: 'Dispositivo automático' },
 ];
@@ -52,9 +57,7 @@ export function DeviceTypeScreen({ onNext, onBack }: DeviceTypeScreenProps) {
             <View style={styles.optionContent}>
               <Text style={styles.emoji}>{device.emoji}</Text>
               <View style={styles.optionText}>
-                <Text style={[styles.optionTitle, { color: colors.text }]}>
-                  {device.name}
-                </Text>
+                <Text style={[styles.optionTitle, { color: colors.text }]}>{device.name}</Text>
                 <Text style={[styles.optionDescription, { color: colors.textSecondary }]}>
                   {device.description}
                 </Text>
@@ -75,9 +78,9 @@ const styles = StyleSheet.create({
     gap: 16,
   },
   option: {
-    borderRadius: 12,  // Mudança: 16 → 12px (design system)
+    borderRadius: 12, // Mudança: 16 → 12px (design system)
     padding: 20,
-    minHeight: 80,  // Maior por causa do padding 20px
+    minHeight: 80, // Maior por causa do padding 20px
     flexDirection: 'row',
     alignItems: 'center',
     justifyContent: 'space-between',

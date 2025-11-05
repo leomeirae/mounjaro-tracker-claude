@@ -37,7 +37,7 @@ export function useCommunityStats() {
     try {
       setLoading(true);
 
-      const activeMed = medications.find(m => m.active);
+      const activeMed = medications.find((m) => m.active);
       if (!activeMed) return;
 
       // Buscar stats da comunidade

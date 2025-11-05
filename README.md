@@ -36,17 +36,20 @@ O Mounjaro Tracker é um aplicativo React Native desenvolvido com Expo que ajuda
 ## 📚 Documentação
 
 ### Documentos Principais
+
 - **[DOCS-INDEX.md](./DOCS-INDEX.md)** - Índice completo da documentação
 - **[PARITY-ANALYSIS-SUMMARY.md](./PARITY-ANALYSIS-SUMMARY.md)** - Análise de paridade com Shotsy
 - **[IMPLEMENTATION-PHASES.md](./IMPLEMENTATION-PHASES.md)** - Fases de implementação
 - **[DATA-MODEL-MAP.md](./DATA-MODEL-MAP.md)** - Mapeamento do modelo de dados
 
 ### Documentação Estruturada
+
 - **[docs/README.md](./docs/README.md)** - Documentação técnica detalhada
 - **[docs/guides/QUICK-START.md](./docs/guides/QUICK-START.md)** - Guia de início rápido
 - **[docs/technical/ARCHITECTURE.md](./docs/technical/ARCHITECTURE.md)** - Arquitetura do sistema
 
 ### Especificações
+
 - **[TRACKING-EVENTS-SPEC.md](./TRACKING-EVENTS-SPEC.md)** - Eventos de analytics
 - **[MICROCOPY-TABLE.md](./MICROCOPY-TABLE.md)** - Textos da interface
 - **[PARITY-BACKLOG.md](./PARITY-BACKLOG.md)** - Backlog de desenvolvimento
@@ -56,6 +59,7 @@ O Mounjaro Tracker é um aplicativo React Native desenvolvido com Expo que ajuda
 ## 🚀 Início Rápido
 
 ### Pré-requisitos
+
 - Node.js 18+
 - Expo CLI
 - Conta Supabase
@@ -63,6 +67,7 @@ O Mounjaro Tracker é um aplicativo React Native desenvolvido com Expo que ajuda
 - API Key do Google Gemini
 
 ### Instalação
+
 ```bash
 # Clone o repositório
 git clone https://github.com/leomeirae/mounjaro-tracker.git
@@ -80,6 +85,7 @@ npx expo start
 ```
 
 ### Configuração
+
 1. **Supabase:** Configure as tabelas usando os scripts em `supabase/migrations/`
 2. **Clerk:** Configure autenticação e webhooks
 3. **Gemini:** Adicione sua API key para funcionalidades de IA
@@ -111,11 +117,13 @@ mounjaro-tracker/
 ## 🧪 Testes e Qualidade
 
 ### Scripts Disponíveis
+
 - `npm start` - Inicia o servidor de desenvolvimento
 - `npm run lint` - Executa linting
 - `npm run type-check` - Verificação de tipos TypeScript
 
 ### Verificações
+
 - **[scripts/verify-onboarding.sh](./scripts/verify-onboarding.sh)** - Verifica integridade do onboarding
 - **[SQL-VALIDATION.sql](./archive/2025-01/SQL-VALIDATION.sql)** - Validações de banco de dados
 
@@ -124,6 +132,7 @@ mounjaro-tracker/
 ## 🎯 Roadmap
 
 ### ✅ Fase 1 - P0 (Concluída)
+
 - [x] Onboarding completo (23 telas)
 - [x] Sistema de autenticação
 - [x] Dashboard principal
@@ -131,6 +140,7 @@ mounjaro-tracker/
 - [x] Gráficos básicos
 
 ### 🚧 Fase 2 - P1 (Em Andamento)
+
 - [ ] Paywall e assinaturas
 - [ ] FAQ integrado
 - [ ] Exportação de dados
@@ -138,6 +148,7 @@ mounjaro-tracker/
 - [ ] Widgets iOS
 
 ### 📋 Fase 3 - P2 (Planejado)
+
 - [ ] Apple Health / Google Fit
 - [ ] Compartilhamento social
 - [ ] Relatórios avançados
@@ -154,6 +165,7 @@ mounjaro-tracker/
 5. Abra um Pull Request
 
 ### Diretrizes
+
 - Siga o TypeScript strict mode
 - Mantenha arquivos com máximo 300 linhas
 - Documente mudanças significativas
@@ -185,5 +197,4 @@ Este projeto está sob a licença MIT. Veja o arquivo [LICENSE](LICENSE) para de
 
 ---
 
-*Última atualização: Janeiro 2025*
-
+_Última atualização: Janeiro 2025_

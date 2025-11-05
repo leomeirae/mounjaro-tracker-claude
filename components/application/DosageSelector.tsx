@@ -28,17 +28,12 @@ export function DosageSelector({ value, onChange }: DosageSelectorProps) {
               {
                 borderColor: isSelected ? colors.primary : colors.border,
                 backgroundColor: isSelected ? colors.primary : 'transparent',
-              }
+              },
             ]}
             onPress={() => onChange(dosage)}
             activeOpacity={0.7}
           >
-            <Text
-              style={[
-                styles.text,
-                { color: isSelected ? '#FFFFFF' : colors.text }
-              ]}
-            >
+            <Text style={[styles.text, { color: isSelected ? '#FFFFFF' : colors.text }]}>
               {dosage}mg
             </Text>
           </TouchableOpacity>

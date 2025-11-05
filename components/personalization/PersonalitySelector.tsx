@@ -79,13 +79,13 @@ export const PersonalitySelector: React.FC<PersonalitySelectorProps> = ({
     const messages: Record<CommunicationStyle, Record<MotivationType, string>> = {
       coach: {
         'data-driven': 'Your consistency score improved by 15% this week. Keep pushing!',
-        emotional: 'Amazing dedication this week! You\'re crushing your goals!',
-        balanced: 'Great progress! You\'re 15% more consistent this week.',
+        emotional: "Amazing dedication this week! You're crushing your goals!",
+        balanced: "Great progress! You're 15% more consistent this week.",
       },
       friend: {
         'data-driven': 'Hey! Your stats look awesome - 15% better this week!',
-        emotional: 'You\'re doing incredible! So proud of you!',
-        balanced: 'Nice work! You\'ve been way more consistent lately!',
+        emotional: "You're doing incredible! So proud of you!",
+        balanced: "Nice work! You've been way more consistent lately!",
       },
       scientist: {
         'data-driven': 'Analysis shows 15% consistency improvement over 7-day period.',
@@ -130,9 +130,7 @@ export const PersonalitySelector: React.FC<PersonalitySelectorProps> = ({
       {/* Header */}
       <View style={styles.header}>
         <Text style={styles.title}>Communication Style</Text>
-        <Text style={styles.subtitle}>
-          Customize how Shotsy talks to you
-        </Text>
+        <Text style={styles.subtitle}>Customize how Shotsy talks to you</Text>
       </View>
 
       {/* Preview Box */}
@@ -157,14 +155,16 @@ export const PersonalitySelector: React.FC<PersonalitySelectorProps> = ({
                     backgroundColor: colors.primary + '20',
                     borderColor: colors.primary,
                     borderWidth: 2,
-                  }
+                  },
                 ]}
                 onPress={() => setSelectedStyle(style)}
               >
-                <Text style={[
-                  styles.styleTitle,
-                  selectedStyle === style && { color: colors.primary, fontWeight: '600' }
-                ]}>
+                <Text
+                  style={[
+                    styles.styleTitle,
+                    selectedStyle === style && { color: colors.primary, fontWeight: '600' },
+                  ]}
+                >
                   {value.label}
                 </Text>
                 <Text style={styles.styleDescription}>{value.description}</Text>
@@ -193,14 +193,16 @@ export const PersonalitySelector: React.FC<PersonalitySelectorProps> = ({
                   motivationType === type && {
                     backgroundColor: colors.primary + '20',
                     borderColor: colors.primary,
-                  }
+                  },
                 ]}
                 onPress={() => setMotivationType(type)}
               >
-                <Text style={[
-                  styles.motivationLabel,
-                  motivationType === type && { color: colors.primary, fontWeight: '600' }
-                ]}>
+                <Text
+                  style={[
+                    styles.motivationLabel,
+                    motivationType === type && { color: colors.primary, fontWeight: '600' },
+                  ]}
+                >
                   {value.label}
                 </Text>
                 <Text style={styles.motivationDescription}>{value.description}</Text>
@@ -213,9 +215,7 @@ export const PersonalitySelector: React.FC<PersonalitySelectorProps> = ({
       {/* Humor Level */}
       <View style={styles.section}>
         <Text style={styles.sectionTitle}>Humor Level</Text>
-        <Text style={styles.sectionDescription}>
-          How much humor do you want in messages?
-        </Text>
+        <Text style={styles.sectionDescription}>How much humor do you want in messages?</Text>
         <View style={styles.sliderContainer}>
           <View style={styles.sliderLabels}>
             <Text style={styles.sliderLabel}>None</Text>
@@ -239,9 +239,7 @@ export const PersonalitySelector: React.FC<PersonalitySelectorProps> = ({
       {/* Formality Level */}
       <View style={styles.section}>
         <Text style={styles.sectionTitle}>Formality Level</Text>
-        <Text style={styles.sectionDescription}>
-          How casual or formal should we be?
-        </Text>
+        <Text style={styles.sectionDescription}>How casual or formal should we be?</Text>
         <View style={styles.sliderContainer}>
           <View style={styles.sliderLabels}>
             <Text style={styles.sliderLabel}>Casual</Text>
@@ -284,15 +282,17 @@ export const PersonalitySelector: React.FC<PersonalitySelectorProps> = ({
                   notificationTone === tone && {
                     backgroundColor: colors.primary + '20',
                     borderColor: colors.primary,
-                  }
+                  },
                 ]}
                 onPress={() => setNotificationTone(tone)}
               >
                 <Text style={styles.toneIcon}>{icons[tone]}</Text>
-                <Text style={[
-                  styles.toneLabel,
-                  notificationTone === tone && { color: colors.primary, fontWeight: '600' }
-                ]}>
+                <Text
+                  style={[
+                    styles.toneLabel,
+                    notificationTone === tone && { color: colors.primary, fontWeight: '600' },
+                  ]}
+                >
                   {value.label}
                 </Text>
                 <Text style={styles.toneDescription}>{value.description}</Text>
@@ -335,13 +335,8 @@ export const PersonalitySelector: React.FC<PersonalitySelectorProps> = ({
         </TouchableOpacity>
 
         {showSkip && (
-          <TouchableOpacity
-            style={styles.skipButton}
-            onPress={onComplete}
-          >
-            <Text style={[styles.skipButtonText, { color: colors.primary }]}>
-              Skip for now
-            </Text>
+          <TouchableOpacity style={styles.skipButton} onPress={onComplete}>
+            <Text style={[styles.skipButtonText, { color: colors.primary }]}>Skip for now</Text>
           </TouchableOpacity>
         )}
       </View>
@@ -350,7 +345,8 @@ export const PersonalitySelector: React.FC<PersonalitySelectorProps> = ({
       <View style={styles.infoBox}>
         <Text style={styles.infoIcon}>💡</Text>
         <Text style={styles.infoText}>
-          These preferences affect how Shotsy communicates throughout the app, including insights, notifications, and celebrations. You can change them anytime in settings.
+          These preferences affect how Shotsy communicates throughout the app, including insights,
+          notifications, and celebrations. You can change them anytime in settings.
         </Text>
       </View>
     </ScrollView>

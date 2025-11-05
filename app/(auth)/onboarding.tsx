@@ -1,5 +1,15 @@
 import { useState } from 'react';
-import { View, Text, StyleSheet, Alert, KeyboardAvoidingView, Platform, TouchableWithoutFeedback, Keyboard, ScrollView } from 'react-native';
+import {
+  View,
+  Text,
+  StyleSheet,
+  Alert,
+  KeyboardAvoidingView,
+  Platform,
+  TouchableWithoutFeedback,
+  Keyboard,
+  ScrollView,
+} from 'react-native';
 import { useRouter } from 'expo-router';
 import { Button } from '@/components/ui/button';
 import { Input } from '@/components/ui/input';
@@ -65,21 +75,19 @@ export default function OnboardingScreen() {
       if (updateError) throw updateError;
 
       // Criar primeiro registro de peso
-      const { error: weightError } = await supabase
-        .from('weight_logs')
-        .insert({
-          user_id: userData.id,
-          weight: current,
-          date: new Date().toISOString().split('T')[0],
-          notes: 'Peso inicial - Início da jornada',
-        });
+      const { error: weightError } = await supabase.from('weight_logs').insert({
+        user_id: userData.id,
+        weight: current,
+        date: new Date().toISOString().split('T')[0],
+        notes: 'Peso inicial - Início da jornada',
+      });
 
       if (weightError) throw weightError;
 
       logger.debug('Onboarding completed successfully');
-      
+
       // Desbloquear conquista de onboarding (será detectada automaticamente no dashboard)
-      
+
       // Redirecionar para o dashboard
       router.replace('/(tabs)');
     } catch (error: any) {
@@ -105,9 +113,7 @@ export default function OnboardingScreen() {
           <View style={styles.header}>
             <Text style={styles.emoji}>🎯</Text>
             <Text style={styles.title}>Bem-vindo(a)!</Text>
-            <Text style={styles.subtitle}>
-              Vamos começar sua jornada definindo suas metas
-            </Text>
+            <Text style={styles.subtitle}>Vamos começar sua jornada definindo suas metas</Text>
           </View>
 
           <View style={styles.card}>
@@ -138,17 +144,20 @@ export default function OnboardingScreen() {
               keyboardType="decimal-pad"
             />
 
-            {currentWeight && goalWeight && !isNaN(parseFloat(currentWeight)) && !isNaN(parseFloat(goalWeight)) && (
-              <View style={styles.previewCard}>
-                <Text style={styles.previewLabel}>Sua jornada:</Text>
-                <Text style={styles.previewText}>
-                  {parseFloat(currentWeight).toFixed(1)}kg → {parseFloat(goalWeight).toFixed(1)}kg
-                </Text>
-                <Text style={styles.previewGoal}>
-                  Meta: perder {(parseFloat(currentWeight) - parseFloat(goalWeight)).toFixed(1)}kg
-                </Text>
-              </View>
-            )}
+            {currentWeight &&
+              goalWeight &&
+              !isNaN(parseFloat(currentWeight)) &&
+              !isNaN(parseFloat(goalWeight)) && (
+                <View style={styles.previewCard}>
+                  <Text style={styles.previewLabel}>Sua jornada:</Text>
+                  <Text style={styles.previewText}>
+                    {parseFloat(currentWeight).toFixed(1)}kg → {parseFloat(goalWeight).toFixed(1)}kg
+                  </Text>
+                  <Text style={styles.previewGoal}>
+                    Meta: perder {(parseFloat(currentWeight) - parseFloat(goalWeight)).toFixed(1)}kg
+                  </Text>
+                </View>
+              )}
           </View>
 
           <View style={styles.tipCard}>
@@ -170,84 +179,85 @@ export default function OnboardingScreen() {
   );
 }
 
-const getStyles = (colors: any) => StyleSheet.create({
-  container: {
-    flex: 1,
-    backgroundColor: colors.background,
-  },
-  scrollContent: {
-    padding: 24,
-    flexGrow: 1,
-    justifyContent: 'center',
-  },
-  header: {
-    alignItems: 'center',
-    marginBottom: 32,
-  },
-  emoji: {
-    fontSize: 64,
-    marginBottom: 16,
-  },
-  title: {
-    fontSize: 32,
-    fontWeight: 'bold',
-    color: colors.text,
-    marginBottom: 8,
-  },
-  subtitle: {
-    fontSize: 16,
-    color: colors.textSecondary,
-    textAlign: 'center',
-  },
-  card: {
-    backgroundColor: colors.card,
-    borderRadius: 16,
-    padding: 20,
-    marginBottom: 16,
-  },
-  cardTitle: {
-    fontSize: 20,
-    fontWeight: 'bold',
-    color: colors.text,
-    marginBottom: 16,
-  },
-  previewCard: {
-    backgroundColor: colors.background,
-    borderRadius: 12,
-    padding: 16,
-    marginTop: 16,
-    alignItems: 'center',
-  },
-  previewLabel: {
-    fontSize: 14,
-    color: colors.textMuted,
-    marginBottom: 8,
-  },
-  previewText: {
-    fontSize: 24,
-    fontWeight: 'bold',
-    color: colors.primary,
-    marginBottom: 4,
-  },
-  previewGoal: {
-    fontSize: 14,
-    color: colors.textSecondary,
-  },
-  tipCard: {
-    flexDirection: 'row',
-    backgroundColor: colors.card,
-    borderRadius: 12,
-    padding: 16,
-    marginBottom: 24,
-    alignItems: 'center',
-  },
-  tipEmoji: {
-    fontSize: 24,
-    marginRight: 12,
-  },
-  tipText: {
-    flex: 1,
-    fontSize: 14,
-    color: colors.textSecondary,
-  },
-});
+const getStyles = (colors: any) =>
+  StyleSheet.create({
+    container: {
+      flex: 1,
+      backgroundColor: colors.background,
+    },
+    scrollContent: {
+      padding: 24,
+      flexGrow: 1,
+      justifyContent: 'center',
+    },
+    header: {
+      alignItems: 'center',
+      marginBottom: 32,
+    },
+    emoji: {
+      fontSize: 64,
+      marginBottom: 16,
+    },
+    title: {
+      fontSize: 32,
+      fontWeight: 'bold',
+      color: colors.text,
+      marginBottom: 8,
+    },
+    subtitle: {
+      fontSize: 16,
+      color: colors.textSecondary,
+      textAlign: 'center',
+    },
+    card: {
+      backgroundColor: colors.card,
+      borderRadius: 16,
+      padding: 20,
+      marginBottom: 16,
+    },
+    cardTitle: {
+      fontSize: 20,
+      fontWeight: 'bold',
+      color: colors.text,
+      marginBottom: 16,
+    },
+    previewCard: {
+      backgroundColor: colors.background,
+      borderRadius: 12,
+      padding: 16,
+      marginTop: 16,
+      alignItems: 'center',
+    },
+    previewLabel: {
+      fontSize: 14,
+      color: colors.textMuted,
+      marginBottom: 8,
+    },
+    previewText: {
+      fontSize: 24,
+      fontWeight: 'bold',
+      color: colors.primary,
+      marginBottom: 4,
+    },
+    previewGoal: {
+      fontSize: 14,
+      color: colors.textSecondary,
+    },
+    tipCard: {
+      flexDirection: 'row',
+      backgroundColor: colors.card,
+      borderRadius: 12,
+      padding: 16,
+      marginBottom: 24,
+      alignItems: 'center',
+    },
+    tipEmoji: {
+      fontSize: 24,
+      marginRight: 12,
+    },
+    tipText: {
+      flex: 1,
+      fontSize: 14,
+      color: colors.textSecondary,
+    },
+  });

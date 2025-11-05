@@ -49,9 +49,9 @@ export const useApplications = () => {
       if (fetchError) throw fetchError;
 
       // Parse dates and combine date + time
-      const parsedData = (data || []).map(app => {
+      const parsedData = (data || []).map((app) => {
         const dateTime = new Date(app.application_date);
-        
+
         // If time is provided, add it to the date
         if (app.application_time) {
           const [hours, minutes] = app.application_time.split(':');
@@ -59,10 +59,10 @@ export const useApplications = () => {
         }
 
         return {
-        ...app,
+          ...app,
           date: dateTime,
-        created_at: new Date(app.created_at),
-        updated_at: new Date(app.updated_at),
+          created_at: new Date(app.created_at),
+          updated_at: new Date(app.updated_at),
         };
       });
 
@@ -75,7 +75,9 @@ export const useApplications = () => {
     }
   };
 
-  const createApplication = async (applicationData: Omit<Application, 'id' | 'user_id' | 'created_at' | 'updated_at' | 'date'>) => {
+  const createApplication = async (
+    applicationData: Omit<Application, 'id' | 'user_id' | 'created_at' | 'updated_at' | 'date'>
+  ) => {
     try {
       setError(null);
 
@@ -83,12 +85,12 @@ export const useApplications = () => {
         throw new Error('User not found. Please wait for sync to complete.');
       }
 
-      const { error: insertError } = await supabase
-        .from('medication_applications')
-        .insert([{
+      const { error: insertError } = await supabase.from('medication_applications').insert([
+        {
           user_id: user.id,
           ...applicationData,
-        }]);
+        },
+      ]);
 
       if (insertError) throw insertError;
       await fetchApplications();

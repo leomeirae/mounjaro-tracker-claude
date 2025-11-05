@@ -66,10 +66,14 @@ export const getEvolutionStageFromLevel = (level: number): EvolutionStage => {
 
 export const getNextEvolutionLevel = (stage: EvolutionStage): number => {
   switch (stage) {
-    case 'beginner': return 10;
-    case 'intermediate': return 25;
-    case 'advanced': return 40;
-    case 'master': return 100;
+    case 'beginner':
+      return 10;
+    case 'intermediate':
+      return 25;
+    case 'advanced':
+      return 40;
+    case 'master':
+      return 100;
   }
 };
 

@@ -43,9 +43,7 @@ export function MotivationalMessageScreen({
         <Text style={styles.emoji}>💪</Text>
 
         <ShotsyCard variant="elevated" style={styles.messageCard}>
-          <Text style={[styles.goalText, { color: colors.textSecondary }]}>
-            Sua meta é perder
-          </Text>
+          <Text style={[styles.goalText, { color: colors.textSecondary }]}>Sua meta é perder</Text>
           <Text style={[styles.goalNumber, { color: currentAccent }]}>
             {weightToLose.toFixed(1)} {weightUnit}
           </Text>
@@ -58,9 +56,7 @@ export function MotivationalMessageScreen({
         </ShotsyCard>
 
         <ShotsyCard style={styles.tipsCard}>
-          <Text style={[styles.tipsTitle, { color: colors.text }]}>
-            Dicas para o sucesso:
-          </Text>
+          <Text style={[styles.tipsTitle, { color: colors.text }]}>Dicas para o sucesso:</Text>
           <View style={styles.tipsList}>
             <View style={styles.tipItem}>
               <Text style={[styles.tipBullet, { color: currentAccent }]}>✓</Text>

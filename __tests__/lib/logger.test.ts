@@ -34,10 +34,9 @@ describe('Logger', () => {
       logger.debug('Debug message', { data: 'test' });
 
       if (__DEV__) {
-        expect(console.debug).toHaveBeenCalledWith(
-          expect.stringContaining('Debug message'),
-          { data: 'test' }
-        );
+        expect(console.debug).toHaveBeenCalledWith(expect.stringContaining('Debug message'), {
+          data: 'test',
+        });
       } else {
         expect(console.debug).not.toHaveBeenCalled();
       }
@@ -49,10 +48,9 @@ describe('Logger', () => {
       logger.info('Info message', { userId: '123' });
 
       if (__DEV__) {
-        expect(console.log).toHaveBeenCalledWith(
-          expect.stringContaining('Info message'),
-          { userId: '123' }
-        );
+        expect(console.log).toHaveBeenCalledWith(expect.stringContaining('Info message'), {
+          userId: '123',
+        });
       }
     });
   });
@@ -61,10 +59,7 @@ describe('Logger', () => {
     it('should log warning messages', () => {
       logger.warn('Warning message');
 
-      expect(console.warn).toHaveBeenCalledWith(
-        expect.stringContaining('Warning message'),
-        ''
-      );
+      expect(console.warn).toHaveBeenCalledWith(expect.stringContaining('Warning message'), '');
     });
   });
 
@@ -87,10 +82,7 @@ describe('Logger', () => {
       customLogger.info('Test message');
 
       if (__DEV__) {
-        expect(console.log).toHaveBeenCalledWith(
-          expect.stringContaining('[TestModule]'),
-          ''
-        );
+        expect(console.log).toHaveBeenCalledWith(expect.stringContaining('[TestModule]'), '');
       }
     });
 
@@ -101,10 +93,7 @@ describe('Logger', () => {
       childLogger.info('Nested message');
 
       if (__DEV__) {
-        expect(console.log).toHaveBeenCalledWith(
-          expect.stringContaining('[Parent:Child]'),
-          ''
-        );
+        expect(console.log).toHaveBeenCalledWith(expect.stringContaining('[Parent:Child]'), '');
       }
     });
   });

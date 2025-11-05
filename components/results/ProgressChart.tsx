@@ -33,13 +33,13 @@ export const ProgressChart: React.FC<ProgressChartProps> = ({
     switch (periodFilter) {
       case 'week':
         const weekAgo = new Date(now.getTime() - 7 * 24 * 60 * 60 * 1000);
-        return data.filter(d => d.date >= weekAgo);
+        return data.filter((d) => d.date >= weekAgo);
       case 'month':
         const monthAgo = new Date(now.getTime() - 30 * 24 * 60 * 60 * 1000);
-        return data.filter(d => d.date >= monthAgo);
+        return data.filter((d) => d.date >= monthAgo);
       case '90days':
         const ninetyDaysAgo = new Date(now.getTime() - 90 * 24 * 60 * 60 * 1000);
-        return data.filter(d => d.date >= ninetyDaysAgo);
+        return data.filter((d) => d.date >= ninetyDaysAgo);
       default:
         return data;
     }
@@ -50,7 +50,7 @@ export const ProgressChart: React.FC<ProgressChartProps> = ({
     const totalToLose = startWeight - targetWeight;
     if (totalToLose <= 0) return [];
 
-    return filteredData.map(d => {
+    return filteredData.map((d) => {
       const lost = startWeight - d.weight;
       const progress = Math.max(0, Math.min(100, (lost / totalToLose) * 100));
       return {
@@ -78,7 +78,9 @@ export const ProgressChart: React.FC<ProgressChartProps> = ({
 
     if (daysToCompletion <= 0 || !isFinite(daysToCompletion)) return null;
 
-    const completionDate = new Date(lastPoint.date.getTime() + daysToCompletion * 24 * 60 * 60 * 1000);
+    const completionDate = new Date(
+      lastPoint.date.getTime() + daysToCompletion * 24 * 60 * 60 * 1000
+    );
     return completionDate;
   }, [progressData]);
 
@@ -97,8 +99,8 @@ export const ProgressChart: React.FC<ProgressChartProps> = ({
     );
   }
 
-  const progressValues = progressData.map(d => d.progress);
-  const labels = progressData.map(d => {
+  const progressValues = progressData.map((d) => d.progress);
+  const labels = progressData.map((d) => {
     const day = d.date.getDate();
     const month = d.date.getMonth() + 1;
     return `${day}/${month}`;
@@ -193,16 +195,12 @@ export const ProgressChart: React.FC<ProgressChartProps> = ({
       <View style={styles.legend}>
         <View style={styles.legendItem}>
           <View style={[styles.legendDot, { backgroundColor: currentAccent }]} />
-          <Text style={[styles.legendText, { color: colors.textSecondary }]}>
-            Progresso Atual
-          </Text>
+          <Text style={[styles.legendText, { color: colors.textSecondary }]}>Progresso Atual</Text>
         </View>
         {projectionValues.length > 0 && (
           <View style={styles.legendItem}>
             <View style={[styles.legendDot, { backgroundColor: currentAccent, opacity: 0.5 }]} />
-            <Text style={[styles.legendText, { color: colors.textSecondary }]}>
-              Projeção
-            </Text>
+            <Text style={[styles.legendText, { color: colors.textSecondary }]}>Projeção</Text>
           </View>
         )}
       </View>

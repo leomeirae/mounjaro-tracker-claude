@@ -28,10 +28,7 @@ interface DayEventsListProps {
   events: CalendarEvent[];
 }
 
-export const DayEventsList: React.FC<DayEventsListProps> = ({
-  selectedDate,
-  events,
-}) => {
+export const DayEventsList: React.FC<DayEventsListProps> = ({ selectedDate, events }) => {
   const colors = useShotsyColors();
   const router = useRouter();
 
@@ -52,7 +49,7 @@ export const DayEventsList: React.FC<DayEventsListProps> = ({
 
   // Filtrar eventos para a data selecionada e ordenar por horário (mais recente primeiro)
   const dayEvents = events
-    .filter(event => {
+    .filter((event) => {
       const eventDate = new Date(event.time);
       eventDate.setHours(0, 0, 0, 0);
       const selected = new Date(selectedDate);
@@ -89,11 +86,7 @@ export const DayEventsList: React.FC<DayEventsListProps> = ({
   };
 
   const renderShotEvent = (event: ShotEvent) => (
-    <TouchableOpacity
-      key={event.id}
-      onPress={() => handleEventPress(event)}
-      activeOpacity={0.7}
-    >
+    <TouchableOpacity key={event.id} onPress={() => handleEventPress(event)} activeOpacity={0.7}>
       <ShotsyCard style={styles.eventCard}>
         <View style={styles.eventHeader}>
           <View style={styles.eventIconContainer}>
@@ -101,9 +94,7 @@ export const DayEventsList: React.FC<DayEventsListProps> = ({
           </View>
           <View style={styles.eventContent}>
             <View style={styles.eventTitleRow}>
-              <Text style={[styles.eventTitle, { color: colors.text }]}>
-                Injeção
-              </Text>
+              <Text style={[styles.eventTitle, { color: colors.text }]}>Injeção</Text>
               <Text style={[styles.eventTime, { color: colors.textSecondary }]}>
                 {formatTime(event.time)}
               </Text>
@@ -111,15 +102,8 @@ export const DayEventsList: React.FC<DayEventsListProps> = ({
             <Text style={[styles.medicationName, { color: colors.textSecondary }]}>
               {event.medication}
             </Text>
-            <View
-              style={[
-                styles.dosageBadge,
-                { backgroundColor: colors.primary + '20' },
-              ]}
-            >
-              <Text style={[styles.dosageText, { color: colors.primary }]}>
-                {event.dosage} mg
-              </Text>
+            <View style={[styles.dosageBadge, { backgroundColor: colors.primary + '20' }]}>
+              <Text style={[styles.dosageText, { color: colors.primary }]}>{event.dosage} mg</Text>
             </View>
           </View>
         </View>
@@ -128,51 +112,37 @@ export const DayEventsList: React.FC<DayEventsListProps> = ({
   );
 
   const renderWeightEvent = (event: WeightEvent) => {
-    const difference =
-      typeof event.difference === 'number' ? event.difference : undefined;
+    const difference = typeof event.difference === 'number' ? event.difference : undefined;
     const showDifference = difference !== undefined && difference !== 0;
     const isPositive = difference !== undefined && difference > 0;
 
     return (
-      <TouchableOpacity
-        key={event.id}
-        onPress={() => handleEventPress(event)}
-        activeOpacity={0.7}
-      >
+      <TouchableOpacity key={event.id} onPress={() => handleEventPress(event)} activeOpacity={0.7}>
         <ShotsyCard style={styles.eventCard}>
           <View style={styles.eventHeader}>
             <View style={styles.eventIconContainer}>
-            <WeightIcon size="md" color={colors.primary} />
-          </View>
+              <WeightIcon size="md" color={colors.primary} />
+            </View>
             <View style={styles.eventContent}>
               <View style={styles.eventTitleRow}>
-                <Text style={[styles.eventTitle, { color: colors.text }]}>
-                  Peso
-                </Text>
+                <Text style={[styles.eventTitle, { color: colors.text }]}>Peso</Text>
                 <Text style={[styles.eventTime, { color: colors.textSecondary }]}>
                   {formatTime(event.time)}
                 </Text>
               </View>
               <View style={styles.weightRow}>
-                <Text style={[styles.weightValue, { color: colors.text }]}>
-                  {event.weight} kg
-                </Text>
+                <Text style={[styles.weightValue, { color: colors.text }]}>{event.weight} kg</Text>
                 {showDifference && difference !== undefined && (
                   <View
                     style={[
                       styles.differenceBadge,
                       {
-                        backgroundColor: isPositive
-                          ? '#EF444420'
-                          : '#10B98120',
+                        backgroundColor: isPositive ? '#EF444420' : '#10B98120',
                       },
                     ]}
                   >
                     <Text
-                      style={[
-                        styles.differenceText,
-                        { color: isPositive ? '#EF4444' : '#10B981' },
-                      ]}
+                      style={[styles.differenceText, { color: isPositive ? '#EF4444' : '#10B981' }]}
                     >
                       {isPositive ? '+' : ''}
                       {difference.toFixed(1)} kg
@@ -210,9 +180,7 @@ export const DayEventsList: React.FC<DayEventsListProps> = ({
           ]}
           onPress={handleAddWeight}
         >
-          <Text style={[styles.addButtonText, { color: colors.primary }]}>
-            + Adicionar Peso
-          </Text>
+          <Text style={[styles.addButtonText, { color: colors.primary }]}>+ Adicionar Peso</Text>
         </TouchableOpacity>
       </View>
     </View>
@@ -220,18 +188,13 @@ export const DayEventsList: React.FC<DayEventsListProps> = ({
 
   return (
     <View style={styles.container}>
-      <Text style={[styles.dateTitle, { color: colors.text }]}>
-        {formatDate(selectedDate)}
-      </Text>
+      <Text style={[styles.dateTitle, { color: colors.text }]}>{formatDate(selectedDate)}</Text>
 
       {dayEvents.length === 0 ? (
         renderEmptyState()
       ) : (
-        <ScrollView
-          style={styles.eventsList}
-          showsVerticalScrollIndicator={false}
-        >
-          {dayEvents.map(event =>
+        <ScrollView style={styles.eventsList} showsVerticalScrollIndicator={false}>
+          {dayEvents.map((event) =>
             event.type === 'shot'
               ? renderShotEvent(event as ShotEvent)
               : renderWeightEvent(event as WeightEvent)

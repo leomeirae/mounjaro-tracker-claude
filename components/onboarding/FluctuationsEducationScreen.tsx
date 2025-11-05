@@ -39,7 +39,7 @@ export function FluctuationsEducationScreen({ onNext, onBack }: FluctuationsEduc
           <Text style={[styles.graphTitle, { color: colors.text }]}>
             Flutuações típicas de peso
           </Text>
-          
+
           <VictoryChart
             height={180}
             width={Dimensions.get('window').width - 80}
@@ -52,10 +52,10 @@ export function FluctuationsEducationScreen({ onNext, onBack }: FluctuationsEduc
                 { day: 7, y0: 78, y: 82 },
               ]}
               style={{
-                data: { fill: colors.textMuted, opacity: 0.1 }
+                data: { fill: colors.textMuted, opacity: 0.1 },
               }}
             />
-            
+
             {/* Linha de peso com variações */}
             <VictoryLine
               data={fluctuationData}
@@ -65,11 +65,11 @@ export function FluctuationsEducationScreen({ onNext, onBack }: FluctuationsEduc
                 data: {
                   stroke: currentAccent,
                   strokeWidth: 3,
-                }
+                },
               }}
               interpolation="natural"
             />
-            
+
             {/* Eixos */}
             <VictoryAxis
               dependentAxis
@@ -89,7 +89,7 @@ export function FluctuationsEducationScreen({ onNext, onBack }: FluctuationsEduc
               }}
             />
           </VictoryChart>
-          
+
           <Text style={[styles.graphCaption, { color: colors.textMuted }]}>
             Variações de até 2kg são completamente normais
           </Text>
@@ -136,8 +136,8 @@ export function FluctuationsEducationScreen({ onNext, onBack }: FluctuationsEduc
         <ShotsyCard style={[styles.tipCard, { borderLeftColor: currentAccent }]}>
           <Text style={styles.tipEmoji}>💡</Text>
           <Text style={[styles.tipText, { color: colors.textSecondary }]}>
-            Foque na tendência geral, não nos números diários. O que importa é a
-            direção que você está seguindo ao longo das semanas.
+            Foque na tendência geral, não nos números diários. O que importa é a direção que você
+            está seguindo ao longo das semanas.
           </Text>
         </ShotsyCard>
       </View>

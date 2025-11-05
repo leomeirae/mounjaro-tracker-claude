@@ -48,9 +48,9 @@ export function FoodNoiseScreen({ onNext, onBack }: FoodNoiseScreenProps) {
             O que é "food noise"?
           </Text>
           <Text style={[styles.explanationText, { color: colors.textSecondary }]}>
-            São pensamentos intrusivos e constantes sobre comida, tornando difícil
-            resistir a desejos e manter escolhas alimentares saudáveis. Medicamentos
-            GLP-1 ajudam a reduzir esse "ruído mental".
+            São pensamentos intrusivos e constantes sobre comida, tornando difícil resistir a
+            desejos e manter escolhas alimentares saudáveis. Medicamentos GLP-1 ajudam a reduzir
+            esse "ruído mental".
           </Text>
         </ShotsyCard>
 
@@ -68,9 +68,7 @@ export function FoodNoiseScreen({ onNext, onBack }: FoodNoiseScreenProps) {
               ]}
               onPress={() => setSelected(day.id)}
             >
-              <Text style={[styles.optionLabel, { color: colors.text }]}>
-                {day.label}
-              </Text>
+              <Text style={[styles.optionLabel, { color: colors.text }]}>{day.label}</Text>
               {selected === day.id && (
                 <Ionicons name="checkmark-circle" size={24} color={currentAccent} />
               )}

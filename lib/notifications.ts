@@ -77,7 +77,7 @@ export async function scheduleWeightReminder(time: string, frequency: 'daily' | 
 
   // Criar nova notificação
   const [hours, minutes] = time.split(':').map(Number);
-  
+
   const trigger: Notifications.NotificationTriggerInput =
     frequency === 'daily'
       ? {
@@ -153,7 +153,7 @@ export async function scheduleInactivityReminder(daysSinceLastLog: number) {
     { days: 14, message: 'Estamos aqui para te ajudar! Não desista 💪' },
   ];
 
-  const message = messages.find(m => daysSinceLastLog >= m.days)?.message || messages[0].message;
+  const message = messages.find((m) => daysSinceLastLog >= m.days)?.message || messages[0].message;
 
   await Notifications.scheduleNotificationAsync({
     content: {
@@ -172,9 +172,5 @@ export async function scheduleInactivityReminder(daysSinceLastLog: number) {
 // Obter próxima aplicação agendada
 export async function getNextScheduledNotification(type: string) {
   const scheduled = await Notifications.getAllScheduledNotificationsAsync();
-  return scheduled.find(n => n.content.data?.type === type);
+  return scheduled.find((n) => n.content.data?.type === type);
 }
-
-
-
-

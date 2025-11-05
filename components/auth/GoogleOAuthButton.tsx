@@ -21,7 +21,7 @@ interface GoogleOAuthButtonProps {
 export function GoogleOAuthButton({ mode = 'signin' }: GoogleOAuthButtonProps) {
   const colors = useColors();
   useWarmUpBrowser();
-  
+
   const { startSSOFlow } = useSSO();
   const router = useRouter();
   const [loading, setLoading] = useState(false);
@@ -49,7 +49,7 @@ export function GoogleOAuthButton({ mode = 'signin' }: GoogleOAuthButtonProps) {
             }
           },
         });
-        
+
         // Navigate to home after successful login
         router.replace('/(tabs)');
       } else {
@@ -58,11 +58,11 @@ export function GoogleOAuthButton({ mode = 'signin' }: GoogleOAuthButtonProps) {
       }
     } catch (err: any) {
       logger.error('OAuth error', err as Error);
-      
+
       // Tratar erros específicos
       if (err.errors && err.errors[0]) {
         const errorCode = err.errors[0].code;
-        
+
         if (errorCode === 'not_allowed_access') {
           logger.error('Google account does not have access permission');
         } else if (errorCode === 'oauth_access_denied') {
@@ -77,9 +77,7 @@ export function GoogleOAuthButton({ mode = 'signin' }: GoogleOAuthButtonProps) {
     }
   }, [startSSOFlow, router]);
 
-  const buttonText = mode === 'signin' 
-    ? 'Continuar com Google' 
-    : 'Cadastrar com Google';
+  const buttonText = mode === 'signin' ? 'Continuar com Google' : 'Cadastrar com Google';
 
   const styles = getStyles(colors);
 
@@ -102,30 +100,26 @@ export function GoogleOAuthButton({ mode = 'signin' }: GoogleOAuthButtonProps) {
   );
 }
 
-const getStyles = (colors: any) => StyleSheet.create({
-  button: {
-    backgroundColor: colors.card,
-    borderRadius: 12,
-    padding: 16,
-    alignItems: 'center',
-    justifyContent: 'center',
-    borderWidth: 1,
-    borderColor: colors.border,
-    minHeight: 56,
-  },
-  content: {
-    flexDirection: 'row',
-    alignItems: 'center',
-    gap: 12,
-  },
-  text: {
-    fontSize: 16,
-    fontWeight: '600',
-    color: colors.text,
-  },
-});
-
-
-
-
-
+const getStyles = (colors: any) =>
+  StyleSheet.create({
+    button: {
+      backgroundColor: colors.card,
+      borderRadius: 12,
+      padding: 16,
+      alignItems: 'center',
+      justifyContent: 'center',
+      borderWidth: 1,
+      borderColor: colors.border,
+      minHeight: 56,
+    },
+    content: {
+      flexDirection: 'row',
+      alignItems: 'center',
+      gap: 12,
+    },
+    text: {
+      fontSize: 16,
+      fontWeight: '600',
+      color: colors.text,
+    },
+  });

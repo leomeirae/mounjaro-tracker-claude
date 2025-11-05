@@ -25,12 +25,7 @@ export function ConfirmationModal({
   if (!analysis) return null;
 
   return (
-    <Modal
-      visible={visible}
-      transparent
-      animationType="slide"
-      onRequestClose={onCancel}
-    >
+    <Modal visible={visible} transparent animationType="slide" onRequestClose={onCancel}>
       <View style={styles.overlay}>
         <View style={styles.container}>
           {/* Header */}
@@ -82,8 +77,8 @@ export function ConfirmationModal({
 
             <View style={styles.infoBox}>
               <Text style={styles.infoText}>
-                ℹ️ As informações acima são estimativas baseadas na descrição fornecida.
-                Você pode editá-las depois no histórico.
+                ℹ️ As informações acima são estimativas baseadas na descrição fornecida. Você pode
+                editá-las depois no histórico.
               </Text>
             </View>
           </ScrollView>
@@ -105,9 +100,7 @@ export function ConfirmationModal({
               disabled={loading}
             >
               <Check size={20} color="#fff" weight="bold" />
-              <Text style={styles.confirmButtonText}>
-                {loading ? 'Salvando...' : 'Confirmar'}
-              </Text>
+              <Text style={styles.confirmButtonText}>{loading ? 'Salvando...' : 'Confirmar'}</Text>
             </TouchableOpacity>
           </View>
         </View>
@@ -116,124 +109,124 @@ export function ConfirmationModal({
   );
 }
 
-const getStyles = (colors: any) => StyleSheet.create({
-  overlay: {
-    flex: 1,
-    backgroundColor: 'rgba(0, 0, 0, 0.5)',
-    justifyContent: 'flex-end',
-  },
-  container: {
-    backgroundColor: colors.background,
-    borderTopLeftRadius: 24,
-    borderTopRightRadius: 24,
-    maxHeight: '85%',
-    paddingBottom: 20,
-  },
-  header: {
-    flexDirection: 'row',
-    alignItems: 'center',
-    justifyContent: 'space-between',
-    padding: 20,
-    paddingBottom: 16,
-    borderBottomWidth: 1,
-    borderBottomColor: colors.border,
-  },
-  title: {
-    fontSize: 20,
-    fontWeight: '700',
-    color: colors.text,
-  },
-  closeButton: {
-    padding: 4,
-  },
-  content: {
-    padding: 20,
-  },
-  section: {
-    marginBottom: 24,
-  },
-  sectionTitle: {
-    fontSize: 16,
-    fontWeight: '600',
-    color: colors.text,
-    marginBottom: 12,
-  },
-  summaryText: {
-    fontSize: 15,
-    lineHeight: 24,
-    color: colors.text,
-  },
-  macrosSection: {
-    marginBottom: 24,
-  },
-  macrosGrid: {
-    flexDirection: 'row',
-    flexWrap: 'wrap',
-    gap: 12,
-  },
-  macroCard: {
-    backgroundColor: colors.card,
-    borderWidth: 1,
-    borderColor: colors.border,
-    borderRadius: 12,
-    padding: 16,
-    minWidth: '30%',
-    alignItems: 'center',
-  },
-  macroValue: {
-    fontSize: 20,
-    fontWeight: '700',
-    color: colors.primary,
-    marginBottom: 4,
-  },
-  macroLabel: {
-    fontSize: 12,
-    color: colors.textSecondary,
-  },
-  infoBox: {
-    backgroundColor: colors.card,
-    borderWidth: 1,
-    borderColor: colors.border,
-    borderRadius: 12,
-    padding: 16,
-  },
-  infoText: {
-    fontSize: 13,
-    lineHeight: 20,
-    color: colors.textSecondary,
-  },
-  actions: {
-    flexDirection: 'row',
-    gap: 12,
-    paddingHorizontal: 20,
-    paddingTop: 16,
-  },
-  actionButton: {
-    flex: 1,
-    flexDirection: 'row',
-    alignItems: 'center',
-    justifyContent: 'center',
-    gap: 8,
-    paddingVertical: 16,
-    borderRadius: 12,
-  },
-  cancelButton: {
-    backgroundColor: colors.card,
-    borderWidth: 1,
-    borderColor: colors.border,
-  },
-  cancelButtonText: {
-    fontSize: 16,
-    fontWeight: '600',
-    color: colors.text,
-  },
-  confirmButton: {
-    backgroundColor: colors.primary,
-  },
-  confirmButtonText: {
-    fontSize: 16,
-    fontWeight: '600',
-    color: '#fff',
-  },
-});
-
+const getStyles = (colors: any) =>
+  StyleSheet.create({
+    overlay: {
+      flex: 1,
+      backgroundColor: 'rgba(0, 0, 0, 0.5)',
+      justifyContent: 'flex-end',
+    },
+    container: {
+      backgroundColor: colors.background,
+      borderTopLeftRadius: 24,
+      borderTopRightRadius: 24,
+      maxHeight: '85%',
+      paddingBottom: 20,
+    },
+    header: {
+      flexDirection: 'row',
+      alignItems: 'center',
+      justifyContent: 'space-between',
+      padding: 20,
+      paddingBottom: 16,
+      borderBottomWidth: 1,
+      borderBottomColor: colors.border,
+    },
+    title: {
+      fontSize: 20,
+      fontWeight: '700',
+      color: colors.text,
+    },
+    closeButton: {
+      padding: 4,
+    },
+    content: {
+      padding: 20,
+    },
+    section: {
+      marginBottom: 24,
+    },
+    sectionTitle: {
+      fontSize: 16,
+      fontWeight: '600',
+      color: colors.text,
+      marginBottom: 12,
+    },
+    summaryText: {
+      fontSize: 15,
+      lineHeight: 24,
+      color: colors.text,
+    },
+    macrosSection: {
+      marginBottom: 24,
+    },
+    macrosGrid: {
+      flexDirection: 'row',
+      flexWrap: 'wrap',
+      gap: 12,
+    },
+    macroCard: {
+      backgroundColor: colors.card,
+      borderWidth: 1,
+      borderColor: colors.border,
+      borderRadius: 12,
+      padding: 16,
+      minWidth: '30%',
+      alignItems: 'center',
+    },
+    macroValue: {
+      fontSize: 20,
+      fontWeight: '700',
+      color: colors.primary,
+      marginBottom: 4,
+    },
+    macroLabel: {
+      fontSize: 12,
+      color: colors.textSecondary,
+    },
+    infoBox: {
+      backgroundColor: colors.card,
+      borderWidth: 1,
+      borderColor: colors.border,
+      borderRadius: 12,
+      padding: 16,
+    },
+    infoText: {
+      fontSize: 13,
+      lineHeight: 20,
+      color: colors.textSecondary,
+    },
+    actions: {
+      flexDirection: 'row',
+      gap: 12,
+      paddingHorizontal: 20,
+      paddingTop: 16,
+    },
+    actionButton: {
+      flex: 1,
+      flexDirection: 'row',
+      alignItems: 'center',
+      justifyContent: 'center',
+      gap: 8,
+      paddingVertical: 16,
+      borderRadius: 12,
+    },
+    cancelButton: {
+      backgroundColor: colors.card,
+      borderWidth: 1,
+      borderColor: colors.border,
+    },
+    cancelButtonText: {
+      fontSize: 16,
+      fontWeight: '600',
+      color: colors.text,
+    },
+    confirmButton: {
+      backgroundColor: colors.primary,
+    },
+    confirmButtonText: {
+      fontSize: 16,
+      fontWeight: '600',
+      color: '#fff',
+    },
+  });

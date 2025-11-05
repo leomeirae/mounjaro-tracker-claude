@@ -12,18 +12,24 @@ interface StartingWeightScreenProps {
   weightUnit?: 'kg' | 'lb';
 }
 
-export function StartingWeightScreen({ onNext, onBack, weightUnit = 'kg' }: StartingWeightScreenProps) {
+export function StartingWeightScreen({
+  onNext,
+  onBack,
+  weightUnit = 'kg',
+}: StartingWeightScreenProps) {
   const colors = useShotsyColors();
   const [weight, setWeight] = useState('');
   const [startDate, setStartDate] = useState(new Date());
   const [showDatePicker, setShowDatePicker] = useState(false);
 
   const formatDate = (date: Date) => {
-    return date.toLocaleDateString('pt-BR', {
-      day: '2-digit',
-      month: 'short',
-      year: 'numeric',
-    }).replace('.', ' de');
+    return date
+      .toLocaleDateString('pt-BR', {
+        day: '2-digit',
+        month: 'short',
+        year: 'numeric',
+      })
+      .replace('.', ' de');
   };
 
   const handleNext = () => {
@@ -55,9 +61,7 @@ export function StartingWeightScreen({ onNext, onBack, weightUnit = 'kg' }: Star
             <Text style={styles.icon}>⚖️</Text>
           </View>
           <View style={styles.cardContent}>
-            <Text style={[styles.cardLabel, { color: colors.textSecondary }]}>
-              Peso Inicial
-            </Text>
+            <Text style={[styles.cardLabel, { color: colors.textSecondary }]}>Peso Inicial</Text>
             <View style={styles.inputRow}>
               <TextInput
                 style={[styles.cardValue, { color: colors.text }]}
@@ -67,18 +71,13 @@ export function StartingWeightScreen({ onNext, onBack, weightUnit = 'kg' }: Star
                 placeholder={weightUnit === 'kg' ? '104' : '229'}
                 placeholderTextColor={colors.textMuted}
               />
-              <Text style={[styles.unitSuffix, { color: colors.textSecondary }]}>
-                {weightUnit}
-              </Text>
+              <Text style={[styles.unitSuffix, { color: colors.textSecondary }]}>{weightUnit}</Text>
             </View>
           </View>
         </ShotsyCard>
 
         {/* Date Card */}
-        <TouchableOpacity
-          onPress={() => setShowDatePicker(true)}
-          activeOpacity={0.7}
-        >
+        <TouchableOpacity onPress={() => setShowDatePicker(true)} activeOpacity={0.7}>
           <ShotsyCard variant="elevated" style={styles.editableCard}>
             <View style={styles.cardIcon}>
               <Text style={styles.icon}>📅</Text>

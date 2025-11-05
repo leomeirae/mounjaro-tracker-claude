@@ -7,20 +7,13 @@ interface SettingsSectionProps {
   children: React.ReactNode;
 }
 
-export const SettingsSection: React.FC<SettingsSectionProps> = ({
-  title,
-  children,
-}) => {
+export const SettingsSection: React.FC<SettingsSectionProps> = ({ title, children }) => {
   const colors = useShotsyColors();
 
   return (
     <View style={styles.container}>
-      <Text style={[styles.title, { color: colors.textSecondary }]}>
-        {title.toUpperCase()}
-      </Text>
-      <View style={[styles.content, { backgroundColor: colors.card }]}>
-        {children}
-      </View>
+      <Text style={[styles.title, { color: colors.textSecondary }]}>{title.toUpperCase()}</Text>
+      <View style={[styles.content, { backgroundColor: colors.card }]}>{children}</View>
     </View>
   );
 };

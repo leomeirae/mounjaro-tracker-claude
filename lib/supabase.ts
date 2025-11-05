@@ -219,13 +219,13 @@ export function useSupabaseAuth() {
 
     try {
       logger.debug('Attempting to get Clerk token for Supabase');
-      
+
       // Get Clerk JWT token with Supabase template
       const token = await getToken({ template: 'supabase' });
-      
+
       if (token) {
         logger.debug('Setting Supabase auth with Clerk token');
-        
+
         // Set the auth session in Supabase
         const { error } = await supabase.auth.setSession({
           access_token: token,
@@ -253,7 +253,9 @@ export function useSupabaseAuth() {
     } catch (error) {
       logger.error('Error getting Clerk token', error as Error);
       // Se o template não existir, isso é esperado - vamos continuar sem ele
-      logger.info('Note: Clerk template "supabase" may not be configured. This is OK if RLS allows inserts.');
+      logger.info(
+        'Note: Clerk template "supabase" may not be configured. This is OK if RLS allows inserts.'
+      );
     }
   };
 

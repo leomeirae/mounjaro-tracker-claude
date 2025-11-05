@@ -9,9 +9,11 @@ Follow these steps in order to complete your Supabase integration:
 ## 📝 STEP 1: Apply Main Migration
 
 ### Go to Supabase Dashboard
+
 https://iokunvykvndmczfzdbho.supabase.co
 
 ### Execute Migration
+
 1. Click **"SQL Editor"** in left sidebar
 2. Click **"+ New Query"**
 3. Copy the entire content from:
@@ -22,9 +24,11 @@ https://iokunvykvndmczfzdbho.supabase.co
 5. Click **"Run"**
 
 ### Expected Result
+
 You should see: `Success. No rows returned`
 
 This creates 4 tables:
+
 - ✅ `profiles` - User data
 - ✅ `applications` - Injection records
 - ✅ `weights` - Weight logs
@@ -35,17 +39,20 @@ This creates 4 tables:
 ## 🔒 STEP 2: Fix Security Issue (community_stats)
 
 ### Check if Issue Exists
+
 The Supabase linter flagged a `SECURITY DEFINER` view called `community_stats`.
 
 ### Fix Options
 
 #### Option A: Drop the view (if not needed)
+
 ```sql
 -- Run in SQL Editor
 DROP VIEW IF EXISTS public.community_stats;
 ```
 
 #### Option B: Get definition first, then recreate
+
 ```sql
 -- 1. See what the view does
 SELECT definition FROM pg_views WHERE viewname = 'community_stats';
@@ -54,11 +61,13 @@ SELECT definition FROM pg_views WHERE viewname = 'community_stats';
 ```
 
 Copy and run:
+
 ```
 /Users/user/Desktop/mounjaro-tracker/supabase/fixes/fix_community_stats_security.sql
 ```
 
 ### Why This Matters
+
 `SECURITY DEFINER` views can bypass Row Level Security (RLS) and expose data users shouldn't see. Our migration doesn't create any definer views - this is from existing database.
 
 ---
@@ -68,6 +77,7 @@ Copy and run:
 ### Run Verification Script
 
 Copy and run this in SQL Editor:
+
 ```
 /Users/user/Desktop/mounjaro-tracker/supabase/verification/verify_migration.sql
 ```
@@ -85,6 +95,7 @@ Copy and run this in SQL Editor:
 ### Expected Output
 
 If successful, you'll see:
+
 ```
 ✅ MIGRATION SUCCESSFUL - All checks passed!
 ```
@@ -99,6 +110,7 @@ If any check fails, review the detailed output to see what's missing.
 
 **Cause:** Supabase auth schema not initialized
 **Fix:** Your Supabase project needs auth enabled. This should be automatic, but if not:
+
 1. Go to Authentication → Settings
 2. Enable Email provider
 3. Re-run migration
@@ -112,6 +124,7 @@ If any check fails, review the detailed output to see what's missing.
 
 **Cause:** uuid-ossp extension not enabled
 **Fix:** Run this first:
+
 ```sql
 CREATE EXTENSION IF NOT EXISTS "uuid-ossp";
 ```
@@ -152,6 +165,7 @@ Since you're using Clerk for authentication, configure JWT templates:
 ### Test JWT Configuration
 
 In your app, the `useSupabaseAuth()` hook (from `lib/supabase.ts`) will automatically:
+
 1. Get Clerk JWT with Supabase template
 2. Pass it to Supabase client
 3. Enable RLS policies based on user ID
@@ -188,6 +202,7 @@ The hooks are already created and ready to use! To replace mock data:
 ### Update These Files
 
 1. **`app/(tabs)/index.tsx`** - Dashboard
+
    ```typescript
    import { useProfile } from '@/hooks/useProfile';
    import { useApplications } from '@/hooks/useApplications';
@@ -199,17 +214,20 @@ The hooks are already created and ready to use! To replace mock data:
    ```
 
 2. **`app/(tabs)/shots.tsx`** - Shots list
+
    ```typescript
    const { applications, loading } = useApplications();
    ```
 
 3. **`app/(tabs)/results.tsx`** - Charts
+
    ```typescript
    const { weights } = useWeights();
    const { profile } = useProfile();
    ```
 
 4. **`app/(tabs)/calendar-view.tsx`** - Calendar
+
    ```typescript
    const { applications } = useApplications();
    const { weights } = useWeights();
@@ -237,24 +255,28 @@ The hooks are already created and ready to use! To replace mock data:
 ## 📚 What You Have Now
 
 ### ✅ Database Schema
+
 - 4 tables with proper relationships
 - Row Level Security protecting user data
 - Performance indexes
 - Auto-updating timestamps
 
 ### ✅ Custom Hooks
+
 - `useProfile()` - User profile CRUD
 - `useApplications()` - Injection records CRUD
 - `useWeights()` - Weight tracking CRUD
 - `useSettings()` - User preferences CRUD
 
 ### ✅ Security
+
 - RLS policies ensure data isolation
 - Users only see their own data
 - Clerk JWT integration for auth
 - No SECURITY DEFINER vulnerabilities
 
 ### ✅ UI Components (from FASE 8 & 9)
+
 - Complete Calendar screen
 - Complete Settings screen
 - All supporting components
@@ -264,15 +286,18 @@ The hooks are already created and ready to use! To replace mock data:
 ## 🆘 Need Help?
 
 ### Check Logs
+
 - **Supabase:** Dashboard → Logs → Postgres Logs
 - **App:** `npx expo start` console output
 
 ### Common Issues
+
 1. **RLS blocking queries** → Check Clerk JWT configuration
 2. **Permission denied** → Verify user is authenticated
 3. **Empty data** → Normal on first use, data creates automatically
 
 ### Test RLS Policies
+
 ```sql
 -- Test as authenticated user
 SET LOCAL role authenticated;
@@ -285,6 +310,7 @@ SELECT * FROM profiles WHERE id = 'test-user-id';
 ## 🎉 Success!
 
 Once all steps are complete, your Mounjaro Tracker will have:
+
 - Real-time data persistence
 - Secure multi-user support
 - Theme persistence across sessions

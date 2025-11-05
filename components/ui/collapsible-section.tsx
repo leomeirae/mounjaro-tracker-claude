@@ -13,7 +13,7 @@ export function CollapsibleSection({
   title,
   icon,
   children,
-  defaultExpanded = false
+  defaultExpanded = false,
 }: CollapsibleSectionProps) {
   const colors = useColors();
   const [isExpanded, setIsExpanded] = useState(defaultExpanded);
@@ -31,59 +31,49 @@ export function CollapsibleSection({
           {icon && <Text style={styles.icon}>{icon}</Text>}
           <Text style={styles.title}>{title}</Text>
         </View>
-        <Text style={styles.chevron}>
-          {isExpanded ? '▼' : '▶'}
-        </Text>
+        <Text style={styles.chevron}>{isExpanded ? '▼' : '▶'}</Text>
       </TouchableOpacity>
 
-      {isExpanded && (
-        <View style={styles.content}>
-          {children}
-        </View>
-      )}
+      {isExpanded && <View style={styles.content}>{children}</View>}
     </View>
   );
 }
 
-const getStyles = (colors: any) => StyleSheet.create({
-  container: {
-    marginBottom: 16,
-  },
-  header: {
-    flexDirection: 'row',
-    justifyContent: 'space-between',
-    alignItems: 'center',
-    backgroundColor: colors.card,
-    padding: 16,
-    borderRadius: 12,
-    borderLeftWidth: 4,
-    borderLeftColor: colors.primary,
-  },
-  headerContent: {
-    flexDirection: 'row',
-    alignItems: 'center',
-    flex: 1,
-  },
-  icon: {
-    fontSize: 20,
-    marginRight: 12,
-  },
-  title: {
-    fontSize: 16,
-    fontWeight: '600',
-    color: colors.text,
-  },
-  chevron: {
-    fontSize: 14,
-    color: colors.textMuted,
-    marginLeft: 12,
-  },
-  content: {
-    marginTop: 12,
-  },
-});
-
-
-
-
-
+const getStyles = (colors: any) =>
+  StyleSheet.create({
+    container: {
+      marginBottom: 16,
+    },
+    header: {
+      flexDirection: 'row',
+      justifyContent: 'space-between',
+      alignItems: 'center',
+      backgroundColor: colors.card,
+      padding: 16,
+      borderRadius: 12,
+      borderLeftWidth: 4,
+      borderLeftColor: colors.primary,
+    },
+    headerContent: {
+      flexDirection: 'row',
+      alignItems: 'center',
+      flex: 1,
+    },
+    icon: {
+      fontSize: 20,
+      marginRight: 12,
+    },
+    title: {
+      fontSize: 16,
+      fontWeight: '600',
+      color: colors.text,
+    },
+    chevron: {
+      fontSize: 14,
+      color: colors.textMuted,
+      marginLeft: 12,
+    },
+    content: {
+      marginTop: 12,
+    },
+  });

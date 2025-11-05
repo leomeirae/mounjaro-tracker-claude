@@ -71,11 +71,11 @@ export const AvatarCustomizer: React.FC<AvatarCustomizerProps> = ({
 
   const toggleAccessory = (accessory: string) => {
     if (selectedAccessories.includes(accessory)) {
-      setSelectedAccessories(prev => prev.filter(a => a !== accessory));
+      setSelectedAccessories((prev) => prev.filter((a) => a !== accessory));
     } else {
       // Limit to 3 accessories
       if (selectedAccessories.length < 3) {
-        setSelectedAccessories(prev => [...prev, accessory]);
+        setSelectedAccessories((prev) => [...prev, accessory]);
       }
     }
   };
@@ -133,7 +133,9 @@ export const AvatarCustomizer: React.FC<AvatarCustomizerProps> = ({
             </View>
           )}
         </View>
-        <Text style={styles.previewLabel}>{selectedStyle} • {selectedMood}</Text>
+        <Text style={styles.previewLabel}>
+          {selectedStyle} • {selectedMood}
+        </Text>
       </View>
 
       {/* Style Selection */}
@@ -141,7 +143,7 @@ export const AvatarCustomizer: React.FC<AvatarCustomizerProps> = ({
         <Text style={styles.sectionTitle}>Avatar Style</Text>
         <Text style={styles.sectionDescription}>Choose how your avatar looks</Text>
         <View style={styles.optionsGrid}>
-          {AVATAR_STYLES.map(style => (
+          {AVATAR_STYLES.map((style) => (
             <TouchableOpacity
               key={style}
               style={[
@@ -150,15 +152,17 @@ export const AvatarCustomizer: React.FC<AvatarCustomizerProps> = ({
                   backgroundColor: colors.primary + '20',
                   borderColor: colors.primary,
                   borderWidth: 2,
-                }
+                },
               ]}
               onPress={() => setSelectedStyle(style)}
             >
               <Text style={styles.optionIcon}>{getStyleIcon(style)}</Text>
-              <Text style={[
-                styles.optionLabel,
-                selectedStyle === style && { color: colors.primary, fontWeight: '600' }
-              ]}>
+              <Text
+                style={[
+                  styles.optionLabel,
+                  selectedStyle === style && { color: colors.primary, fontWeight: '600' },
+                ]}
+              >
                 {style}
               </Text>
             </TouchableOpacity>
@@ -171,19 +175,17 @@ export const AvatarCustomizer: React.FC<AvatarCustomizerProps> = ({
         <Text style={styles.sectionTitle}>Primary Color</Text>
         <Text style={styles.sectionDescription}>Pick your favorite color</Text>
         <View style={styles.colorGrid}>
-          {DEFAULT_AVATAR_COLORS.map(color => (
+          {DEFAULT_AVATAR_COLORS.map((color) => (
             <TouchableOpacity
               key={color}
               style={[
                 styles.colorOption,
                 { backgroundColor: color },
-                selectedColor === color && styles.colorSelected
+                selectedColor === color && styles.colorSelected,
               ]}
               onPress={() => setSelectedColor(color)}
             >
-              {selectedColor === color && (
-                <Text style={styles.checkmark}>✓</Text>
-              )}
+              {selectedColor === color && <Text style={styles.checkmark}>✓</Text>}
             </TouchableOpacity>
           ))}
         </View>
@@ -194,7 +196,7 @@ export const AvatarCustomizer: React.FC<AvatarCustomizerProps> = ({
         <Text style={styles.sectionTitle}>Mood & Expression</Text>
         <Text style={styles.sectionDescription}>How are you feeling today?</Text>
         <View style={styles.optionsGrid}>
-          {AVATAR_MOODS.map(mood => (
+          {AVATAR_MOODS.map((mood) => (
             <TouchableOpacity
               key={mood}
               style={[
@@ -203,15 +205,17 @@ export const AvatarCustomizer: React.FC<AvatarCustomizerProps> = ({
                   backgroundColor: colors.primary + '20',
                   borderColor: colors.primary,
                   borderWidth: 2,
-                }
+                },
               ]}
               onPress={() => setSelectedMood(mood)}
             >
               <Text style={styles.optionIcon}>{getMoodIcon(mood)}</Text>
-              <Text style={[
-                styles.optionLabel,
-                selectedMood === mood && { color: colors.primary, fontWeight: '600' }
-              ]}>
+              <Text
+                style={[
+                  styles.optionLabel,
+                  selectedMood === mood && { color: colors.primary, fontWeight: '600' },
+                ]}
+              >
                 {mood}
               </Text>
             </TouchableOpacity>
@@ -226,7 +230,7 @@ export const AvatarCustomizer: React.FC<AvatarCustomizerProps> = ({
           Add up to 3 accessories (unlock more as you progress!)
         </Text>
         <View style={styles.accessoriesGrid}>
-          {AVATAR_ACCESSORIES.map(accessory => {
+          {AVATAR_ACCESSORIES.map((accessory) => {
             const isSelected = selectedAccessories.includes(accessory);
             const isDisabled = !isSelected && selectedAccessories.length >= 3;
 
@@ -243,11 +247,13 @@ export const AvatarCustomizer: React.FC<AvatarCustomizerProps> = ({
                 onPress={() => toggleAccessory(accessory)}
                 disabled={isDisabled}
               >
-                <Text style={[
-                  styles.accessoryText,
-                  isSelected && styles.accessoryTextSelected,
-                  isDisabled && styles.accessoryTextDisabled,
-                ]}>
+                <Text
+                  style={[
+                    styles.accessoryText,
+                    isSelected && styles.accessoryTextSelected,
+                    isDisabled && styles.accessoryTextDisabled,
+                  ]}
+                >
                   {accessory}
                 </Text>
               </TouchableOpacity>
@@ -271,13 +277,8 @@ export const AvatarCustomizer: React.FC<AvatarCustomizerProps> = ({
         </TouchableOpacity>
 
         {showSkip && (
-          <TouchableOpacity
-            style={styles.skipButton}
-            onPress={onComplete}
-          >
-            <Text style={[styles.skipButtonText, { color: colors.primary }]}>
-              Skip for now
-            </Text>
+          <TouchableOpacity style={styles.skipButton} onPress={onComplete}>
+            <Text style={[styles.skipButtonText, { color: colors.primary }]}>Skip for now</Text>
           </TouchableOpacity>
         )}
       </View>
@@ -286,7 +287,8 @@ export const AvatarCustomizer: React.FC<AvatarCustomizerProps> = ({
       <View style={styles.infoBox}>
         <Text style={styles.infoIcon}>💡</Text>
         <Text style={styles.infoText}>
-          Your avatar will evolve as you progress! Unlock new styles and accessories by completing goals and maintaining streaks.
+          Your avatar will evolve as you progress! Unlock new styles and accessories by completing
+          goals and maintaining streaks.
         </Text>
       </View>
     </ScrollView>

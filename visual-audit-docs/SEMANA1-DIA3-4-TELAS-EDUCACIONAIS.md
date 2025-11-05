@@ -1,27 +1,31 @@
 # 📚 AUDITORIA VISUAL: Telas Educacionais (Onboarding)
+
 ## SEMANA 1 - DIA 3-4
 
 **Data:** 05 de novembro de 2025  
 **Escopo:** P0 - Onboarding Critical Screens  
-**Categoria:** Telas educacionais informativas  
+**Categoria:** Telas educacionais informativas
 
 ---
 
 ## 📋 SUMÁRIO EXECUTIVO
 
 ### Telas Auditadas
+
 1. **Charts Intro Screen** (Step 2) - Introdução aos gráficos
-2. **Education Graph Screen** (Step 9) - Explicação de níveis estimados  
+2. **Education Graph Screen** (Step 9) - Explicação de níveis estimados
 3. **Fluctuations Education Screen** (Step 18) - Educação sobre flutuações de peso
 
 ### Status Geral
-| Tela | Gap Visual | Impacto UX | Esforço | Prioridade |
-|------|-----------|-----------|---------|------------|
-| Charts Intro | 🟡 MODERADO | 🔴 ALTO | 4-6h | P0 |
-| Education Graph | 🔴 CRÍTICO | 🔴 ALTO | 8-10h | P0 |
-| Fluctuations | 🟡 MODERADO | 🟡 MÉDIO | 6-8h | P0 |
+
+| Tela            | Gap Visual  | Impacto UX | Esforço | Prioridade |
+| --------------- | ----------- | ---------- | ------- | ---------- |
+| Charts Intro    | 🟡 MODERADO | 🔴 ALTO    | 4-6h    | P0         |
+| Education Graph | 🔴 CRÍTICO  | 🔴 ALTO    | 8-10h   | P0         |
+| Fluctuations    | 🟡 MODERADO | 🟡 MÉDIO   | 6-8h    | P0         |
 
 ### Decisões Técnicas Confirmadas
+
 - ✅ Usar `OnboardingScreenBase` (já implementado)
 - ✅ Usar `ShotsyCard` (já implementado)
 - ✅ Manter `useShotsyColors` para temas
@@ -32,13 +36,16 @@
 ## 🎨 TELA 1: CHARTS INTRO SCREEN
 
 ### 📸 Referências Visuais
+
 **Screenshot Shotsy:** `FIGMA-SCREENSHOTS/shotsy-onboarding-02-charts-intro.PNG`  
 **Arquivo Mounjaro:** `components/onboarding/ChartsIntroScreen.tsx`
 
 ### 🔍 ANÁLISE VISUAL DETALHADA
 
 #### 1. LAYOUT GERAL
+
 **Shotsy (Referência):**
+
 - Progress bar: ~10% (step 2/22)
 - Título: "Shotsy pode ajudar você a entender sua jornada com Mounjaro® através de ferramentas educativas"
 - Subtítulo: "Sinta-se mais confiante aprendendo mais sobre como esses medicamentos funcionam."
@@ -50,6 +57,7 @@
 - Botão: "Continuar" (azul, full width, bottom)
 
 **Mounjaro (Atual):**
+
 ```tsx:components/onboarding/ChartsIntroScreen.tsx
 <OnboardingScreenBase
   title="Entenda seu progresso com gráficos bonitos"
@@ -57,18 +65,18 @@
 >
   <View style={styles.content}>
     <Text style={styles.emoji}>📈</Text>
-    
+
     {/* 3 Cards com features */}
     <ShotsyCard variant="elevated">
       ⚖️ Gráfico de peso
       Acompanhe sua evolução ao longo do tempo com gráficos detalhados
     </ShotsyCard>
-    
+
     <ShotsyCard variant="elevated">
       💉 Níveis de medicamento
       Veja estimativas dos níveis do medicamento no seu corpo
     </ShotsyCard>
-    
+
     <ShotsyCard variant="elevated">
       🎯 Insights personalizados
       Receba dicas e análises baseadas no seu histórico
@@ -80,19 +88,22 @@
 ### 🎯 GAPS VISUAIS IDENTIFICADOS
 
 #### GAP 1: Falta de Gráfico Visual Real
+
 **Impacto UX:** 🔴 CRÍTICO  
 **Razão:** Usuário não consegue visualizar o que vai receber, apenas lê sobre isso.
 
 **Shotsy:** Mostra um chart real e interativo como preview  
-**Mounjaro:** Apenas emoji 📈 + 3 cards de texto  
+**Mounjaro:** Apenas emoji 📈 + 3 cards de texto
 
 **Mudança necessária:**
+
 1. Remover emoji 📈
 2. Adicionar preview visual do gráfico de níveis estimados
 3. Usar componente `victory-native` para renderizar mini-chart
 4. Incluir anotação com exemplo de valor (ex: "1.16mg")
 
 **Código sugerido:**
+
 ```typescript
 import { VictoryArea, VictoryChart, VictoryAxis } from 'victory-native';
 
@@ -114,7 +125,7 @@ import { VictoryArea, VictoryChart, VictoryAxis } from 'victory-native';
       }}
     />
   </VictoryChart>
-  
+
   <Text style={styles.chartAnnotation}>
     1.16mg
   </Text>
@@ -124,7 +135,7 @@ import { VictoryArea, VictoryChart, VictoryAxis } from 'victory-native';
 </ShotsyCard>
 
 <Text style={styles.disclaimer}>
-  Mounjaro Tracker usa resultados de ensaios clínicos publicados pela FDA 
+  Mounjaro Tracker usa resultados de ensaios clínicos publicados pela FDA
   para mapear os níveis estimados de medicação ao longo do tempo
 </Text>
 ```
@@ -135,13 +146,15 @@ import { VictoryArea, VictoryChart, VictoryAxis } from 'victory-native';
 ---
 
 #### GAP 2: Cards de Features vs Visual Único
+
 **Impacto UX:** 🟡 MÉDIO  
 **Razão:** Informação fragmentada em 3 cards reduz o impacto visual único.
 
 **Shotsy:** Uma única visualização com gráfico + disclaimer  
-**Mounjaro:** 3 cards separados com emojis + texto  
+**Mounjaro:** 3 cards separados com emojis + texto
 
 **Mudança necessária:**
+
 1. Consolidar os 3 cards em um único card de preview
 2. Manter apenas o texto de disclaimer abaixo
 3. Remover emojis ⚖️, 💉, 🎯 (redundantes com o gráfico)
@@ -152,18 +165,22 @@ import { VictoryArea, VictoryChart, VictoryAxis } from 'victory-native';
 ---
 
 #### GAP 3: Títulos e Copy
+
 **Impacto UX:** 🟡 MÉDIO  
 **Razão:** Copy atual é genérico; Shotsy é mais específico.
 
-**Shotsy:**  
+**Shotsy:**
+
 - Título: "Shotsy pode ajudar você a entender sua jornada com Mounjaro® através de ferramentas educativas"
 - Subtítulo: "Sinta-se mais confiante aprendendo mais sobre como esses medicamentos funcionam."
 
-**Mounjaro:**  
+**Mounjaro:**
+
 - Título: "Entenda seu progresso com gráficos bonitos"
 - Subtítulo: "Visualize seus dados de forma clara e obtenha insights baseados em estudos clínicos"
 
 **Mudança necessária:**
+
 ```tsx
 <OnboardingScreenBase
   title="Mounjaro Tracker pode ajudar você a entender sua jornada através de ferramentas educativas"
@@ -180,6 +197,7 @@ import { VictoryArea, VictoryChart, VictoryAxis } from 'victory-native';
 ### 📐 ESPECIFICAÇÕES TÉCNICAS
 
 #### Estilos Necessários
+
 ```typescript
 const styles = StyleSheet.create({
   content: {
@@ -210,6 +228,7 @@ const styles = StyleSheet.create({
 ```
 
 #### Dados de Exemplo para Chart
+
 ```typescript
 const sampleChartData = [
   { x: 0, y: 0.2 },
@@ -227,15 +246,15 @@ const sampleChartData = [
 
 ### 📊 RESUMO: CHARTS INTRO SCREEN
 
-| Elemento | Status | Ação Necessária |
-|----------|--------|-----------------|
-| Título | 🟡 Ajustar | Mudar copy para match Shotsy |
-| Subtítulo | 🟡 Ajustar | Mudar copy para match Shotsy |
-| Emoji 📈 | 🔴 Remover | Substituir por gráfico real |
-| Cards de features | 🔴 Remover | Consolidar em um chart preview |
-| Gráfico visual | ❌ Faltando | Adicionar com `victory-native` |
-| Disclaimer | ❌ Faltando | Adicionar texto FDA |
-| Botão "Continuar" | ✅ OK | Já implementado no base |
+| Elemento          | Status      | Ação Necessária                |
+| ----------------- | ----------- | ------------------------------ |
+| Título            | 🟡 Ajustar  | Mudar copy para match Shotsy   |
+| Subtítulo         | 🟡 Ajustar  | Mudar copy para match Shotsy   |
+| Emoji 📈          | 🔴 Remover  | Substituir por gráfico real    |
+| Cards de features | 🔴 Remover  | Consolidar em um chart preview |
+| Gráfico visual    | ❌ Faltando | Adicionar com `victory-native` |
+| Disclaimer        | ❌ Faltando | Adicionar texto FDA            |
+| Botão "Continuar" | ✅ OK       | Já implementado no base        |
 
 **Prioridade:** 🔴 P0 - Crítico  
 **Esforço Total:** 4-6 horas  
@@ -246,13 +265,16 @@ const sampleChartData = [
 ## 🎨 TELA 2: EDUCATION GRAPH SCREEN
 
 ### 📸 Referências Visuais
+
 **Screenshot Shotsy:** `FIGMA-SCREENSHOTS/shotsy-onboarding-02-charts-intro.PNG` (gráfico visível)  
 **Arquivo Mounjaro:** `components/onboarding/EducationGraphScreen.tsx`
 
 ### 🔍 ANÁLISE VISUAL DETALHADA
 
 #### 1. LAYOUT GERAL
+
 **Shotsy (Referência):**
+
 - Título: "Entenda seus níveis estimados"
 - Subtítulo: "Veja como o medicamento age no seu corpo ao longo do tempo"
 - Card principal: Gráfico de área (área preenchida azul)
@@ -266,6 +288,7 @@ const sampleChartData = [
 - Card de aviso: 💡 "Essas estimativas são baseadas em dados clínicos..."
 
 **Mounjaro (Atual):**
+
 ```tsx:components/onboarding/EducationGraphScreen.tsx
 <OnboardingScreenBase
   title="Entenda seus níveis estimados"
@@ -291,12 +314,12 @@ const sampleChartData = [
         </View>
       </View>
     </ShotsyCard>
-    
+
     <ShotsyCard>
       <Text>Como funciona?</Text>
       <Text>Após cada aplicação, o nível do medicamento aumenta...</Text>
     </ShotsyCard>
-    
+
     <ShotsyCard>
       <Text>💡</Text>
       <Text>Essas estimativas são baseadas em dados clínicos...</Text>
@@ -308,13 +331,15 @@ const sampleChartData = [
 ### 🎯 GAPS VISUAIS IDENTIFICADOS
 
 #### GAP 1: Gráfico Placeholder vs Gráfico Real
+
 **Impacto UX:** 🔴 CRÍTICO  
 **Razão:** Usuário vê apenas um retângulo colorido, não entende a curva farmacológica real.
 
 **Shotsy:** Gráfico de área (`VictoryArea`) com curva realista  
-**Mounjaro:** Placeholder com `backgroundColor` e eixos simulados  
+**Mounjaro:** Placeholder com `backgroundColor` e eixos simulados
 
 **Mudança necessária:**
+
 1. **REMOVER** todo o código de `graphPlaceholder`
 2. **ADICIONAR** componente `victory-native` com dados farmacológicos reais
 3. Implementar curva que mostra:
@@ -323,6 +348,7 @@ const sampleChartData = [
    - Decaimento exponencial (dias 4-7)
 
 **Código sugerido:**
+
 ```typescript
 import { VictoryArea, VictoryChart, VictoryAxis, VictoryScatter } from 'victory-native';
 import { Dimensions } from 'react-native';
@@ -356,7 +382,7 @@ const pharmacokineticData = [
       }}
       tickValues={[0, 0.5, 1.0, 1.5]}
     />
-    
+
     {/* Eixo X */}
     <VictoryAxis
       label="Dias"
@@ -366,7 +392,7 @@ const pharmacokineticData = [
       }}
       tickValues={[0, 2, 4, 6, 7]}
     />
-    
+
     {/* Área preenchida */}
     <VictoryArea
       data={pharmacokineticData}
@@ -382,7 +408,7 @@ const pharmacokineticData = [
       }}
       interpolation="natural" // Curva suave
     />
-    
+
     {/* Ponto do pico */}
     <VictoryScatter
       data={[{ day: 4, level: 1.2 }]}
@@ -394,7 +420,7 @@ const pharmacokineticData = [
       }}
     />
   </VictoryChart>
-  
+
   <Text style={[styles.peakLabel, { color: currentAccent }]}>
     ← Pico: 1.2mg (dia 4)
   </Text>
@@ -407,13 +433,15 @@ const pharmacokineticData = [
 ---
 
 #### GAP 2: Eixos com Labels Genéricos
+
 **Impacto UX:** 🟡 MÉDIO  
 **Razão:** "Alto/Médio/Baixo" e "Dia 1/4/7" não transmitem informação científica real.
 
 **Shotsy:** Valores numéricos reais (0-3mg) e datas  
-**Mounjaro:** Labels genéricos ("Alto", "Médio", "Baixo")  
+**Mounjaro:** Labels genéricos ("Alto", "Médio", "Baixo")
 
 **Mudança necessária:**
+
 - Eixo Y: Usar valores numéricos (0, 0.5, 1.0, 1.5mg)
 - Eixo X: Usar dias numéricos (0, 2, 4, 6, 7)
 - Adicionar label "Nível (mg)" no eixo Y
@@ -425,15 +453,18 @@ const pharmacokineticData = [
 ---
 
 #### GAP 3: Card "Como funciona?" - Layout
+
 **Impacto UX:** 🟢 BAIXO  
 **Razão:** Layout atual está correto, mas pode melhorar espaçamentos.
 
 **Shotsy:**
+
 - Padding: 20px
 - Título: fontSize 18px, fontWeight 600
 - Corpo: fontSize 14px, lineHeight 22px
 
 **Mounjaro:**
+
 ```typescript
 infoCard: {
   padding: 16, // Mudança: 16 → 20px
@@ -450,6 +481,7 @@ infoText: {
 ```
 
 **Mudança necessária:**
+
 ```typescript
 infoCard: {
   padding: 20, // Mudança: 16 → 20px
@@ -464,6 +496,7 @@ infoCard: {
 ### 📐 ESPECIFICAÇÕES TÉCNICAS
 
 #### Estilos Necessários
+
 ```typescript
 const styles = StyleSheet.create({
   content: {
@@ -511,16 +544,16 @@ const styles = StyleSheet.create({
 
 ### 📊 RESUMO: EDUCATION GRAPH SCREEN
 
-| Elemento | Status | Ação Necessária |
-|----------|--------|-----------------|
-| Título | ✅ OK | Match perfeito com Shotsy |
-| Subtítulo | ✅ OK | Match perfeito com Shotsy |
-| Gráfico placeholder | 🔴 Substituir | Implementar `victory-native` |
-| Eixos com labels | 🔴 Ajustar | Usar valores numéricos reais |
-| Curva farmacológica | ❌ Faltando | Adicionar dados PK |
-| Card "Como funciona?" | 🟡 Ajustar | Padding 16 → 20px |
-| Card aviso | ✅ OK | Já correto |
-| Botão "Entendi" | ✅ OK | Já implementado no base |
+| Elemento              | Status        | Ação Necessária              |
+| --------------------- | ------------- | ---------------------------- |
+| Título                | ✅ OK         | Match perfeito com Shotsy    |
+| Subtítulo             | ✅ OK         | Match perfeito com Shotsy    |
+| Gráfico placeholder   | 🔴 Substituir | Implementar `victory-native` |
+| Eixos com labels      | 🔴 Ajustar    | Usar valores numéricos reais |
+| Curva farmacológica   | ❌ Faltando   | Adicionar dados PK           |
+| Card "Como funciona?" | 🟡 Ajustar    | Padding 16 → 20px            |
+| Card aviso            | ✅ OK         | Já correto                   |
+| Botão "Entendi"       | ✅ OK         | Já implementado no base      |
 
 **Prioridade:** 🔴 P0 - Crítico  
 **Esforço Total:** 6-8 horas  
@@ -531,13 +564,16 @@ const styles = StyleSheet.create({
 ## 🎨 TELA 3: FLUCTUATIONS EDUCATION SCREEN
 
 ### 📸 Referências Visuais
+
 **Screenshot Shotsy:** (Não disponível nos screenshots atuais - inferência necessária)  
 **Arquivo Mounjaro:** `components/onboarding/FluctuationsEducationScreen.tsx`
 
 ### 🔍 ANÁLISE VISUAL DETALHADA
 
 #### 1. LAYOUT GERAL
+
 **Mounjaro (Atual):**
+
 ```tsx:components/onboarding/FluctuationsEducationScreen.tsx
 <OnboardingScreenBase
   title="É normal ter flutuações"
@@ -545,7 +581,7 @@ const styles = StyleSheet.create({
 >
   <View style={styles.content}>
     <Text style={styles.emoji}>📊</Text>
-    
+
     <ShotsyCard variant="elevated">
       <Text>Flutuações típicas de peso</Text>
       <View style={styles.graphPlaceholder}>
@@ -554,7 +590,7 @@ const styles = StyleSheet.create({
       </View>
       <Text>Variações de até 2kg são completamente normais</Text>
     </ShotsyCard>
-    
+
     <ShotsyCard>
       <Text>Fatores que afetam o peso diário:</Text>
       <View>
@@ -565,7 +601,7 @@ const styles = StyleSheet.create({
         🧂 Consumo de sódio
       </View>
     </ShotsyCard>
-    
+
     <ShotsyCard style={[styles.tipCard, { borderLeftColor: currentAccent }]}>
       <Text>💡</Text>
       <Text>Foque na tendência geral, não nos números diários...</Text>
@@ -577,19 +613,22 @@ const styles = StyleSheet.create({
 ### 🎯 GAPS VISUAIS IDENTIFICADOS
 
 #### GAP 1: Gráfico de Flutuações - Placeholder vs Real
+
 **Impacto UX:** 🔴 ALTO  
 **Razão:** Usuário não vê as flutuações reais, apenas um retângulo colorido.
 
 **Shotsy (Inferência):** Gráfico de linha mostrando variações diárias (zig-zag)  
-**Mounjaro:** Retângulo colorido com `backgroundColor`  
+**Mounjaro:** Retângulo colorido com `backgroundColor`
 
 **Mudança necessária:**
+
 1. Substituir placeholder por gráfico de linha (`VictoryLine`)
 2. Mostrar dados que variam ±1-2kg ao longo de 7-10 dias
 3. Adicionar área sombreada (±2kg) para "zona normal"
 4. Destacar visualmente que flutuações são esperadas
 
 **Código sugerido:**
+
 ```typescript
 import { VictoryLine, VictoryChart, VictoryAxis, VictoryArea } from 'victory-native';
 
@@ -608,7 +647,7 @@ const fluctuationData = [
   <Text style={[styles.graphTitle, { color: colors.text }]}>
     Flutuações típicas de peso
   </Text>
-  
+
   <VictoryChart
     height={180}
     width={Dimensions.get('window').width - 80}
@@ -624,7 +663,7 @@ const fluctuationData = [
         data: { fill: colors.textMuted, opacity: 0.1 }
       }}
     />
-    
+
     {/* Linha de peso */}
     <VictoryLine
       data={fluctuationData}
@@ -638,7 +677,7 @@ const fluctuationData = [
       }}
       interpolation="natural"
     />
-    
+
     {/* Eixos */}
     <VictoryAxis
       dependentAxis
@@ -656,7 +695,7 @@ const fluctuationData = [
       }}
     />
   </VictoryChart>
-  
+
   <Text style={[styles.graphCaption, { color: colors.textMuted }]}>
     Variações de até 2kg são completamente normais
   </Text>
@@ -669,13 +708,15 @@ const fluctuationData = [
 ---
 
 #### GAP 2: Emoji 📊 - Desnecessário
+
 **Impacto UX:** 🟢 BAIXO  
 **Razão:** Redundante se já temos um gráfico visual real.
 
 **Shotsy (Inferência):** Sem emoji (gráfico fala por si)  
-**Mounjaro:** Emoji 📊 no topo  
+**Mounjaro:** Emoji 📊 no topo
 
 **Mudança necessária:**
+
 ```typescript
 // REMOVER
 <Text style={styles.emoji}>📊</Text>
@@ -687,10 +728,12 @@ const fluctuationData = [
 ---
 
 #### GAP 3: Espaçamento e Padding
+
 **Impacto UX:** 🟢 BAIXO  
 **Razão:** Pequenos ajustes de consistência.
 
 **Mudança necessária:**
+
 ```typescript
 const styles = StyleSheet.create({
   content: {
@@ -764,15 +807,15 @@ const styles = StyleSheet.create({
 
 ### 📊 RESUMO: FLUCTUATIONS EDUCATION SCREEN
 
-| Elemento | Status | Ação Necessária |
-|----------|--------|-----------------|
-| Título | ✅ OK | Match com Shotsy |
-| Subtítulo | ✅ OK | Match com Shotsy |
-| Emoji 📊 | 🟡 Remover | Redundante com gráfico |
+| Elemento            | Status        | Ação Necessária              |
+| ------------------- | ------------- | ---------------------------- |
+| Título              | ✅ OK         | Match com Shotsy             |
+| Subtítulo           | ✅ OK         | Match com Shotsy             |
+| Emoji 📊            | 🟡 Remover    | Redundante com gráfico       |
 | Gráfico placeholder | 🔴 Substituir | Implementar `victory-native` |
-| Lista de fatores | ✅ OK | Já correto |
-| Card de dica | ✅ OK | Já correto |
-| Botão "Entendi" | ✅ OK | Já implementado no base |
+| Lista de fatores    | ✅ OK         | Já correto                   |
+| Card de dica        | ✅ OK         | Já correto                   |
+| Botão "Entendi"     | ✅ OK         | Já implementado no base      |
 
 **Prioridade:** 🔴 P0 - Crítico  
 **Esforço Total:** 5-6 horas  
@@ -783,6 +826,7 @@ const styles = StyleSheet.create({
 ## 📦 DEPENDÊNCIAS E INSTALAÇÃO
 
 ### 1. Victory Native
+
 Todas as 3 telas precisam da biblioteca `victory-native`:
 
 ```bash
@@ -792,6 +836,7 @@ yarn add victory-native
 ```
 
 **Componentes necessários:**
+
 - `VictoryChart` - Container do gráfico
 - `VictoryArea` - Gráfico de área (Charts Intro, Education Graph)
 - `VictoryLine` - Gráfico de linha (Fluctuations)
@@ -799,8 +844,15 @@ yarn add victory-native
 - `VictoryScatter` - Pontos destacados
 
 ### 2. Importações Comuns
+
 ```typescript
-import { VictoryChart, VictoryArea, VictoryLine, VictoryAxis, VictoryScatter } from 'victory-native';
+import {
+  VictoryChart,
+  VictoryArea,
+  VictoryLine,
+  VictoryAxis,
+  VictoryScatter,
+} from 'victory-native';
 import { Dimensions } from 'react-native';
 import { useShotsyColors } from '@/hooks/useShotsyColors';
 import { useTheme } from '@/lib/theme-context';
@@ -811,14 +863,13 @@ import { useTheme } from '@/lib/theme-context';
 ## 🎯 PLANO DE IMPLEMENTAÇÃO
 
 ### Ordem Sugerida
+
 1. **Education Graph Screen** (mais crítico) - 6-8h
    - Usuário aprende conceito de níveis farmacológicos
    - Gráfico placeholder atual "não faz sentido" (palavras do usuário)
-   
 2. **Charts Intro Screen** (introdução) - 4-6h
    - Primeira impressão sobre gráficos
    - Define expectativas do usuário
-   
 3. **Fluctuations Education Screen** (refinamento) - 5-6h
    - Educação importante mas menos crítica
    - Impacto menor na experiência imediata
@@ -830,16 +881,19 @@ import { useTheme } from '@/lib/theme-context';
 ## 🚨 RISCOS E MITIGAÇÕES
 
 ### Risco 1: Victory Native não instalado
+
 **Probabilidade:** 🟡 Média  
 **Impacto:** 🔴 Alto (bloqueia toda implementação)  
 **Mitigação:** Instalar logo no início, testar renderização básica.
 
 ### Risco 2: Performance em gráficos
+
 **Probabilidade:** 🟢 Baixa  
 **Impacto:** 🟡 Médio  
 **Mitigação:** Usar dados estáticos (não animados) no onboarding.
 
 ### Risco 3: Dados farmacológicos incorretos
+
 **Probabilidade:** 🟡 Média  
 **Impacto:** 🟡 Médio (credibilidade científica)  
 **Mitigação:** Validar curva PK com literatura médica (FDA, bula).
@@ -851,6 +905,7 @@ import { useTheme } from '@/lib/theme-context';
 Antes de marcar como completo, verificar:
 
 ### Charts Intro Screen
+
 - [ ] Gráfico de área renderiza corretamente
 - [ ] Anotação "1.16mg" visível sobre o gráfico
 - [ ] Disclaimer FDA presente abaixo
@@ -859,6 +914,7 @@ Antes de marcar como completo, verificar:
 - [ ] Copy do título/subtítulo atualizado
 
 ### Education Graph Screen
+
 - [ ] Curva farmacológica realista (crescimento → pico → decaimento)
 - [ ] Eixos com valores numéricos (0-1.5mg, dias 0-7)
 - [ ] Ponto de pico destacado com label
@@ -867,6 +923,7 @@ Antes de marcar como completo, verificar:
 - [ ] Card de aviso 💡 intacto
 
 ### Fluctuations Education Screen
+
 - [ ] Gráfico de linha mostrando variações (zig-zag)
 - [ ] Área sombreada indicando "zona normal" (±2kg)
 - [ ] Emoji 📊 removido
@@ -874,6 +931,7 @@ Antes de marcar como completo, verificar:
 - [ ] Card de dica com borda lateral colorida
 
 ### Geral
+
 - [ ] `victory-native` instalado e funcionando
 - [ ] Temas (light/dark) funcionam corretamente
 - [ ] Performance aceitável (sem lag)
@@ -884,6 +942,7 @@ Antes de marcar como completo, verificar:
 ## 📸 SCREENSHOTS NECESSÁRIOS
 
 Para documentação final:
+
 1. **Charts Intro** - Antes (3 cards) vs Depois (gráfico)
 2. **Education Graph** - Antes (placeholder) vs Depois (curva PK)
 3. **Fluctuations** - Antes (retângulo) vs Depois (linha flutuante)
@@ -893,19 +952,22 @@ Para documentação final:
 ## ✅ CONCLUSÃO
 
 ### Resumo de Esforço
-| Tela | Esforço | Prioridade | Status |
-|------|---------|------------|--------|
-| Charts Intro | 4-6h | P0 | 📋 Documentado |
-| Education Graph | 6-8h | P0 | 📋 Documentado |
-| Fluctuations | 5-6h | P0 | 📋 Documentado |
-| **TOTAL** | **15-20h** | **P0** | **✅ Auditoria Completa** |
+
+| Tela            | Esforço    | Prioridade | Status                    |
+| --------------- | ---------- | ---------- | ------------------------- |
+| Charts Intro    | 4-6h       | P0         | 📋 Documentado            |
+| Education Graph | 6-8h       | P0         | 📋 Documentado            |
+| Fluctuations    | 5-6h       | P0         | 📋 Documentado            |
+| **TOTAL**       | **15-20h** | **P0**     | **✅ Auditoria Completa** |
 
 ### Próximos Passos
+
 1. ✅ Auditoria Dia 3-4 completa
 2. ⏭️ Próximo: **Dia 5** - Inputs de dados (Height, Current Weight, Starting Weight, Target Weight)
 3. 📦 Checkpoint Semana 1: Fim do Dia 5
 
 ### Impacto Esperado
+
 - 🎯 **UX:** Usuários verão gráficos reais, não placeholders
 - 🧠 **Educação:** Compreensão clara de farmacocinética
 - 📈 **Credibilidade:** Dados científicos visuais aumentam confiança
@@ -918,4 +980,3 @@ Para documentação final:
 ---
 
 **📌 NOTA IMPORTANTE:** Esta auditoria documenta APENAS os gaps visuais. A implementação será feita após aprovação do plano completo de P0.
-

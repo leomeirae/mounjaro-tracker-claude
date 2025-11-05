@@ -42,7 +42,7 @@ export const useWeights = () => {
       if (fetchError) throw fetchError;
 
       // Parse dates
-      const parsedData = (data || []).map(weight => ({
+      const parsedData = (data || []).map((weight) => ({
         ...weight,
         date: new Date(weight.date),
         created_at: new Date(weight.created_at),
@@ -65,12 +65,12 @@ export const useWeights = () => {
         throw new Error('User not found. Please wait for sync to complete.');
       }
 
-      const { error: insertError } = await supabase
-        .from('weights')
-        .insert([{
+      const { error: insertError } = await supabase.from('weights').insert([
+        {
           user_id: user.id,
           ...weightData,
-        }]);
+        },
+      ]);
 
       if (insertError) throw insertError;
       await fetchWeights();
@@ -85,10 +85,7 @@ export const useWeights = () => {
     try {
       setError(null);
 
-      const { error: updateError } = await supabase
-        .from('weights')
-        .update(updates)
-        .eq('id', id);
+      const { error: updateError } = await supabase.from('weights').update(updates).eq('id', id);
 
       if (updateError) throw updateError;
       await fetchWeights();
@@ -103,10 +100,7 @@ export const useWeights = () => {
     try {
       setError(null);
 
-      const { error: deleteError } = await supabase
-        .from('weights')
-        .delete()
-        .eq('id', id);
+      const { error: deleteError } = await supabase.from('weights').delete().eq('id', id);
 
       if (deleteError) throw deleteError;
       await fetchWeights();

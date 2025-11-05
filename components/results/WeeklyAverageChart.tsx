@@ -15,10 +15,7 @@ interface WeeklyAverageChartProps {
   periodFilter: 'week' | 'month' | '90days' | 'all';
 }
 
-export const WeeklyAverageChart: React.FC<WeeklyAverageChartProps> = ({
-  data,
-  periodFilter,
-}) => {
+export const WeeklyAverageChart: React.FC<WeeklyAverageChartProps> = ({ data, periodFilter }) => {
   const colors = useShotsyColors();
   const { currentAccent } = useTheme();
   const { width } = useWindowDimensions();
@@ -29,13 +26,13 @@ export const WeeklyAverageChart: React.FC<WeeklyAverageChartProps> = ({
     switch (periodFilter) {
       case 'week':
         const weekAgo = new Date(now.getTime() - 7 * 24 * 60 * 60 * 1000);
-        return data.filter(d => d.date >= weekAgo);
+        return data.filter((d) => d.date >= weekAgo);
       case 'month':
         const monthAgo = new Date(now.getTime() - 30 * 24 * 60 * 60 * 1000);
-        return data.filter(d => d.date >= monthAgo);
+        return data.filter((d) => d.date >= monthAgo);
       case '90days':
         const ninetyDaysAgo = new Date(now.getTime() - 90 * 24 * 60 * 60 * 1000);
-        return data.filter(d => d.date >= ninetyDaysAgo);
+        return data.filter((d) => d.date >= ninetyDaysAgo);
       default:
         return data;
     }
@@ -77,7 +74,8 @@ export const WeeklyAverageChart: React.FC<WeeklyAverageChartProps> = ({
       const currentWeek = weekMap.get(weekNumbers[i])!;
 
       const prevAvg = prevWeek.weights.reduce((a, b) => a + b, 0) / prevWeek.weights.length;
-      const currentAvg = currentWeek.weights.reduce((a, b) => a + b, 0) / currentWeek.weights.length;
+      const currentAvg =
+        currentWeek.weights.reduce((a, b) => a + b, 0) / currentWeek.weights.length;
 
       const loss = prevAvg - currentAvg;
 
@@ -105,7 +103,7 @@ export const WeeklyAverageChart: React.FC<WeeklyAverageChartProps> = ({
     );
   }
 
-  const losses = weeklyData.map(d => d.loss);
+  const losses = weeklyData.map((d) => d.loss);
   const labels = weeklyData.map((d, index) => {
     const weekNumber = index + 1;
     return `S${weekNumber}`;

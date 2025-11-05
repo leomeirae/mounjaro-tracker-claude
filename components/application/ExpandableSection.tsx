@@ -1,10 +1,6 @@
 import React, { useState } from 'react';
 import { View, Text, TouchableOpacity, StyleSheet, LayoutAnimation } from 'react-native';
-import Animated, {
-  useSharedValue,
-  useAnimatedStyle,
-  withTiming,
-} from 'react-native-reanimated';
+import Animated, { useSharedValue, useAnimatedStyle, withTiming } from 'react-native-reanimated';
 import { useShotsyColors } from '@/hooks/useShotsyColors';
 
 interface ExpandableSectionProps {
@@ -18,7 +14,7 @@ export function ExpandableSection({
   title,
   value,
   children,
-  defaultExpanded = false
+  defaultExpanded = false,
 }: ExpandableSectionProps) {
   const colors = useShotsyColors();
   const [expanded, setExpanded] = useState(defaultExpanded);
@@ -36,11 +32,7 @@ export function ExpandableSection({
 
   return (
     <View style={[styles.container, { backgroundColor: colors.card, borderColor: colors.border }]}>
-      <TouchableOpacity
-        style={styles.header}
-        onPress={toggle}
-        activeOpacity={0.7}
-      >
+      <TouchableOpacity style={styles.header} onPress={toggle} activeOpacity={0.7}>
         <View style={styles.headerContent}>
           <Text style={[styles.title, { color: colors.textSecondary }]}>{title}</Text>
           {value && !expanded && (
@@ -52,11 +44,7 @@ export function ExpandableSection({
         </Animated.Text>
       </TouchableOpacity>
 
-      {expanded && children && (
-        <View style={styles.content}>
-          {children}
-        </View>
-      )}
+      {expanded && children && <View style={styles.content}>{children}</View>}
     </View>
   );
 }

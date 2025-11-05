@@ -3,6 +3,7 @@
 ## O Que Foi Criado (40%)
 
 ### Database
+
 - ✅ `006_insights_system.sql`
   - user_insights (AI-generated insights)
   - detected_patterns (auto pattern detection)
@@ -10,6 +11,7 @@
   - calculate_health_score() function
 
 ### Code
+
 - ✅ Types: `lib/types/insights.ts`
 - ✅ Hooks: `useInsights`, `useHealthScore`
 - ✅ Components: `HealthScoreCard`, `InsightCard`

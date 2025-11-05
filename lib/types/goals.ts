@@ -110,7 +110,7 @@ export const calculateProgress = (current: number, target: number): number => {
 };
 
 export const getNextMilestone = (goal: PersonalGoal): Milestone | null => {
-  return goal.milestones.find(m => !m.achieved) || null;
+  return goal.milestones.find((m) => !m.achieved) || null;
 };
 
 export const getRemainingDays = (targetDate?: Date): number | null => {

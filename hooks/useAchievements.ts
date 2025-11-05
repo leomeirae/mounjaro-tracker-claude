@@ -1,5 +1,5 @@
-import { createLogger } from "@/lib/logger";
-const logger = createLogger("useAchievements");
+import { createLogger } from '@/lib/logger';
+const logger = createLogger('useAchievements');
 
 import { useState, useEffect } from 'react';
 import { supabase } from '@/lib/supabase';
@@ -127,14 +127,14 @@ export function useAchievements() {
     if (!user) return;
 
     // Verificar se já tem essa conquista
-    const exists = achievements.some(a => a.type === achievementType);
+    const exists = achievements.some((a) => a.type === achievementType);
     if (exists) {
       logger.debug('Achievement already unlocked', { achievementType });
       return;
     }
 
     // Buscar definição da conquista
-    const definition = ACHIEVEMENT_DEFINITIONS.find(a => a.type === achievementType);
+    const definition = ACHIEVEMENT_DEFINITIONS.find((a) => a.type === achievementType);
     if (!definition) {
       logger.error('Achievement definition not found:', achievementType);
       return;
@@ -167,7 +167,7 @@ export function useAchievements() {
 
       logger.info('Achievement unlocked', { data });
       await fetchAchievements();
-      
+
       // Aqui poderia adicionar uma notificação visual
       return data;
     } catch (err: any) {
@@ -183,7 +183,13 @@ export function useAchievements() {
     weightLost?: number;
     goalReached?: boolean;
   }) {
-    const { weightLogs = 0, medications = 0, applications = 0, weightLost = 0, goalReached = false } = params;
+    const {
+      weightLogs = 0,
+      medications = 0,
+      applications = 0,
+      weightLost = 0,
+      goalReached = false,
+    } = params;
 
     // Aplicações
     if (applications >= 1) await unlockAchievement('first_application');
@@ -217,5 +223,3 @@ export function useAchievements() {
     refetch: fetchAchievements,
   };
 }
-
-

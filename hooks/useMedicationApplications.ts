@@ -1,7 +1,11 @@
 import { useState, useEffect } from 'react';
 import { supabase } from '@/lib/supabase';
 import { useUser } from './useUser';
-import { MedicationApplication, InsertMedicationApplication, UpdateMedicationApplication } from '@/lib/types';
+import {
+  MedicationApplication,
+  InsertMedicationApplication,
+  UpdateMedicationApplication,
+} from '@/lib/types';
 import { createLogger } from '@/lib/logger';
 
 const logger = createLogger('useMedicationApplications');
@@ -46,8 +50,8 @@ export function useMedicationApplications() {
 
     const { data, error } = await supabase
       .from('medication_applications')
-      .insert({ 
-        ...application, 
+      .insert({
+        ...application,
         user_id: user.id,
         application_time: application.application_time || null,
         notes: application.notes || null,
@@ -74,10 +78,7 @@ export function useMedicationApplications() {
   }
 
   async function deleteApplication(id: string) {
-    const { error } = await supabase
-      .from('medication_applications')
-      .delete()
-      .eq('id', id);
+    const { error } = await supabase.from('medication_applications').delete().eq('id', id);
 
     if (error) throw error;
     await fetchApplications();
@@ -93,10 +94,3 @@ export function useMedicationApplications() {
     refetch: fetchApplications,
   };
 }
-
-
-
-
-
-
-

@@ -39,12 +39,7 @@ export const AccentColorSelector: React.FC = () => {
               onPress={() => setAccentColor(accent.id)}
               activeOpacity={0.7}
             >
-              <View
-                style={[
-                  styles.colorCircle,
-                  { backgroundColor: accent.color },
-                ]}
-              >
+              <View style={[styles.colorCircle, { backgroundColor: accent.color }]}>
                 {isSelected && (
                   <View style={styles.checkmark}>
                     <Text style={styles.checkmarkIcon}>✓</Text>

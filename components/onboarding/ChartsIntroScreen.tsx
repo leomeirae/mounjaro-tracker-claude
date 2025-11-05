@@ -70,18 +70,16 @@ export function ChartsIntroScreen({ onNext, onBack }: ChartsIntroScreenProps) {
               interpolation="natural"
             />
           </VictoryChart>
-          
-          <Text style={[styles.chartAnnotation, { color: colors.text }]}>
-            1.16mg
-          </Text>
+
+          <Text style={[styles.chartAnnotation, { color: colors.text }]}>1.16mg</Text>
           <Text style={[styles.chartTimestamp, { color: colors.textMuted }]}>
             28 de out. de 2025, 10
           </Text>
         </ShotsyCard>
 
         <Text style={[styles.disclaimer, { color: colors.textSecondary }]}>
-          Mounjaro Tracker usa resultados de ensaios clínicos publicados pela FDA 
-          para mapear os níveis estimados de medicação ao longo do tempo
+          Mounjaro Tracker usa resultados de ensaios clínicos publicados pela FDA para mapear os
+          níveis estimados de medicação ao longo do tempo
         </Text>
       </View>
     </OnboardingScreenBase>

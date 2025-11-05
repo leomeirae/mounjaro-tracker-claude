@@ -44,6 +44,7 @@
 ### 👔 Sou Executivo/Stakeholder
 
 **Comece aqui:**
+
 1. [Executive Summary](./planning/EXECUTIVE-SUMMARY.md) - Visão em 1 página
 2. [Product Vision](../../SHOTSY-THINK-DIFFERENT-ROADMAP.md) - O que estamos construindo
 3. [Business Metrics](./planning/EXECUTIVE-SUMMARY.md#métricas-de-sucesso) - Como medir sucesso
@@ -55,6 +56,7 @@
 ### 🎨 Sou Product Manager
 
 **Comece aqui:**
+
 1. [Executive Summary](./planning/EXECUTIVE-SUMMARY.md) - Visão geral
 2. [Roadmap Master](../../SHOTSY-THINK-DIFFERENT-ROADMAP.md) - 10 fases detalhadas
 3. [Phase Checklist](./planning/PHASE-IMPLEMENTATION-CHECKLIST.md) - O que fazer em cada fase
@@ -69,24 +71,21 @@
 **Onboarding path:**
 
 **Dia 1 - Setup (1-2 horas)**
+
 1. [Quick Start](./guides/QUICK-START.md) - Rodar app localmente
 2. [Architecture](./technical/ARCHITECTURE.md) - Entender estrutura
 3. [Glossary](./guides/GLOSSARY.md) - Aprender terminologia
 
-**Dia 2 - Deep Dive (2-3 horas)**
-4. [Tech Stack](./technical/ARCHITECTURE.md#technology-stack) - Stack completo
-5. [Code Standards](./guides/QUICK-START.md#git-workflow-resumo) - Padrões de código
-6. [Tech Decisions](./decisions/TECH-DECISIONS.md) - Por que cada escolha
+**Dia 2 - Deep Dive (2-3 horas)** 4. [Tech Stack](./technical/ARCHITECTURE.md#technology-stack) - Stack completo 5. [Code Standards](./guides/QUICK-START.md#git-workflow-resumo) - Padrões de código 6. [Tech Decisions](./decisions/TECH-DECISIONS.md) - Por que cada escolha
 
-**Dia 3+ - Contribuir**
-7. Pegar issue no GitHub
-8. [Implementation Guide](./guides/QUICK-START.md#estrutura-do-projeto-rápida) - Começar a codar
+**Dia 3+ - Contribuir** 7. Pegar issue no GitHub 8. [Implementation Guide](./guides/QUICK-START.md#estrutura-do-projeto-rápida) - Começar a codar
 
 ---
 
 ### 🎨 Sou Designer
 
 **Comece aqui:**
+
 1. [Product Vision](../../SHOTSY-THINK-DIFFERENT-ROADMAP.md#-princípios-de-design-think-different) - Princípios de design
 2. [Roadmap](../../SHOTSY-THINK-DIFFERENT-ROADMAP.md) - Features por fase
 3. [Executive Summary](./planning/EXECUTIVE-SUMMARY.md) - Contexto de negócio
@@ -98,6 +97,7 @@
 ### 🔬 Sou QA/Tester
 
 **Comece aqui:**
+
 1. [Quick Start](./guides/QUICK-START.md) - Setup ambiente
 2. [Phase Checklist](./planning/PHASE-IMPLEMENTATION-CHECKLIST.md) - O que testar em cada fase
 3. [Architecture](./technical/ARCHITECTURE.md#testing-strategy) - Estratégia de testes
@@ -121,6 +121,7 @@ graph LR
 ```
 
 **Documentos:**
+
 1. [Roadmap Master](../../SHOTSY-THINK-DIFFERENT-ROADMAP.md) - Spec da feature
 2. [Phase Checklist](./planning/PHASE-IMPLEMENTATION-CHECKLIST.md) - Checklist de implementação
 3. [Architecture](./technical/ARCHITECTURE.md) - Padrões arquiteturais
@@ -131,6 +132,7 @@ graph LR
 ### 🐛 Quero Debugar um Bug
 
 **Documentos:**
+
 1. [Architecture](./technical/ARCHITECTURE.md#error-handling--resilience) - Error handling patterns
 2. [Glossary](./guides/GLOSSARY.md) - Entender terminologia
 3. [Quick Start](./guides/QUICK-START.md#troubleshooting-comum) - Troubleshooting comum
@@ -140,6 +142,7 @@ graph LR
 ### 📊 Quero Entender Métricas
 
 **Documentos:**
+
 1. [Executive Summary](./planning/EXECUTIVE-SUMMARY.md#métricas-de-sucesso) - North Star Metrics
 2. [Roadmap](../../SHOTSY-THINK-DIFFERENT-ROADMAP.md#-métricas-de-sucesso-think-different) - Métricas por categoria
 3. [Architecture](./technical/ARCHITECTURE.md#monitoring--observability) - Setup de monitoring
@@ -149,6 +152,7 @@ graph LR
 ### 🔐 Quero Entender Segurança/Privacy
 
 **Documentos:**
+
 1. [Architecture](./technical/ARCHITECTURE.md#security-architecture) - Arquitetura de segurança
 2. [Tech Decisions](./decisions/TECH-DECISIONS.md) - Escolhas de security
 3. [Roadmap](../../SHOTSY-THINK-DIFFERENT-ROADMAP.md) - Privacy em cada fase
@@ -158,6 +162,7 @@ graph LR
 ### 🎯 Quero Priorizar Features
 
 **Documentos:**
+
 1. [Roadmap](../../SHOTSY-THINK-DIFFERENT-ROADMAP.md#-priorização-sugerida) - Priorização sugerida
 2. [Executive Summary](./planning/EXECUTIVE-SUMMARY.md#roadmap-em-3-atos) - Roadmap em atos
 3. [Phase Checklist](./planning/PHASE-IMPLEMENTATION-CHECKLIST.md) - Dependências entre fases
@@ -168,60 +173,70 @@ graph LR
 
 ### 📄 Documentos Estratégicos
 
-| Documento | Audiência | Tempo Leitura | Última Atualização |
-|-----------|-----------|---------------|-------------------|
-| [Executive Summary](./planning/EXECUTIVE-SUMMARY.md) | Executivos, PMs | 10 min | 2025-11-01 |
-| [Roadmap Master](../../SHOTSY-THINK-DIFFERENT-ROADMAP.md) | Todos | 60 min | 2025-11-01 |
-| [Business Metrics](./planning/EXECUTIVE-SUMMARY.md#métricas-de-sucesso) | PMs, Executivos | 5 min | 2025-11-01 |
+| Documento                                                               | Audiência       | Tempo Leitura | Última Atualização |
+| ----------------------------------------------------------------------- | --------------- | ------------- | ------------------ |
+| [Executive Summary](./planning/EXECUTIVE-SUMMARY.md)                    | Executivos, PMs | 10 min        | 2025-11-01         |
+| [Roadmap Master](../../SHOTSY-THINK-DIFFERENT-ROADMAP.md)               | Todos           | 60 min        | 2025-11-01         |
+| [Business Metrics](./planning/EXECUTIVE-SUMMARY.md#métricas-de-sucesso) | PMs, Executivos | 5 min         | 2025-11-01         |
 
 ### 🔧 Documentos Técnicos
 
-| Documento | Audiência | Tempo Leitura | Última Atualização |
-|-----------|-----------|---------------|-------------------|
-| [Architecture](./technical/ARCHITECTURE.md) | Desenvolvedores | 45 min | 2025-11-01 |
-| [Tech Stack](./technical/ARCHITECTURE.md#technology-stack) | Desenvolvedores | 20 min | 2025-11-01 |
-| [Tech Decisions](./decisions/TECH-DECISIONS.md) | Tech Leads, Devs | 30 min | 2025-11-01 |
+| Documento                                                  | Audiência        | Tempo Leitura | Última Atualização |
+| ---------------------------------------------------------- | ---------------- | ------------- | ------------------ |
+| [Architecture](./technical/ARCHITECTURE.md)                | Desenvolvedores  | 45 min        | 2025-11-01         |
+| [Tech Stack](./technical/ARCHITECTURE.md#technology-stack) | Desenvolvedores  | 20 min        | 2025-11-01         |
+| [Tech Decisions](./decisions/TECH-DECISIONS.md)            | Tech Leads, Devs | 30 min        | 2025-11-01         |
 
 ### 📖 Guias Práticos
 
-| Documento | Audiência | Tempo Leitura | Última Atualização |
-|-----------|-----------|---------------|-------------------|
-| [Quick Start](./guides/QUICK-START.md) | Desenvolvedores | 15 min | 2025-11-01 |
-| [Glossary](./guides/GLOSSARY.md) | Todos | Referência | 2025-11-01 |
-| [Phase Checklist](./planning/PHASE-IMPLEMENTATION-CHECKLIST.md) | Devs, PMs | Referência | 2025-11-01 |
+| Documento                                                       | Audiência       | Tempo Leitura | Última Atualização |
+| --------------------------------------------------------------- | --------------- | ------------- | ------------------ |
+| [Quick Start](./guides/QUICK-START.md)                          | Desenvolvedores | 15 min        | 2025-11-01         |
+| [Glossary](./guides/GLOSSARY.md)                                | Todos           | Referência    | 2025-11-01         |
+| [Phase Checklist](./planning/PHASE-IMPLEMENTATION-CHECKLIST.md) | Devs, PMs       | Referência    | 2025-11-01         |
 
 ---
 
 ## FAQ - Perguntas Frequentes
 
 ### "Qual tecnologia usamos para X?"
+
 → [Tech Stack](./technical/ARCHITECTURE.md#technology-stack)
 
 ### "Por que escolhemos tecnologia Y?"
+
 → [Tech Decisions Log](./decisions/TECH-DECISIONS.md)
 
 ### "Como rodo o projeto localmente?"
+
 → [Quick Start Guide](./guides/QUICK-START.md)
 
 ### "O que significa termo Z?"
+
 → [Glossary](./guides/GLOSSARY.md)
 
 ### "Qual a prioridade das features?"
+
 → [Roadmap - Priorização](../../SHOTSY-THINK-DIFFERENT-ROADMAP.md#-priorização-sugerida)
 
 ### "Como medir sucesso do produto?"
+
 → [Business Metrics](./planning/EXECUTIVE-SUMMARY.md#métricas-de-sucesso)
 
 ### "Quais são os padrões de código?"
+
 → [Quick Start - Git Workflow](./guides/QUICK-START.md#git-workflow-resumo)
 
 ### "Como funciona autenticação?"
+
 → [Architecture - Security](./technical/ARCHITECTURE.md#security-architecture)
 
 ### "Como escalar para 1M usuários?"
+
 → [Architecture - Scalability](./technical/ARCHITECTURE.md#scalability-architecture)
 
 ### "Quando implementar feature X?"
+
 → [Phase Checklist](./planning/PHASE-IMPLEMENTATION-CHECKLIST.md)
 
 ---
@@ -319,6 +334,7 @@ graph LR
 ---
 
 **Links Relacionados:**
+
 - [Doc A](./path/to/doc-a.md)
 - [Doc B](./path/to/doc-b.md)
 
@@ -357,15 +373,15 @@ graph LR
 
 ### Responsabilidades
 
-| Documento | Responsável | Frequência de Review |
-|-----------|-------------|---------------------|
-| Executive Summary | Product Lead | Mensal |
-| Roadmap | Product Lead | Bi-semanal |
-| Architecture | Tech Lead | Mensal |
-| Tech Decisions | Tech Lead | Quando houver decisão |
-| Phase Checklist | PM + Tech Lead | Semanal |
-| Quick Start | Tech Lead | Mensal |
-| Glossary | Todos | Quando adicionar termo |
+| Documento         | Responsável    | Frequência de Review   |
+| ----------------- | -------------- | ---------------------- |
+| Executive Summary | Product Lead   | Mensal                 |
+| Roadmap           | Product Lead   | Bi-semanal             |
+| Architecture      | Tech Lead      | Mensal                 |
+| Tech Decisions    | Tech Lead      | Quando houver decisão  |
+| Phase Checklist   | PM + Tech Lead | Semanal                |
+| Quick Start       | Tech Lead      | Mensal                 |
+| Glossary          | Todos          | Quando adicionar termo |
 
 ### Ciclo de Atualização
 
@@ -391,6 +407,7 @@ Quando necessário:
 ## Contato
 
 **Dúvidas sobre documentação:**
+
 - Slack: #shotsy-docs
 - Email: docs@shotsy.app
 - GitHub: Abra issue com label `documentation`

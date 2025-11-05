@@ -20,14 +20,22 @@ if (!SUPABASE_URL || !SUPABASE_ANON_KEY) {
 }
 
 // Read the migration file
-const migrationPath = path.join(__dirname, '..', 'supabase', 'migrations', '001_initial_schema.sql');
+const migrationPath = path.join(
+  __dirname,
+  '..',
+  'supabase',
+  'migrations',
+  '001_initial_schema.sql'
+);
 const sqlContent = fs.readFileSync(migrationPath, 'utf8');
 
 console.log('🚀 Applying SQL migration to Supabase...\n');
 console.log('📄 Migration file:', migrationPath);
 console.log('🔗 Supabase URL:', SUPABASE_URL);
 console.log('\n⚠️  IMPORTANT: This script uses the anon key which has limited permissions.');
-console.log('⚠️  For migrations, you need to use the service_role key or apply via Supabase Dashboard.\n');
+console.log(
+  '⚠️  For migrations, you need to use the service_role key or apply via Supabase Dashboard.\n'
+);
 
 console.log('📋 SQL Migration Preview:');
 console.log('─'.repeat(80));
@@ -40,7 +48,9 @@ console.log('   1. Go to: https://iokunvykvndmczfzdbho.supabase.co');
 console.log('   2. Click "SQL Editor" in the left sidebar');
 console.log('   3. Click "+ New Query"');
 console.log('   4. Copy the entire content from:');
-console.log('      /Users/user/Desktop/mounjaro-tracker/supabase/migrations/001_initial_schema.sql');
+console.log(
+  '      /Users/user/Desktop/mounjaro-tracker/supabase/migrations/001_initial_schema.sql'
+);
 console.log('   5. Paste into the SQL Editor');
 console.log('   6. Click "Run" to execute');
 

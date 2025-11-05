@@ -75,10 +75,7 @@ const ENABLE_ANALYTICS = true; // Mudar para false em dev se necessário
 
 const analyticsLogger = logger.createChild('Analytics');
 
-export function trackEvent(
-  event: AnalyticsEvent,
-  properties?: AnalyticsProperties
-): void {
+export function trackEvent(event: AnalyticsEvent, properties?: AnalyticsProperties): void {
   if (!ENABLE_ANALYTICS) {
     return;
   }
@@ -119,4 +116,3 @@ export function useAnalytics() {
     trackScreen,
   };
 }
-

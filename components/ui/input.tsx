@@ -14,12 +14,12 @@ export function Input({ label, error, ...props }: InputProps) {
       <Text style={[styles.label, { color: colors.text }]}>{label}</Text>
       <TextInput
         style={[
-          styles.input, 
-          { 
+          styles.input,
+          {
             backgroundColor: colors.card,
             color: colors.text,
             borderColor: error ? colors.error : colors.border,
-          }
+          },
         ]}
         placeholderTextColor={colors.textMuted}
         {...props}

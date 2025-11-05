@@ -60,9 +60,7 @@ export function calculateEstimatedLevels(
   }
 
   // Sort applications by date
-  const sortedApplications = [...applications].sort(
-    (a, b) => a.date.getTime() - b.date.getTime()
-  );
+  const sortedApplications = [...applications].sort((a, b) => a.date.getTime() - b.date.getTime());
 
   // Set default date range
   const start = startDate || sortedApplications[0].date;
@@ -85,7 +83,7 @@ export function calculateEstimatedLevels(
 
     results.push({
       date: new Date(currentDate),
-      level: totalLevel
+      level: totalLevel,
     });
 
     // Move to next interval
@@ -143,9 +141,7 @@ export function calculateNextShotDate(
   }
 
   // Sort applications by date to find the last one
-  const sortedApplications = [...applications].sort(
-    (a, b) => b.date.getTime() - a.date.getTime()
-  );
+  const sortedApplications = [...applications].sort((a, b) => b.date.getTime() - a.date.getTime());
 
   const lastApplication = sortedApplications[0];
 
@@ -161,7 +157,7 @@ export function calculateNextShotDate(
 
   // Solve: minimumLevel = lastDose * (0.5)^(t/120)
   // t = 120 * log(minimumLevel/lastDose) / log(0.5)
-  const hoursToMinimum = HALF_LIFE_HOURS * Math.log(minimumLevel / lastDose) / Math.log(0.5);
+  const hoursToMinimum = (HALF_LIFE_HOURS * Math.log(minimumLevel / lastDose)) / Math.log(0.5);
   const minimumLevelDate = new Date(
     lastApplication.date.getTime() + hoursToMinimum * 60 * 60 * 1000
   );
@@ -188,9 +184,7 @@ export function calculatePercentageRemaining(
   const currentLevel = getCurrentEstimatedLevel(applications, currentDate);
 
   // Sort to find last application
-  const sortedApplications = [...applications].sort(
-    (a, b) => b.date.getTime() - a.date.getTime()
-  );
+  const sortedApplications = [...applications].sort((a, b) => b.date.getTime() - a.date.getTime());
 
   const lastDose = sortedApplications[0].dose;
 
@@ -228,6 +222,6 @@ export function getTimeUntilNextShot(
   return {
     days,
     hours,
-    totalHours
+    totalHours,
   };
 }

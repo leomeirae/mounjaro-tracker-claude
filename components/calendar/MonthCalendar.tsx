@@ -81,13 +81,10 @@ export const MonthCalendar: React.FC<MonthCalendarProps> = ({
   };
 
   const hasEventOnDate = (date: Date, type: 'shot' | 'weight'): boolean => {
-    return events.some(event => {
+    return events.some((event) => {
       const eventDate = new Date(event.date);
       eventDate.setHours(0, 0, 0, 0);
-      return (
-        eventDate.getTime() === date.getTime() &&
-        event.type === type
-      );
+      return eventDate.getTime() === date.getTime() && event.type === type;
     });
   };
 
@@ -142,14 +139,10 @@ export const MonthCalendar: React.FC<MonthCalendarProps> = ({
               {/* Marcadores de eventos */}
               <View style={styles.eventMarkers}>
                 {day.hasShot && (
-                  <View
-                    style={[styles.eventDot, { backgroundColor: colors.primary }]}
-                  />
+                  <View style={[styles.eventDot, { backgroundColor: colors.primary }]} />
                 )}
                 {day.hasWeight && (
-                  <View
-                    style={[styles.eventDot, { backgroundColor: colors.textSecondary }]}
-                  />
+                  <View style={[styles.eventDot, { backgroundColor: colors.textSecondary }]} />
                 )}
               </View>
             </TouchableOpacity>

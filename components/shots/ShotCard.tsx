@@ -44,26 +44,22 @@ export const ShotCard: React.FC<ShotCardProps> = ({ shot, onDelete }) => {
 
   const handleDelete = () => {
     Haptics.impactAsync(Haptics.ImpactFeedbackStyle.Medium);
-    Alert.alert(
-      'Deletar Injeção',
-      'Tem certeza que deseja deletar esta injeção?',
-      [
-        {
-          text: 'Cancelar',
-          style: 'cancel',
-          onPress: () => swipeableRef.current?.close()
+    Alert.alert('Deletar Injeção', 'Tem certeza que deseja deletar esta injeção?', [
+      {
+        text: 'Cancelar',
+        style: 'cancel',
+        onPress: () => swipeableRef.current?.close(),
+      },
+      {
+        text: 'Deletar',
+        style: 'destructive',
+        onPress: () => {
+          Haptics.notificationAsync(Haptics.NotificationFeedbackType.Success);
+          onDelete(shot.id);
+          swipeableRef.current?.close();
         },
-        {
-          text: 'Deletar',
-          style: 'destructive',
-          onPress: () => {
-            Haptics.notificationAsync(Haptics.NotificationFeedbackType.Success);
-            onDelete(shot.id);
-            swipeableRef.current?.close();
-          },
-        },
-      ]
-    );
+      },
+    ]);
   };
 
   const renderLeftActions = (
@@ -80,7 +76,7 @@ export const ShotCard: React.FC<ShotCardProps> = ({ shot, onDelete }) => {
       <View style={styles.actionsContainer}>
         <Animated.View style={[{ transform: [{ scale }] }]}>
           <TouchableOpacity
-            style={[styles.actionButton, styles.editButton, { backgroundColor: '#10B981' }]}  // Verde padrão para Edit (convenção UI)
+            style={[styles.actionButton, styles.editButton, { backgroundColor: '#10B981' }]} // Verde padrão para Edit (convenção UI)
             onPress={handleEdit}
           >
             <AppIcon name="pencil" size="md" color="#FFFFFF" />
@@ -127,24 +123,17 @@ export const ShotCard: React.FC<ShotCardProps> = ({ shot, onDelete }) => {
       leftThreshold={40}
       rightThreshold={40}
     >
-      <TouchableOpacity
-        onPress={handleEdit}
-        activeOpacity={0.7}
-      >
+      <TouchableOpacity onPress={handleEdit} activeOpacity={0.7}>
         <ShotsyCard style={styles.card}>
           <View style={styles.header}>
             <View>
-              <Text style={[styles.date, { color: colors.text }]}>
-                {formatDate(shot.date)}
-              </Text>
+              <Text style={[styles.date, { color: colors.text }]}>{formatDate(shot.date)}</Text>
               <Text style={[styles.time, { color: colors.textSecondary }]}>
                 {formatTime(shot.date)}
               </Text>
             </View>
             <View style={[styles.dosageBadge, { backgroundColor: colors.primary + '20' }]}>
-              <Text style={[styles.dosageText, { color: colors.primary }]}>
-                {shot.dosage}mg
-              </Text>
+              <Text style={[styles.dosageText, { color: colors.primary }]}>{shot.dosage}mg</Text>
             </View>
           </View>
 
@@ -177,10 +166,7 @@ export const ShotCard: React.FC<ShotCardProps> = ({ shot, onDelete }) => {
             )}
 
             {shot.notes && (
-              <Text
-                style={[styles.notes, { color: colors.textSecondary }]}
-                numberOfLines={1}
-              >
+              <Text style={[styles.notes, { color: colors.textSecondary }]} numberOfLines={1}>
                 {shot.notes}
               </Text>
             )}

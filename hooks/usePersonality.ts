@@ -1,7 +1,12 @@
 import { useState, useEffect, useCallback } from 'react';
 import { useUser } from '@clerk/clerk-expo';
 import { supabase } from '@/lib/supabase';
-import { AppPersonality, PersonalityUpdate, getDefaultPersonality, personalizeMessage } from '@/lib/types/communication';
+import {
+  AppPersonality,
+  PersonalityUpdate,
+  getDefaultPersonality,
+  personalizeMessage,
+} from '@/lib/types/communication';
 import { createLogger } from '@/lib/logger';
 
 const logger = createLogger('usePersonality');
@@ -122,17 +127,20 @@ export const usePersonality = () => {
   };
 
   // Helper to get personalized message based on user preferences
-  const getPersonalizedMessage = useCallback((
-    baseMessage: string,
-    context?: {
-      isEncouraging?: boolean;
-      isImportant?: boolean;
-      hasData?: boolean;
-    }
-  ): string => {
-    if (!personality) return baseMessage;
-    return personalizeMessage(baseMessage, personality, context);
-  }, [personality]);
+  const getPersonalizedMessage = useCallback(
+    (
+      baseMessage: string,
+      context?: {
+        isEncouraging?: boolean;
+        isImportant?: boolean;
+        hasData?: boolean;
+      }
+    ): string => {
+      if (!personality) return baseMessage;
+      return personalizeMessage(baseMessage, personality, context);
+    },
+    [personality]
+  );
 
   // Quick setters for common updates
   const setStyle = (style: AppPersonality['style']) => {
@@ -147,7 +155,9 @@ export const usePersonality = () => {
     return updatePersonality({ notification_tone });
   };
 
-  const setNotificationFrequency = (notification_frequency: AppPersonality['notification_frequency']) => {
+  const setNotificationFrequency = (
+    notification_frequency: AppPersonality['notification_frequency']
+  ) => {
     return updatePersonality({ notification_frequency });
   };
 

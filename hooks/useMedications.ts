@@ -59,7 +59,7 @@ export function useMedications() {
       logger.error('Error adding medication:', error);
       throw error;
     }
-    
+
     await fetchMedications();
     return data;
   }
@@ -78,10 +78,7 @@ export function useMedications() {
   }
 
   async function deleteMedication(id: string) {
-    const { error } = await supabase
-      .from('medications')
-      .delete()
-      .eq('id', id);
+    const { error } = await supabase.from('medications').delete().eq('id', id);
 
     if (error) throw error;
     await fetchMedications();

@@ -75,63 +75,43 @@ async function commitBootstrapConfig(config, { port, pathname, scope }) {
 
   if (!response.ok) {
     const text = await response.text();
-    throw new Error(`Failed to commit TestSprite config: ${response.status} ${response.statusText} - ${text}`);
+    throw new Error(
+      `Failed to commit TestSprite config: ${response.status} ${response.statusText} - ${text}`
+    );
   }
 }
 
 function createCodeSummaryFile() {
   ensureDirSync(CONFIG_DIR);
   const summary = {
-    tech_stack: [
-      'TypeScript',
-      'React Native (Expo)',
-      'Expo Router',
-      'Supabase',
-      'Clerk',
-    ],
+    tech_stack: ['TypeScript', 'React Native (Expo)', 'Expo Router', 'Supabase', 'Clerk'],
     features: [
       {
         name: 'Welcome & Auth Flow',
-        description: 'Expo Router screens for onboarding, welcome, and authentication integrated with Clerk.',
-        files: [
-          'app/index.tsx',
-          'app/(auth)/sign-in.tsx',
-          'hooks/useOnboarding.ts',
-        ],
+        description:
+          'Expo Router screens for onboarding, welcome, and authentication integrated with Clerk.',
+        files: ['app/index.tsx', 'app/(auth)/sign-in.tsx', 'hooks/useOnboarding.ts'],
       },
       {
         name: 'Medication Tracking',
-        description: 'Hooks and components assisting users in logging medications, weights, and side effects.',
-        files: [
-          'hooks/useMedications.ts',
-          'hooks/useSideEffects.ts',
-          'hooks/useWeightLogs.ts',
-        ],
+        description:
+          'Hooks and components assisting users in logging medications, weights, and side effects.',
+        files: ['hooks/useMedications.ts', 'hooks/useSideEffects.ts', 'hooks/useWeightLogs.ts'],
       },
       {
         name: 'Community & Insights',
         description: 'Community stats, insights, and achievements surfaced throughout the app.',
-        files: [
-          'hooks/useCommunityStats.ts',
-          'hooks/useInsights.ts',
-          'hooks/useAchievements.ts',
-        ],
+        files: ['hooks/useCommunityStats.ts', 'hooks/useInsights.ts', 'hooks/useAchievements.ts'],
       },
       {
         name: 'PDF & Notifications',
         description: 'Utility layers wrapping document generation and push notifications.',
-        files: [
-          'lib/pdf-generator.ts',
-          'lib/notifications.ts',
-        ],
+        files: ['lib/pdf-generator.ts', 'lib/notifications.ts'],
       },
       {
         name: 'Supabase Persistence',
         description: 'Data access and synchronization with Supabase services.',
-        files: [
-          'lib/supabase.ts',
-          'hooks/useUserSync.ts',
-        ],
+        files: ['lib/supabase.ts', 'hooks/useUserSync.ts'],
       },
     ],
   };
@@ -163,18 +143,14 @@ function parseToolResponse(result) {
 async function run() {
   ensureDirSync(CONFIG_DIR);
 
-  const child = spawn(
-    'npx',
-    ['@testsprite/testsprite-mcp@latest', 'server'],
-    {
-      cwd: PROJECT_PATH,
-      env: {
-        ...process.env,
-        API_KEY,
-      },
-      stdio: ['pipe', 'pipe', 'inherit'],
+  const child = spawn('npx', ['@testsprite/testsprite-mcp@latest', 'server'], {
+    cwd: PROJECT_PATH,
+    env: {
+      ...process.env,
+      API_KEY,
     },
-  );
+    stdio: ['pipe', 'pipe', 'inherit'],
+  });
 
   let stdoutBuffer = '';
   let idCounter = 1;
@@ -268,7 +244,10 @@ async function run() {
   notify('notifications/initialized', {});
 
   const toolList = await request('tools/list');
-  console.log('Available TestSprite tools:', toolList.result?.tools?.map((tool) => tool.name).join(', '));
+  console.log(
+    'Available TestSprite tools:',
+    toolList.result?.tools?.map((tool) => tool.name).join(', ')
+  );
 
   // ---- Bootstrap tests (starts local server & waits for config commit) ----
   console.log('Bootstrapping TestSprite configuration...');

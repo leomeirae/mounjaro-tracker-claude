@@ -26,7 +26,10 @@ export function HealthDisclaimerScreen({ onNext, onBack }: HealthDisclaimerScree
       nextButtonText="Prosseguir"
     >
       <View style={styles.content}>
-        <ShotsyCard variant="elevated" style={[styles.disclaimerCard, { borderLeftColor: currentAccent }]}>
+        <ShotsyCard
+          variant="elevated"
+          style={[styles.disclaimerCard, { borderLeftColor: currentAccent }]}
+        >
           <Text style={styles.emoji}>⚠️</Text>
 
           <Text style={[styles.disclaimerTitle, { color: colors.text }]}>
@@ -34,9 +37,9 @@ export function HealthDisclaimerScreen({ onNext, onBack }: HealthDisclaimerScree
           </Text>
 
           <Text style={[styles.disclaimerText, { color: colors.textSecondary }]}>
-            O Shotsy não substitui orientação médica profissional, diagnóstico ou tratamento.
-            Sempre consulte seu médico ou profissional de saúde qualificado sobre quaisquer
-            dúvidas relacionadas a condições médicas ou tratamentos.
+            O Shotsy não substitui orientação médica profissional, diagnóstico ou tratamento. Sempre
+            consulte seu médico ou profissional de saúde qualificado sobre quaisquer dúvidas
+            relacionadas a condições médicas ou tratamentos.
           </Text>
 
           <View style={styles.bulletPoints}>
@@ -61,10 +64,7 @@ export function HealthDisclaimerScreen({ onNext, onBack }: HealthDisclaimerScree
           </View>
         </ShotsyCard>
 
-        <TouchableOpacity
-          style={styles.checkbox}
-          onPress={() => setAccepted(!accepted)}
-        >
+        <TouchableOpacity style={styles.checkbox} onPress={() => setAccepted(!accepted)}>
           <View
             style={[
               styles.checkboxBox,

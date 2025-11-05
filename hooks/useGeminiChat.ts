@@ -31,7 +31,7 @@ export const useGeminiChat = () => {
       timestamp: new Date(),
     };
 
-    setMessages(prev => [...prev, userMsg]);
+    setMessages((prev) => [...prev, userMsg]);
 
     try {
       // Get AI response
@@ -46,8 +46,8 @@ export const useGeminiChat = () => {
         analysis,
       };
 
-      setMessages(prev => [...prev, assistantMsg]);
-      
+      setMessages((prev) => [...prev, assistantMsg]);
+
       return assistantMsg;
     } catch (err: any) {
       const errorMessage = err.message || 'Erro ao processar mensagem';
@@ -61,7 +61,7 @@ export const useGeminiChat = () => {
         timestamp: new Date(),
       };
 
-      setMessages(prev => [...prev, errorMsg]);
+      setMessages((prev) => [...prev, errorMsg]);
     } finally {
       setLoading(false);
     }
@@ -73,9 +73,7 @@ export const useGeminiChat = () => {
   }, []);
 
   const getLastAssistantMessage = useCallback((): ChatMessage | undefined => {
-    return messages
-      .filter(msg => msg.role === 'assistant')
-      .pop();
+    return messages.filter((msg) => msg.role === 'assistant').pop();
   }, [messages]);
 
   return {
@@ -88,4 +86,3 @@ export const useGeminiChat = () => {
     isConfigured: geminiService.isConfigured(),
   };
 };
-

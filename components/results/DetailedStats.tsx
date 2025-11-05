@@ -17,9 +17,7 @@ const StatItem: React.FC<StatItemProps> = ({ label, value, subtitle }) => {
       <Text style={[styles.statLabel, { color: colors.textSecondary }]}>{label}</Text>
       <Text style={[styles.statValue, { color: colors.text }]}>{value}</Text>
       {subtitle && (
-        <Text style={[styles.statSubtitle, { color: colors.textSecondary }]}>
-          {subtitle}
-        </Text>
+        <Text style={[styles.statSubtitle, { color: colors.textSecondary }]}>{subtitle}</Text>
       )}
     </View>
   );
@@ -62,10 +60,7 @@ export const DetailedStats: React.FC<DetailedStatsProps> = ({
       <Text style={[styles.title, { color: colors.text }]}>Estatísticas Detalhadas</Text>
 
       <View style={styles.grid}>
-        <StatItem
-          label="Média de Perda Semanal"
-          value={`-${avgWeeklyLoss.toFixed(1)} kg/sem`}
-        />
+        <StatItem label="Média de Perda Semanal" value={`-${avgWeeklyLoss.toFixed(1)} kg/sem`} />
         <StatItem
           label="Maior Perda Semanal"
           value={`-${maxWeeklyLoss.toFixed(1)} kg`}
@@ -76,27 +71,16 @@ export const DetailedStats: React.FC<DetailedStatsProps> = ({
           value={`-${minWeeklyLoss.toFixed(1)} kg`}
           subtitle={formatDate(minWeeklyLossDate)}
         />
-        <StatItem
-          label="Semanas no Tratamento"
-          value={`${weeksInTreatment} semanas`}
-        />
-        <StatItem
-          label="Total de Injeções"
-          value={`${totalShots} injeções`}
-        />
-        <StatItem
-          label="Dose Atual"
-          value={`${currentDose} mg`}
-        />
+        <StatItem label="Semanas no Tratamento" value={`${weeksInTreatment} semanas`} />
+        <StatItem label="Total de Injeções" value={`${totalShots} injeções`} />
+        <StatItem label="Dose Atual" value={`${currentDose} mg`} />
       </View>
 
       <View style={[styles.nextTitration, { backgroundColor: colors.background }]}>
         <Text style={[styles.nextTitrationLabel, { color: colors.textSecondary }]}>
           Próxima Titulação
         </Text>
-        <Text style={[styles.nextTitrationValue, { color: colors.primary }]}>
-          {nextTitration}
-        </Text>
+        <Text style={[styles.nextTitrationValue, { color: colors.primary }]}>{nextTitration}</Text>
       </View>
     </ShotsyCard>
   );

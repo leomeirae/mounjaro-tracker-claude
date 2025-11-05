@@ -59,7 +59,7 @@ export function useSideEffects() {
       logger.error('Error adding side effect:', error);
       throw error;
     }
-    
+
     await fetchSideEffects();
     return data;
   }
@@ -78,10 +78,7 @@ export function useSideEffects() {
   }
 
   async function deleteSideEffect(id: string) {
-    const { error } = await supabase
-      .from('side_effects')
-      .delete()
-      .eq('id', id);
+    const { error } = await supabase.from('side_effects').delete().eq('id', id);
 
     if (error) throw error;
     await fetchSideEffects();
@@ -97,5 +94,3 @@ export function useSideEffects() {
     refetch: fetchSideEffects,
   };
 }
-
-

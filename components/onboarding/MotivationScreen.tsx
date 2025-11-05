@@ -4,7 +4,13 @@ import { OnboardingScreenBase } from './OnboardingScreenBase';
 import { useShotsyColors } from '@/hooks/useShotsyColors';
 import { useTheme } from '@/lib/theme-context';
 import {
-  AppIcon, HeartIcon, WeightIcon, InjectionsIcon, SparkleIcon, StethoscopeIcon, CheckCircleIcon
+  AppIcon,
+  HeartIcon,
+  WeightIcon,
+  InjectionsIcon,
+  SparkleIcon,
+  StethoscopeIcon,
+  CheckCircleIcon,
 } from '@/components/ui/icons';
 
 interface MotivationScreenProps {
@@ -13,11 +19,31 @@ interface MotivationScreenProps {
 }
 
 const motivations = [
-  { id: 'health', label: 'Saúde geral', icon: 'heart', description: 'Melhorar minha saúde como um todo' },
+  {
+    id: 'health',
+    label: 'Saúde geral',
+    icon: 'heart',
+    description: 'Melhorar minha saúde como um todo',
+  },
   { id: 'weight', label: 'Perder peso', icon: 'scales', description: 'Alcançar meu peso ideal' },
-  { id: 'diabetes', label: 'Controlar diabetes', icon: 'syringe', description: 'Gerenciar melhor meu diabetes tipo 2' },
-  { id: 'quality', label: 'Qualidade de vida', icon: 'sparkle', description: 'Ter mais energia e disposição' },
-  { id: 'medical', label: 'Recomendação médica', icon: 'stethoscope', description: 'Seguindo orientação do meu médico' },
+  {
+    id: 'diabetes',
+    label: 'Controlar diabetes',
+    icon: 'syringe',
+    description: 'Gerenciar melhor meu diabetes tipo 2',
+  },
+  {
+    id: 'quality',
+    label: 'Qualidade de vida',
+    icon: 'sparkle',
+    description: 'Ter mais energia e disposição',
+  },
+  {
+    id: 'medical',
+    label: 'Recomendação médica',
+    icon: 'stethoscope',
+    description: 'Seguindo orientação do meu médico',
+  },
 ];
 
 export function MotivationScreen({ onNext, onBack }: MotivationScreenProps) {
@@ -56,17 +82,13 @@ export function MotivationScreen({ onNext, onBack }: MotivationScreenProps) {
             <View style={styles.optionContent}>
               <AppIcon name={motivation.icon as any} size="xl" color={colors.text} />
               <View style={styles.optionText}>
-                <Text style={[styles.optionTitle, { color: colors.text }]}>
-                  {motivation.label}
-                </Text>
+                <Text style={[styles.optionTitle, { color: colors.text }]}>{motivation.label}</Text>
                 <Text style={[styles.optionDescription, { color: colors.textSecondary }]}>
                   {motivation.description}
                 </Text>
               </View>
             </View>
-            {selected === motivation.id && (
-              <CheckCircleIcon size="md" color={currentAccent} />
-            )}
+            {selected === motivation.id && <CheckCircleIcon size="md" color={currentAccent} />}
           </TouchableOpacity>
         ))}
       </View>
@@ -79,9 +101,9 @@ const styles = StyleSheet.create({
     gap: 12,
   },
   option: {
-    borderRadius: 12,  // Mudança: 16 → 12px (design system)
+    borderRadius: 12, // Mudança: 16 → 12px (design system)
     padding: 16,
-    minHeight: 60,  // Touch target adequado
+    minHeight: 60, // Touch target adequado
     flexDirection: 'row',
     alignItems: 'center',
     justifyContent: 'space-between',

@@ -7,6 +7,7 @@ Documento contendo os prompts completos das próximas 3 fases da refatoração d
 # FASE 8: TELA DE CALENDÁRIO
 
 ## CONTEXTO
+
 Esta é a FASE 8 de 15. Vamos criar a tela completa de Calendário (Calendar), que mostra uma visualização mensal de todas as injeções e pesos registrados.
 
 Esta tela é acessada pela tab "Calendário" (📅) e oferece uma visão cronológica diferente da timeline.
@@ -788,6 +789,7 @@ headerRight: () => (
 ## PRÓXIMOS PASSOS
 
 Após validação:
+
 - **FASE 9:** Tela de Ajustes (configurações do app)
 - **FASE 10:** Integração com Supabase (dados reais)
 
@@ -803,6 +805,7 @@ Após validação:
 # FASE 9: TELA DE AJUSTES (SETTINGS)
 
 ## CONTEXTO
+
 Esta é a FASE 9 de 15. Vamos criar a tela completa de Ajustes (Settings), que permite ao usuário configurar o app, gerenciar conta, escolher temas, ajustar notificações e acessar informações.
 
 Esta tela é acessada pela tab "Ajustes" (⚙️).
@@ -1658,6 +1661,7 @@ const styles = StyleSheet.create({
 ## PRÓXIMOS PASSOS
 
 Após validação:
+
 - **FASE 10:** Integração com Supabase (banco de dados real)
 - **FASE 11:** Tela de Peso (adicionar/editar)
 - **FASE 12:** Sistema de Conquistas
@@ -1674,6 +1678,7 @@ Após validação:
 # FASE 10: INTEGRAÇÃO COM SUPABASE
 
 ## CONTEXTO
+
 Esta é a FASE 10 de 15. Vamos integrar o app com o Supabase para persistir todos os dados reais: injeções, pesos, perfil do usuário, configurações, etc.
 
 Esta fase substitui todos os dados mockados por dados reais do banco de dados.
@@ -1683,6 +1688,7 @@ Esta fase substitui todos os dados mockados por dados reais do banco de dados.
 ### Tabelas Necessárias:
 
 **1. profiles**
+
 - id (uuid, PK, FK para auth.users)
 - name (text)
 - email (text)
@@ -1696,6 +1702,7 @@ Esta fase substitui todos os dados mockados por dados reais do banco de dados.
 - updated_at (timestamp)
 
 **2. applications (injeções)**
+
 - id (uuid, PK)
 - user_id (uuid, FK para profiles)
 - date (timestamp)
@@ -1707,6 +1714,7 @@ Esta fase substitui todos os dados mockados por dados reais do banco de dados.
 - updated_at (timestamp)
 
 **3. weights**
+
 - id (uuid, PK)
 - user_id (uuid, FK para profiles)
 - date (timestamp)
@@ -1715,6 +1723,7 @@ Esta fase substitui todos os dados mockados por dados reais do banco de dados.
 - created_at (timestamp)
 
 **4. settings**
+
 - id (uuid, PK)
 - user_id (uuid, FK para profiles)
 - theme (text)
@@ -1945,10 +1954,7 @@ export const useProfile = () => {
 
   const updateProfile = async (updates: Partial<UserProfile>) => {
     try {
-      const { error } = await supabase
-        .from('profiles')
-        .update(updates)
-        .eq('id', user?.id);
+      const { error } = await supabase.from('profiles').update(updates).eq('id', user?.id);
 
       if (error) throw error;
       await fetchProfile();
@@ -1960,9 +1966,7 @@ export const useProfile = () => {
 
   const createProfile = async (profileData: Omit<UserProfile, 'id'>) => {
     try {
-      const { error } = await supabase
-        .from('profiles')
-        .insert([{ id: user?.id, ...profileData }]);
+      const { error } = await supabase.from('profiles').insert([{ id: user?.id, ...profileData }]);
 
       if (error) throw error;
       await fetchProfile();
@@ -2024,15 +2028,15 @@ export const useApplications = () => {
         .order('date', { ascending: false });
 
       if (error) throw error;
-      
+
       // Parse dates
-      const parsedData = data.map(app => ({
+      const parsedData = data.map((app) => ({
         ...app,
         date: new Date(app.date),
         created_at: new Date(app.created_at),
         updated_at: new Date(app.updated_at),
       }));
-      
+
       setApplications(parsedData);
     } catch (err) {
       setError(err as Error);
@@ -2041,14 +2045,16 @@ export const useApplications = () => {
     }
   };
 
-  const createApplication = async (applicationData: Omit<Application, 'id' | 'user_id' | 'created_at' | 'updated_at'>) => {
+  const createApplication = async (
+    applicationData: Omit<Application, 'id' | 'user_id' | 'created_at' | 'updated_at'>
+  ) => {
     try {
-      const { error } = await supabase
-        .from('applications')
-        .insert([{
+      const { error } = await supabase.from('applications').insert([
+        {
           user_id: user?.id,
           ...applicationData,
-        }]);
+        },
+      ]);
 
       if (error) throw error;
       await fetchApplications();
@@ -2060,10 +2066,7 @@ export const useApplications = () => {
 
   const updateApplication = async (id: string, updates: Partial<Application>) => {
     try {
-      const { error } = await supabase
-        .from('applications')
-        .update(updates)
-        .eq('id', id);
+      const { error } = await supabase.from('applications').update(updates).eq('id', id);
 
       if (error) throw error;
       await fetchApplications();
@@ -2075,10 +2078,7 @@ export const useApplications = () => {
 
   const deleteApplication = async (id: string) => {
     try {
-      const { error } = await supabase
-        .from('applications')
-        .delete()
-        .eq('id', id);
+      const { error } = await supabase.from('applications').delete().eq('id', id);
 
       if (error) throw error;
       await fetchApplications();
@@ -2138,14 +2138,14 @@ export const useWeights = () => {
         .order('date', { ascending: false });
 
       if (error) throw error;
-      
+
       // Parse dates
-      const parsedData = data.map(weight => ({
+      const parsedData = data.map((weight) => ({
         ...weight,
         date: new Date(weight.date),
         created_at: new Date(weight.created_at),
       }));
-      
+
       setWeights(parsedData);
     } catch (err) {
       setError(err as Error);
@@ -2156,12 +2156,12 @@ export const useWeights = () => {
 
   const createWeight = async (weightData: Omit<Weight, 'id' | 'user_id' | 'created_at'>) => {
     try {
-      const { error } = await supabase
-        .from('weights')
-        .insert([{
+      const { error } = await supabase.from('weights').insert([
+        {
           user_id: user?.id,
           ...weightData,
-        }]);
+        },
+      ]);
 
       if (error) throw error;
       await fetchWeights();
@@ -2173,10 +2173,7 @@ export const useWeights = () => {
 
   const updateWeight = async (id: string, updates: Partial<Weight>) => {
     try {
-      const { error } = await supabase
-        .from('weights')
-        .update(updates)
-        .eq('id', id);
+      const { error } = await supabase.from('weights').update(updates).eq('id', id);
 
       if (error) throw error;
       await fetchWeights();
@@ -2188,10 +2185,7 @@ export const useWeights = () => {
 
   const deleteWeight = async (id: string) => {
     try {
-      const { error } = await supabase
-        .from('weights')
-        .delete()
-        .eq('id', id);
+      const { error } = await supabase.from('weights').delete().eq('id', id);
 
       if (error) throw error;
       await fetchWeights();
@@ -2305,10 +2299,7 @@ export const useSettings = () => {
 
   const updateSettings = async (updates: Partial<UserSettings>) => {
     try {
-      const { error } = await supabase
-        .from('settings')
-        .update(updates)
-        .eq('user_id', user?.id);
+      const { error } = await supabase.from('settings').update(updates).eq('user_id', user?.id);
 
       if (error) throw error;
       await fetchSettings();
@@ -2448,6 +2439,7 @@ const setTheme = async (newTheme: string) => {
 ## PRÓXIMOS PASSOS
 
 Após validação:
+
 - **FASE 11:** Tela de Adicionar/Editar Peso
 - **FASE 12:** Sistema de Conquistas
 - **FASE 13:** Notificações Push

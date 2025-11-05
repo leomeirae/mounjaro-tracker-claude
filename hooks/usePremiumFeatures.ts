@@ -40,11 +40,14 @@ export function usePremiumFeatures() {
     }
 
     fetchEntitlement();
-    
+
     // Refresh a cada 24h ou quando app abre
-    const interval = setInterval(() => {
-      fetchEntitlement();
-    }, 24 * 60 * 60 * 1000); // 24 horas
+    const interval = setInterval(
+      () => {
+        fetchEntitlement();
+      },
+      24 * 60 * 60 * 1000
+    ); // 24 horas
 
     return () => clearInterval(interval);
   }, [userId]);
@@ -54,9 +57,7 @@ export function usePremiumFeatures() {
       setLoading(true);
       setError(null);
 
-      const { data, error: rpcError } = await supabase
-        .rpc('get_entitlement')
-        .single();
+      const { data, error: rpcError } = await supabase.rpc('get_entitlement').single();
 
       if (rpcError) {
         // Se RPC falhar, usar fallback local
@@ -84,13 +85,11 @@ export function usePremiumFeatures() {
   }
 
   // Se paywall desativado, todos têm acesso
-  const hasPremium = paywallEnabled
-    ? (entitlement?.has_plus ?? status.hasPremium)
-    : true;
+  const hasPremium = paywallEnabled ? (entitlement?.has_plus ?? status.hasPremium) : true;
 
   const hasActiveTrial = entitlement?.status === 'trial' || status.hasActiveTrial;
   const isTrialExpired = entitlement?.status === 'expired' || status.isTrialExpired;
-  
+
   const daysUntilTrialExpires = entitlement?.trial_ends_at
     ? Math.ceil(
         (new Date(entitlement.trial_ends_at).getTime() - new Date().getTime()) /
@@ -113,4 +112,3 @@ export function usePremiumFeatures() {
     refetch: fetchEntitlement,
   };
 }
-

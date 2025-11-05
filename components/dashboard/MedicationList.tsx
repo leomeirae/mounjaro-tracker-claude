@@ -27,10 +27,10 @@ export function MedicationList({ medications, onEdit, onDelete }: MedicationList
       `Tem certeza que deseja excluir ${MEDICATION_NAMES[medication.type] || medication.type}?`,
       [
         { text: 'Cancelar', style: 'cancel' },
-        { 
-          text: 'Excluir', 
+        {
+          text: 'Excluir',
           style: 'destructive',
-          onPress: () => onDelete?.(medication.id)
+          onPress: () => onDelete?.(medication.id),
         },
       ]
     );
@@ -43,7 +43,7 @@ export function MedicationList({ medications, onEdit, onDelete }: MedicationList
       <View style={styles.emptyContainer}>
         <Text style={styles.emptyIcon}>💊</Text>
         <Text style={styles.emptyText}>Nenhuma medicação cadastrada</Text>
-        <TouchableOpacity 
+        <TouchableOpacity
           style={styles.emptyButton}
           onPress={() => router.push('/(tabs)/add-medication')}
         >
@@ -59,7 +59,7 @@ export function MedicationList({ medications, onEdit, onDelete }: MedicationList
     <View style={styles.container}>
       <Text style={styles.title}>Medicações Ativas</Text>
       <FlatList
-        data={medications.filter(m => m.active)}
+        data={medications.filter((m) => m.active)}
         keyExtractor={(item) => item.id}
         renderItem={({ item }) => (
           <View style={styles.medicationCard}>
@@ -71,16 +71,10 @@ export function MedicationList({ medications, onEdit, onDelete }: MedicationList
                 <Text style={styles.medicationDosage}>{item.dosage}mg</Text>
               </View>
               <View style={styles.actions}>
-                <TouchableOpacity 
-                  onPress={() => onEdit?.(item)}
-                  style={styles.actionButton}
-                >
+                <TouchableOpacity onPress={() => onEdit?.(item)} style={styles.actionButton}>
                   <Text style={styles.actionIcon}>✏️</Text>
                 </TouchableOpacity>
-                <TouchableOpacity 
-                  onPress={() => handleDelete(item)}
-                  style={styles.actionButton}
-                >
+                <TouchableOpacity onPress={() => handleDelete(item)} style={styles.actionButton}>
                   <Text style={styles.actionIcon}>🗑️</Text>
                 </TouchableOpacity>
               </View>
@@ -99,92 +93,93 @@ export function MedicationList({ medications, onEdit, onDelete }: MedicationList
   );
 }
 
-const getStyles = (colors: any) => StyleSheet.create({
-  container: {
-    marginBottom: 16,
-  },
-  title: {
-    fontSize: 18,
-    fontWeight: 'bold',
-    color: colors.text,
-    marginBottom: 12,
-  },
-  emptyContainer: {
-    backgroundColor: colors.card,
-    borderRadius: 16,
-    padding: 32,
-    alignItems: 'center',
-    marginBottom: 16,
-  },
-  emptyIcon: {
-    fontSize: 48,
-    marginBottom: 16,
-  },
-  emptyText: {
-    fontSize: 16,
-    color: colors.text,
-    marginBottom: 16,
-    fontWeight: '600',
-  },
-  emptyButton: {
-    backgroundColor: colors.primary,
-    paddingHorizontal: 24,
-    paddingVertical: 12,
-    borderRadius: 12,
-  },
-  emptyButtonText: {
-    color: colors.text,
-    fontSize: 16,
-    fontWeight: '600',
-  },
-  medicationCard: {
-    backgroundColor: colors.card,
-    borderRadius: 12,
-    padding: 16,
-    marginBottom: 12,
-  },
-  medicationHeader: {
-    flexDirection: 'row',
-    justifyContent: 'space-between',
-    alignItems: 'center',
-    marginBottom: 8,
-  },
-  medicationInfo: {
-    flexDirection: 'row',
-    alignItems: 'center',
-    // gap: 12, // Not supported in React Native StyleSheet
-  },
-  medicationName: {
-    fontSize: 18,
-    fontWeight: 'bold',
-    color: colors.text,
-    marginRight: 12,
-  },
-  medicationDosage: {
-    fontSize: 16,
-    fontWeight: '600',
-    color: colors.primary,
-  },
-  actions: {
-    flexDirection: 'row',
-    // gap: 8, // Not supported in React Native StyleSheet
-  },
-  actionButton: {
-    padding: 8,
-    borderRadius: 8,
-    backgroundColor: colors.background,
-    marginLeft: 8,
-  },
-  actionIcon: {
-    fontSize: 18,
-  },
-  medicationFrequency: {
-    fontSize: 14,
-    color: colors.textSecondary,
-    marginBottom: 4,
-  },
-  medicationStart: {
-    fontSize: 12,
-    color: colors.textMuted,
-  },
-});
+const getStyles = (colors: any) =>
+  StyleSheet.create({
+    container: {
+      marginBottom: 16,
+    },
+    title: {
+      fontSize: 18,
+      fontWeight: 'bold',
+      color: colors.text,
+      marginBottom: 12,
+    },
+    emptyContainer: {
+      backgroundColor: colors.card,
+      borderRadius: 16,
+      padding: 32,
+      alignItems: 'center',
+      marginBottom: 16,
+    },
+    emptyIcon: {
+      fontSize: 48,
+      marginBottom: 16,
+    },
+    emptyText: {
+      fontSize: 16,
+      color: colors.text,
+      marginBottom: 16,
+      fontWeight: '600',
+    },
+    emptyButton: {
+      backgroundColor: colors.primary,
+      paddingHorizontal: 24,
+      paddingVertical: 12,
+      borderRadius: 12,
+    },
+    emptyButtonText: {
+      color: colors.text,
+      fontSize: 16,
+      fontWeight: '600',
+    },
+    medicationCard: {
+      backgroundColor: colors.card,
+      borderRadius: 12,
+      padding: 16,
+      marginBottom: 12,
+    },
+    medicationHeader: {
+      flexDirection: 'row',
+      justifyContent: 'space-between',
+      alignItems: 'center',
+      marginBottom: 8,
+    },
+    medicationInfo: {
+      flexDirection: 'row',
+      alignItems: 'center',
+      // gap: 12, // Not supported in React Native StyleSheet
+    },
+    medicationName: {
+      fontSize: 18,
+      fontWeight: 'bold',
+      color: colors.text,
+      marginRight: 12,
+    },
+    medicationDosage: {
+      fontSize: 16,
+      fontWeight: '600',
+      color: colors.primary,
+    },
+    actions: {
+      flexDirection: 'row',
+      // gap: 8, // Not supported in React Native StyleSheet
+    },
+    actionButton: {
+      padding: 8,
+      borderRadius: 8,
+      backgroundColor: colors.background,
+      marginLeft: 8,
+    },
+    actionIcon: {
+      fontSize: 18,
+    },
+    medicationFrequency: {
+      fontSize: 14,
+      color: colors.textSecondary,
+      marginBottom: 4,
+    },
+    medicationStart: {
+      fontSize: 12,
+      color: colors.textMuted,
+    },
+  });

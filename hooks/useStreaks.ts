@@ -43,14 +43,16 @@ export function useStreaks() {
       const today = new Date().toISOString().split('T')[0];
 
       if (weightLogs.length > 0) {
-        const sortedLogs = [...weightLogs].sort((a, b) =>
-          new Date(b.date).getTime() - new Date(a.date).getTime()
+        const sortedLogs = [...weightLogs].sort(
+          (a, b) => new Date(b.date).getTime() - new Date(a.date).getTime()
         );
 
         // Verificar se registrou hoje ou ontem
         const lastLogDate = new Date(sortedLogs[0].date);
         const todayDate = new Date(today);
-        const daysDiff = Math.floor((todayDate.getTime() - lastLogDate.getTime()) / (1000 * 60 * 60 * 24));
+        const daysDiff = Math.floor(
+          (todayDate.getTime() - lastLogDate.getTime()) / (1000 * 60 * 60 * 24)
+        );
 
         if (daysDiff <= 1) {
           // Contar dias consecutivos
@@ -58,7 +60,9 @@ export function useStreaks() {
           for (let i = 1; i < sortedLogs.length; i++) {
             const currentDate = new Date(sortedLogs[i - 1].date);
             const prevDate = new Date(sortedLogs[i].date);
-            const diff = Math.floor((currentDate.getTime() - prevDate.getTime()) / (1000 * 60 * 60 * 24));
+            const diff = Math.floor(
+              (currentDate.getTime() - prevDate.getTime()) / (1000 * 60 * 60 * 24)
+            );
 
             if (diff === 1) {
               currentWeightStreak++;
@@ -100,16 +104,18 @@ export function useStreaks() {
     }
   }
 
-  const streakData: StreakData | null = user ? {
-    currentWeightStreak: user.current_weight_streak || 0,
-    longestWeightStreak: user.longest_weight_streak || 0,
-    currentApplicationStreak: user.current_application_streak || 0,
-    longestApplicationStreak: user.longest_application_streak || 0,
-    level: user.level || 1,
-    experiencePoints: user.total_experience_points || 0,
-    experienceToNextLevel: ((user.level || 1) * 100) - (user.total_experience_points || 0),
-    lastWeightLogDate: user.last_weight_log_date || null,
-  } : null;
+  const streakData: StreakData | null = user
+    ? {
+        currentWeightStreak: user.current_weight_streak || 0,
+        longestWeightStreak: user.longest_weight_streak || 0,
+        currentApplicationStreak: user.current_application_streak || 0,
+        longestApplicationStreak: user.longest_application_streak || 0,
+        level: user.level || 1,
+        experiencePoints: user.total_experience_points || 0,
+        experienceToNextLevel: (user.level || 1) * 100 - (user.total_experience_points || 0),
+        lastWeightLogDate: user.last_weight_log_date || null,
+      }
+    : null;
 
   return {
     streakData,

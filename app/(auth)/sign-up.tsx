@@ -54,7 +54,7 @@ export default function SignUpScreen() {
 
         <View style={styles.form}>
           <GoogleOAuthButton mode="signup" />
-          
+
           {/* Divider */}
           <View style={styles.divider}>
             <View style={styles.dividerLine} />
@@ -83,11 +83,7 @@ export default function SignUpScreen() {
 
           {error && <Text style={styles.errorText}>{error}</Text>}
 
-          <Button
-            label="Criar Conta"
-            onPress={handleSignUp}
-            loading={loading}
-          />
+          <Button label="Criar Conta" onPress={handleSignUp} loading={loading} />
 
           <Button
             label="Já tenho conta"
@@ -100,49 +96,50 @@ export default function SignUpScreen() {
   );
 }
 
-const getStyles = (colors: any) => StyleSheet.create({
-  container: {
-    flex: 1,
-    backgroundColor: colors.background,
-  },
-  content: {
-    flex: 1,
-    padding: 24,
-    justifyContent: 'center',
-  },
-  title: {
-    fontSize: 32,
-    fontWeight: 'bold',
-    color: colors.text,
-    marginBottom: 8,
-  },
-  subtitle: {
-    fontSize: 16,
-    color: colors.textSecondary,
-    marginBottom: 32,
-  },
-  form: {
-    gap: 16,
-  },
-  errorText: {
-    color: colors.error,
-    fontSize: 14,
-    textAlign: 'center',
-  },
-  divider: {
-    flexDirection: 'row',
-    alignItems: 'center',
-    marginVertical: 24,
-  },
-  dividerLine: {
-    flex: 1,
-    height: 1,
-    backgroundColor: colors.border,
-  },
-  dividerText: {
-    marginHorizontal: 16,
-    fontSize: 14,
-    color: colors.textMuted,
-    fontWeight: '600',
-  },
-});
+const getStyles = (colors: any) =>
+  StyleSheet.create({
+    container: {
+      flex: 1,
+      backgroundColor: colors.background,
+    },
+    content: {
+      flex: 1,
+      padding: 24,
+      justifyContent: 'center',
+    },
+    title: {
+      fontSize: 32,
+      fontWeight: 'bold',
+      color: colors.text,
+      marginBottom: 8,
+    },
+    subtitle: {
+      fontSize: 16,
+      color: colors.textSecondary,
+      marginBottom: 32,
+    },
+    form: {
+      gap: 16,
+    },
+    errorText: {
+      color: colors.error,
+      fontSize: 14,
+      textAlign: 'center',
+    },
+    divider: {
+      flexDirection: 'row',
+      alignItems: 'center',
+      marginVertical: 24,
+    },
+    dividerLine: {
+      flex: 1,
+      height: 1,
+      backgroundColor: colors.border,
+    },
+    dividerText: {
+      marginHorizontal: 16,
+      fontSize: 14,
+      color: colors.textMuted,
+      fontWeight: '600',
+    },
+  });

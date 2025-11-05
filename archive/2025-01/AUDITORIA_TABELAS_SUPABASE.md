@@ -69,22 +69,26 @@
 5. ✅ Atualiza a função `applications_update()` para atualizar os novos campos
 
 ### **Arquivo da Migration:**
+
 - 📄 `supabase/migrations/007_add_pain_medication_fields.sql`
 
 ### **Como Aplicar:**
 
 #### **Opção 1: Via Supabase Dashboard**
+
 1. Acesse o Supabase Dashboard
 2. Vá em "SQL Editor"
 3. Copie o conteúdo de `supabase/migrations/007_add_pain_medication_fields.sql`
 4. Cole e execute
 
 #### **Opção 2: Via Supabase CLI** (se configurado)
+
 ```bash
 supabase db push
 ```
 
 #### **Opção 3: Via Supabase MCP Server** (se disponível)
+
 A migration está pronta para ser aplicada via MCP server.
 
 ---
@@ -108,6 +112,7 @@ A migration está pronta para ser aplicada via MCP server.
 ## 📊 DADOS QUE SERÃO ARMAZENADOS
 
 ### **Tabela `medication_applications` (atualizada):**
+
 - `id` - UUID
 - `user_id` - UUID
 - `medication_id` - UUID (FK para medications)
@@ -126,6 +131,7 @@ A migration está pronta para ser aplicada via MCP server.
 ## ✅ CONCLUSÃO
 
 **TODAS AS TABELAS SÃO ÚTEIS E ATUAIS**, exceto:
+
 - ⚠️ `medication_applications` precisa dos campos `pain_level` e `medication_type`
 - ⚠️ A VIEW `applications` precisa incluir esses campos
 
@@ -139,4 +145,3 @@ A migration está pronta para ser aplicada via MCP server.
 2. ✅ Testar criação de aplicação com `pain_level` e `medication_type`
 3. ✅ Testar edição de aplicação
 4. ✅ Verificar se os dados aparecem corretamente na VIEW `applications`
-

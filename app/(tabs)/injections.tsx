@@ -22,26 +22,25 @@ import { createLogger } from '@/lib/logger';
 
 const logger = createLogger('Injections');
 
-const FILTERS = [
-  'Todos',
-  'Últimos 7 dias',
-  'Últimos 30 dias',
-  'Últimos 90 dias',
-  'Este ano',
-];
+const FILTERS = ['Todos', 'Últimos 7 dias', 'Últimos 30 dias', 'Últimos 90 dias', 'Este ano'];
 
 export default function ShotsScreen() {
   const colors = useShotsyColors();
   const [selectedFilter, setSelectedFilter] = useState('Todos');
   const [refreshing, setRefreshing] = useState(false);
-  
+
   // Fetch real data from Supabase
-  const { applications, loading, deleteApplication, refetch: refetchApplications } = useApplications();
+  const {
+    applications,
+    loading,
+    deleteApplication,
+    refetch: refetchApplications,
+  } = useApplications();
   const { profile } = useProfile();
 
   // Map Application to Shot format
   const shots = useMemo(() => {
-    return applications.map(app => ({
+    return applications.map((app) => ({
       id: app.id,
       date: app.date,
       dosage: app.dosage,
@@ -58,16 +57,16 @@ export default function ShotsScreen() {
     switch (selectedFilter) {
       case 'Últimos 7 dias':
         const sevenDaysAgo = new Date(now.getTime() - 7 * 24 * 60 * 60 * 1000);
-        return shots.filter(shot => shot.date >= sevenDaysAgo);
+        return shots.filter((shot) => shot.date >= sevenDaysAgo);
       case 'Últimos 30 dias':
         const thirtyDaysAgo = new Date(now.getTime() - 30 * 24 * 60 * 60 * 1000);
-        return shots.filter(shot => shot.date >= thirtyDaysAgo);
+        return shots.filter((shot) => shot.date >= thirtyDaysAgo);
       case 'Últimos 90 dias':
         const ninetyDaysAgo = new Date(now.getTime() - 90 * 24 * 60 * 60 * 1000);
-        return shots.filter(shot => shot.date >= ninetyDaysAgo);
+        return shots.filter((shot) => shot.date >= ninetyDaysAgo);
       case 'Este ano':
         const startOfYear = new Date(now.getFullYear(), 0, 1);
-        return shots.filter(shot => shot.date >= startOfYear);
+        return shots.filter((shot) => shot.date >= startOfYear);
       default:
         return shots;
     }
@@ -83,7 +82,7 @@ export default function ShotsScreen() {
       year: 'numeric',
     });
 
-    filteredShots.forEach(shot => {
+    filteredShots.forEach((shot) => {
       const key = monthYearFormatter.format(shot.date);
 
       if (!groups[key]) {
@@ -98,13 +97,13 @@ export default function ShotsScreen() {
   // Calcular estatísticas reais
   const totalShots = shots.length;
   const currentDose = shots[0]?.dosage || 0;
-  
+
   const daysUntilNext = useMemo(() => {
     if (applications.length === 0) return 0;
-    
+
     const frequency = profile?.frequency || 'weekly';
     let intervalDays = 7; // Default weekly
-    
+
     const freq = frequency.toLowerCase();
     if (freq.includes('biweekly') || freq.includes('bi-weekly')) {
       intervalDays = 14;
@@ -112,14 +111,14 @@ export default function ShotsScreen() {
       intervalDays = 1;
     }
 
-    const medicationApps = applications.map(app => ({
+    const medicationApps = applications.map((app) => ({
       dose: app.dosage,
       date: app.date,
     }));
 
     const nextDate = calculateNextShotDate(medicationApps, intervalDays);
     if (!nextDate) return 0;
-    
+
     const now = new Date();
     const daysDiff = Math.ceil((nextDate.getTime() - now.getTime()) / (1000 * 60 * 60 * 24));
     return Math.max(0, daysDiff);
@@ -156,9 +155,7 @@ export default function ShotsScreen() {
     return (
       <View style={[styles.emptyContainer, { backgroundColor: colors.background }]}>
         <AppIcon name="syringe" size="xl" color={colors.textSecondary} />
-        <Text style={[styles.emptyTitle, { color: colors.text }]}>
-          Nenhuma injeção registrada
-        </Text>
+        <Text style={[styles.emptyTitle, { color: colors.text }]}>Nenhuma injeção registrada</Text>
         <Text style={[styles.emptySubtitle, { color: colors.textSecondary }]}>
           Comece adicionando sua primeira aplicação
         </Text>
@@ -176,9 +173,7 @@ export default function ShotsScreen() {
     <GestureHandlerRootView style={{ flex: 1 }}>
       <View style={[styles.container, { backgroundColor: colors.background }]}>
         <ScrollView
-          refreshControl={
-            <RefreshControl refreshing={refreshing} onRefresh={handleRefresh} />
-          }
+          refreshControl={<RefreshControl refreshing={refreshing} onRefresh={handleRefresh} />}
         >
           <FilterChips
             filters={FILTERS}
@@ -243,7 +238,7 @@ const styles = StyleSheet.create({
     paddingHorizontal: 32,
   },
   emptyIcon: {
-    fontSize: 72,  // Mudança: 80 → 72px (Shotsy icon size standard)
+    fontSize: 72, // Mudança: 80 → 72px (Shotsy icon size standard)
     marginBottom: 24,
   },
   emptyTitle: {

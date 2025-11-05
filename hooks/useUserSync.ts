@@ -69,13 +69,13 @@ export function useUserSync() {
         logger.info('Syncing user with Supabase', {
           userId,
           retryCount: retryCountRef.current,
-          hasUser: !!user
+          hasUser: !!user,
         });
 
         // Se user ainda não estiver disponível, tentar novamente depois
         if (!user && retryCountRef.current < 5) {
           logger.debug('Clerk user not ready yet, waiting', {
-            retryCount: retryCountRef.current
+            retryCount: retryCountRef.current,
           });
           retryCountRef.current++;
           syncState.inProgress = false; // Liberar para retry
@@ -110,12 +110,15 @@ export function useUserSync() {
 
           const userData = {
             clerk_id: userId,
-            email: user?.primaryEmailAddress?.emailAddress || user?.emailAddresses?.[0]?.emailAddress || `${userId}@clerk.local`,
+            email:
+              user?.primaryEmailAddress?.emailAddress ||
+              user?.emailAddresses?.[0]?.emailAddress ||
+              `${userId}@clerk.local`,
             name: user?.fullName || user?.firstName || null,
           };
 
           logger.debug('User data to insert', { email: userData.email, name: userData.name });
-          
+
           const { data: newUser, error: insertError } = await supabase
             .from('users')
             .insert(userData)
@@ -129,7 +132,7 @@ export function useUserSync() {
             } else {
               logger.error('Insert error', insertError, {
                 code: insertError.code,
-                message: insertError.message
+                message: insertError.message,
               });
               throw insertError;
             }
@@ -138,12 +141,15 @@ export function useUserSync() {
           }
         } else {
           logger.info('User already exists in Supabase', { userId: existingUser.id });
-          
+
           // Update user data if needed (só se user estiver disponível e dados mudaram)
           if (user) {
-            const newEmail = user.primaryEmailAddress?.emailAddress || user.emailAddresses?.[0]?.emailAddress || '';
+            const newEmail =
+              user.primaryEmailAddress?.emailAddress ||
+              user.emailAddresses?.[0]?.emailAddress ||
+              '';
             const newName = user.fullName || user.firstName || null;
-            
+
             // Só atualizar se os dados mudaram
             if (existingUser.email !== newEmail || existingUser.name !== newName) {
               const { error: updateError } = await supabase
@@ -167,7 +173,6 @@ export function useUserSync() {
         // Marcar como sincronizado
         syncState.syncedUserIds.add(userId);
         hasSyncedRef.current = true;
-
       } catch (err) {
         logger.error('Error syncing user', err);
         const errorMessage = err instanceof Error ? err.message : 'Failed to sync user';

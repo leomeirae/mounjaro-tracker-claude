@@ -66,31 +66,20 @@ export function MedicationSelector({
           >
             {item.name}
           </Text>
-          {isSelected && (
-            <Text style={[styles.checkmark, { color: colors.primary }]}>✓</Text>
-          )}
+          {isSelected && <Text style={[styles.checkmark, { color: colors.primary }]}>✓</Text>}
         </View>
       </TouchableOpacity>
     );
   };
 
   return (
-    <Modal
-      visible={visible}
-      animationType="slide"
-      transparent
-      onRequestClose={onClose}
-    >
+    <Modal visible={visible} animationType="slide" transparent onRequestClose={onClose}>
       <SafeAreaView style={[styles.modalContainer, { backgroundColor: 'rgba(0,0,0,0.5)' }]}>
         <View style={[styles.modalContent, { backgroundColor: colors.background }]}>
           <View style={[styles.modalHeader, { borderBottomColor: colors.border }]}>
-            <Text style={[styles.modalTitle, { color: colors.text }]}>
-              Selecionar Medicação
-            </Text>
+            <Text style={[styles.modalTitle, { color: colors.text }]}>Selecionar Medicação</Text>
             <TouchableOpacity onPress={onClose} style={styles.closeButton}>
-              <Text style={[styles.closeButtonText, { color: colors.textSecondary }]}>
-                Fechar
-              </Text>
+              <Text style={[styles.closeButtonText, { color: colors.textSecondary }]}>Fechar</Text>
             </TouchableOpacity>
           </View>
 

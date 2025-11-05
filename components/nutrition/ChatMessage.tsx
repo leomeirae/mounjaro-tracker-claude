@@ -29,18 +29,12 @@ export function ChatMessage({ role, content, timestamp }: ChatMessageProps) {
       </View>
 
       <View style={styles.contentContainer}>
-        <View style={[
-          styles.bubble,
-          isUser ? styles.userBubble : styles.assistantBubble
-        ]}>
-          <Text style={[
-            styles.messageText,
-            isUser ? styles.userText : styles.assistantText
-          ]}>
+        <View style={[styles.bubble, isUser ? styles.userBubble : styles.assistantBubble]}>
+          <Text style={[styles.messageText, isUser ? styles.userText : styles.assistantText]}>
             {content}
           </Text>
         </View>
-        
+
         <Text style={[styles.timestamp, isUser && styles.userTimestamp]}>
           {formatTime(timestamp)}
         </Text>
@@ -56,68 +50,68 @@ function formatTime(date: Date): string {
   });
 }
 
-const getStyles = (colors: any) => StyleSheet.create({
-  container: {
-    flexDirection: 'row',
-    marginBottom: 16,
-    gap: 12,
-  },
-  userContainer: {
-    flexDirection: 'row-reverse',
-  },
-  avatarContainer: {
-    paddingTop: 4,
-  },
-  avatar: {
-    width: 36,
-    height: 36,
-    borderRadius: 18,
-    alignItems: 'center',
-    justifyContent: 'center',
-  },
-  userAvatar: {
-    backgroundColor: colors.primary,
-  },
-  assistantAvatar: {
-    backgroundColor: colors.accent,
-  },
-  contentContainer: {
-    flex: 1,
-    gap: 4,
-  },
-  bubble: {
-    borderRadius: 16,
-    padding: 14,
-    maxWidth: '85%',
-  },
-  userBubble: {
-    backgroundColor: colors.primary,
-    alignSelf: 'flex-end',
-    borderBottomRightRadius: 4,
-  },
-  assistantBubble: {
-    backgroundColor: colors.card,
-    borderWidth: 1,
-    borderColor: colors.border,
-    borderBottomLeftRadius: 4,
-  },
-  messageText: {
-    fontSize: 15,
-    lineHeight: 22,
-  },
-  userText: {
-    color: '#fff',
-  },
-  assistantText: {
-    color: colors.text,
-  },
-  timestamp: {
-    fontSize: 11,
-    color: colors.textSecondary,
-    paddingHorizontal: 8,
-  },
-  userTimestamp: {
-    textAlign: 'right',
-  },
-});
-
+const getStyles = (colors: any) =>
+  StyleSheet.create({
+    container: {
+      flexDirection: 'row',
+      marginBottom: 16,
+      gap: 12,
+    },
+    userContainer: {
+      flexDirection: 'row-reverse',
+    },
+    avatarContainer: {
+      paddingTop: 4,
+    },
+    avatar: {
+      width: 36,
+      height: 36,
+      borderRadius: 18,
+      alignItems: 'center',
+      justifyContent: 'center',
+    },
+    userAvatar: {
+      backgroundColor: colors.primary,
+    },
+    assistantAvatar: {
+      backgroundColor: colors.accent,
+    },
+    contentContainer: {
+      flex: 1,
+      gap: 4,
+    },
+    bubble: {
+      borderRadius: 16,
+      padding: 14,
+      maxWidth: '85%',
+    },
+    userBubble: {
+      backgroundColor: colors.primary,
+      alignSelf: 'flex-end',
+      borderBottomRightRadius: 4,
+    },
+    assistantBubble: {
+      backgroundColor: colors.card,
+      borderWidth: 1,
+      borderColor: colors.border,
+      borderBottomLeftRadius: 4,
+    },
+    messageText: {
+      fontSize: 15,
+      lineHeight: 22,
+    },
+    userText: {
+      color: '#fff',
+    },
+    assistantText: {
+      color: colors.text,
+    },
+    timestamp: {
+      fontSize: 11,
+      color: colors.textSecondary,
+      paddingHorizontal: 8,
+    },
+    userTimestamp: {
+      textAlign: 'right',
+    },
+  });

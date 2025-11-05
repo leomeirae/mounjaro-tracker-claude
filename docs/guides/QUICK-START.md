@@ -89,18 +89,21 @@ SENTRY_DSN=https://xxxxx@sentry.io/xxxxx
 ### Onde Obter as Keys
 
 #### Supabase
+
 1. Acesse [supabase.com](https://supabase.com)
 2. Crie novo projeto (ou use existente)
 3. Vá em **Settings → API**
 4. Copie `URL` e `anon/public key`
 
 #### Clerk
+
 1. Acesse [clerk.com](https://clerk.com)
 2. Crie nova aplicação
 3. Em **API Keys**, copie `Publishable Key`
 4. Configure OAuth providers (Google, Apple)
 
 #### OpenAI (Opcional para MVP)
+
 1. Acesse [platform.openai.com](https://platform.openai.com)
 2. Crie API key em **API Keys**
 3. Adicione créditos ($5-10 suficiente para testes)
@@ -417,6 +420,7 @@ npm run start
 ---
 
 **Dúvidas?**
+
 - Slack: #shotsy-dev
 - Email: dev@shotsy.app
 - Docs: [Full Documentation](../README.md)

@@ -36,10 +36,7 @@ export function OnboardingScreenBase({
   return (
     <View style={[styles.container, { backgroundColor: colors.background }]}>
       {showBackButton && onBack && (
-        <TouchableOpacity
-          style={[styles.backButton, { top: insets.top + 16 }]}
-          onPress={onBack}
-        >
+        <TouchableOpacity style={[styles.backButton, { top: insets.top + 16 }]} onPress={onBack}>
           <Ionicons name="arrow-back" size={24} color={colors.text} />
         </TouchableOpacity>
       )}
@@ -54,15 +51,10 @@ export function OnboardingScreenBase({
         showsVerticalScrollIndicator={false}
       >
         {title && (
-          <View style={[
-            styles.header,
-            showBackButton && onBack && styles.headerWithBackButton
-          ]}>
+          <View style={[styles.header, showBackButton && onBack && styles.headerWithBackButton]}>
             <Text style={[styles.title, { color: colors.text }]}>{title}</Text>
             {subtitle && (
-              <Text style={[styles.subtitle, { color: colors.textSecondary }]}>
-                {subtitle}
-              </Text>
+              <Text style={[styles.subtitle, { color: colors.textSecondary }]}>{subtitle}</Text>
             )}
           </View>
         )}

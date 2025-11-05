@@ -62,7 +62,7 @@ FASE 4: INTEGRAÇÕES (3 tasks) - 12-15h 🔌 BAIXA
 O arquivo `/app/(tabs)/dashboard.tsx` atualmente usa dados mockados (mockData).
 Preciso integrar os hooks do Supabase que já existem:
 - useApplications() - para injeções
-- useWeights() - para pesos  
+- useWeights() - para pesos
 - useProfile() - para dados do usuário
 
 ## OBJETIVO
@@ -107,6 +107,7 @@ Fazer o Dashboard carregar dados REAIS do banco de dados Supabase.
 ```
 
 ### ✅ CHECKLIST DE VALIDAÇÃO
+
 - [ ] Abrir app e ver Dashboard
 - [ ] Verificar se números mostrados são reais (não 1, 2.5, etc)
 - [ ] Adicionar injeção e ver Dashboard atualizar
@@ -166,6 +167,7 @@ Results deve mostrar gráficos com dados reais do banco.
 ```
 
 ### ✅ CHECKLIST DE VALIDAÇÃO
+
 - [ ] Abrir Results e ver dados reais
 - [ ] Gráfico de peso mostra pesos registrados
 - [ ] IMC calculado com altura do perfil
@@ -179,7 +181,7 @@ Results deve mostrar gráficos com dados reais do banco.
 
 ### PROMPT PARA CLAUDE CODE:
 
-```
+````
 # TASK: Substituir dados mockados por dados reais no Calendar
 
 ## CONTEXTO
@@ -215,7 +217,7 @@ const events = [
     difference: calculateDifference(weight, weights),
   })),
 ];
-```
+````
 
 3. Criar função calculateDifference:
    - Comparar peso atual com anterior
@@ -228,13 +230,16 @@ const events = [
 5. Adicionar loading e empty states
 
 ## VALIDAÇÕES
+
 - [ ] Calendário carrega sem erros
 - [ ] Marcadores aparecem nos dias corretos
 - [ ] Lista de eventos mostra dados reais
 - [ ] Diferença de peso calcula corretamente
 
 ## ARQUIVOS A MODIFICAR
+
 - /app/(tabs)/calendar.tsx
+
 ```
 
 ### ✅ CHECKLIST DE VALIDAÇÃO
@@ -252,13 +257,16 @@ const events = [
 ### PROMPT PARA CLAUDE CODE:
 
 ```
+
 # TASK: Implementar salvamento real no Supabase em Add Application
 
 ## CONTEXTO
+
 O arquivo `/app/(tabs)/add-application.tsx` tem TODOs e não salva no banco.
 O hook useApplications já existe com createApplication().
 
 ## OBJETIVO
+
 Salvar injeções no Supabase ao clicar em "Salvar".
 
 ## TAREFAS
@@ -267,6 +275,7 @@ Salvar injeções no Supabase ao clicar em "Salvar".
    - useApplications de @/hooks/useApplications
 
 2. Implementar handleSave:
+
 ```typescript
 const { createApplication, updateApplication } = useApplications();
 
@@ -294,11 +303,9 @@ const handleSave = async () => {
       });
     }
 
-    Alert.alert(
-      'Sucesso',
-      isEditMode ? 'Aplicação atualizada!' : 'Aplicação adicionada!',
-      [{ text: 'OK', onPress: () => router.back() }]
-    );
+    Alert.alert('Sucesso', isEditMode ? 'Aplicação atualizada!' : 'Aplicação adicionada!', [
+      { text: 'OK', onPress: () => router.back() },
+    ]);
   } catch (error) {
     Haptics.notificationAsync(Haptics.NotificationFeedbackType.Error);
     Alert.alert('Erro', 'Não foi possível salvar a aplicação');
@@ -308,13 +315,14 @@ const handleSave = async () => {
 ```
 
 3. Implementar carregamento no modo edição:
+
 ```typescript
 useEffect(() => {
   if (isEditMode && params.editId) {
     // Buscar aplicação do banco
     const loadApplication = async () => {
       const { applications } = useApplications();
-      const app = applications.find(a => a.id === params.editId);
+      const app = applications.find((a) => a.id === params.editId);
       if (app) {
         setData({
           date: app.date,
@@ -331,29 +339,27 @@ useEffect(() => {
 ```
 
 4. Implementar handleDelete:
+
 ```typescript
 const { deleteApplication } = useApplications();
 
 const handleDelete = () => {
-  Alert.alert(
-    'Deletar Aplicação',
-    'Tem certeza?',
-    [
-      { text: 'Cancelar', style: 'cancel' },
-      {
-        text: 'Deletar',
-        style: 'destructive',
-        onPress: async () => {
-          await deleteApplication(params.editId as string);
-          router.back();
-        },
+  Alert.alert('Deletar Aplicação', 'Tem certeza?', [
+    { text: 'Cancelar', style: 'cancel' },
+    {
+      text: 'Deletar',
+      style: 'destructive',
+      onPress: async () => {
+        await deleteApplication(params.editId as string);
+        router.back();
       },
-    ]
-  );
+    },
+  ]);
 };
 ```
 
 ## VALIDAÇÕES
+
 - [ ] Salvar injeção adiciona no banco
 - [ ] Dashboard atualiza após salvar
 - [ ] Modo edição carrega dados corretos
@@ -361,7 +367,9 @@ const handleDelete = () => {
 - [ ] Erros são tratados com alerts
 
 ## ARQUIVOS A MODIFICAR
+
 - /app/(tabs)/add-application.tsx
+
 ```
 
 ### ✅ CHECKLIST DE VALIDAÇÃO
@@ -379,19 +387,23 @@ const handleDelete = () => {
 ### PROMPT PARA CLAUDE CODE:
 
 ```
+
 # TASK: Implementar Seção "Hoje" no Dashboard
 
 ## CONTEXTO
+
 O Dashboard precisa da seção "Hoje" com 5 cards rastreáveis:
+
 - Peso do dia
 - Calorias
-- Proteína  
+- Proteína
 - Efeitos colaterais
 - Notas do dia
 
 Referência: SHOTSY-FUNCIONALIDADES-COMPLETO.md (seção Dashboard)
 
 ## OBJETIVO
+
 Criar componente TodaySection com 5 cards interativos.
 
 ## TAREFAS
@@ -422,15 +434,15 @@ export function TodaySection({
 }: TodaySectionProps) {
   const colors = useShotsyColors();
 
-  const TodayCard = ({ 
-    icon, 
-    title, 
-    value, 
-    onPress 
-  }: { 
-    icon: string; 
-    title: string; 
-    value?: string | number; 
+  const TodayCard = ({
+    icon,
+    title,
+    value,
+    onPress
+  }: {
+    icon: string;
+    title: string;
+    value?: string | number;
     onPress: () => void;
   }) => (
     <TouchableOpacity onPress={onPress} style={styles.cardContainer}>
@@ -455,7 +467,7 @@ export function TodaySection({
   return (
     <View style={styles.container}>
       <Text style={[styles.title, { color: colors.text }]}>Hoje</Text>
-      
+
       <View style={styles.grid}>
         <TodayCard
           icon="⚖️"
@@ -463,7 +475,7 @@ export function TodaySection({
           value={todayWeight ? `${todayWeight} kg` : undefined}
           onPress={() => router.push('/(tabs)/add-weight')}
         />
-        
+
         <TodayCard
           icon="🍖"
           title="Calorias"
@@ -473,7 +485,7 @@ export function TodaySection({
             Alert.alert('Em breve', 'Funcionalidade será implementada');
           }}
         />
-        
+
         <TodayCard
           icon="🥩"
           title="Proteína"
@@ -483,7 +495,7 @@ export function TodaySection({
             Alert.alert('Em breve', 'Funcionalidade será implementada');
           }}
         />
-        
+
         <TodayCard
           icon="😷"
           title="Efeitos Colaterais"
@@ -493,7 +505,7 @@ export function TodaySection({
       </View>
 
       {/* Card de Notas (full width) */}
-      <TouchableOpacity 
+      <TouchableOpacity
         onPress={() => {
           // TODO: Modal de notas
           Alert.alert('Em breve', 'Funcionalidade será implementada');
@@ -578,12 +590,13 @@ const styles = StyleSheet.create({
    - Adicionar após NextShotWidget
 
 3. Criar função para buscar dados de hoje:
+
 ```typescript
 const getTodayData = () => {
   const today = new Date();
   today.setHours(0, 0, 0, 0);
 
-  const todayWeight = weights.find(w => {
+  const todayWeight = weights.find((w) => {
     const wDate = new Date(w.date);
     wDate.setHours(0, 0, 0, 0);
     return wDate.getTime() === today.getTime();
@@ -602,6 +615,7 @@ const getTodayData = () => {
 ```
 
 ## VALIDAÇÕES
+
 - [ ] Seção "Hoje" aparece no Dashboard
 - [ ] 5 cards renderizam
 - [ ] Tap em Peso abre add-weight
@@ -609,10 +623,13 @@ const getTodayData = () => {
 - [ ] Empty state "Toque para adicionar" aparece
 
 ## ARQUIVOS A CRIAR
+
 - /components/dashboard/TodaySection.tsx
 
-## ARQUIVOS A MODIFICAR  
+## ARQUIVOS A MODIFICAR
+
 - /app/(tabs)/dashboard.tsx
+
 ```
 
 ### ✅ CHECKLIST DE VALIDAÇÃO
@@ -630,10 +647,13 @@ const getTodayData = () => {
 ### PROMPT PARA CLAUDE CODE:
 
 ```
+
 # TASK: Implementar Preview de Resultados no Dashboard
 
 ## CONTEXTO
+
 Dashboard precisa mostrar prévia dos resultados com 6 metric cards:
+
 - Mudança Total
 - IMC Atual
 - Peso
@@ -642,6 +662,7 @@ Dashboard precisa mostrar prévia dos resultados com 6 metric cards:
 - Para a meta
 
 ## OBJETIVO
+
 Criar componente ResultsPreview que resume progresso.
 
 ## TAREFAS
@@ -671,13 +692,13 @@ interface ResultsPreviewProps {
 export function ResultsPreview({ metrics }: ResultsPreviewProps) {
   const colors = useShotsyColors();
 
-  const MetricCard = ({ 
-    label, 
-    value, 
-    subtitle 
-  }: { 
-    label: string; 
-    value: string; 
+  const MetricCard = ({
+    label,
+    value,
+    subtitle
+  }: {
+    label: string;
+    value: string;
     subtitle?: string;
   }) => (
     <View style={styles.metricCard}>
@@ -796,6 +817,7 @@ const styles = StyleSheet.create({
    - Adicionar após TodaySection
 
 3. Criar função calculateMetrics:
+
 ```typescript
 const calculateMetrics = (): Metrics => {
   if (weights.length === 0) {
@@ -820,7 +842,7 @@ const calculateMetrics = (): Metrics => {
   const lost = startWeight - currentWeight;
   const percentProgress = (lost / totalToLose) * 100;
   const toGoal = currentWeight - targetWeight;
-  
+
   // Calcular média semanal
   const weeks = Math.max(1, Math.floor(weights.length / 7));
   const weeklyAverage = Math.abs(totalChange) / weeks;
@@ -837,6 +859,7 @@ const calculateMetrics = (): Metrics => {
 ```
 
 ## VALIDAÇÕES
+
 - [ ] Preview aparece no Dashboard
 - [ ] 6 metric cards renderizam
 - [ ] Valores calculados corretamente
@@ -844,10 +867,13 @@ const calculateMetrics = (): Metrics => {
 - [ ] Métricas atualizam com novos pesos
 
 ## ARQUIVOS A CRIAR
+
 - /components/dashboard/ResultsPreview.tsx
 
 ## ARQUIVOS A MODIFICAR
+
 - /app/(tabs)/dashboard.tsx
+
 ```
 
 ### ✅ CHECKLIST DE VALIDAÇÃO
@@ -865,16 +891,20 @@ const calculateMetrics = (): Metrics => {
 ### PROMPT PARA CLAUDE CODE:
 
 ```
+
 # TASK: Criar função básica de cálculo de níveis estimados
 
 ## CONTEXTO
+
 O Shotsy calcula níveis estimados de medicação no corpo baseado em farmacocinética.
 Esta é uma versão SIMPLIFICADA inicial. Versão completa virá depois.
 
 Referência: Meia-vida Mounjaro ≈ 5 dias (120 horas)
 
 ## OBJETIVO
+
 Criar função que calcula níveis estimados baseado em:
+
 - Histórico de injeções
 - Meia-vida do medicamento
 - Data atual
@@ -887,7 +917,7 @@ Criar função que calcula níveis estimados baseado em:
 /**
  * Cálculo BÁSICO de níveis estimados de medicação GLP-1
  * Baseado em modelo de eliminação de primeira ordem
- * 
+ *
  * Referências:
  * - Tirzepatide (Mounjaro): meia-vida ≈ 5 dias (120h)
  * - Semaglutide (Ozempic): meia-vida ≈ 7 dias (168h)
@@ -921,7 +951,7 @@ function calculateLevelFromApplication(
   targetDate: Date,
   halfLife: number
 ): number {
-  const hoursSinceApplication = 
+  const hoursSinceApplication =
     (targetDate.getTime() - application.date.getTime()) / (1000 * 60 * 60);
 
   // Se a data alvo é antes da aplicação, nível = 0
@@ -948,9 +978,7 @@ export function calculateEstimatedLevels(
   const levels: EstimatedLevel[] = [];
 
   // Ordenar aplicações por data
-  const sortedApps = [...applications].sort(
-    (a, b) => a.date.getTime() - b.date.getTime()
-  );
+  const sortedApps = [...applications].sort((a, b) => a.date.getTime() - b.date.getTime());
 
   // Data inicial = primeira aplicação
   const startDate = new Date(sortedApps[0].date);
@@ -968,12 +996,12 @@ export function calculateEstimatedLevels(
     let totalLevel = 0;
 
     // Somar contribuição de cada aplicação
-    sortedApps.forEach(app => {
+    sortedApps.forEach((app) => {
       totalLevel += calculateLevelFromApplication(app, currentDate, halfLife);
     });
 
     // Verificar se houve aplicação neste dia
-    const applicationOnThisDay = sortedApps.find(app => {
+    const applicationOnThisDay = sortedApps.find((app) => {
       const appDate = new Date(app.date);
       appDate.setHours(0, 0, 0, 0);
       return appDate.getTime() === currentDate.getTime();
@@ -1003,7 +1031,7 @@ export function getCurrentEstimatedLevel(
 
   const now = new Date();
   const levels = calculateEstimatedLevels(applications, medication, 0);
-  
+
   return levels[levels.length - 1]?.level || 0;
 }
 
@@ -1033,24 +1061,20 @@ import {
 
 describe('Pharmacokinetics', () => {
   test('calcula níveis com uma aplicação', () => {
-    const applications = [
-      { date: new Date('2025-10-01'), dosage: 10 },
-    ];
+    const applications = [{ date: new Date('2025-10-01'), dosage: 10 }];
 
     const levels = calculateEstimatedLevels(applications, 'mounjaro', 10);
-    
+
     expect(levels.length).toBeGreaterThan(0);
     expect(levels[0].level).toBeCloseTo(10, 1);
     expect(levels[5].level).toBeCloseTo(5, 1); // Após 5 dias (meia-vida)
   });
 
   test('calcula nível atual', () => {
-    const applications = [
-      { date: new Date(), dosage: 10 },
-    ];
+    const applications = [{ date: new Date(), dosage: 10 }];
 
     const currentLevel = getCurrentEstimatedLevel(applications);
-    
+
     expect(currentLevel).toBeCloseTo(10, 0);
   });
 
@@ -1071,18 +1095,22 @@ describe('Pharmacokinetics', () => {
    - Mostrar nível atual no Dashboard
 
 ## VALIDAÇÕES
+
 - [ ] Função calcula sem erros
 - [ ] Níveis fazem sentido (decaem com tempo)
 - [ ] Testes passam
 - [ ] Dashboard mostra nível estimado atual
 
 ## ARQUIVOS A CRIAR
+
 - /lib/pharmacokinetics.ts
-- /lib/__tests__/pharmacokinetics.test.ts
+- /lib/**tests**/pharmacokinetics.test.ts
 
 ## ARQUIVOS A MODIFICAR
+
 - /app/(tabs)/dashboard.tsx
 - /components/dashboard/EstimatedLevelsChart.tsx
+
 ```
 
 ### ✅ CHECKLIST DE VALIDAÇÃO
@@ -1100,10 +1128,13 @@ describe('Pharmacokinetics', () => {
 ### PROMPT PARA CLAUDE CODE:
 
 ```
+
 # TASK: Melhorar gráfico de níveis estimados
 
 ## CONTEXTO
+
 O componente EstimatedLevelsChart existe mas precisa:
+
 - Usar função de farmacocinética
 - Mostrar linha tracejada (projeção futura)
 - Tabs de período (Semana, Mês, 90 dias, Tudo)
@@ -1111,6 +1142,7 @@ O componente EstimatedLevelsChart existe mas precisa:
 - Marcadores de dosagem
 
 ## OBJETIVO
+
 Gráfico completo de níveis como no Shotsy.
 
 ## TAREFAS
@@ -1164,7 +1196,7 @@ export function EstimatedLevelsChart() {
     const filteredLevels = levels.filter((_, index) => index % step === 0);
 
     return {
-      labels: filteredLevels.map(l => 
+      labels: filteredLevels.map(l =>
         l.date.toLocaleDateString('pt-BR', { day: 'numeric', month: 'short' })
       ),
       datasets: [
@@ -1193,7 +1225,7 @@ export function EstimatedLevelsChart() {
         <Text style={[styles.title, { color: colors.text }]}>
           Níveis Estimados de Medicação
         </Text>
-        <TouchableOpacity 
+        <TouchableOpacity
           style={[styles.todayButton, { backgroundColor: colors.primary }]}
           onPress={handleJumpToToday}
         >
@@ -1347,11 +1379,13 @@ const styles = StyleSheet.create({
 ```
 
 2. Instalar dependência (se necessário):
+
 ```bash
 npm install react-native-chart-kit
 ```
 
 ## VALIDAÇÕES
+
 - [ ] Gráfico renderiza sem erros
 - [ ] Tabs de período funcionam
 - [ ] Nível atual aparece destacado
@@ -1359,7 +1393,9 @@ npm install react-native-chart-kit
 - [ ] Botão "Jump to Today" existe
 
 ## ARQUIVOS A MODIFICAR
+
 - /components/dashboard/EstimatedLevelsChart.tsx
+
 ```
 
 ### ✅ CHECKLIST DE VALIDAÇÃO
@@ -1377,10 +1413,13 @@ npm install react-native-chart-kit
 ### PROMPT PARA CLAUDE CODE:
 
 ```
+
 # TASK: Implementar todos os estados dinâmicos do NextShotWidget
 
 ## CONTEXTO
+
 NextShotWidget precisa de 4 estados diferentes baseado nos dados:
+
 1. "Bem-vindo! Adicione sua primeira injeção" (0 injeções)
 2. "It's shot day!" (hoje é dia de injeção)
 3. "You did it! 🎉" (injeção tomada hoje)
@@ -1389,6 +1428,7 @@ NextShotWidget precisa de 4 estados diferentes baseado nos dados:
 Referência: SHOTSY-FUNCIONALIDADES-COMPLETO.md
 
 ## OBJETIVO
+
 Widget dinâmico que responde ao estado real do usuário.
 
 ## TAREFAS
@@ -1456,9 +1496,9 @@ export function NextShotWidget({
     if (nextShotDate.getTime() === today.getTime()) {
       return {
         title: "It's shot day!",
-        subtitle: today.toLocaleDateString('pt-BR', { 
-          day: 'numeric', 
-          month: 'long' 
+        subtitle: today.toLocaleDateString('pt-BR', {
+          day: 'numeric',
+          month: 'long'
         }),
         buttonText: 'Marcar como tomada',
         progress: 0.75,
@@ -1505,8 +1545,8 @@ export function NextShotWidget({
       </Text>
 
       <ShotsyCard style={styles.card}>
-        <ShotsyCircularProgress 
-          size={240} 
+        <ShotsyCircularProgress
+          size={240}
           progress={state.progress}
         >
           <View style={styles.content}>
@@ -1575,6 +1615,7 @@ const styles = StyleSheet.create({
    - Passar para NextShotWidget
 
 ## VALIDAÇÕES
+
 - [ ] Widget mostra estado correto
 - [ ] "Bem-vindo" aparece sem injeções
 - [ ] "You did it!" aparece após adicionar hoje
@@ -1582,8 +1623,10 @@ const styles = StyleSheet.create({
 - [ ] Progresso circular anima
 
 ## ARQUIVOS A MODIFICAR
+
 - /components/dashboard/NextShotWidget.tsx
 - /app/(tabs)/dashboard.tsx
+
 ```
 
 ### ✅ CHECKLIST DE VALIDAÇÃO
@@ -1601,13 +1644,16 @@ const styles = StyleSheet.create({
 ### PROMPT PARA CLAUDE CODE:
 
 ```
+
 # TASK: Criar diagrama visual do corpo para seleção de locais
 
 ## CONTEXTO
+
 Atualmente InjectionSiteGrid usa emojis simples.
 Shotsy tem diagrama visual do corpo humano com rotação inteligente.
 
 ## OBJETIVO
+
 Substituir emojis por SVG visual do corpo mostrando 8 locais.
 
 ## TAREFAS
@@ -1635,10 +1681,10 @@ const INJECTION_SITES = [
   { id: 'arm_right', x: 220, y: 150, label: 'Braço\nDireito' },
 ];
 
-export function BodyDiagram({ 
-  selectedSites, 
+export function BodyDiagram({
+  selectedSites,
   onSiteToggle,
-  history = [] 
+  history = []
 }: BodyDiagramProps) {
   const colors = useShotsyColors();
 
@@ -1651,10 +1697,10 @@ export function BodyDiagram({
   // Sugerir próximo local (rotação)
   const suggestNextSite = (): string | null => {
     if (history.length === 0) return null;
-    
+
     const lastSite = history[history.length - 1];
     const lastIndex = INJECTION_SITES.findIndex(s => s.id === lastSite);
-    
+
     // Rotacionar para próximo local
     const nextIndex = (lastIndex + 1) % INJECTION_SITES.length;
     return INJECTION_SITES[nextIndex].id;
@@ -1679,13 +1725,13 @@ export function BodyDiagram({
           {/* Corpo simples (silhueta) */}
           {/* Cabeça */}
           <Circle cx="150" cy="50" r="30" fill={colors.cardSecondary} />
-          
+
           {/* Tronco */}
           <Path
             d="M 120 80 L 120 240 Q 120 260 135 260 L 165 260 Q 180 260 180 240 L 180 80 Z"
             fill={colors.cardSecondary}
           />
-          
+
           {/* Braços */}
           <Path
             d="M 120 100 L 80 140 L 85 145 L 125 110 Z"
@@ -1695,7 +1741,7 @@ export function BodyDiagram({
             d="M 180 100 L 220 140 L 215 145 L 175 110 Z"
             fill={colors.cardSecondary}
           />
-          
+
           {/* Pernas */}
           <Path
             d="M 135 260 L 130 380 L 145 380 L 145 260 Z"
@@ -1747,7 +1793,7 @@ export function BodyDiagram({
                 styles.siteButton,
                 {
                   backgroundColor: colors.cardSecondary,
-                  borderColor: isSelected ? colors.primary : 
+                  borderColor: isSelected ? colors.primary :
                                isSuggested ? colors.primary + '80' :
                                colors.border,
                   borderWidth: isSelected ? 3 : isSuggested ? 2 : 1,
@@ -1784,7 +1830,7 @@ export function BodyDiagram({
           </Text>
         </View>
         <View style={styles.legendItem}>
-          <View style={[styles.legendDot, { 
+          <View style={[styles.legendDot, {
             backgroundColor: colors.primary + '50',
             borderWidth: 1,
             borderColor: colors.primary,
@@ -1794,7 +1840,7 @@ export function BodyDiagram({
           </Text>
         </View>
         <View style={styles.legendItem}>
-          <View style={[styles.legendDot, { 
+          <View style={[styles.legendDot, {
             backgroundColor: colors.textSecondary + '30',
           }]} />
           <Text style={[styles.legendText, { color: colors.textSecondary }]}>
@@ -1880,6 +1926,7 @@ const styles = StyleSheet.create({
 ```
 
 2. Instalar dependência:
+
 ```bash
 npm install react-native-svg
 ```
@@ -1890,15 +1937,17 @@ npm install react-native-svg
    - Manter mesma interface (value/onChange)
 
 4. Buscar histórico de locais:
+
 ```typescript
 const { applications } = useApplications();
 const injectionHistory = applications
-  .map(app => app.injection_sites)
+  .map((app) => app.injection_sites)
   .flat()
   .slice(-10); // Últimos 10 locais
 ```
 
 ## VALIDAÇÕES
+
 - [ ] Diagrama renderiza sem erros
 - [ ] SVG do corpo aparece
 - [ ] 8 pontos clicáveis
@@ -1907,10 +1956,13 @@ const injectionHistory = applications
 - [ ] Locais recentes ficam opacos
 
 ## ARQUIVOS A CRIAR
+
 - /components/application/BodyDiagram.tsx
 
 ## ARQUIVOS A MODIFICAR
+
 - /app/(tabs)/add-application.tsx
+
 ```
 
 ### ✅ CHECKLIST DE VALIDAÇÃO
@@ -1939,8 +1991,8 @@ const injectionHistory = applications
 
 # FASE 2: UX/UI REFINEMENT (ALTA) 🎨
 
-**Objetivo:** Polish e melhorias de experiência do usuário  
-**Duração:** 15-18 horas  
+**Objetivo:** Polish e melhorias de experiência do usuário
+**Duração:** 15-18 horas
 **Prioridade:** 🟠 ALTA
 
 ---
@@ -1952,13 +2004,16 @@ const injectionHistory = applications
 ### PROMPT PARA CLAUDE CODE:
 
 ```
+
 # TASK: Adicionar swipe actions (editar/deletar) nos ShotCards
 
 ## CONTEXTO
+
 Lista de injeções precisa de swipe gestures para editar e deletar rapidamente.
 react-native-gesture-handler já está instalado.
 
 ## OBJETIVO
+
 Swipe esquerda → Deletar | Swipe direita → Editar
 
 ## TAREFAS
@@ -1978,10 +2033,10 @@ interface SwipeableShotCardProps {
   onDelete: (id: string) => void;
 }
 
-export function SwipeableShotCard({ 
-  shot, 
-  onEdit, 
-  onDelete 
+export function SwipeableShotCard({
+  shot,
+  onEdit,
+  onDelete
 }: SwipeableShotCardProps) {
   const colors = useShotsyColors();
   const swipeableRef = useRef<Swipeable>(null);
@@ -2097,26 +2152,23 @@ const styles = StyleSheet.create({
    - Implementar onEdit e onDelete
 
 3. Adicionar feedback tátil:
+
 ```typescript
 import * as Haptics from 'expo-haptics';
 
 const handleDelete = (id: string) => {
   Haptics.notificationAsync(Haptics.NotificationFeedbackType.Warning);
-  Alert.alert(
-    'Deletar Injeção',
-    'Tem certeza?',
-    [
-      { text: 'Cancelar', style: 'cancel' },
-      {
-        text: 'Deletar',
-        style: 'destructive',
-        onPress: async () => {
-          await deleteApplication(id);
-          Haptics.notificationAsync(Haptics.NotificationFeedbackType.Success);
-        },
+  Alert.alert('Deletar Injeção', 'Tem certeza?', [
+    { text: 'Cancelar', style: 'cancel' },
+    {
+      text: 'Deletar',
+      style: 'destructive',
+      onPress: async () => {
+        await deleteApplication(id);
+        Haptics.notificationAsync(Haptics.NotificationFeedbackType.Success);
       },
-    ]
-  );
+    },
+  ]);
 };
 
 const handleEdit = (id: string) => {
@@ -2126,6 +2178,7 @@ const handleEdit = (id: string) => {
 ```
 
 ## VALIDAÇÕES
+
 - [ ] Swipe funciona em ambas direções
 - [ ] Editar abre tela com dados
 - [ ] Deletar remove do banco
@@ -2133,10 +2186,13 @@ const handleEdit = (id: string) => {
 - [ ] Feedback tátil funciona
 
 ## ARQUIVOS A CRIAR
+
 - /components/shots/SwipeableShotCard.tsx
 
 ## ARQUIVOS A MODIFICAR
+
 - /app/(tabs)/injections.tsx
+
 ```
 
 ### ✅ CHECKLIST DE VALIDAÇÃO
@@ -2178,12 +2234,14 @@ const handleEdit = (id: string) => {
 ## 📊 PROGRESSO GERAL
 
 ```
-FASE 1: Core Features         [██████████] 100% ✅
-FASE 2: UX/UI Refinement      [░░░░░░░░░░]   0%
-FASE 3: Features Avançadas    [░░░░░░░░░░]   0%
-FASE 4: Integrações          [░░░░░░░░░░]   0%
+
+FASE 1: Core Features [██████████] 100% ✅
+FASE 2: UX/UI Refinement [░░░░░░░░░░] 0%
+FASE 3: Features Avançadas [░░░░░░░░░░] 0%
+FASE 4: Integrações [░░░░░░░░░░] 0%
 
 TOTAL PROJETO: ~80% após FASE 1
+
 ```
 
 ---
@@ -2200,5 +2258,6 @@ TOTAL PROJETO: ~80% após FASE 1
 
 **Boa sorte com o desenvolvimento! 🚀**
 
-*Criado para uso com Claude Code*  
+*Criado para uso com Claude Code*
 *Última atualização: 31/10/2025*
+```

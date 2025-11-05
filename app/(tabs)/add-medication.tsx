@@ -1,5 +1,15 @@
 import { useState, useEffect } from 'react';
-import { View, Text, StyleSheet, ScrollView, Alert, KeyboardAvoidingView, Platform, TouchableOpacity, TextInput } from 'react-native';
+import {
+  View,
+  Text,
+  StyleSheet,
+  ScrollView,
+  Alert,
+  KeyboardAvoidingView,
+  Platform,
+  TouchableOpacity,
+  TextInput,
+} from 'react-native';
 import { useRouter, useLocalSearchParams } from 'expo-router';
 import { useMedications } from '@/hooks/useMedications';
 import { useShotsyColors } from '@/hooks/useShotsyColors';
@@ -19,7 +29,12 @@ export default function AddMedicationScreen() {
   const router = useRouter();
   const params = useLocalSearchParams();
   const editId = params.editId as string | undefined;
-  const { addMedication, updateMedication, medications, loading: medicationsLoading } = useMedications();
+  const {
+    addMedication,
+    updateMedication,
+    medications,
+    loading: medicationsLoading,
+  } = useMedications();
 
   const [type, setType] = useState<MedicationType>('mounjaro');
   const [dosage, setDosage] = useState('');
@@ -29,7 +44,7 @@ export default function AddMedicationScreen() {
   // Load medication data for editing
   useEffect(() => {
     if (editId && medications.length > 0) {
-      const medication = medications.find(m => m.id === editId);
+      const medication = medications.find((m) => m.id === editId);
       if (medication) {
         setType(medication.type);
         setDosage(medication.dosage.toString());
@@ -47,7 +62,7 @@ export default function AddMedicationScreen() {
     try {
       setLoading(true);
       await Haptics.impactAsync(Haptics.ImpactFeedbackStyle.Light);
-      
+
       if (editId) {
         // Update existing medication
         await updateMedication(editId, {
@@ -57,7 +72,7 @@ export default function AddMedicationScreen() {
         });
         await Haptics.notificationAsync(Haptics.NotificationFeedbackType.Success);
         Alert.alert('Sucesso!', 'Medicação atualizada', [
-          { text: 'OK', onPress: () => router.back() }
+          { text: 'OK', onPress: () => router.back() },
         ]);
       } else {
         // Add new medication
@@ -69,7 +84,7 @@ export default function AddMedicationScreen() {
         });
         await Haptics.notificationAsync(Haptics.NotificationFeedbackType.Success);
         Alert.alert('Sucesso!', 'Medicação adicionada', [
-          { text: 'OK', onPress: () => router.back() }
+          { text: 'OK', onPress: () => router.back() },
         ]);
       }
     } catch (error: any) {
@@ -103,7 +118,7 @@ export default function AddMedicationScreen() {
             <Text
               style={[
                 styles.saveButton,
-                { color: canSave && !loading ? colors.primary : colors.textSecondary }
+                { color: canSave && !loading ? colors.primary : colors.textSecondary },
               ]}
             >
               Salvar
@@ -124,17 +139,19 @@ export default function AddMedicationScreen() {
                   style={[
                     styles.optionCard,
                     { backgroundColor: colors.card, borderColor: colors.border },
-                    type === option.value && { borderColor: colors.primary, borderWidth: 2 }
+                    type === option.value && { borderColor: colors.primary, borderWidth: 2 },
                   ]}
                   onPress={() => {
                     setType(option.value);
                     Haptics.selectionAsync();
                   }}
                 >
-                  <Text style={[
-                    styles.optionText,
-                    { color: type === option.value ? colors.primary : colors.text }
-                  ]}>
+                  <Text
+                    style={[
+                      styles.optionText,
+                      { color: type === option.value ? colors.primary : colors.text },
+                    ]}
+                  >
                     {option.label}
                   </Text>
                   {type === option.value && (
@@ -147,10 +164,13 @@ export default function AddMedicationScreen() {
 
           {/* DOSAGEM */}
           <View style={styles.section}>
-            <Text style={[styles.sectionLabel, { color: colors.textSecondary }]}>
-              DOSAGEM
-            </Text>
-            <View style={[styles.inputCard, { backgroundColor: colors.card, borderColor: colors.border }]}>
+            <Text style={[styles.sectionLabel, { color: colors.textSecondary }]}>DOSAGEM</Text>
+            <View
+              style={[
+                styles.inputCard,
+                { backgroundColor: colors.card, borderColor: colors.border },
+              ]}
+            >
               <TextInput
                 style={[styles.input, { color: colors.text }]}
                 placeholder="Ex: 2.5"
@@ -173,17 +193,19 @@ export default function AddMedicationScreen() {
                 style={[
                   styles.frequencyCard,
                   { backgroundColor: colors.card, borderColor: colors.border },
-                  frequency === 'weekly' && { borderColor: colors.primary, borderWidth: 2 }
+                  frequency === 'weekly' && { borderColor: colors.primary, borderWidth: 2 },
                 ]}
                 onPress={() => {
                   setFrequency('weekly');
                   Haptics.selectionAsync();
                 }}
               >
-                <Text style={[
-                  styles.frequencyText,
-                  { color: frequency === 'weekly' ? colors.primary : colors.text }
-                ]}>
+                <Text
+                  style={[
+                    styles.frequencyText,
+                    { color: frequency === 'weekly' ? colors.primary : colors.text },
+                  ]}
+                >
                   Semanal
                 </Text>
               </TouchableOpacity>
@@ -192,17 +214,19 @@ export default function AddMedicationScreen() {
                 style={[
                   styles.frequencyCard,
                   { backgroundColor: colors.card, borderColor: colors.border },
-                  frequency === 'daily' && { borderColor: colors.primary, borderWidth: 2 }
+                  frequency === 'daily' && { borderColor: colors.primary, borderWidth: 2 },
                 ]}
                 onPress={() => {
                   setFrequency('daily');
                   Haptics.selectionAsync();
                 }}
               >
-                <Text style={[
-                  styles.frequencyText,
-                  { color: frequency === 'daily' ? colors.primary : colors.text }
-                ]}>
+                <Text
+                  style={[
+                    styles.frequencyText,
+                    { color: frequency === 'daily' ? colors.primary : colors.text },
+                  ]}
+                >
                   Diária
                 </Text>
               </TouchableOpacity>
@@ -220,105 +244,106 @@ export default function AddMedicationScreen() {
   );
 }
 
-const getStyles = (colors: any) => StyleSheet.create({
-  container: {
-    flex: 1,
-  },
-  header: {
-    flexDirection: 'row',
-    alignItems: 'center',
-    justifyContent: 'space-between',
-    paddingHorizontal: 16,
-    paddingTop: 56,  // Consistência com outros screens
-    paddingBottom: 16,
-    borderBottomWidth: 1,
-  },
-  headerTitle: {
-    fontSize: 18,
-    fontWeight: '600',
-  },
-  cancelButton: {
-    fontSize: 16,
-  },
-  saveButton: {
-    fontSize: 16,
-    fontWeight: '600',
-  },
-  scrollView: {
-    flex: 1,
-  },
-  content: {
-    padding: 16,
-    paddingBottom: 40,
-  },
-  section: {
-    marginBottom: 24,
-  },
-  sectionLabel: {
-    fontSize: 13,
-    fontWeight: '600',
-    marginBottom: 12,
-    textTransform: 'uppercase',
-  },
-  optionsGrid: {
-    gap: 8,
-  },
-  optionCard: {
-    flexDirection: 'row',
-    alignItems: 'center',
-    justifyContent: 'space-between',
-    minHeight: 56,
-    padding: 16,
-    borderRadius: 12,
-    borderWidth: 1,
-  },
-  optionText: {
-    fontSize: 16,
-    fontWeight: '500',
-  },
-  optionCheck: {
-    fontSize: 20,
-    fontWeight: 'bold',
-  },
-  inputCard: {
-    flexDirection: 'row',
-    alignItems: 'center',
-    borderRadius: 12,
-    borderWidth: 1,
-    paddingHorizontal: 16,
-    paddingVertical: 12,
-    minHeight: 56,
-  },
-  input: {
-    flex: 1,
-    fontSize: 16,
-    fontWeight: '500',
-  },
-  inputUnit: {
-    fontSize: 16,
-    fontWeight: '600',
-    marginLeft: 8,
-  },
-  frequencyRow: {
-    flexDirection: 'row',
-    gap: 12,
-  },
-  frequencyCard: {
-    flex: 1,
-    alignItems: 'center',
-    justifyContent: 'center',
-    minHeight: 56,
-    paddingVertical: 16,
-    borderRadius: 12,
-    borderWidth: 1,
-  },
-  frequencyText: {
-    fontSize: 16,
-    fontWeight: '500',
-  },
-  loadingText: {
-    fontSize: 14,
-    textAlign: 'center',
-    marginTop: 16,
-  },
-});
+const getStyles = (colors: any) =>
+  StyleSheet.create({
+    container: {
+      flex: 1,
+    },
+    header: {
+      flexDirection: 'row',
+      alignItems: 'center',
+      justifyContent: 'space-between',
+      paddingHorizontal: 16,
+      paddingTop: 56, // Consistência com outros screens
+      paddingBottom: 16,
+      borderBottomWidth: 1,
+    },
+    headerTitle: {
+      fontSize: 18,
+      fontWeight: '600',
+    },
+    cancelButton: {
+      fontSize: 16,
+    },
+    saveButton: {
+      fontSize: 16,
+      fontWeight: '600',
+    },
+    scrollView: {
+      flex: 1,
+    },
+    content: {
+      padding: 16,
+      paddingBottom: 40,
+    },
+    section: {
+      marginBottom: 24,
+    },
+    sectionLabel: {
+      fontSize: 13,
+      fontWeight: '600',
+      marginBottom: 12,
+      textTransform: 'uppercase',
+    },
+    optionsGrid: {
+      gap: 8,
+    },
+    optionCard: {
+      flexDirection: 'row',
+      alignItems: 'center',
+      justifyContent: 'space-between',
+      minHeight: 56,
+      padding: 16,
+      borderRadius: 12,
+      borderWidth: 1,
+    },
+    optionText: {
+      fontSize: 16,
+      fontWeight: '500',
+    },
+    optionCheck: {
+      fontSize: 20,
+      fontWeight: 'bold',
+    },
+    inputCard: {
+      flexDirection: 'row',
+      alignItems: 'center',
+      borderRadius: 12,
+      borderWidth: 1,
+      paddingHorizontal: 16,
+      paddingVertical: 12,
+      minHeight: 56,
+    },
+    input: {
+      flex: 1,
+      fontSize: 16,
+      fontWeight: '500',
+    },
+    inputUnit: {
+      fontSize: 16,
+      fontWeight: '600',
+      marginLeft: 8,
+    },
+    frequencyRow: {
+      flexDirection: 'row',
+      gap: 12,
+    },
+    frequencyCard: {
+      flex: 1,
+      alignItems: 'center',
+      justifyContent: 'center',
+      minHeight: 56,
+      paddingVertical: 16,
+      borderRadius: 12,
+      borderWidth: 1,
+    },
+    frequencyText: {
+      fontSize: 16,
+      fontWeight: '500',
+    },
+    loadingText: {
+      fontSize: 14,
+      textAlign: 'center',
+      marginTop: 16,
+    },
+  });

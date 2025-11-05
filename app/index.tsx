@@ -22,7 +22,7 @@ export default function IndexScreen() {
 
     // Evitar múltiplos redirecionamentos que podem causar loops
     if (hasRedirectedRef.current) return;
-    
+
     // Se não estiver autenticado, ir para welcome
     if (!isSignedIn) {
       hasRedirectedRef.current = true;
@@ -36,7 +36,7 @@ export default function IndexScreen() {
     // Incrementar contador de espera
     if (userLoading) {
       const interval = setInterval(() => {
-        setWaitTime(prev => prev + 1);
+        setWaitTime((prev) => prev + 1);
       }, 1000);
       return () => clearInterval(interval);
     }
@@ -99,25 +99,22 @@ export default function IndexScreen() {
   return (
     <View style={styles.loading}>
       <ActivityIndicator size="large" color={colors.primary} />
-      {waitTime > 3 && (
-        <Text style={styles.loadingText}>
-          Carregando seus dados...
-        </Text>
-      )}
+      {waitTime > 3 && <Text style={styles.loadingText}>Carregando seus dados...</Text>}
     </View>
   );
 }
 
-const getStyles = (colors: any) => StyleSheet.create({
-  loading: {
-    flex: 1,
-    backgroundColor: colors.background,
-    alignItems: 'center',
-    justifyContent: 'center',
-  },
-  loadingText: {
-    marginTop: 16,
-    fontSize: 14,
-    color: colors.textSecondary,
-  },
-});
+const getStyles = (colors: any) =>
+  StyleSheet.create({
+    loading: {
+      flex: 1,
+      backgroundColor: colors.background,
+      alignItems: 'center',
+      justifyContent: 'center',
+    },
+    loadingText: {
+      marginTop: 16,
+      fontSize: 14,
+      color: colors.textSecondary,
+    },
+  });

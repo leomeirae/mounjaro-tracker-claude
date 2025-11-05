@@ -14,7 +14,7 @@ export interface OnboardingData {
   initial_dose?: number; // 2.5, 5, 7.5, etc.
   frequency?: string; // 'weekly' | 'daily'
   device_type?: string; // 'pen' | 'syringe' | 'auto-injector'
-  
+
   // Dados físicos
   height?: number; // em cm
   height_unit?: 'cm' | 'ft';
@@ -23,7 +23,7 @@ export interface OnboardingData {
   starting_weight?: number;
   start_date?: string; // ISO date string
   target_weight?: number;
-  
+
   // Preferências (não persistidas no P0)
   motivation?: string;
   side_effects_concerns?: string[];
@@ -43,11 +43,11 @@ export function useOnboarding() {
     // Buscar usuário diretamente no Supabase (aguardar até ser criado)
     let userIdSupabase: string | null = null;
     let retries = 0;
-    
+
     while (!userIdSupabase && retries < 10) {
       logger.debug('Waiting for user to be created in Supabase', {
         attempt: retries + 1,
-        maxAttempts: 10
+        maxAttempts: 10,
       });
 
       const { data: userData, error: fetchError } = await supabase
@@ -66,7 +66,7 @@ export function useOnboarding() {
         throw new Error('User not found in Supabase. Please wait a moment and try again.');
       }
 
-      await new Promise(resolve => setTimeout(resolve, 500));
+      await new Promise((resolve) => setTimeout(resolve, 500));
       retries++;
     }
 
@@ -98,12 +98,11 @@ export function useOnboarding() {
 
       // Converter peso para kg se necessário
       if (data.current_weight) {
-        const weightKg = data.weight_unit === 'lb' 
-          ? data.current_weight * 0.453592 
-          : data.current_weight;
-        
+        const weightKg =
+          data.weight_unit === 'lb' ? data.current_weight * 0.453592 : data.current_weight;
+
         const today = new Date().toISOString().split('T')[0];
-        
+
         // Verificar se já existe registro para hoje com source='onboarding'
         const { data: existing } = await supabase
           .from('weight_logs')
@@ -112,32 +111,28 @@ export function useOnboarding() {
           .eq('date', today)
           .eq('source', 'onboarding')
           .maybeSingle();
-        
+
         if (!existing) {
           // Criar registro inicial em weight_logs com source='onboarding'
-          await supabase
-            .from('weight_logs')
-            .insert({
-              user_id: userIdSupabase,
-              weight: weightKg,
-              unit: 'kg',
-              date: today,
-              source: 'onboarding',
-            });
+          await supabase.from('weight_logs').insert({
+            user_id: userIdSupabase,
+            weight: weightKg,
+            unit: 'kg',
+            date: today,
+            source: 'onboarding',
+          });
         }
       }
 
       if (data.starting_weight) {
-        const startWeightKg = data.weight_unit === 'lb'
-          ? data.starting_weight * 0.453592
-          : data.starting_weight;
+        const startWeightKg =
+          data.weight_unit === 'lb' ? data.starting_weight * 0.453592 : data.starting_weight;
         userUpdates.start_weight = startWeightKg;
       }
 
       if (data.target_weight) {
-        const targetWeightKg = data.weight_unit === 'lb'
-          ? data.target_weight * 0.453592
-          : data.target_weight;
+        const targetWeightKg =
+          data.weight_unit === 'lb' ? data.target_weight * 0.453592 : data.target_weight;
         userUpdates.target_weight = targetWeightKg;
       }
 
@@ -154,17 +149,15 @@ export function useOnboarding() {
 
       // 2. Criar registro em medications se houver dados de medicação
       if (data.medication && data.initial_dose && data.frequency) {
-        const { error: medError } = await supabase
-          .from('medications')
-          .insert({
-            user_id: userIdSupabase,
-            type: data.medication,
-            dosage: data.initial_dose,
-            frequency: data.frequency,
-            start_date: data.start_date || new Date().toISOString().split('T')[0],
-            active: true,
-            notes: data.device_type ? `Device: ${data.device_type}` : undefined,
-          });
+        const { error: medError } = await supabase.from('medications').insert({
+          user_id: userIdSupabase,
+          type: data.medication,
+          dosage: data.initial_dose,
+          frequency: data.frequency,
+          start_date: data.start_date || new Date().toISOString().split('T')[0],
+          active: true,
+          notes: data.device_type ? `Device: ${data.device_type}` : undefined,
+        });
 
         if (medError) {
           logger.error('Error creating medication', medError);
@@ -174,9 +167,8 @@ export function useOnboarding() {
 
       // 3. Criar registro inicial em weight_logs se houver starting_weight e start_date
       if (data.starting_weight && data.start_date) {
-        const startWeightKg = data.weight_unit === 'lb'
-          ? data.starting_weight * 0.453592
-          : data.starting_weight;
+        const startWeightKg =
+          data.weight_unit === 'lb' ? data.starting_weight * 0.453592 : data.starting_weight;
 
         // Verificar se já existe registro para essa data com source='onboarding'
         const { data: existing } = await supabase
@@ -188,20 +180,19 @@ export function useOnboarding() {
           .maybeSingle();
 
         if (!existing) {
-          const { error: weightError } = await supabase
-            .from('weight_logs')
-            .insert({
-              user_id: userIdSupabase,
-              weight: startWeightKg,
-              unit: 'kg',
-              date: data.start_date,
-              source: 'onboarding',
-            });
+          const { error: weightError } = await supabase.from('weight_logs').insert({
+            user_id: userIdSupabase,
+            weight: startWeightKg,
+            unit: 'kg',
+            date: data.start_date,
+            source: 'onboarding',
+          });
 
           if (weightError) {
             logger.error('Error creating initial weight log', weightError);
             // Não falhar se já existir registro para essa data
-            if (weightError.code !== '23505') { // Unique violation
+            if (weightError.code !== '23505') {
+              // Unique violation
               throw weightError;
             }
           }

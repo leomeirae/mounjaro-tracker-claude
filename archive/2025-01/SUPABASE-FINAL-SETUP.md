@@ -3,6 +3,7 @@
 ## 📊 Current Database Status
 
 Your Supabase database already has these tables:
+
 - ✅ `users` - User accounts (with clerk_id)
 - ✅ `medications` - Medication records (Mounjaro, Ozempic, etc.)
 - ✅ `medication_applications` - Injection records
@@ -39,11 +40,13 @@ Go to: https://iokunvykvndmczfzdbho.supabase.co
 #### ✅ Adds Columns to Existing Tables:
 
 **`users` table** gets:
+
 - `height` (NUMERIC) - User height in meters
 - `start_weight` (NUMERIC) - Starting weight
 - `target_weight` (NUMERIC) - Goal weight
 
 **`medication_applications` table** gets:
+
 - `injection_sites` (TEXT[]) - Array of injection sites
 - `side_effects_list` (TEXT[]) - Array of side effects
 - `updated_at` (TIMESTAMPTZ) - Last update timestamp
@@ -51,18 +54,21 @@ Go to: https://iokunvykvndmczfzdbho.supabase.co
 #### ✅ Creates Views (that work like tables):
 
 **`profiles` view** - Combines `users` + active `medications`
+
 ```sql
 -- Our hooks can query this instead of users directly
 SELECT * FROM profiles WHERE id = 'user-id';
 ```
 
 **`applications` view** - Adapts `medication_applications`
+
 ```sql
 -- Same data, different column names to match our hooks
 SELECT * FROM applications WHERE user_id = 'user-id';
 ```
 
 **`weights` view** - Alias for `weight_logs`
+
 ```sql
 -- Just a friendlier name
 SELECT * FROM weights WHERE user_id = 'user-id';
@@ -71,6 +77,7 @@ SELECT * FROM weights WHERE user_id = 'user-id';
 #### ✅ Creates New Table:
 
 **`settings` table** - User preferences
+
 - theme, accent_color, dark_mode
 - shot_reminder, weight_reminder
 - notifications settings
@@ -78,6 +85,7 @@ SELECT * FROM weights WHERE user_id = 'user-id';
 #### ✅ Makes Views Writable:
 
 Uses PostgreSQL "INSTEAD OF" triggers so you can:
+
 ```sql
 -- Insert into view (actually inserts into base table)
 INSERT INTO profiles (id, name, email) VALUES (...);
@@ -94,6 +102,7 @@ DELETE FROM applications WHERE id = '...';
 ## 📋 Comparison: Old vs New Structure
 
 ### Your Existing Structure ✅
+
 ```
 users
   - id, clerk_id, email, name
@@ -109,6 +118,7 @@ weight_logs
 ```
 
 ### What We Add 🆕
+
 ```
 users (add columns)
   + height, start_weight, target_weight
@@ -130,16 +140,19 @@ Views (for hook compatibility):
 ## ✅ Benefits of This Approach
 
 ### 1. **Non-Destructive**
+
 - ✅ Keeps all existing data
 - ✅ Doesn't break existing code
 - ✅ Backward compatible
 
 ### 2. **Efficient**
+
 - ✅ No data duplication
 - ✅ Views are fast (they're just queries)
 - ✅ One source of truth
 
 ### 3. **Flexible**
+
 - ✅ Can use old table names OR new view names
 - ✅ Easy to migrate later if needed
 - ✅ Gradual migration path
@@ -269,10 +282,10 @@ The hooks I created work perfectly with these views:
 
 ```typescript
 // These hooks now work with your existing data!
-const { profile } = useProfile();        // → queries 'profiles' view
+const { profile } = useProfile(); // → queries 'profiles' view
 const { applications } = useApplications(); // → queries 'applications' view
-const { weights } = useWeights();         // → queries 'weights' view
-const { settings } = useSettings();       // → queries 'settings' table
+const { weights } = useWeights(); // → queries 'weights' view
+const { settings } = useSettings(); // → queries 'settings' table
 ```
 
 ---
@@ -321,18 +334,22 @@ RLS policies on base tables (`users`, `medication_applications`, `weight_logs`) 
 ## 🆘 Troubleshooting
 
 ### "view profiles does not exist"
+
 - Run the migration again
 - Check for SQL errors in Supabase logs
 
 ### "permission denied for view profiles"
+
 - Check RLS policies on base `users` table
 - Ensure Clerk JWT is configured
 
 ### "column injection_sites does not exist"
+
 - Migration didn't add column to `medication_applications`
 - Run just that ALTER TABLE statement manually
 
 ### "cannot insert into view"
+
 - INSTEAD OF triggers not created
 - Check trigger definitions in migration
 
@@ -353,6 +370,7 @@ RLS policies on base tables (`users`, `medication_applications`, `weight_logs`) 
 ## 🎉 Result
 
 **You now have:**
+
 - ✅ All your existing data preserved
 - ✅ New structure compatible with FASE 8-10 features
 - ✅ Hooks that work with existing tables

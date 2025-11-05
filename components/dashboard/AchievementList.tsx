@@ -35,9 +35,7 @@ export function AchievementList({ achievements, loading, maxVisible }: Achieveme
     );
   }
 
-  const displayAchievements = maxVisible 
-    ? achievements.slice(0, maxVisible)
-    : achievements;
+  const displayAchievements = maxVisible ? achievements.slice(0, maxVisible) : achievements;
 
   const styles = getStyles(colors);
 
@@ -47,7 +45,7 @@ export function AchievementList({ achievements, loading, maxVisible }: Achieveme
         <Text style={styles.title}>🏆 Suas Conquistas</Text>
         <Text style={styles.count}>{achievements.length}</Text>
       </View>
-      
+
       <FlatList
         data={displayAchievements}
         keyExtractor={(item) => item.id}
@@ -56,73 +54,67 @@ export function AchievementList({ achievements, loading, maxVisible }: Achieveme
       />
 
       {maxVisible && achievements.length > maxVisible && (
-        <Text style={styles.moreText}>
-          +{achievements.length - maxVisible} conquistas
-        </Text>
+        <Text style={styles.moreText}>+{achievements.length - maxVisible} conquistas</Text>
       )}
     </View>
   );
 }
 
-const getStyles = (colors: any) => StyleSheet.create({
-  container: {
-    marginBottom: 16,
-  },
-  header: {
-    flexDirection: 'row',
-    justifyContent: 'space-between',
-    alignItems: 'center',
-    marginBottom: 12,
-  },
-  title: {
-    fontSize: 18,
-    fontWeight: 'bold',
-    color: colors.text,
-  },
-  count: {
-    fontSize: 16,
-    fontWeight: 'bold',
-    color: colors.primary,
-    backgroundColor: colors.card,
-    paddingHorizontal: 12,
-    paddingVertical: 4,
-    borderRadius: 12,
-  },
-  loadingContainer: {
-    padding: 32,
-    alignItems: 'center',
-  },
-  emptyContainer: {
-    backgroundColor: colors.card,
-    borderRadius: 16,
-    padding: 32,
-    alignItems: 'center',
-    marginBottom: 16,
-  },
-  emptyIcon: {
-    fontSize: 48,
-    marginBottom: 12,
-  },
-  emptyText: {
-    fontSize: 16,
-    fontWeight: '600',
-    color: colors.text,
-    marginBottom: 8,
-  },
-  emptySubtext: {
-    fontSize: 14,
-    color: colors.textSecondary,
-    textAlign: 'center',
-  },
-  moreText: {
-    fontSize: 14,
-    color: colors.textMuted,
-    textAlign: 'center',
-    marginTop: 8,
-  },
-});
-
-
-
-
-
+const getStyles = (colors: any) =>
+  StyleSheet.create({
+    container: {
+      marginBottom: 16,
+    },
+    header: {
+      flexDirection: 'row',
+      justifyContent: 'space-between',
+      alignItems: 'center',
+      marginBottom: 12,
+    },
+    title: {
+      fontSize: 18,
+      fontWeight: 'bold',
+      color: colors.text,
+    },
+    count: {
+      fontSize: 16,
+      fontWeight: 'bold',
+      color: colors.primary,
+      backgroundColor: colors.card,
+      paddingHorizontal: 12,
+      paddingVertical: 4,
+      borderRadius: 12,
+    },
+    loadingContainer: {
+      padding: 32,
+      alignItems: 'center',
+    },
+    emptyContainer: {
+      backgroundColor: colors.card,
+      borderRadius: 16,
+      padding: 32,
+      alignItems: 'center',
+      marginBottom: 16,
+    },
+    emptyIcon: {
+      fontSize: 48,
+      marginBottom: 12,
+    },
+    emptyText: {
+      fontSize: 16,
+      fontWeight: '600',
+      color: colors.text,
+      marginBottom: 8,
+    },
+    emptySubtext: {
+      fontSize: 14,
+      color: colors.textSecondary,
+      textAlign: 'center',
+    },
+    moreText: {
+      fontSize: 14,
+      color: colors.textMuted,
+      textAlign: 'center',
+      marginTop: 8,
+    },
+  });

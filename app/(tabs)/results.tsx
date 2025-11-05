@@ -20,7 +20,11 @@ export default function ResultsScreen() {
   const router = useRouter();
   const { weights, loading: weightsLoading, refetch: refetchWeights } = useWeights();
   const { profile, loading: profileLoading, refetch: refetchProfile } = useProfile();
-  const { applications, loading: applicationsLoading, refetch: refetchApplications } = useApplications();
+  const {
+    applications,
+    loading: applicationsLoading,
+    refetch: refetchApplications,
+  } = useApplications();
 
   const [selectedPeriod, setSelectedPeriod] = useState<PeriodFilter>('30days');
   const [refreshing, setRefreshing] = useState(false);
@@ -29,7 +33,7 @@ export default function ResultsScreen() {
     '7days': 'week',
     '30days': 'month',
     '90days': '90days',
-    'all': 'all',
+    all: 'all',
   };
 
   const handleRefresh = async () => {
@@ -40,7 +44,7 @@ export default function ResultsScreen() {
 
   // Transform weights data for charts
   const weightData = useMemo(() => {
-    return weights.map(w => ({
+    return weights.map((w) => ({
       date: w.date,
       weight: w.weight,
     }));
@@ -49,7 +53,7 @@ export default function ResultsScreen() {
   // Calculate BMI data
   const bmiData = useMemo(() => {
     const height = profile?.height || 1.75; // Default to 1.75m if not set
-    return weights.map(w => ({
+    return weights.map((w) => ({
       date: w.date,
       bmi: w.weight / (height * height),
     }));
@@ -115,7 +119,7 @@ export default function ResultsScreen() {
 
   const maxWeeklyLoss = useMemo(() => {
     if (weeklyChanges.length === 0) return 0;
-    return Math.max(...weeklyChanges.map(c => c.value));
+    return Math.max(...weeklyChanges.map((c) => c.value));
   }, [weeklyChanges]);
 
   const maxWeeklyLossDate = useMemo(() => {
@@ -128,7 +132,7 @@ export default function ResultsScreen() {
 
   const minWeeklyLoss = useMemo(() => {
     if (weeklyChanges.length === 0) return 0;
-    return Math.min(...weeklyChanges.map(c => c.value));
+    return Math.min(...weeklyChanges.map((c) => c.value));
   }, [weeklyChanges]);
 
   const minWeeklyLossDate = useMemo(() => {
@@ -192,15 +196,20 @@ export default function ResultsScreen() {
   return (
     <View style={[styles.container, { backgroundColor: colors.background }]}>
       {/* Header with Export Button */}
-      <View style={[styles.header, { backgroundColor: colors.background, borderBottomColor: colors.border }]}>
+      <View
+        style={[
+          styles.header,
+          { backgroundColor: colors.background, borderBottomColor: colors.border },
+        ]}
+      >
         <Text style={[styles.headerTitle, { color: colors.text }]}>Resultados</Text>
         <PremiumGate featureName="export_data">
           <ExportButton
-            weights={weights.map(w => ({ date: w.date, weight: w.weight }))}
-            applications={applications.map(a => ({
+            weights={weights.map((w) => ({ date: w.date, weight: w.weight }))}
+            applications={applications.map((a) => ({
               date: a.date,
               dosage: a.dosage,
-              location: a.location || 'N/A'
+              location: a.location || 'N/A',
             }))}
             profile={{
               height: profile?.height,
@@ -217,10 +226,7 @@ export default function ResultsScreen() {
           <RefreshControl refreshing={refreshing || loading} onRefresh={handleRefresh} />
         }
       >
-        <PeriodSelector
-          selectedPeriod={selectedPeriod}
-          onPeriodChange={setSelectedPeriod}
-        />
+        <PeriodSelector selectedPeriod={selectedPeriod} onPeriodChange={setSelectedPeriod} />
 
         <View style={styles.content}>
           {/* Métricas Principais */}
@@ -230,7 +236,7 @@ export default function ResultsScreen() {
                 title="Mudança Total"
                 value={`${weightChange.toFixed(1)} kg`}
                 subtitle={`${percentChange.toFixed(1)}%`}
-                trend={weightChange < 0 ? "down" : weightChange > 0 ? "up" : undefined}
+                trend={weightChange < 0 ? 'down' : weightChange > 0 ? 'up' : undefined}
               />
               <MetricCard
                 title="IMC Atual"
@@ -239,10 +245,7 @@ export default function ResultsScreen() {
               />
             </View>
             <View style={styles.metricRow}>
-              <MetricCard
-                title="Peso Atual"
-                value={`${currentWeight.toFixed(1)} kg`}
-              />
+              <MetricCard title="Peso Atual" value={`${currentWeight.toFixed(1)} kg`} />
               <MetricCard
                 title="Por Cento"
                 value={`${Math.max(0, progressPercent).toFixed(0)}%`}
@@ -254,7 +257,7 @@ export default function ResultsScreen() {
                 title="Média Semanal"
                 value={`${avgWeeklyLoss > 0 ? '-' : ''}${avgWeeklyLoss.toFixed(1)} kg`}
                 subtitle="por semana"
-                trend={avgWeeklyLoss > 0 ? "down" : undefined}
+                trend={avgWeeklyLoss > 0 ? 'down' : undefined}
               />
               <MetricCard
                 title="Para a Meta"
@@ -272,10 +275,7 @@ export default function ResultsScreen() {
           />
 
           {/* Gráfico de IMC */}
-          <BMIChart
-            data={bmiData}
-            periodFilter={periodFilterMap[selectedPeriod]}
-          />
+          <BMIChart data={bmiData} periodFilter={periodFilterMap[selectedPeriod]} />
 
           {/* Estatísticas Detalhadas */}
           <DetailedStats
@@ -304,12 +304,12 @@ const styles = StyleSheet.create({
     justifyContent: 'space-between',
     alignItems: 'center',
     paddingHorizontal: 16,
-    paddingTop: 56,  // Mudança: 60 → 56px (Shotsy header padding)
-    paddingBottom: 16,  // Mudança: 12 → 16px (Shotsy bottom padding)
+    paddingTop: 56, // Mudança: 60 → 56px (Shotsy header padding)
+    paddingBottom: 16, // Mudança: 12 → 16px (Shotsy bottom padding)
     borderBottomWidth: 1,
   },
   headerTitle: {
-    fontSize: 26,  // Mudança: 28 → 26px (Shotsy title size)
+    fontSize: 26, // Mudança: 28 → 26px (Shotsy title size)
     fontWeight: '700',
   },
   content: {

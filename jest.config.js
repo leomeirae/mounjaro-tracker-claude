@@ -3,10 +3,7 @@ module.exports = {
   testEnvironment: 'node',
 
   // Test file patterns
-  testMatch: [
-    '**/__tests__/**/*.test.ts',
-    '**/__tests__/**/*.test.tsx',
-  ],
+  testMatch: ['**/__tests__/**/*.test.ts', '**/__tests__/**/*.test.tsx'],
 
   // Module resolution
   moduleFileExtensions: ['ts', 'tsx', 'js', 'jsx', 'json', 'node'],
@@ -20,17 +17,20 @@ module.exports = {
 
   // Transform configuration
   transform: {
-    '^.+\\.tsx?$': ['ts-jest', {
-      tsconfig: {
-        jsx: 'react',
-        esModuleInterop: true,
-        allowSyntheticDefaultImports: true,
+    '^.+\\.tsx?$': [
+      'ts-jest',
+      {
+        tsconfig: {
+          jsx: 'react',
+          esModuleInterop: true,
+          allowSyntheticDefaultImports: true,
+        },
+        isolatedModules: true,
+        diagnostics: {
+          ignoreCodes: [6133, 7016],
+        },
       },
-      isolatedModules: true,
-      diagnostics: {
-        ignoreCodes: [6133, 7016],
-      }
-    }]
+    ],
   },
 
   // Setup files
@@ -66,4 +66,3 @@ module.exports = {
   // Verbose output
   verbose: true,
 };
-

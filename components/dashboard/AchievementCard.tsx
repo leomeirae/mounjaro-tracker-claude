@@ -28,42 +28,38 @@ export function AchievementCard({ achievement }: AchievementCardProps) {
   );
 }
 
-const getStyles = (colors: any) => StyleSheet.create({
-  card: {
-    flexDirection: 'row',
-    backgroundColor: colors.card,
-    borderRadius: 12,
-    padding: 16,
-    marginBottom: 12,
-    alignItems: 'center',
-    borderWidth: 2,
-    borderColor: colors.primary + '20', // 20% opacity
-  },
-  icon: {
-    fontSize: 40,
-    marginRight: 16,
-  },
-  content: {
-    flex: 1,
-  },
-  title: {
-    fontSize: 16,
-    fontWeight: 'bold',
-    color: colors.text,
-    marginBottom: 4,
-  },
-  description: {
-    fontSize: 14,
-    color: colors.textSecondary,
-    marginBottom: 4,
-  },
-  date: {
-    fontSize: 12,
-    color: colors.textMuted,
-  },
-});
-
-
-
-
-
+const getStyles = (colors: any) =>
+  StyleSheet.create({
+    card: {
+      flexDirection: 'row',
+      backgroundColor: colors.card,
+      borderRadius: 12,
+      padding: 16,
+      marginBottom: 12,
+      alignItems: 'center',
+      borderWidth: 2,
+      borderColor: colors.primary + '20', // 20% opacity
+    },
+    icon: {
+      fontSize: 40,
+      marginRight: 16,
+    },
+    content: {
+      flex: 1,
+    },
+    title: {
+      fontSize: 16,
+      fontWeight: 'bold',
+      color: colors.text,
+      marginBottom: 4,
+    },
+    description: {
+      fontSize: 14,
+      color: colors.textSecondary,
+      marginBottom: 4,
+    },
+    date: {
+      fontSize: 12,
+      color: colors.textMuted,
+    },
+  });

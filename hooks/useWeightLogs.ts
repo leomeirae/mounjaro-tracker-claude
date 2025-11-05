@@ -59,7 +59,7 @@ export function useWeightLogs() {
       logger.error('Error adding weight log:', error);
       throw error;
     }
-    
+
     await fetchWeightLogs();
     return data;
   }
@@ -78,10 +78,7 @@ export function useWeightLogs() {
   }
 
   async function deleteWeightLog(id: string) {
-    const { error} = await supabase
-      .from('weight_logs')
-      .delete()
-      .eq('id', id);
+    const { error } = await supabase.from('weight_logs').delete().eq('id', id);
 
     if (error) throw error;
     await fetchWeightLogs();

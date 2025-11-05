@@ -46,9 +46,7 @@ export { useUser, useSignIn, useSignUp, useAuth as useClerkAuthFull } from '@cle
 export function validateClerkKey() {
   const key = process.env.EXPO_PUBLIC_CLERK_PUBLISHABLE_KEY;
   if (!key) {
-    throw new Error(
-      'EXPO_PUBLIC_CLERK_PUBLISHABLE_KEY não encontrada em .env.local'
-    );
+    throw new Error('EXPO_PUBLIC_CLERK_PUBLISHABLE_KEY não encontrada em .env.local');
   }
   return key;
 }

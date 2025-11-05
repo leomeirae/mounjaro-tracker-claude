@@ -25,7 +25,7 @@ export function SideEffectsChips({ value, onChange }: SideEffectsChipsProps) {
 
   const toggleEffect = (effect: string) => {
     if (value.includes(effect)) {
-      onChange(value.filter(e => e !== effect));
+      onChange(value.filter((e) => e !== effect));
     } else {
       onChange([...value, effect]);
     }
@@ -43,17 +43,12 @@ export function SideEffectsChips({ value, onChange }: SideEffectsChipsProps) {
               {
                 backgroundColor: isSelected ? colors.primary : colors.cardSecondary,
                 borderColor: isSelected ? colors.primary : colors.border,
-              }
+              },
             ]}
             onPress={() => toggleEffect(effect)}
             activeOpacity={0.7}
           >
-            <Text
-              style={[
-                styles.chipText,
-                { color: isSelected ? '#FFFFFF' : colors.text }
-              ]}
-            >
+            <Text style={[styles.chipText, { color: isSelected ? '#FFFFFF' : colors.text }]}>
               {effect}
             </Text>
           </TouchableOpacity>

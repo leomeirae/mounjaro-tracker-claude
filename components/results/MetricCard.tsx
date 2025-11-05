@@ -37,24 +37,11 @@ export const MetricCard: React.FC<MetricCardProps> = ({
     <ShotsyCard style={styles.card}>
       <Text style={[styles.title, { color: colors.textSecondary }]}>{title}</Text>
       <View style={styles.valueContainer}>
-        {trend && (
-          <View style={styles.trendIcon}>
-            {getTrendIcon()}
-          </View>
-        )}
-        <Text
-          style={[
-            styles.value,
-            { color: accentColor || colors.primary },
-          ]}
-        >
-          {value}
-        </Text>
+        {trend && <View style={styles.trendIcon}>{getTrendIcon()}</View>}
+        <Text style={[styles.value, { color: accentColor || colors.primary }]}>{value}</Text>
       </View>
       {subtitle && (
-        <Text style={[styles.subtitle, { color: colors.textSecondary }]}>
-          {subtitle}
-        </Text>
+        <Text style={[styles.subtitle, { color: colors.textSecondary }]}>{subtitle}</Text>
       )}
     </ShotsyCard>
   );

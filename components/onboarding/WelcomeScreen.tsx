@@ -1,5 +1,14 @@
 import React, { useState, useRef, useEffect } from 'react';
-import { View, Text, StyleSheet, FlatList, Dimensions, TouchableOpacity, Image, Linking } from 'react-native';
+import {
+  View,
+  Text,
+  StyleSheet,
+  FlatList,
+  Dimensions,
+  TouchableOpacity,
+  Image,
+  Linking,
+} from 'react-native';
 import { useShotsyColors } from '@/hooks/useShotsyColors';
 import { useTheme } from '@/lib/theme-context';
 import { ShotsyButton } from '@/components/ui/shotsy-button';
@@ -17,7 +26,8 @@ const slides = [
     id: '1',
     image: require('../../assets/imagens_carrossel_tela_inicial/imagem_1 (1).png'),
     title: 'Aproveite ao máximo seu medicamento GLP-1',
-    subtitle: 'Mounjaro Tracker foi projetado para ajudar você a entender e acompanhar suas aplicações semanais.',
+    subtitle:
+      'Mounjaro Tracker foi projetado para ajudar você a entender e acompanhar suas aplicações semanais.',
     accessibilityLabel: 'Aproveite ao máximo seu medicamento GLP-1',
   },
   {
@@ -31,7 +41,8 @@ const slides = [
     id: '3',
     image: require('../../assets/imagens_carrossel_tela_inicial/imagem_3 (1).png'),
     title: 'Entenda seu progresso com gráficos bonitos',
-    subtitle: 'Aprenda mais sobre seu medicamento com ferramentas baseadas em resultados de ensaios clínicos.',
+    subtitle:
+      'Aprenda mais sobre seu medicamento com ferramentas baseadas em resultados de ensaios clínicos.',
     accessibilityLabel: 'Entenda seu progresso com gráficos bonitos',
   },
   {
@@ -103,9 +114,9 @@ export function WelcomeScreen({ onNext }: WelcomeScreenProps) {
         renderItem={({ item }) => (
           <View style={[styles.slide, { width }]}>
             <View style={styles.imageContainer}>
-              <Image 
-                source={item.image} 
-                style={styles.appImage} 
+              <Image
+                source={item.image}
+                style={styles.appImage}
                 resizeMode="contain"
                 accessible={true}
                 accessibilityLabel={item.accessibilityLabel}
@@ -119,9 +130,7 @@ export function WelcomeScreen({ onNext }: WelcomeScreenProps) {
       <View style={styles.contentWrapper}>
         {/* Título e Subtítulo */}
         <View style={styles.textContainer}>
-          <Text style={[styles.title, { color: colors.text }]}>
-            {currentSlide.title}
-          </Text>
+          <Text style={[styles.title, { color: colors.text }]}>{currentSlide.title}</Text>
           {currentSlide.subtitle && (
             <Text style={[styles.subtitle, { color: colors.textSecondary }]}>
               {currentSlide.subtitle}
@@ -159,8 +168,8 @@ export function WelcomeScreen({ onNext }: WelcomeScreenProps) {
             Ao continuar, você concorda com os{'\n'}
             <Text style={[styles.termsLink, { color: currentAccent }]} onPress={handleOpenTerms}>
               Termos de Uso
-            </Text>
-            {' '}e a{' '}
+            </Text>{' '}
+            e a{' '}
             <Text style={[styles.termsLink, { color: currentAccent }]} onPress={handleOpenPrivacy}>
               Política de Privacidade
             </Text>

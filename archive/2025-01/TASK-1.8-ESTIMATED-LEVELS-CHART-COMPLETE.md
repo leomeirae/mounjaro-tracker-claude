@@ -9,6 +9,7 @@
 ## Summary
 
 Successfully **UPDATED** the existing EstimatedLevelsChart component with:
+
 - Real pharmacokinetics calculations from `/lib/pharmacokinetics.ts`
 - Period tabs (Semana, Mês, 90 dias, Tudo)
 - Current level card with prominent display
@@ -21,12 +22,14 @@ Successfully **UPDATED** the existing EstimatedLevelsChart component with:
 ## What Was Changed
 
 ### 1. **Component Status**
+
 - **UPDATED** existing component (was previously using mock data)
 - Transformed from mock data to real pharmacokinetics calculations
 
 ### 2. **New Features Implemented**
 
 #### a) Real Pharmacokinetics Integration
+
 ```typescript
 import { calculateEstimatedLevels, getCurrentEstimatedLevel } from '@/lib/pharmacokinetics';
 import { useApplications } from '@/hooks/useApplications';
@@ -35,7 +38,7 @@ import { useApplications } from '@/hooks/useApplications';
 const currentLevel = useMemo(() => {
   if (applications.length === 0) return 0;
 
-  const medApplications = applications.map(app => ({
+  const medApplications = applications.map((app) => ({
     dose: app.dosage,
     date: app.date,
   }));
@@ -45,6 +48,7 @@ const currentLevel = useMemo(() => {
 ```
 
 #### b) Period Tabs Configuration
+
 ```typescript
 const PERIOD_TABS: PeriodTab[] = [
   { key: 'week', label: 'Semana', days: 7 },
@@ -55,18 +59,21 @@ const PERIOD_TABS: PeriodTab[] = [
 ```
 
 #### c) Smart Data Sampling
+
 - Calculates optimal interval hours: `Math.floor(totalHours / 30)`
 - Limits to max 30 points for performance
 - Always includes the last (current) point
 - Uses `useMemo` for efficient re-calculation
 
 #### d) Period-Based Label Formatting
+
 - **Week:** Day names (Dom, Seg, Ter, Qua, Qui, Sex, Sáb)
 - **Month:** DD/MM format
 - **90 days:** DD/MM format
 - **All:** Month names (Jan, Fev, Mar, etc.)
 
 #### e) Current Level Card
+
 ```typescript
 <View style={[styles.currentLevelCard, { backgroundColor: colors.background }]}>
   <Text style={[styles.currentLevelLabel, { color: colors.textSecondary }]}>
@@ -77,12 +84,14 @@ const PERIOD_TABS: PeriodTab[] = [
   </Text>
 </View>
 ```
+
 - Prominent display (32px font, bold)
 - Shows level with 2 decimal places
 - Uses primary color for emphasis
 - Placed above chart for visibility
 
 #### f) Jump to Today Button
+
 ```typescript
 <Pressable
   style={styles.jumpButton}
@@ -97,11 +106,13 @@ const PERIOD_TABS: PeriodTab[] = [
   </Text>
 </Pressable>
 ```
+
 - Placed in header right section
 - Icon + text layout
 - Placeholder implementation (TODO for future)
 
 #### g) Empty State
+
 ```typescript
 if (applications.length === 0) {
   return (
@@ -147,6 +158,7 @@ if (applications.length === 0) {
 ```
 
 **Key Settings:**
+
 - ✅ Bezier curves for smooth exponential decay visualization
 - ✅ Dots on data points (r=4, strokeWidth=2)
 - ✅ Theme colors integration (useShotsyColors)
@@ -160,6 +172,7 @@ if (applications.length === 0) {
 ## Technical Implementation
 
 ### Data Flow
+
 1. **useApplications** hook fetches injection history from Supabase
 2. **Applications** are mapped to `MedicationApplication` format:
    - `dosage` → `dose`
@@ -172,6 +185,7 @@ if (applications.length === 0) {
 6. **Chart rendered** with bezier interpolation
 
 ### Performance Optimizations
+
 - ✅ `useMemo` for currentLevel calculation
 - ✅ `useMemo` for chartData calculation
 - ✅ Dependency tracking: `[applications]` and `[applications, selectedPeriod]`
@@ -179,6 +193,7 @@ if (applications.length === 0) {
 - ✅ Efficient date range filtering
 
 ### Pharmacokinetics Accuracy
+
 - ✅ Uses real half-life (120 hours)
 - ✅ Exponential decay formula
 - ✅ Handles multiple overlapping doses
@@ -190,6 +205,7 @@ if (applications.length === 0) {
 ## Dependencies Status
 
 ### ✅ Installed and Ready
+
 ```json
 "react-native-chart-kit": "^6.12.0"
 ```
@@ -198,6 +214,7 @@ if (applications.length === 0) {
 **Location:** `/Users/user/Desktop/mounjaro-tracker/package.json` line ~76
 
 **Required Peer Dependencies:**
+
 - `react-native-svg` (likely already installed with Expo)
 
 ---
@@ -247,6 +264,7 @@ import { EstimatedLevelsChart } from '@/components/dashboard/EstimatedLevelsChar
 ```
 
 **No props required!** The component:
+
 - Fetches applications via `useApplications` hook
 - Calculates levels using pharmacokinetics library
 - Manages its own period state
@@ -256,16 +274,16 @@ import { EstimatedLevelsChart } from '@/components/dashboard/EstimatedLevelsChar
 
 ## Key Improvements Over Previous Version
 
-| Feature | Before | After |
-|---------|--------|-------|
-| Data Source | Mock data | Real pharmacokinetics |
-| Calculations | Hardcoded values | `calculateEstimatedLevels()` |
-| Current Level | Prop-based | Calculated from applications |
-| Period Tabs | Basic filters | Full period configuration |
-| Empty State | None | Proper icon + message |
-| Jump to Today | Missing | Implemented (header) |
-| Performance | No optimization | useMemo + 30-point limit |
-| Label Formatting | Static | Period-aware formatting |
+| Feature          | Before           | After                        |
+| ---------------- | ---------------- | ---------------------------- |
+| Data Source      | Mock data        | Real pharmacokinetics        |
+| Calculations     | Hardcoded values | `calculateEstimatedLevels()` |
+| Current Level    | Prop-based       | Calculated from applications |
+| Period Tabs      | Basic filters    | Full period configuration    |
+| Empty State      | None             | Proper icon + message        |
+| Jump to Today    | Missing          | Implemented (header)         |
+| Performance      | No optimization  | useMemo + 30-point limit     |
+| Label Formatting | Static           | Period-aware formatting      |
 
 ---
 
@@ -322,6 +340,7 @@ Level
 ## Testing Notes
 
 ### Test Cases:
+
 1. ✅ **No applications:** Shows empty state
 2. ✅ **Single application:** Shows decay curve
 3. ✅ **Multiple applications:** Shows overlapping levels
@@ -329,6 +348,7 @@ Level
 5. ✅ **Current level:** Matches pharmacokinetics calculation
 
 ### Edge Cases Handled:
+
 - Empty applications array
 - Single data point
 - Very long periods (sampling to 30 points)
@@ -342,6 +362,7 @@ Level
 The EstimatedLevelsChart is fully functional and ready for integration into the dashboard. All core requirements have been implemented with real pharmacokinetics calculations.
 
 **Next Steps:**
+
 1. Import and use in dashboard screen
 2. Test with real user data
 3. Consider implementing TODOs for enhanced UX

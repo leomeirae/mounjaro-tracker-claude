@@ -62,14 +62,16 @@ logger.info('Component mounted');
 **Quando usar:** Informação de desenvolvimento, valores intermediários, fluxo de execução
 
 **Comportamento:**
+
 - ✅ Visível em desenvolvimento (`__DEV__ === true`)
 - ❌ **NÃO** aparece em produção
 
 **Exemplo:**
+
 ```typescript
 logger.debug('Entering validation function', {
   input: data,
-  step: 'validation'
+  step: 'validation',
 });
 ```
 
@@ -80,15 +82,17 @@ logger.debug('Entering validation function', {
 **Quando usar:** Eventos importantes, ações do usuário, sucesso de operações
 
 **Comportamento:**
+
 - ✅ Visível em desenvolvimento
 - ❌ **NÃO** aparece em produção (por padrão)
 - ✅ Pode ser habilitado em produção via config
 
 **Exemplo:**
+
 ```typescript
 logger.info('User completed onboarding', {
   userId: user.id,
-  duration: 120 // segundos
+  duration: 120, // segundos
 });
 ```
 
@@ -99,14 +103,16 @@ logger.info('User completed onboarding', {
 **Quando usar:** Situações incomuns mas não críticas, dados inesperados, fallbacks
 
 **Comportamento:**
+
 - ✅ Sempre visível (dev e prod)
 - ⚠️ Indica que algo merece atenção
 
 **Exemplo:**
+
 ```typescript
 logger.warn('Using fallback value due to missing data', {
   field: 'userName',
-  fallback: 'Anonymous'
+  fallback: 'Anonymous',
 });
 ```
 
@@ -117,17 +123,19 @@ logger.warn('Using fallback value due to missing data', {
 **Quando usar:** Erros reais, exceções, falhas de operações
 
 **Comportamento:**
+
 - ✅ Sempre visível (dev e prod)
 - 🚨 Será enviado para Sentry em produção (quando configurado)
 
 **Exemplo:**
+
 ```typescript
 try {
   await fetchData();
 } catch (error) {
   logger.error('Failed to fetch data', error, {
     endpoint: '/api/users',
-    userId: user.id
+    userId: user.id,
   });
 }
 ```
@@ -139,11 +147,13 @@ try {
 ### 1. Use Loggers com Prefixo
 
 **❌ Evite:**
+
 ```typescript
 logger.info('User saved');
 ```
 
 **✅ Prefira:**
+
 ```typescript
 const logger = createLogger('UserService');
 logger.info('User saved', { userId: '123' });
@@ -155,16 +165,18 @@ logger.info('User saved', { userId: '123' });
 ### 2. Adicione Metadata Estruturada
 
 **❌ Evite:**
+
 ```typescript
 logger.info(`User ${userId} logged in at ${timestamp}`);
 ```
 
 **✅ Prefira:**
+
 ```typescript
 logger.info('User logged in', {
   userId,
   timestamp,
-  source: 'oauth'
+  source: 'oauth',
 });
 ```
 
@@ -193,20 +205,22 @@ logger.error('Payment gateway error', error, { orderId });
 ### 4. Nunca Logue Dados Sensíveis
 
 **❌ NUNCA:**
+
 ```typescript
 logger.info('User authenticated', {
-  password: user.password,  // ❌ NUNCA!
-  creditCard: user.card,    // ❌ NUNCA!
-  ssn: user.ssn             // ❌ NUNCA!
+  password: user.password, // ❌ NUNCA!
+  creditCard: user.card, // ❌ NUNCA!
+  ssn: user.ssn, // ❌ NUNCA!
 });
 ```
 
 **✅ SEMPRE:**
+
 ```typescript
 logger.info('User authenticated', {
   userId: user.id,
   email: user.email.split('@')[1], // apenas domínio
-  method: 'oauth'
+  method: 'oauth',
 });
 ```
 
@@ -294,14 +308,14 @@ export async function fetchData(endpoint: string) {
     if (!response.ok) {
       logger.warn('API returned non-200 status', {
         endpoint,
-        status: response.status
+        status: response.status,
       });
     }
 
     const data = await response.json();
     logger.info('API request successful', {
       endpoint,
-      dataSize: JSON.stringify(data).length
+      dataSize: JSON.stringify(data).length,
     });
 
     return data;
@@ -341,8 +355,8 @@ paypalLogger.info('Refund initiated');
 ```typescript
 // lib/logger.ts
 const logger = new Logger({
-  enableInProd: true,  // Habilita info() em produção
-  sendToSentry: true,  // Envia errors para Sentry
+  enableInProd: true, // Habilita info() em produção
+  sendToSentry: true, // Envia errors para Sentry
 });
 ```
 
@@ -390,12 +404,14 @@ Ao migrar código existente para o logger system:
 ### 1. Não use console diretamente
 
 **❌ Evite:**
+
 ```typescript
 console.log('User saved');
 console.error('Error:', error);
 ```
 
 **✅ Use:**
+
 ```typescript
 logger.info('User saved');
 logger.error('Error saving user', error);
@@ -406,15 +422,17 @@ logger.error('Error saving user', error);
 ### 2. Não use strings de template
 
 **❌ Evite:**
+
 ```typescript
 logger.info(`User ${user.id} performed ${action}`);
 ```
 
 **✅ Use:**
+
 ```typescript
 logger.info('User performed action', {
   userId: user.id,
-  action
+  action,
 });
 ```
 
@@ -423,17 +441,19 @@ logger.info('User performed action', {
 ### 3. Não logue objetos enormes
 
 **❌ Evite:**
+
 ```typescript
 logger.debug('Full state', {
-  state: entireReduxStore  // Pode ter centenas de KB!
+  state: entireReduxStore, // Pode ter centenas de KB!
 });
 ```
 
 **✅ Use:**
+
 ```typescript
 logger.debug('State subset', {
   userCount: state.users.length,
-  currentPage: state.ui.currentPage
+  currentPage: state.ui.currentPage,
 });
 ```
 

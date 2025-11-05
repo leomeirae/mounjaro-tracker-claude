@@ -81,7 +81,9 @@ export const useProfile = () => {
     }
   };
 
-  const createProfile = async (profileData: Omit<UserProfile, 'id' | 'created_at' | 'updated_at'>) => {
+  const createProfile = async (
+    profileData: Omit<UserProfile, 'id' | 'created_at' | 'updated_at'>
+  ) => {
     try {
       setError(null);
 

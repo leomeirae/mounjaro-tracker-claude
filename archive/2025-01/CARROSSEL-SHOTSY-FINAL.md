@@ -9,6 +9,7 @@ O carrossel foi atualizado para usar as **4 novas imagens tratadas** (`imagem_1.
 ## Estrutura de Arquivos
 
 ### ✅ Imagens de Exibição
+
 **Localização:** `assets/onboarding/carousel/`
 
 - ✅ `imagem_1.png` (303 KB)
@@ -17,6 +18,7 @@ O carrossel foi atualizado para usar as **4 novas imagens tratadas** (`imagem_1.
 - ✅ `imagem_4.png` (854 KB)
 
 ### ✅ Imagens de Referência (não usadas no app)
+
 **Localização:** `reference/shotsy/`
 
 - ✅ `IMG_0613.PNG` - Referência de layout/copy
@@ -29,6 +31,7 @@ O carrossel foi atualizado para usar as **4 novas imagens tratadas** (`imagem_1.
 ## Implementação Visual
 
 ### Layout
+
 - **Fundo:** `ImageBackground` com `resizeMode="cover"` mantendo proporção
 - **Overlay:** Escuro semi-transparente (`rgba(0, 0, 0, 0.3)`) para melhorar legibilidade
 - **Textos:** Sobrepostos nativamente (não rasterizados na imagem)
@@ -52,6 +55,7 @@ O carrossel foi atualizado para usar as **4 novas imagens tratadas** (`imagem_1.
    - Subtítulo: "Personalize sua jornada com temas personalizados. Você pode até mudar o ícone!"
 
 ### Tipografia
+
 - **Título:** `fontSize: 32`, `fontWeight: 'bold'`, alinhado à esquerda
 - **Subtítulo:** `fontSize: 16`, `lineHeight: 24`, alinhado à esquerda
 - **Cores:** Usa `colors.text` e `colors.textSecondary` do tema
@@ -61,26 +65,31 @@ O carrossel foi atualizado para usar as **4 novas imagens tratadas** (`imagem_1.
 ## Funcionalidades Mantidas
 
 ### ✅ Navegação Condicional
+
 - **Não autenticado** → `sign-up` → `onboarding-flow`
 - **Autenticado sem onboarding** → `onboarding-flow`
 - **Onboarding completo** → `home (tabs)`
 
 ### ✅ Feature Flag
+
 - `FF_MARKETING_CAROUSEL_SHOTSY`
 - ON: Carrossel visível
 - OFF: Apenas botão "Começar"
 
 ### ✅ Tracking de Analytics
+
 - ✅ `carousel_view` - Visualização do carrossel
 - ✅ `carousel_slide_view` - Visualização de cada slide
 - ✅ `cta_start_click` - Clique no botão "Começar"
 - ✅ `legal_open` - Abertura de links legais
 
 ### ✅ Links Legais
+
 - **Termos de Uso:** `https://mounjarotracker.app/terms`
 - **Política de Privacidade:** `https://mounjarotracker.app/privacy`
 
 ### ✅ Acessibilidade
+
 - `accessibilityLabel` por slide com o título correspondente
 - `accessible={true}` em cada ImageBackground
 
@@ -111,4 +120,3 @@ O carrossel foi atualizado para usar as **4 novas imagens tratadas** (`imagem_1.
 **Status:** ✅ **IMPLEMENTADO E PRONTO PARA TESTE**
 
 Diferente do carrossel anterior que usava `IMG_0613.PNG` etc, agora usa `imagem_1.png` etc com textos sobrepostos nativos, exatamente como o Shotsy!
-

@@ -36,12 +36,7 @@ export const FilterChips: React.FC<FilterChipsProps> = ({
             ]}
             onPress={() => onFilterChange(filter)}
           >
-            <Text
-              style={[
-                styles.chipText,
-                { color: isSelected ? '#FFF' : colors.text },
-              ]}
-            >
+            <Text style={[styles.chipText, { color: isSelected ? '#FFF' : colors.text }]}>
               {filter}
             </Text>
           </TouchableOpacity>

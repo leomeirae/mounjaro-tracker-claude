@@ -14,7 +14,7 @@ interface CurrentWeightScreenProps {
 }
 
 // Gerar arrays para o picker
-const generateWholeNumbers = (min: number, max: number) => 
+const generateWholeNumbers = (min: number, max: number) =>
   Array.from({ length: max - min + 1 }, (_, i) => i + min);
 
 const DECIMALS = [0, 1, 2, 3, 4, 5, 6, 7, 8, 9];
@@ -23,14 +23,14 @@ const UNITS = ['kg', 'lb'] as const;
 export function CurrentWeightScreen({ onNext, onBack }: CurrentWeightScreenProps) {
   const colors = useShotsyColors();
   const { currentAccent } = useTheme();
-  
+
   // Estado: 3 valores separados (inteiro, decimal, unidade)
   const [wholeNumber, setWholeNumber] = useState(75);
   const [decimal, setDecimal] = useState(0);
   const [unit, setUnit] = useState<'kg' | 'lb'>('kg');
 
   const handleNext = () => {
-    const weight = wholeNumber + (decimal / 10);
+    const weight = wholeNumber + decimal / 10;
     onNext({ currentWeight: weight, weightUnit: unit });
   };
 
@@ -46,9 +46,7 @@ export function CurrentWeightScreen({ onNext, onBack }: CurrentWeightScreenProps
     >
       <View style={styles.content}>
         <ShotsyCard variant="elevated" style={styles.pickerCard}>
-          <Text style={[styles.inputLabel, { color: colors.textSecondary }]}>
-            Peso atual
-          </Text>
+          <Text style={[styles.inputLabel, { color: colors.textSecondary }]}>Peso atual</Text>
 
           {/* Container dos 3 pickers com fade effects */}
           <View style={styles.pickerContainer}>
@@ -70,12 +68,11 @@ export function CurrentWeightScreen({ onNext, onBack }: CurrentWeightScreenProps
                   }}
                   itemStyle={[styles.pickerItem, { color: colors.text }]}
                 >
-                  {generateWholeNumbers(
-                    unit === 'kg' ? 30 : 66,
-                    unit === 'kg' ? 200 : 440
-                  ).map((num) => (
-                    <Picker.Item key={num} label={`${num}`} value={num} />
-                  ))}
+                  {generateWholeNumbers(unit === 'kg' ? 30 : 66, unit === 'kg' ? 200 : 440).map(
+                    (num) => (
+                      <Picker.Item key={num} label={`${num}`} value={num} />
+                    )
+                  )}
                 </Picker>
               </View>
 
@@ -132,8 +129,8 @@ export function CurrentWeightScreen({ onNext, onBack }: CurrentWeightScreenProps
         <ShotsyCard style={styles.tipCard}>
           <Text style={styles.tipEmoji}>💡</Text>
           <Text style={[styles.tipText, { color: colors.textSecondary }]}>
-            Para resultados mais precisos, pese-se sempre no mesmo horário,
-            de preferência pela manhã, após ir ao banheiro.
+            Para resultados mais precisos, pese-se sempre no mesmo horário, de preferência pela
+            manhã, após ir ao banheiro.
           </Text>
         </ShotsyCard>
       </View>

@@ -59,11 +59,7 @@ export function ShotsyCircularProgress({
         />
       </Svg>
 
-      {children && (
-        <View style={styles.childrenContainer}>
-          {children}
-        </View>
-      )}
+      {children && <View style={styles.childrenContainer}>{children}</View>}
     </View>
   );
 }

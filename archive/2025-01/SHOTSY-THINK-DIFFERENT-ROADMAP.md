@@ -7,6 +7,7 @@
 A maioria dos apps de saúde são **chatos, clínicos e intimidadores**. Shotsy vai quebrar esse molde.
 
 Não somos apenas mais um rastreador de medicação. Somos os **rebeldes** que acreditam que gerenciar saúde pode ser:
+
 - **Divertido** sem ser trivial
 - **Pessoal** sem ser invasivo
 - **Social** sem comprometer privacidade
@@ -23,6 +24,7 @@ Não somos apenas mais um rastreador de medicação. Somos os **rebeldes** que a
 ## 📋 Estado Atual do Projeto
 
 ### ✅ Fundação Técnica (Implementado)
+
 - **Stack:** Expo (React Native), Clerk (Auth), Supabase (Backend)
 - **Features Core:**
   - Autenticação com Google OAuth
@@ -37,6 +39,7 @@ Não somos apenas mais um rastreador de medicação. Somos os **rebeldes** que a
   - Comunidade anônima (básica)
 
 ### 🎨 Design System
+
 - **ShotsyThemes**: Sistema de cores e temas
 - **Componentes UI:** Cards, botões, ícones personalizados
 - **Identidade visual:** Em desenvolvimento
@@ -46,16 +49,19 @@ Não somos apenas mais um rastreador de medicação. Somos os **rebeldes** que a
 ## 🚀 Roadmap de Desenvolvimento: "Think Different"
 
 ## FASE 1: Personalização Radical
+
 **Tema:** "Seu app, suas regras"
 **Duração Estimada:** 2-3 semanas
 **Complexidade:** Média
 
 ### Objetivo
+
 Transformar Shotsy de um app genérico em um **companheiro verdadeiramente pessoal** que se adapta a cada indivíduo.
 
 ### Features
 
 #### 1.1 Avatar & Identidade
+
 ```typescript
 // Sistema de avatar personalizável
 interface UserAvatar {
@@ -65,11 +71,13 @@ interface UserAvatar {
   mood: 'motivated' | 'chill' | 'determined' | 'playful';
 }
 ```
+
 - Avatar gerado por IA baseado em preferências
 - Evolução visual do avatar conforme progresso
 - Expressões do avatar reagem a conquistas/eventos
 
 #### 1.2 Metas Personalizadas
+
 ```typescript
 interface PersonalGoal {
   type: 'weight_loss' | 'energy_boost' | 'consistency' | 'custom';
@@ -79,11 +87,13 @@ interface PersonalGoal {
   celebrationStyle: 'subtle' | 'energetic' | 'zen';
 }
 ```
+
 - Criação de metas além de peso (energia, sono, humor)
 - Marcos visuais personalizados
 - Celebrações customizáveis
 
 #### 1.3 Tone & Voice Personalizado
+
 ```typescript
 interface AppPersonality {
   communicationStyle: 'coach' | 'friend' | 'scientist' | 'minimalist';
@@ -92,32 +102,38 @@ interface AppPersonality {
   language: string;
 }
 ```
+
 - App se comunica no tom que o usuário escolher
 - Notificações personalizadas no estilo preferido
 - Insights escritos conforme personalidade escolhida
 
 ### Decisões Técnicas
+
 - **Persistência:** Supabase profiles table expandida
 - **IA:** OpenAI API para geração de conteúdo personalizado
 - **Performance:** Cache local de preferências com AsyncStorage
 - **UX:** Onboarding interativo para descobrir preferências
 
 ### Dependências
+
 - Nenhuma (pode começar imediatamente)
 
 ---
 
 ## FASE 2: Insights que Surpreendem
+
 **Tema:** "Dados que contam histórias"
 **Duração Estimada:** 3-4 semanas
 **Complexidade:** Alta
 
 ### Objetivo
+
 Transformar dados brutos em **narrativas significativas** que inspiram ação.
 
 ### Features
 
 #### 2.1 Pattern Recognition
+
 ```typescript
 interface HealthPattern {
   type: 'weekly_cycle' | 'food_correlation' | 'sleep_impact' | 'custom';
@@ -127,11 +143,13 @@ interface HealthPattern {
   actionableInsight: string;
 }
 ```
+
 - Detecção automática de padrões (ex: "Você perde mais peso nos fins de semana")
 - Correlações entre peso, aplicações e outros fatores
 - Predições baseadas em padrões históricos
 
 #### 2.2 Storytelling Visual
+
 ```typescript
 interface HealthStory {
   title: string;
@@ -141,11 +159,13 @@ interface HealthStory {
   emotionalTone: 'celebratory' | 'motivational' | 'reflective';
 }
 ```
+
 - "Sua história de 30 dias" - narrativa visual da jornada
 - Animações que mostram evolução ao longo do tempo
 - Comparações visuais criativas (não apenas gráficos de linha)
 
 #### 2.3 Insights Contextuais
+
 ```typescript
 interface ContextualInsight {
   trigger: 'time_of_day' | 'location' | 'weather' | 'calendar_event';
@@ -154,11 +174,13 @@ interface ContextualInsight {
   suggestedAction?: Action;
 }
 ```
+
 - Insights baseados em contexto (hora, local, clima)
 - Notificações inteligentes no momento certo
 - Sugestões proativas, não reativas
 
 #### 2.4 Health Score Inovador
+
 ```typescript
 interface ShotsyScore {
   overall: number; // 0-100
@@ -172,11 +194,13 @@ interface ShotsyScore {
   nextLevelRequirements: Requirement[];
 }
 ```
+
 - Score holístico de saúde (não apenas peso)
 - Visualização única e atrativa
 - Gamificação sutil mas efetiva
 
 ### Decisões Técnicas
+
 - **Analytics:** Implementar pipeline de processamento de dados
 - **IA/ML:**
   - TensorFlow.js Lite para detecção de padrões no device
@@ -186,22 +210,26 @@ interface ShotsyScore {
 - **Database:** PostgreSQL functions para agregações complexas
 
 ### Dependências
+
 - Dados históricos suficientes (mínimo 2-4 semanas)
 - Sistema de métricas expandido
 
 ---
 
 ## FASE 3: Comunidade que Conecta
+
 **Tema:** "Juntos, mas respeitando privacidade"
 **Duração Estimada:** 4-5 semanas
 **Complexidade:** Alta
 
 ### Objetivo
+
 Criar uma **comunidade verdadeiramente anônima e segura** onde pessoas compartilham jornadas sem medo de julgamento.
 
 ### Features
 
 #### 3.1 Stories Anônimas
+
 ```typescript
 interface AnonymousStory {
   id: string;
@@ -213,12 +241,14 @@ interface AnonymousStory {
   visibility: 'public' | 'supporters_only' | 'milestone_group';
 }
 ```
+
 - Feed de histórias inspiradoras da comunidade
 - Compartilhamento totalmente anônimo
 - Reações sem identificação (só emojis/suporte)
 - Filtros por tipo de jornada (perda de peso, manutenção, início)
 
 #### 3.2 Challenges Colaborativos
+
 ```typescript
 interface CommunityChallenge {
   id: string;
@@ -231,12 +261,14 @@ interface CommunityChallenge {
   rewards: Reward[];
 }
 ```
+
 - Desafios semanais/mensais
 - Metas coletivas (ex: "100.000 aplicações feitas pela comunidade")
 - Conquistas exclusivas de comunidade
 - Leaderboards anônimos
 
 #### 3.3 Buddy System
+
 ```typescript
 interface AnonymousBuddy {
   matchId: string;
@@ -246,12 +278,14 @@ interface AnonymousBuddy {
   supportStreak: number;
 }
 ```
+
 - Matching anônimo com pessoas em jornadas similares
 - Chat criptografado end-to-end
 - Check-ins mútuos
 - Sistema de "accountability partner" preservando privacidade
 
 #### 3.4 Wisdom of Crowd
+
 ```typescript
 interface CrowdWisdom {
   question: string;
@@ -261,12 +295,14 @@ interface CrowdWisdom {
   dataVisualization: ChartConfig;
 }
 ```
+
 - Agregação anônima de estratégias que funcionam
 - "O que a comunidade faz quando..."
 - Tips e tricks validados pela comunidade
 - Benchmarking anônimo (compare-se com médias)
 
 ### Decisões Técnicas
+
 - **Privacy:**
   - Zero-knowledge architecture onde possível
   - Hashing de identificadores
@@ -284,6 +320,7 @@ interface CrowdWisdom {
   - E2E encryption com Signal Protocol
 
 ### Dependências
+
 - Base de usuários ativos (mínimo 50-100)
 - Sistema de moderação robusto
 - Infraestrutura de real-time
@@ -291,16 +328,19 @@ interface CrowdWisdom {
 ---
 
 ## FASE 4: Educação que Empodera
+
 **Tema:** "Conhecimento é poder"
 **Duração Estimada:** 3-4 semanas
 **Complexidade:** Média-Alta
 
 ### Objetivo
+
 Transformar usuários em **especialistas informados** sobre sua própria saúde.
 
 ### Features
 
 #### 4.1 Learn Hub
+
 ```typescript
 interface EducationalContent {
   id: string;
@@ -313,12 +353,14 @@ interface EducationalContent {
   isCertified: boolean; // médico ou cientista validou
 }
 ```
+
 - Biblioteca de conteúdo educacional
 - Artigos, vídeos, infográficos
 - Conteúdo validado por profissionais
 - Personalizado conforme fase da jornada
 
 #### 4.2 Ask Anything (IA)
+
 ```typescript
 interface ShotsyAI {
   conversationId: string;
@@ -328,12 +370,14 @@ interface ShotsyAI {
   disclaimer: string;
 }
 ```
+
 - Chatbot especializado em GLP-1/Mounjaro
 - Respostas baseadas em fontes confiáveis
 - Disclaimers claros (não substitui médico)
 - Histórico de conversas
 
 #### 4.3 Side Effects Tracker
+
 ```typescript
 interface SideEffectLog {
   type: string; // 'nausea' | 'fatigue' | 'custom'
@@ -345,12 +389,14 @@ interface SideEffectLog {
   helpfulStrategies?: string[];
 }
 ```
+
 - Rastreamento de efeitos colaterais
 - Correlação com aplicações
 - Dicas da comunidade para lidar com cada efeito
 - Relatórios para compartilhar com médico
 
 #### 4.4 Science Updates
+
 ```typescript
 interface ResearchUpdate {
   title: string;
@@ -362,12 +408,14 @@ interface ResearchUpdate {
   isBreaking: boolean;
 }
 ```
+
 - Feed curado de pesquisas sobre GLP-1
 - Notificações de descobertas importantes
 - Explicações em linguagem simples
 - Links para estudos originais
 
 ### Decisões Técnicas
+
 - **Content Management:**
   - Supabase storage para mídia
   - Rich text com markdown
@@ -382,6 +430,7 @@ interface ResearchUpdate {
   - Curação manual + IA
 
 ### Dependências
+
 - Parcerias com profissionais de saúde
 - Knowledge base inicial robusto
 - Budget para API calls de IA
@@ -389,16 +438,19 @@ interface ResearchUpdate {
 ---
 
 ## FASE 5: Integração Total
+
 **Tema:** "Seu hub de saúde"
 **Duração Estimada:** 4-6 semanas
 **Complexidade:** Muito Alta
 
 ### Objetivo
+
 Conectar Shotsy com o **ecossistema completo de saúde** do usuário.
 
 ### Features
 
 #### 5.1 Health App Integration
+
 ```typescript
 interface HealthDataIntegration {
   platform: 'Apple Health' | 'Google Fit' | 'Samsung Health';
@@ -413,11 +465,13 @@ interface HealthDataIntegration {
   autoSync: boolean;
 }
 ```
+
 - Sincronização bidirecional com Apple Health/Google Fit
 - Import automático de peso, atividade, sono
 - Export de dados de Shotsy para outros apps
 
 #### 5.2 Wearables
+
 ```typescript
 interface WearableConnection {
   device: 'Apple Watch' | 'Fitbit' | 'Garmin' | 'Oura';
@@ -429,6 +483,7 @@ interface WearableConnection {
   };
 }
 ```
+
 - App para Apple Watch/Wear OS
 - Log rápido de aplicações
 - Notificações no pulso
@@ -436,6 +491,7 @@ interface WearableConnection {
 - Widgets de progresso
 
 #### 5.3 Food Tracking Integration
+
 ```typescript
 interface NutritionIntegration {
   app: 'MyFitnessPal' | 'Lose It' | 'Cronometer';
@@ -445,11 +501,13 @@ interface NutritionIntegration {
   insights: NutritionInsight[];
 }
 ```
+
 - Integração com apps de nutrição
 - Correlação automática entre alimentação e resultados
 - Insights sobre o que funciona melhor
 
 #### 5.4 Calendar Integration
+
 ```typescript
 interface CalendarSync {
   provider: 'Google Calendar' | 'Apple Calendar' | 'Outlook';
@@ -461,11 +519,13 @@ interface CalendarSync {
   reminderOffset: number; // minutes before
 }
 ```
+
 - Sincronização com calendário
 - Lembretes de aplicação
 - Blocos de tempo para check-ins
 
 #### 5.5 Export & Portability
+
 ```typescript
 interface DataExport {
   format: 'PDF' | 'CSV' | 'JSON' | 'FHIR';
@@ -475,12 +535,14 @@ interface DataExport {
   encryption?: boolean;
 }
 ```
+
 - Export completo de dados
 - Relatórios para médico (PDF formatado)
 - Formato FHIR para interoperabilidade
 - Portabilidade total (seus dados são seus)
 
 ### Decisões Técnicas
+
 - **Health Kits:**
   - HealthKit (iOS) e Health Connect (Android)
   - React Native libraries: react-native-health, react-native-health-connect
@@ -496,6 +558,7 @@ interface DataExport {
   - ISO standards para portabilidade
 
 ### Dependências
+
 - Aprovação de Apple Health Kit
 - Parcerias com apps de nutrição
 - Expertise em desenvolvimento nativo (Watch/Wear)
@@ -503,16 +566,19 @@ interface DataExport {
 ---
 
 ## FASE 6: IA Preditiva & Proativa
+
 **Tema:** "Antecipando necessidades"
 **Duração Estimada:** 5-6 semanas
 **Complexidade:** Muito Alta
 
 ### Objetivo
+
 IA que não apenas responde, mas **antecipa e sugere proativamente**.
 
 ### Features
 
 #### 6.1 Predictive Analytics
+
 ```typescript
 interface PredictiveModel {
   type: 'weight_forecast' | 'plateau_detection' | 'optimal_timing';
@@ -522,12 +588,14 @@ interface PredictiveModel {
   recommendation: Action;
 }
 ```
+
 - Predição de peso futuro baseado em padrões
 - Detecção precoce de plateaus
 - Sugestão de timing ideal para aplicações
 - Alerta de possíveis side effects
 
 #### 6.2 Smart Notifications
+
 ```typescript
 interface SmartNotification {
   trigger: 'ml_model' | 'pattern' | 'anomaly' | 'opportunity';
@@ -538,12 +606,14 @@ interface SmartNotification {
   dismissible: boolean;
 }
 ```
+
 - Notificações no momento perfeito (ML determina melhor hora)
 - Conteúdo adaptado ao contexto atual
 - Zero spam - apenas insights valiosos
 - Aprende com interações (abriu? descartou?)
 
 #### 6.3 Adaptive Coaching
+
 ```typescript
 interface AdaptiveCoach {
   userProfile: MLUserProfile;
@@ -553,12 +623,14 @@ interface AdaptiveCoach {
   effectiveness: number;
 }
 ```
+
 - Coach virtual que adapta abordagem
 - Detecta quando usuário precisa de motivação vs dados
 - Intervenções personalizadas em momentos de dificuldade
 - Aprende o que funciona para cada pessoa
 
 #### 6.4 Anomaly Detection
+
 ```typescript
 interface HealthAnomaly {
   type: 'unusual_weight_change' | 'missed_applications' | 'side_effect_spike';
@@ -569,12 +641,14 @@ interface HealthAnomaly {
   shouldConsultDoctor: boolean;
 }
 ```
+
 - Detecção de padrões anormais
 - Alertas de segurança (ex: perda muito rápida)
 - Sugestão de consultar médico quando apropriado
 - Não alarmista, mas vigilante
 
 ### Decisões Técnicas
+
 - **ML/IA:**
   - TensorFlow Lite para modelos on-device
   - Cloud ML (Google Vertex AI ou AWS SageMaker) para treinamento
@@ -589,6 +663,7 @@ interface HealthAnomaly {
   - Modelos locais quando possível
 
 ### Dependências
+
 - Grande volume de dados históricos
 - Expertise em ML/Data Science
 - Infraestrutura de ML robusta
@@ -596,16 +671,19 @@ interface HealthAnomaly {
 ---
 
 ## FASE 7: Experiência Premium
+
 **Tema:** "Delícia de usar"
 **Duração Estimada:** 3-4 semanas
 **Complexidade:** Média-Alta
 
 ### Objetivo
+
 Fazer cada interação ser uma **experiência memorável**.
 
 ### Features
 
 #### 7.1 Micro-interactions Mágicas
+
 ```typescript
 interface MicroInteraction {
   trigger: UserAction;
@@ -615,12 +693,14 @@ interface MicroInteraction {
   timing: AnimationTiming;
 }
 ```
+
 - Animações sutis mas deliciosas
 - Haptic feedback significativo (não genérico)
 - Sons opcionais que celebram conquistas
 - Transições fluidas entre telas
 
 #### 7.2 Adaptive UI
+
 ```typescript
 interface AdaptiveInterface {
   timeOfDay: 'morning' | 'afternoon' | 'evening' | 'night';
@@ -629,12 +709,14 @@ interface AdaptiveInterface {
   colorScheme: 'auto' | 'light' | 'dark' | 'custom';
 }
 ```
+
 - UI que se adapta à hora do dia
 - Modo noturno automático
 - Densidade de informação ajustável
 - Cores que evoluem com progresso
 
 #### 7.3 Gesture Magic
+
 ```typescript
 interface GestureControl {
   gesture: 'swipe' | 'pinch' | 'long-press' | 'shake';
@@ -643,12 +725,14 @@ interface GestureControl {
   discoverable: boolean; // tutorial sutil
 }
 ```
+
 - Gestos naturais para ações comuns
 - Customização de gestos
 - Descoberta progressiva (não overwhelming)
 - Shortcuts para power users
 
 #### 7.4 Voice Integration
+
 ```typescript
 interface VoiceCommand {
   trigger: string;
@@ -658,12 +742,14 @@ interface VoiceCommand {
   personalizedVocabulary: boolean;
 }
 ```
+
 - "Hey Shotsy, log my injection"
 - Comandos de voz naturais
 - Siri/Google Assistant shortcuts
 - Mãos-livres quando necessário
 
 ### Decisões Técnicas
+
 - **Animações:**
   - React Native Reanimated 3
   - Skia para animações complexas
@@ -677,6 +763,7 @@ interface VoiceCommand {
   - Fallback para comandos estruturados
 
 ### Dependências
+
 - Design system maduro
 - Performance otimizada
 - Testes extensivos de UX
@@ -684,16 +771,19 @@ interface VoiceCommand {
 ---
 
 ## FASE 8: Monetização Ética
+
 **Tema:** "Sustentável e justo"
 **Duração Estimada:** 2-3 semanas
 **Complexidade:** Média
 
 ### Objetivo
+
 Modelo de receita que **respeita usuários** e sustenta desenvolvimento.
 
 ### Features
 
 #### 8.1 Freemium Inteligente
+
 ```typescript
 interface FreemiumTier {
   free: Feature[];
@@ -702,12 +792,14 @@ interface FreemiumTier {
   trialPeriod: number; // days
 }
 ```
+
 - Core features sempre gratuitas
 - Premium features que genuinamente adicionam valor
 - Trial generoso (30 dias)
 - Sem paywall surpresa
 
 #### 8.2 Family & Group Plans
+
 ```typescript
 interface GroupSubscription {
   type: 'family' | 'friends' | 'support_group';
@@ -717,11 +809,13 @@ interface GroupSubscription {
   individualPrivacy: boolean;
 }
 ```
+
 - Planos familiares com desconto
 - Grupos de apoio compartilham custo
 - Privacidade individual mantida
 
 #### 8.3 Lifetime Access
+
 ```typescript
 interface LifetimeOffer {
   price: number;
@@ -730,11 +824,13 @@ interface LifetimeOffer {
   earlyBirdDiscount: boolean;
 }
 ```
+
 - Opção de compra única (lifetime)
 - Para quem prefere não ter subscription
 - Early adopter pricing
 
 #### 8.4 Parcerias Éticas
+
 ```typescript
 interface Partnership {
   partner: string;
@@ -743,12 +839,14 @@ interface Partnership {
   dataSharing: 'none' | 'aggregate_only' | 'opt-in';
 }
 ```
+
 - Parcerias com seguradoras (desconto para usuários ativos)
 - Programas de wellness corporativo
 - Farmácias (lembrete de refill)
 - ZERO venda de dados individuais
 
 ### Decisões Técnicas
+
 - **Payments:**
   - RevenueCat para gerenciamento de subscriptions
   - Apple IAP e Google Play Billing
@@ -759,6 +857,7 @@ interface Partnership {
   - Cohort analysis
 
 ### Dependências
+
 - Legal review de termos
 - Compliance com app stores
 - Tax setup para vendas
@@ -766,27 +865,32 @@ interface Partnership {
 ---
 
 ## FASE 9: Scale & Performance
+
 **Tema:** "Rápido para milhões"
 **Duração Estimada:** 3-4 semanas
 **Complexidade:** Alta
 
 ### Objetivo
+
 Arquitetura que **escala sem degradar experiência**.
 
 ### Features Técnicas
 
 #### 9.1 Database Optimization
+
 ```sql
 -- Partitioning, indexing, materialized views
 CREATE INDEX idx_user_weights_date ON user_weights(user_id, recorded_at DESC);
 CREATE MATERIALIZED VIEW user_stats_7d AS ...;
 ```
+
 - Query optimization
 - Database indexing estratégico
 - Partitioning de tabelas grandes
 - Caching agressivo
 
 #### 9.2 Edge Computing
+
 ```typescript
 interface EdgeConfig {
   cdnProvider: 'Cloudflare' | 'AWS CloudFront';
@@ -795,12 +899,14 @@ interface EdgeConfig {
   geolocation: boolean;
 }
 ```
+
 - Static assets em CDN
 - Edge functions para lógica leve
 - Geolocation-based routing
 - Cache multi-layer
 
 #### 9.3 Real-time Optimization
+
 ```typescript
 interface RealtimeConfig {
   protocol: 'WebSocket' | 'Server-Sent Events';
@@ -809,11 +915,13 @@ interface RealtimeConfig {
   scaling: 'horizontal' | 'vertical';
 }
 ```
+
 - WebSocket optimization
 - Message queuing para comunidade
 - Horizontal scaling de real-time servers
 
 #### 9.4 Monitoring & Observability
+
 ```typescript
 interface Observability {
   apm: 'New Relic' | 'Datadog' | 'Sentry';
@@ -823,6 +931,7 @@ interface Observability {
   tracing: boolean;
 }
 ```
+
 - APM completo
 - Error tracking (Sentry)
 - Performance monitoring
@@ -830,6 +939,7 @@ interface Observability {
 - Alert system para degradação
 
 ### Decisões Técnicas
+
 - **Database:**
   - Supabase scaling plan
   - Read replicas
@@ -844,6 +954,7 @@ interface Observability {
   - Multi-region deployment (futuro)
 
 ### Dependências
+
 - Traffic significativo para justificar
 - Budget para infrastructure
 - DevOps expertise
@@ -851,16 +962,19 @@ interface Observability {
 ---
 
 ## FASE 10: Global & Acessível
+
 **Tema:** "Shotsy para todos"
 **Duração Estimada:** 4-5 semanas
 **Complexidade:** Média-Alta
 
 ### Objetivo
+
 App verdadeiramente **global e inclusivo**.
 
 ### Features
 
 #### 10.1 Internationalization
+
 ```typescript
 interface i18nConfig {
   languages: Language[];
@@ -870,12 +984,14 @@ interface i18nConfig {
   rtlSupport: boolean;
 }
 ```
+
 - Multi-idioma completo (i18n)
 - Localização de conteúdo educacional
 - Formatação de datas/números por locale
 - Suporte RTL (árabe, hebraico)
 
 #### 10.2 Accessibility
+
 ```typescript
 interface A11yConfig {
   screenReader: boolean;
@@ -886,6 +1002,7 @@ interface A11yConfig {
   colorblindMode: ColorblindMode;
 }
 ```
+
 - WCAG 2.1 AAA compliance
 - VoiceOver/TalkBack completo
 - Ajuste de fonte e contraste
@@ -893,6 +1010,7 @@ interface A11yConfig {
 - Navegação por teclado (quando aplicável)
 
 #### 10.3 Low-bandwidth Mode
+
 ```typescript
 interface LowBandwidthConfig {
   imageQuality: 'low' | 'medium' | 'high' | 'auto';
@@ -901,12 +1019,14 @@ interface LowBandwidthConfig {
   compressionLevel: number;
 }
 ```
+
 - Modo de dados reduzidos
 - Offline-first architecture
 - Progressive loading
 - Compressão de imagens adaptativa
 
 #### 10.4 Cultural Adaptation
+
 ```typescript
 interface CulturalConfig {
   region: string;
@@ -916,12 +1036,14 @@ interface CulturalConfig {
   privacyExpectations: 'high' | 'medium' | 'flexible';
 }
 ```
+
 - Adaptação cultural de conteúdo
 - Sistemas de medida (kg vs lb)
 - Expectativas de privacidade por região
 - Linguagem culturalmente apropriada
 
 ### Decisões Técnicas
+
 - **i18n:**
   - react-i18next
   - Crowdin para traduções
@@ -936,6 +1058,7 @@ interface CulturalConfig {
   - Sync queue
 
 ### Dependências
+
 - Tradutores nativos
 - A11y specialists
 - Testing em diversos devices/regions
@@ -945,21 +1068,25 @@ interface CulturalConfig {
 ## 🎯 Priorização Sugerida
 
 ### 🔥 MVP+ (Próximos 3 meses)
+
 1. **FASE 1:** Personalização Radical (foundation de UX)
 2. **FASE 2:** Insights que Surpreendem (diferencial chave)
 3. **FASE 7:** Experiência Premium (polish)
 
 ### 🚀 Growth (3-6 meses)
+
 4. **FASE 3:** Comunidade que Conecta (network effects)
 5. **FASE 4:** Educação que Empodera (retention)
 6. **FASE 8:** Monetização Ética (sustainability)
 
 ### 🌍 Scale (6-12 meses)
+
 7. **FASE 5:** Integração Total (moat)
 8. **FASE 9:** Scale & Performance (necessário para growth)
 9. **FASE 10:** Global & Acessível (mercado total)
 
 ### 🔮 Future (12+ meses)
+
 10. **FASE 6:** IA Preditiva & Proativa (sci-fi territory)
 
 ---
@@ -969,24 +1096,28 @@ interface CulturalConfig {
 Não vamos medir sucesso apenas por métricas vanity. Vamos medir **impacto real**:
 
 ### User Success Metrics
+
 - **Health Outcome:** % usuários atingindo metas de saúde
 - **Consistency Rate:** % mantendo streak de 30+ dias
 - **Empowerment Score:** Aumento em confiança/conhecimento auto-reportado
 - **Doctor Collaboration:** % compartilhando dados com médico
 
 ### Engagement Quality
+
 - **Meaningful Sessions:** Tempo gasto em features de valor (não apenas scroll)
 - **Community Impact:** Histórias compartilhadas que inspiraram outros
 - **Learning Completion:** % completando conteúdo educacional
 - **Feature Discovery:** % descobrindo features avançadas
 
 ### Business Sustainability
+
 - **MRR Growth:** Receita recorrente mensal
 - **LTV/CAC:** Valor de vida vs custo de aquisição
 - **Churn Rate:** % cancelamento (meta: <5% mensal)
 - **NPS:** Net Promoter Score (meta: 50+)
 
 ### Technical Excellence
+
 - **Performance:** Tempo de carregamento <2s
 - **Crash Rate:** <0.1%
 - **Uptime:** 99.9%
@@ -997,6 +1128,7 @@ Não vamos medir sucesso apenas por métricas vanity. Vamos medir **impacto real
 ## 🛠️ Stack Tecnológico Recomendado
 
 ### Frontend
+
 ```typescript
 const techStack = {
   framework: 'React Native (Expo)',
@@ -1007,11 +1139,12 @@ const techStack = {
   animations: 'Reanimated 3 + Skia',
   charts: 'Victory Native XL',
   testing: 'Jest + React Native Testing Library',
-  e2e: 'Detox or Maestro'
+  e2e: 'Detox or Maestro',
 };
 ```
 
 ### Backend
+
 ```typescript
 const backend = {
   database: 'Supabase (PostgreSQL)',
@@ -1020,11 +1153,12 @@ const backend = {
   realtime: 'Supabase Realtime',
   functions: 'Supabase Edge Functions',
   api: 'tRPC or REST',
-  queue: 'BullMQ + Redis'
+  queue: 'BullMQ + Redis',
 };
 ```
 
 ### AI/ML
+
 ```typescript
 const aiStack = {
   llm: 'OpenAI GPT-4 Turbo',
@@ -1032,11 +1166,12 @@ const aiStack = {
   vectorDB: 'Supabase pgvector',
   mlModels: 'TensorFlow Lite',
   training: 'Google Vertex AI',
-  monitoring: 'Weights & Biases'
+  monitoring: 'Weights & Biases',
 };
 ```
 
 ### DevOps
+
 ```typescript
 const devops = {
   ci_cd: 'GitHub Actions + EAS',
@@ -1044,7 +1179,7 @@ const devops = {
   analytics: 'Mixpanel + Amplitude',
   logging: 'Better Stack',
   hosting: 'Supabase + Vercel',
-  cdn: 'Cloudflare'
+  cdn: 'Cloudflare',
 };
 ```
 
@@ -1053,26 +1188,31 @@ const devops = {
 ## 🎨 Princípios de Design: "Think Different"
 
 ### 1. Delightful, Not Clinical
+
 - Usar cor e personalidade
 - Celebrar pequenas vitórias
 - Humanizar a experiência
 
 ### 2. Clear, Not Simplistic
+
 - Respeitar inteligência do usuário
 - Profundidade progressiva
 - Dados quando quiserem, simplicidade quando precisarem
 
 ### 3. Personal, Not Invasive
+
 - Customização sem overwhelm
 - Privacy by default
 - Usuário tem controle total
 
 ### 4. Social, Not Exposing
+
 - Conexão sem identificação
 - Suporte sem julgamento
 - Comunidade sem comparação tóxica
 
 ### 5. Intelligent, Not Pushy
+
 - IA que ajuda, não incomoda
 - Sugestões, não ordens
 - Aprende com feedback
@@ -1082,22 +1222,26 @@ const devops = {
 ## 📈 Go-to-Market Strategy
 
 ### Fase Beta (Mês 1-2)
+
 - 50-100 beta testers selecionados
 - Feedback loops semanais
 - Iteração rápida
 
 ### Soft Launch (Mês 3-4)
+
 - Launch em comunidades de Mounjaro (Reddit, Facebook)
 - Influencers micro (autenticidade > alcance)
 - Product Hunt launch
 
 ### Growth (Mês 5-8)
+
 - App Store featuring (pitch)
 - Content marketing (blog, SEO)
 - Referral program
 - Partnerships com clínicas
 
 ### Scale (Mês 9-12)
+
 - Paid marketing (se métricas permitirem)
 - International expansion
 - Enterprise partnerships (wellness programs)
@@ -1108,9 +1252,11 @@ const devops = {
 ## 💡 Insights Finais: Por que "Think Different" Funciona
 
 ### Problema que Resolvemos
+
 Não é só rastreamento de medicação. É **transformação de identidade**.
 
 Pessoas usando Mounjaro não estão apenas perdendo peso. Estão se redescobrindo. Precisam de um companheiro nessa jornada que:
+
 - **Entende** a complexidade emocional
 - **Celebra** cada pequena vitória
 - **Educa** para empoderar
@@ -1118,6 +1264,7 @@ Pessoas usando Mounjaro não estão apenas perdendo peso. Estão se redescobrind
 - **Antecipa** necessidades
 
 ### Nossa Vantagem Competitiva
+
 1. **Foco nichado:** GLP-1 específico (não genérico)
 2. **Comunidade autêntica:** Privacidade + conexão
 3. **IA personalizada:** Não one-size-fits-all
@@ -1125,6 +1272,7 @@ Pessoas usando Mounjaro não estão apenas perdendo peso. Estão se redescobrind
 5. **Educação séria:** Conteúdo validado
 
 ### O Que Nos Torna "Different"
+
 - **Não somos condescendentes:** Tratamos usuários como adultos inteligentes
 - **Não somos alarmistas:** Dados sem drama
 - **Não somos invasivos:** Privacy-first sempre
@@ -1136,18 +1284,21 @@ Pessoas usando Mounjaro não estão apenas perdendo peso. Estão se redescobrind
 ## 🚀 Próximos Passos Imediatos
 
 ### Esta Semana
+
 1. ✅ Validar visão com stakeholders
 2. ✅ Escolher 1ª fase para começar (recomendo Fase 1)
 3. ✅ Setup de tracking de métricas
 4. ⚡ Criar design specs para features da Fase 1
 
 ### Próximas 2 Semanas
+
 1. ⚡ Implementar sistema de avatar
 2. ⚡ Criar sistema de metas personalizadas
 3. ⚡ Desenvolver tone & voice engine
 4. ⚡ Beta test com 10 usuários
 
 ### Próximo Mês
+
 1. 🎯 Completar Fase 1
 2. 🎯 Começar Fase 2 (insights)
 3. 🎯 Recrutar 50 beta testers
@@ -1158,6 +1309,7 @@ Pessoas usando Mounjaro não estão apenas perdendo peso. Estão se redescobrind
 ## 📝 Notas de Implementação
 
 ### Code Organization
+
 ```
 shotsy/
 ├── app/                      # Expo Router pages
@@ -1180,12 +1332,14 @@ shotsy/
 ```
 
 ### Testing Strategy
+
 - **Unit:** 80%+ coverage de business logic
 - **Integration:** Fluxos críticos (auth, data sync)
 - **E2E:** User journeys principais
 - **Beta:** Real users, real feedback
 
 ### Release Strategy
+
 - **Continuous delivery** para beta
 - **Bi-weekly releases** para produção
 - **Feature flags** para gradual rollout
@@ -1198,6 +1352,7 @@ shotsy/
 Shotsy não é apenas mais um app de saúde. É um **movimento** para reimaginar como gerenciamos nossa saúde.
 
 Para os "crazy ones" que acreditam que rastreamento de medicação pode ser:
+
 - Empoderador, não intimidador
 - Social, não solitário
 - Inteligente, não complexo
@@ -1218,4 +1373,4 @@ Let's think different.
 
 ---
 
-*"The people who are crazy enough to think they can change the world, are the ones who do."* 🚀
+_"The people who are crazy enough to think they can change the world, are the ones who do."_ 🚀

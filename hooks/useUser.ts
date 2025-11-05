@@ -107,13 +107,13 @@ export function useUser() {
       } else {
         logger.info('User fetched successfully', { userId: data?.id });
         setUser(data);
-        
+
         // Atualizar cache
         userCache[userId] = {
           user: data,
           timestamp: Date.now(),
         };
-        
+
         // Reset retry count em caso de sucesso
         retryCountRef.current = 0;
       }

@@ -1,5 +1,15 @@
 import { useState, useEffect } from 'react';
-import { View, Text, StyleSheet, KeyboardAvoidingView, Platform, Alert, ScrollView, TouchableWithoutFeedback, Keyboard } from 'react-native';
+import {
+  View,
+  Text,
+  StyleSheet,
+  KeyboardAvoidingView,
+  Platform,
+  Alert,
+  ScrollView,
+  TouchableWithoutFeedback,
+  Keyboard,
+} from 'react-native';
 import { useSignUp } from '@clerk/clerk-expo';
 import { useRouter } from 'expo-router';
 import { Button } from '@/components/ui/button';
@@ -29,11 +39,9 @@ export default function VerifyEmailScreen() {
 
     // Se não tiver signUp, redirecionar
     if (isLoaded && !signUp) {
-      Alert.alert(
-        'Erro',
-        'Sessão de cadastro expirou. Por favor, cadastre-se novamente.',
-        [{ text: 'OK', onPress: () => router.replace('/(auth)/sign-up') }]
-      );
+      Alert.alert('Erro', 'Sessão de cadastro expirou. Por favor, cadastre-se novamente.', [
+        { text: 'OK', onPress: () => router.replace('/(auth)/sign-up') },
+      ]);
     }
   }, [isLoaded, signUp]);
 
@@ -50,9 +58,9 @@ export default function VerifyEmailScreen() {
     try {
       // Remover espaços em branco e limpar o código
       const cleanCode = code.trim().replace(/\s/g, '');
-      
+
       logger.debug('Attempting verification', { code: cleanCode });
-      
+
       const result = await signUp.attemptEmailAddressVerification({
         code: cleanCode,
       });
@@ -61,10 +69,10 @@ export default function VerifyEmailScreen() {
 
       if (result.status === 'complete') {
         await setActive({ session: result.createdSessionId });
-        
+
         // Aguardar um pouco para garantir que o usuário foi criado no Supabase
-        await new Promise(resolve => setTimeout(resolve, 1000));
-        
+        await new Promise((resolve) => setTimeout(resolve, 1000));
+
         // Verificar se o onboarding foi completado
         // Se não foi, redirecionar para onboarding
         router.replace('/(auth)/onboarding-flow');
@@ -73,7 +81,8 @@ export default function VerifyEmailScreen() {
       }
     } catch (err: any) {
       logger.error('Verification error', err as Error);
-      const errorMessage = err.errors?.[0]?.longMessage || err.errors?.[0]?.message || 'Código inválido';
+      const errorMessage =
+        err.errors?.[0]?.longMessage || err.errors?.[0]?.message || 'Código inválido';
       setError(errorMessage);
       Alert.alert('Erro', errorMessage);
     } finally {
@@ -104,7 +113,7 @@ export default function VerifyEmailScreen() {
       keyboardVerticalOffset={100}
     >
       <TouchableWithoutFeedback onPress={Keyboard.dismiss}>
-        <ScrollView 
+        <ScrollView
           contentContainerStyle={styles.scrollContent}
           keyboardShouldPersistTaps="handled"
           showsVerticalScrollIndicator={false}
@@ -114,16 +123,14 @@ export default function VerifyEmailScreen() {
             <Text style={styles.title}>Verifique seu email</Text>
             <Text style={styles.subtitle}>
               Enviamos um código de 6 dígitos para{'\n'}
-              <Text style={styles.email}>
-                {signUp?.emailAddress}
-              </Text>
+              <Text style={styles.email}>{signUp?.emailAddress}</Text>
             </Text>
 
             <View style={styles.form}>
               <View style={styles.infoBox}>
                 <Text style={styles.infoText}>
-                  💡 O código tem 6 dígitos e foi enviado para seu email.
-                  Pode levar alguns minutos para chegar.
+                  💡 O código tem 6 dígitos e foi enviado para seu email. Pode levar alguns minutos
+                  para chegar.
                 </Text>
               </View>
 
@@ -167,11 +174,7 @@ export default function VerifyEmailScreen() {
                 loading={resendLoading}
               />
 
-              <Button
-                label="Voltar"
-                onPress={() => router.back()}
-                variant="secondary"
-              />
+              <Button label="Voltar" onPress={() => router.back()} variant="secondary" />
             </View>
           </View>
         </ScrollView>
@@ -180,62 +183,63 @@ export default function VerifyEmailScreen() {
   );
 }
 
-const getStyles = (colors: any) => StyleSheet.create({
-  container: {
-    flex: 1,
-    backgroundColor: colors.background,
-  },
-  scrollContent: {
-    flexGrow: 1,
-    justifyContent: 'center',
-  },
-  content: {
-    padding: 24,
-    justifyContent: 'center',
-    alignItems: 'center',
-    minHeight: '100%',
-  },
-  icon: {
-    fontSize: 64,
-    marginBottom: 16,
-  },
-  title: {
-    fontSize: 32,
-    fontWeight: 'bold',
-    color: colors.text,
-    marginBottom: 8,
-    textAlign: 'center',
-  },
-  subtitle: {
-    fontSize: 16,
-    color: colors.textSecondary,
-    marginBottom: 32,
-    textAlign: 'center',
-    lineHeight: 24,
-  },
-  email: {
-    color: colors.primary,
-    fontWeight: '600',
-  },
-  form: {
-    gap: 16,
-    width: '100%',
-  },
-  infoBox: {
-    backgroundColor: colors.card,
-    padding: 16,
-    borderRadius: 12,
-    borderLeftWidth: 4,
-    borderLeftColor: colors.primary,
-  },
-  infoText: {
-    color: colors.textSecondary,
-    fontSize: 14,
-    lineHeight: 20,
-  },
-  errorText: {
-    color: colors.error,
-    fontSize: 14,
-    textAlign: 'center',
-  },
-});
+const getStyles = (colors: any) =>
+  StyleSheet.create({
+    container: {
+      flex: 1,
+      backgroundColor: colors.background,
+    },
+    scrollContent: {
+      flexGrow: 1,
+      justifyContent: 'center',
+    },
+    content: {
+      padding: 24,
+      justifyContent: 'center',
+      alignItems: 'center',
+      minHeight: '100%',
+    },
+    icon: {
+      fontSize: 64,
+      marginBottom: 16,
+    },
+    title: {
+      fontSize: 32,
+      fontWeight: 'bold',
+      color: colors.text,
+      marginBottom: 8,
+      textAlign: 'center',
+    },
+    subtitle: {
+      fontSize: 16,
+      color: colors.textSecondary,
+      marginBottom: 32,
+      textAlign: 'center',
+      lineHeight: 24,
+    },
+    email: {
+      color: colors.primary,
+      fontWeight: '600',
+    },
+    form: {
+      gap: 16,
+      width: '100%',
+    },
+    infoBox: {
+      backgroundColor: colors.card,
+      padding: 16,
+      borderRadius: 12,
+      borderLeftWidth: 4,
+      borderLeftColor: colors.primary,
+    },
+    infoText: {
+      color: colors.textSecondary,
+      fontSize: 14,
+      lineHeight: 20,
+    },
+    errorText: {
+      color: colors.error,
+      fontSize: 14,
+      textAlign: 'center',
+    },
+  });

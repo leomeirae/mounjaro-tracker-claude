@@ -14,9 +14,13 @@ export default function NotificationSettingsScreen() {
   const [loading, setLoading] = useState(false);
 
   const [enabled, setEnabled] = useState(user?.notifications_enabled ?? true);
-  const [weightFrequency, setWeightFrequency] = useState(user?.weight_reminder_frequency || 'daily');
+  const [weightFrequency, setWeightFrequency] = useState(
+    user?.weight_reminder_frequency || 'daily'
+  );
   const [appReminders, setAppReminders] = useState(user?.application_reminders ?? true);
-  const [achievementNotifs, setAchievementNotifs] = useState(user?.achievement_notifications ?? true);
+  const [achievementNotifs, setAchievementNotifs] = useState(
+    user?.achievement_notifications ?? true
+  );
 
   async function handleSave() {
     try {
@@ -32,7 +36,7 @@ export default function NotificationSettingsScreen() {
       await refetch();
 
       Alert.alert('Sucesso! ✅', 'Configurações salvas', [
-        { text: 'OK', onPress: () => router.back() }
+        { text: 'OK', onPress: () => router.back() },
       ]);
     } catch (error: any) {
       Alert.alert('Erro', error.message);
@@ -48,18 +52,14 @@ export default function NotificationSettingsScreen() {
       <View style={styles.header}>
         <Text style={styles.emoji}>🔔</Text>
         <Text style={styles.title}>Notificações</Text>
-        <Text style={styles.subtitle}>
-          Configure seus lembretes e alertas
-        </Text>
+        <Text style={styles.subtitle}>Configure seus lembretes e alertas</Text>
       </View>
 
       <View style={styles.section}>
         <View style={styles.settingRow}>
           <View style={styles.settingInfo}>
             <Text style={styles.settingLabel}>Ativar Notificações</Text>
-            <Text style={styles.settingDescription}>
-              Receber todos os lembretes e alertas
-            </Text>
+            <Text style={styles.settingDescription}>Receber todos os lembretes e alertas</Text>
           </View>
           <Switch
             value={enabled}
@@ -71,7 +71,7 @@ export default function NotificationSettingsScreen() {
 
       <View style={styles.section}>
         <Text style={styles.sectionTitle}>Lembretes de Peso</Text>
-        
+
         <View style={styles.radioGroup}>
           <RadioOption
             label="Diário"
@@ -116,9 +116,7 @@ export default function NotificationSettingsScreen() {
         <View style={styles.settingRow}>
           <View style={styles.settingInfo}>
             <Text style={styles.settingLabel}>Conquistas</Text>
-            <Text style={styles.settingDescription}>
-              Notificar quando desbloquear conquistas
-            </Text>
+            <Text style={styles.settingDescription}>Notificar quando desbloquear conquistas</Text>
           </View>
           <Switch
             value={achievementNotifs}
@@ -130,11 +128,7 @@ export default function NotificationSettingsScreen() {
       </View>
 
       <View style={styles.actions}>
-        <Button
-          label="Salvar Configurações"
-          onPress={handleSave}
-          loading={loading}
-        />
+        <Button label="Salvar Configurações" onPress={handleSave} loading={loading} />
       </View>
     </ScrollView>
   );
@@ -145,7 +139,7 @@ function RadioOption({
   description,
   selected,
   onPress,
-  disabled
+  disabled,
 }: {
   label: string;
   description: string;
@@ -157,7 +151,7 @@ function RadioOption({
   const styles = getStyles(colors);
 
   return (
-    <Pressable 
+    <Pressable
       style={[
         styles.radioOption,
         selected && styles.radioOptionSelected,
@@ -170,9 +164,7 @@ function RadioOption({
         {selected && <View style={styles.radioInner} />}
       </View>
       <View style={styles.radioText}>
-        <Text style={[styles.radioLabel, disabled && styles.disabledText]}>
-          {label}
-        </Text>
+        <Text style={[styles.radioLabel, disabled && styles.disabledText]}>{label}</Text>
         <Text style={[styles.radioDescription, disabled && styles.disabledText]}>
           {description}
         </Text>
@@ -181,121 +173,117 @@ function RadioOption({
   );
 }
 
-const getStyles = (colors: any) => StyleSheet.create({
-  container: {
-    flex: 1,
-    backgroundColor: colors.background,
-  },
-  header: {
-    padding: 24,
-    alignItems: 'center',
-  },
-  emoji: {
-    fontSize: 64,
-    marginBottom: 16,
-  },
-  title: {
-    fontSize: 28,
-    fontWeight: 'bold',
-    color: colors.text,
-    marginBottom: 8,
-  },
-  subtitle: {
-    fontSize: 14,
-    color: colors.textSecondary,
-    textAlign: 'center',
-  },
-  section: {
-    padding: 24,
-    borderBottomWidth: 1,
-    borderBottomColor: colors.border,
-  },
-  sectionTitle: {
-    fontSize: 18,
-    fontWeight: 'bold',
-    color: colors.text,
-    marginBottom: 16,
-  },
-  settingRow: {
-    flexDirection: 'row',
-    alignItems: 'center',
-    justifyContent: 'space-between',
-    paddingVertical: 12,
-  },
-  settingInfo: {
-    flex: 1,
-    marginRight: 16,
-  },
-  settingLabel: {
-    fontSize: 16,
-    fontWeight: '600',
-    color: colors.text,
-    marginBottom: 4,
-  },
-  settingDescription: {
-    fontSize: 14,
-    color: colors.textSecondary,
-  },
-  radioGroup: {
-    gap: 12,
-  },
-  radioOption: {
-    flexDirection: 'row',
-    alignItems: 'center',
-    backgroundColor: colors.card,
-    borderRadius: 12,
-    padding: 16,
-    borderWidth: 2,
-    borderColor: 'transparent',
-  },
-  radioOptionSelected: {
-    borderColor: colors.primary,
-    backgroundColor: colors.primaryDark,
-  },
-  radioOptionDisabled: {
-    opacity: 0.5,
-  },
-  radio: {
-    width: 24,
-    height: 24,
-    borderRadius: 12,
-    borderWidth: 2,
-    borderColor: colors.textMuted,
-    alignItems: 'center',
-    justifyContent: 'center',
-    marginRight: 12,
-  },
-  radioSelected: {
-    borderColor: colors.primary,
-  },
-  radioInner: {
-    width: 12,
-    height: 12,
-    borderRadius: 6,
-    backgroundColor: colors.primary,
-  },
-  radioText: {
-    flex: 1,
-  },
-  radioLabel: {
-    fontSize: 16,
-    fontWeight: '600',
-    color: colors.text,
-    marginBottom: 4,
-  },
-  radioDescription: {
-    fontSize: 14,
-    color: colors.textSecondary,
-  },
-  disabledText: {
-    opacity: 0.5,
-  },
-  actions: {
-    padding: 24,
-  },
-});
-
-
-
-
-
+const getStyles = (colors: any) =>
+  StyleSheet.create({
+    container: {
+      flex: 1,
+      backgroundColor: colors.background,
+    },
+    header: {
+      padding: 24,
+      alignItems: 'center',
+    },
+    emoji: {
+      fontSize: 64,
+      marginBottom: 16,
+    },
+    title: {
+      fontSize: 28,
+      fontWeight: 'bold',
+      color: colors.text,
+      marginBottom: 8,
+    },
+    subtitle: {
+      fontSize: 14,
+      color: colors.textSecondary,
+      textAlign: 'center',
+    },
+    section: {
+      padding: 24,
+      borderBottomWidth: 1,
+      borderBottomColor: colors.border,
+    },
+    sectionTitle: {
+      fontSize: 18,
+      fontWeight: 'bold',
+      color: colors.text,
+      marginBottom: 16,
+    },
+    settingRow: {
+      flexDirection: 'row',
+      alignItems: 'center',
+      justifyContent: 'space-between',
+      paddingVertical: 12,
+    },
+    settingInfo: {
+      flex: 1,
+      marginRight: 16,
+    },
+    settingLabel: {
+      fontSize: 16,
+      fontWeight: '600',
+      color: colors.text,
+      marginBottom: 4,
+    },
+    settingDescription: {
+      fontSize: 14,
+      color: colors.textSecondary,
+    },
+    radioGroup: {
+      gap: 12,
+    },
+    radioOption: {
+      flexDirection: 'row',
+      alignItems: 'center',
+      backgroundColor: colors.card,
+      borderRadius: 12,
+      padding: 16,
+      borderWidth: 2,
+      borderColor: 'transparent',
+    },
+    radioOptionSelected: {
+      borderColor: colors.primary,
+      backgroundColor: colors.primaryDark,
+    },
+    radioOptionDisabled: {
+      opacity: 0.5,
+    },
+    radio: {
+      width: 24,
+      height: 24,
+      borderRadius: 12,
+      borderWidth: 2,
+      borderColor: colors.textMuted,
+      alignItems: 'center',
+      justifyContent: 'center',
+      marginRight: 12,
+    },
+    radioSelected: {
+      borderColor: colors.primary,
+    },
+    radioInner: {
+      width: 12,
+      height: 12,
+      borderRadius: 6,
+      backgroundColor: colors.primary,
+    },
+    radioText: {
+      flex: 1,
+    },
+    radioLabel: {
+      fontSize: 16,
+      fontWeight: '600',
+      color: colors.text,
+      marginBottom: 4,
+    },
+    radioDescription: {
+      fontSize: 14,
+      color: colors.textSecondary,
+    },
+    disabledText: {
+      opacity: 0.5,
+    },
+    actions: {
+      padding: 24,
+    },
+  });

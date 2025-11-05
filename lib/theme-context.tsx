@@ -1,7 +1,13 @@
 import React, { createContext, useContext, useEffect, useState } from 'react';
 import { useColorScheme } from 'react-native';
 import AsyncStorage from '@react-native-async-storage/async-storage';
-import { ShotsyTheme, AccentColor, SHOTSY_THEMES, ACCENT_COLORS, SHOTSY_COLORS } from '@/constants/ShotsyThemes';
+import {
+  ShotsyTheme,
+  AccentColor,
+  SHOTSY_THEMES,
+  ACCENT_COLORS,
+  SHOTSY_COLORS,
+} from '@/constants/ShotsyThemes';
 import { createLogger } from '@/lib/logger';
 
 const logger = createLogger('Theme-context');
@@ -44,9 +50,7 @@ export function ThemeProvider({ children }: { children: React.ReactNode }) {
   const [accentColor, setAccentColorState] = useState<AccentColor>('blue');
 
   const effectiveMode: 'light' | 'dark' =
-    mode === 'system'
-      ? (systemColorScheme === 'dark' ? 'dark' : 'light')
-      : mode;
+    mode === 'system' ? (systemColorScheme === 'dark' ? 'dark' : 'light') : mode;
 
   useEffect(() => {
     loadSavedSettings();
@@ -106,19 +110,21 @@ export function ThemeProvider({ children }: { children: React.ReactNode }) {
   const themeData = SHOTSY_THEMES[selectedTheme];
 
   return (
-    <ThemeContext.Provider value={{
-      mode,
-      effectiveMode,
-      setMode,
-      selectedTheme,
-      setSelectedTheme,
-      accentColor,
-      setAccentColor,
-      colors: SHOTSY_COLORS,
-      themeGradient: themeData.gradient,
-      themeColors: themeData.colors,
-      currentAccent: ACCENT_COLORS[accentColor],
-    }}>
+    <ThemeContext.Provider
+      value={{
+        mode,
+        effectiveMode,
+        setMode,
+        selectedTheme,
+        setSelectedTheme,
+        accentColor,
+        setAccentColor,
+        colors: SHOTSY_COLORS,
+        themeGradient: themeData.gradient,
+        themeColors: themeData.colors,
+        currentAccent: ACCENT_COLORS[accentColor],
+      }}
+    >
       {children}
     </ThemeContext.Provider>
   );

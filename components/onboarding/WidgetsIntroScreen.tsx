@@ -3,7 +3,13 @@ import { View, Text, StyleSheet } from 'react-native';
 import { OnboardingScreenBase } from './OnboardingScreenBase';
 import { useShotsyColors } from '@/hooks/useShotsyColors';
 import { ShotsyCard } from '@/components/ui/shotsy-card';
-import { AppIcon, DeviceMobileIcon, ClockIcon, ResultsIcon, CaloriesIcon } from '@/components/ui/icons';
+import {
+  AppIcon,
+  DeviceMobileIcon,
+  ClockIcon,
+  ResultsIcon,
+  CaloriesIcon,
+} from '@/components/ui/icons';
 
 interface WidgetsIntroScreenProps {
   onNext: () => void;
@@ -27,9 +33,7 @@ export function WidgetsIntroScreen({ onNext, onBack }: WidgetsIntroScreenProps) 
           <View style={styles.feature}>
             <ClockIcon size="xl" color={colors.text} />
             <View style={styles.featureText}>
-              <Text style={[styles.featureTitle, { color: colors.text }]}>
-                Próxima aplicação
-              </Text>
+              <Text style={[styles.featureTitle, { color: colors.text }]}>Próxima aplicação</Text>
               <Text style={[styles.featureDescription, { color: colors.textSecondary }]}>
                 Veja quando é sua próxima dose sem abrir o app
               </Text>
@@ -41,9 +45,7 @@ export function WidgetsIntroScreen({ onNext, onBack }: WidgetsIntroScreenProps) 
           <View style={styles.feature}>
             <ResultsIcon size="xl" color={colors.text} />
             <View style={styles.featureText}>
-              <Text style={[styles.featureTitle, { color: colors.text }]}>
-                Progresso de peso
-              </Text>
+              <Text style={[styles.featureTitle, { color: colors.text }]}>Progresso de peso</Text>
               <Text style={[styles.featureDescription, { color: colors.textSecondary }]}>
                 Acompanhe sua evolução diretamente da home screen
               </Text>
@@ -55,9 +57,7 @@ export function WidgetsIntroScreen({ onNext, onBack }: WidgetsIntroScreenProps) 
           <View style={styles.feature}>
             <CaloriesIcon size="xl" color={colors.text} />
             <View style={styles.featureText}>
-              <Text style={[styles.featureTitle, { color: colors.text }]}>
-                Sequência de dias
-              </Text>
+              <Text style={[styles.featureTitle, { color: colors.text }]}>Sequência de dias</Text>
               <Text style={[styles.featureDescription, { color: colors.textSecondary }]}>
                 Mantenha sua motivação sempre visível
               </Text>

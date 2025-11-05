@@ -10,9 +10,20 @@ import { ThemeSelector } from '@/components/settings/ThemeSelector';
 import { AccentColorSelector } from '@/components/settings/AccentColorSelector';
 import { PersonalInfoEditor } from '@/components/settings/PersonalInfoEditor';
 import {
-  InjectionsIcon, WeightIcon, BellIcon, ClockIcon, TrendUpIcon,
-  LockIcon, ExportIcon, TrashIcon, DeviceMobileIcon, ChatIcon, FileTextIcon,
-  ClipboardTextIcon, SignOutIcon, WarningIcon
+  InjectionsIcon,
+  WeightIcon,
+  BellIcon,
+  ClockIcon,
+  TrendUpIcon,
+  LockIcon,
+  ExportIcon,
+  TrashIcon,
+  DeviceMobileIcon,
+  ChatIcon,
+  FileTextIcon,
+  ClipboardTextIcon,
+  SignOutIcon,
+  WarningIcon,
 } from '@/components/ui/icons';
 import { useProfile } from '@/hooks/useProfile';
 import { useSettings } from '@/hooks/useSettings';
@@ -43,30 +54,26 @@ export default function SettingsScreen() {
   }, [settings]);
 
   const handleSignOut = async () => {
-    Alert.alert(
-      'Sair da Conta',
-      'Tem certeza que deseja sair?',
-      [
-        { text: 'Cancelar', style: 'cancel' },
-        {
-          text: 'Sair',
-          style: 'destructive',
-          onPress: async () => {
-            try {
-              // Fazer logout do Clerk
-              await signOut();
+    Alert.alert('Sair da Conta', 'Tem certeza que deseja sair?', [
+      { text: 'Cancelar', style: 'cancel' },
+      {
+        text: 'Sair',
+        style: 'destructive',
+        onPress: async () => {
+          try {
+            // Fazer logout do Clerk
+            await signOut();
 
-              // Redirecionar diretamente para welcome, sem esperar
-              // O router.replace já é assíncrono e resolve o estado
-              router.replace('/(auth)/welcome');
-            } catch (error) {
-              logger.error('Error during logout', error as Error);
-              Alert.alert('Erro', 'Não foi possível sair da conta. Tente novamente.');
-            }
-          },
+            // Redirecionar diretamente para welcome, sem esperar
+            // O router.replace já é assíncrono e resolve o estado
+            router.replace('/(auth)/welcome');
+          } catch (error) {
+            logger.error('Error during logout', error as Error);
+            Alert.alert('Erro', 'Não foi possível sair da conta. Tente novamente.');
+          }
         },
-      ]
-    );
+      },
+    ]);
   };
 
   const handleToggleNotifications = async (value: boolean) => {
@@ -194,7 +201,11 @@ export default function SettingsScreen() {
           <SettingsRow
             icon={<ClockIcon size="md" />}
             label="Configurar Horários"
-            value={settings?.shot_reminder_time ? settings.shot_reminder_time.substring(0, 5) : 'Não definido'}
+            value={
+              settings?.shot_reminder_time
+                ? settings.shot_reminder_time.substring(0, 5)
+                : 'Não definido'
+            }
             onPress={() => router.push('/(tabs)/notification-settings')}
           />
           <SettingsRow
@@ -238,7 +249,9 @@ export default function SettingsScreen() {
           <SettingsRow
             icon={<TrashIcon size="md" />}
             label="Limpar Cache"
-            onPress={() => Alert.alert('Cache limpo', 'O cache do aplicativo foi limpo com sucesso.')}
+            onPress={() =>
+              Alert.alert('Cache limpo', 'O cache do aplicativo foi limpo com sucesso.')
+            }
             showBorder={false}
           />
         </SettingsSection>
@@ -251,11 +264,7 @@ export default function SettingsScreen() {
             value="1.0.0"
             showArrow={false}
           />
-          <SettingsRow
-            icon={<ChatIcon size="md" />}
-            label="Suporte"
-            onPress={handleSupport}
-          />
+          <SettingsRow icon={<ChatIcon size="md" />} label="Suporte" onPress={handleSupport} />
           <SettingsRow
             icon={<FileTextIcon size="md" />}
             label="Política de Privacidade"

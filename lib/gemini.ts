@@ -56,12 +56,14 @@ class GeminiService {
       const apiKey = process.env.EXPO_PUBLIC_GEMINI_API_KEY;
 
       if (!apiKey || apiKey === 'YOUR_API_KEY_HERE') {
-        logger.warn('⚠️ Gemini API key not configured. Please add EXPO_PUBLIC_GEMINI_API_KEY to .env');
+        logger.warn(
+          '⚠️ Gemini API key not configured. Please add EXPO_PUBLIC_GEMINI_API_KEY to .env'
+        );
         return;
       }
 
       this.genAI = new GoogleGenerativeAI(apiKey);
-      this.model = this.genAI.getGenerativeModel({ 
+      this.model = this.genAI.getGenerativeModel({
         model: 'models/gemini-flash-lite-latest',
         systemInstruction: SYSTEM_PROMPT,
       });
@@ -72,7 +74,9 @@ class GeminiService {
 
   async analyzeNutrition(userMessage: string): Promise<NutritionAnalysis> {
     if (!this.model) {
-      throw new Error('Gemini API não configurada. Por favor, adicione sua API key no arquivo .env');
+      throw new Error(
+        'Gemini API não configurada. Por favor, adicione sua API key no arquivo .env'
+      );
     }
 
     try {
@@ -96,11 +100,11 @@ class GeminiService {
       };
     } catch (error: any) {
       logger.error('Error analyzing nutrition:', error as Error);
-      
+
       if (error?.message?.includes('API key')) {
         throw new Error('API key inválida. Verifique sua configuração.');
       }
-      
+
       throw new Error('Erro ao processar sua mensagem. Tente novamente.');
     }
   }
@@ -112,4 +116,3 @@ class GeminiService {
 
 // Singleton instance
 export const geminiService = new GeminiService();
-

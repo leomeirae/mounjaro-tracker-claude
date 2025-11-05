@@ -24,7 +24,8 @@ export const HealthScoreCard: React.FC<{ onPress?: () => void }> = ({ onPress })
       <View style={styles.header}>
         <Text style={styles.title}>Your Health Score</Text>
         <Text style={[styles.trend, { color: level.color }]}>
-          {score.trend === 'improving' ? '↗️' : score.trend === 'declining' ? '↘️' : '→'} {score.trend}
+          {score.trend === 'improving' ? '↗️' : score.trend === 'declining' ? '↘️' : '→'}{' '}
+          {score.trend}
         </Text>
       </View>
 
@@ -45,7 +46,11 @@ export const HealthScoreCard: React.FC<{ onPress?: () => void }> = ({ onPress })
   );
 };
 
-const ScoreBar: React.FC<{ label: string; value: number; color: string }> = ({ label, value, color }) => (
+const ScoreBar: React.FC<{ label: string; value: number; color: string }> = ({
+  label,
+  value,
+  color,
+}) => (
   <View style={styles.scoreBar}>
     <Text style={styles.barLabel}>{label}</Text>
     <View style={styles.barContainer}>

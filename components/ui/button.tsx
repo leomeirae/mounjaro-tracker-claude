@@ -9,9 +9,9 @@ interface ButtonProps {
   disabled?: boolean;
 }
 
-export function Button({ 
-  label, 
-  onPress, 
+export function Button({
+  label,
+  onPress,
   variant = 'primary',
   loading = false,
   disabled = false,
@@ -26,10 +26,10 @@ export function Button({
       case 'secondary':
         return { backgroundColor: colors.card };
       case 'outline':
-        return { 
-          backgroundColor: 'transparent', 
-          borderWidth: 2, 
-          borderColor: colors.primary 
+        return {
+          backgroundColor: 'transparent',
+          borderWidth: 2,
+          borderColor: colors.primary,
         };
       default:
         return { backgroundColor: colors.primary };
