@@ -17,7 +17,7 @@ describe('Logger', () => {
     // Mock console methods
     console.log = jest.fn();
     console.debug = jest.fn();
-    console.warn = jest.warn();
+    console.warn = jest.fn();
     console.error = jest.fn();
   });
 
