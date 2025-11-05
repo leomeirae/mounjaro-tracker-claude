@@ -1,6 +1,9 @@
 import { ClerkProvider, useAuth as useClerkAuth } from '@clerk/clerk-expo';
 import * as SecureStore from 'expo-secure-store';
 import { Platform } from 'react-native';
+import { createLogger } from '@/lib/logger';
+
+const logger = createLogger('Clerk');
 
 // Token cache que funciona tanto na web quanto em mobile
 const tokenCache = {
@@ -13,7 +16,7 @@ const tokenCache = {
       // Em mobile, usar SecureStore
       return await SecureStore.getItemAsync(key);
     } catch (error) {
-      console.error('Token cache get error:', error);
+      logger.error('Token cache get error:', error as Error);
       return null;
     }
   },
@@ -27,7 +30,7 @@ const tokenCache = {
       // Em mobile, usar SecureStore
       return await SecureStore.setItemAsync(key, value);
     } catch (error) {
-      console.error('Token cache set error:', error);
+      logger.error('Token cache set error:', error as Error);
     }
   },
 };

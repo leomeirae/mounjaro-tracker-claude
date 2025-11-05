@@ -6,6 +6,9 @@ import { useRouter } from 'expo-router';
 import { useColors } from '@/constants/colors';
 import { useTheme } from '@/lib/theme-context';
 import { supabase } from '@/lib/supabase';
+import { createLogger } from '@/lib/logger';
+
+const logger = createLogger('Profile');
 
 export default function ProfileScreen() {
   const { signOut } = useAuth();
@@ -26,21 +29,21 @@ export default function ProfileScreen() {
           style: 'destructive',
           onPress: async () => {
             try {
-              console.log('Signing out...');
+              logger.info('Signing out');
               
               // Clear Supabase session
               await supabase.auth.signOut();
-              console.log('Supabase session cleared');
+              logger.debug('Supabase session cleared');
               
               // Sign out from Clerk
               await signOut();
-              console.log('Clerk sign out successful');
+              logger.debug('Clerk sign out successful');
               
               // Redirect to welcome (carrossel)
               router.replace('/(auth)/welcome');
-              console.log('Redirected to login');
+              logger.debug('Redirected to login');
             } catch (error) {
-              console.error('Error signing out:', error);
+              logger.error('Error signing out', error as Error);
             }
           },
         },

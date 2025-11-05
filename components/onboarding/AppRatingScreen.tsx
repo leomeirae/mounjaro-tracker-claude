@@ -4,6 +4,9 @@ import { OnboardingScreenBase } from './OnboardingScreenBase';
 import { useShotsyColors } from '@/hooks/useShotsyColors';
 import { ShotsyCard } from '@/components/ui/shotsy-card';
 import { ShotsyButton } from '@/components/ui/shotsy-button';
+import { createLogger } from '@/lib/logger';
+
+const logger = createLogger('AppRatingScreen');
 
 interface AppRatingScreenProps {
   onNext: () => void;
@@ -23,7 +26,7 @@ export function AppRatingScreen({ onNext, onBack }: AppRatingScreenProps) {
       try {
         await Linking.openURL(appStoreUrl);
       } catch (error) {
-        console.error('Erro ao abrir App Store:', error);
+        logger.error('Erro ao abrir App Store:', error as Error);
       }
     }
 

@@ -17,6 +17,9 @@ import {
   createMilestones,
 } from '@/lib/types/goals';
 import { useShotsyColors } from '@/hooks/useShotsyColors';
+import { createLogger } from '@/lib/logger';
+
+const logger = createLogger('GoalBuilder');
 
 interface GoalBuilderProps {
   onComplete?: () => void;
@@ -90,7 +93,7 @@ export const GoalBuilder: React.FC<GoalBuilderProps> = ({
         [{ text: 'Great!', onPress: onComplete }]
       );
     } catch (error) {
-      console.error('Error creating goal:', error);
+      logger.error('Error creating goal:', error as Error);
       Alert.alert('Error', 'Failed to create goal. Please try again.');
     } finally {
       setSaving(false);

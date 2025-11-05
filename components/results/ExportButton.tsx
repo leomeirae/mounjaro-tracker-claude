@@ -13,6 +13,9 @@ import * as Sharing from 'expo-sharing';
 import { useShotsyColors } from '@/hooks/useShotsyColors';
 import { ShareIcon, FileTextIcon, TableIcon } from '@/components/ui/icons';
 import { useTheme } from '@/lib/theme-context';
+import { createLogger } from '@/lib/logger';
+
+const logger = createLogger('ExportButton');
 
 interface WeightDataPoint {
   date: Date;
@@ -170,7 +173,7 @@ export const ExportButton: React.FC<ExportButtonProps> = ({
         );
       }
     } catch (error) {
-      console.error('Error exporting CSV:', error);
+      logger.error('Error exporting CSV:', error as Error);
       Alert.alert('Erro', 'Não foi possível exportar os dados. Tente novamente.');
     } finally {
       setExporting(false);
@@ -202,7 +205,7 @@ export const ExportButton: React.FC<ExportButtonProps> = ({
         );
       }
     } catch (error) {
-      console.error('Error exporting report:', error);
+      logger.error('Error exporting report:', error as Error);
       Alert.alert('Erro', 'Não foi possível gerar o relatório. Tente novamente.');
     } finally {
       setExporting(false);

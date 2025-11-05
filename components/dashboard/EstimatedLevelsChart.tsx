@@ -5,6 +5,9 @@ import { useShotsyColors } from '@/hooks/useShotsyColors';
 import { useApplications } from '@/hooks/useApplications';
 import { Info, CalendarBlank } from 'phosphor-react-native';
 import { calculateEstimatedLevels, getCurrentEstimatedLevel } from '@/lib/pharmacokinetics';
+import { createLogger } from '@/lib/logger';
+
+const logger = createLogger('EstimatedLevelsChart');
 
 const screenWidth = Dimensions.get('window').width;
 
@@ -190,7 +193,7 @@ export const EstimatedLevelsChart: React.FC = () => {
             style={styles.jumpButton}
             onPress={() => {
               // TODO: Implement scroll to today functionality
-              console.log('Jump to today');
+              logger.debug('Jump to today');
             }}
           >
             <CalendarBlank size={18} color={colors.primary} weight="regular" />

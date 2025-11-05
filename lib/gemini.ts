@@ -1,4 +1,7 @@
 import { GoogleGenerativeAI } from '@google/generative-ai';
+import { createLogger } from '@/lib/logger';
+
+const logger = createLogger('Gemini');
 
 const SYSTEM_PROMPT = `Você é um assistente de nutrição para usuários de medicamentos GLP-1 (Mounjaro, Ozempic, Wegovy, Zepbound).
 
@@ -53,7 +56,7 @@ class GeminiService {
       const apiKey = process.env.EXPO_PUBLIC_GEMINI_API_KEY;
 
       if (!apiKey || apiKey === 'YOUR_API_KEY_HERE') {
-        console.warn('⚠️ Gemini API key not configured. Please add EXPO_PUBLIC_GEMINI_API_KEY to .env');
+        logger.warn('⚠️ Gemini API key not configured. Please add EXPO_PUBLIC_GEMINI_API_KEY to .env');
         return;
       }
 
@@ -63,7 +66,7 @@ class GeminiService {
         systemInstruction: SYSTEM_PROMPT,
       });
     } catch (error) {
-      console.error('Error initializing Gemini:', error);
+      logger.error('Error initializing Gemini:', error as Error);
     }
   }
 
@@ -92,7 +95,7 @@ class GeminiService {
         rawResponse: text,
       };
     } catch (error: any) {
-      console.error('Error analyzing nutrition:', error);
+      logger.error('Error analyzing nutrition:', error as Error);
       
       if (error?.message?.includes('API key')) {
         throw new Error('API key inválida. Verifique sua configuração.');

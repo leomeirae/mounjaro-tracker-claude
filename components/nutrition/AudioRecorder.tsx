@@ -8,6 +8,9 @@ import {
 import { Microphone, Stop } from 'phosphor-react-native';
 import { useShotsyColors } from '@/hooks/useShotsyColors';
 import * as Haptics from 'expo-haptics';
+import { createLogger } from '@/lib/logger';
+
+const logger = createLogger('AudioRecorder');
 
 interface AudioRecorderProps {
   onRecordComplete: (text: string) => void;
@@ -80,7 +83,7 @@ export function AudioRecorder({ onRecordComplete, disabled }: AudioRecorderProps
       
       await Haptics.impactAsync(Haptics.ImpactFeedbackStyle.Medium);
     } catch (err) {
-      console.error('Failed to start recording', err);
+      logger.error('Failed to start recording', err as Error);
       Alert.alert('Erro', 'Não foi possível iniciar a gravação');
     }
   }
@@ -105,7 +108,7 @@ export function AudioRecorder({ onRecordComplete, disabled }: AudioRecorderProps
       // - Azure Speech Services
       
     } catch (err) {
-      console.error('Failed to stop recording', err);
+      logger.error('Failed to stop recording', err as Error);
       Alert.alert('Erro', 'Não foi possível parar a gravação');
     }
   }

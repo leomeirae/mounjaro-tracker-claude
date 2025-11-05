@@ -3,6 +3,9 @@
 
 import AsyncStorage from '@react-native-async-storage/async-storage';
 import React from 'react';
+import { createLogger } from '@/lib/logger';
+
+const logger = createLogger('Feature-flags');
 
 const FEATURE_FLAGS_KEY = '@mounjaro:feature_flags';
 
@@ -36,7 +39,7 @@ export async function getFeatureFlags(): Promise<FeatureFlags> {
       return cachedFlags || DEFAULT_FLAGS;
     }
   } catch (error) {
-    console.error('Error loading feature flags:', error);
+    logger.error('Error loading feature flags:', error as Error);
   }
 
   return DEFAULT_FLAGS;
@@ -53,7 +56,7 @@ export async function setFeatureFlag<K extends keyof FeatureFlags>(
   try {
     await AsyncStorage.setItem(FEATURE_FLAGS_KEY, JSON.stringify(flags));
   } catch (error) {
-    console.error('Error saving feature flags:', error);
+    logger.error('Error saving feature flags:', error as Error);
   }
 }
 

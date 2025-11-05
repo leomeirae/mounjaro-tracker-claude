@@ -1,6 +1,9 @@
 import * as Notifications from 'expo-notifications';
 import * as Device from 'expo-device';
 import { Platform } from 'react-native';
+import { createLogger } from '@/lib/logger';
+
+const logger = createLogger('Notifications');
 
 // Configurar comportamento padrão das notificações
 Notifications.setNotificationHandler({
@@ -16,7 +19,7 @@ Notifications.setNotificationHandler({
 // Solicitar permissões
 export async function registerForPushNotifications(): Promise<string | null> {
   if (!Device.isDevice) {
-    console.log('Notificações só funcionam em dispositivos físicos');
+    logger.debug('Notificações só funcionam em dispositivos físicos');
     return null;
   }
 
@@ -30,7 +33,7 @@ export async function registerForPushNotifications(): Promise<string | null> {
     }
 
     if (finalStatus !== 'granted') {
-      console.log('Permissão de notificação negada');
+      logger.debug('Permissão de notificação negada');
       return null;
     }
 
@@ -52,7 +55,7 @@ export async function registerForPushNotifications(): Promise<string | null> {
 
     return 'granted';
   } catch (error) {
-    console.error('Erro ao solicitar permissões:', error);
+    logger.error('Erro ao solicitar permissões:', error as Error);
     return null;
   }
 }

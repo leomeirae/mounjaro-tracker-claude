@@ -5,6 +5,9 @@ import { useRouter } from 'expo-router';
 import { Button } from '@/components/ui/button';
 import { Input } from '@/components/ui/input';
 import { useColors } from '@/constants/colors';
+import { createLogger } from '@/lib/logger';
+
+const logger = createLogger('Verify-email');
 
 export default function VerifyEmailScreen() {
   const colors = useColors();
@@ -17,7 +20,7 @@ export default function VerifyEmailScreen() {
   const [resendLoading, setResendLoading] = useState(false);
 
   useEffect(() => {
-    console.log('Estado do signUp:', {
+    logger.debug('SignUp state', {
       isLoaded,
       hasSignUp: !!signUp,
       emailAddress: signUp?.emailAddress,
@@ -48,13 +51,13 @@ export default function VerifyEmailScreen() {
       // Remover espaços em branco e limpar o código
       const cleanCode = code.trim().replace(/\s/g, '');
       
-      console.log('Tentando verificar com código:', cleanCode);
+      logger.debug('Attempting verification', { code: cleanCode });
       
       const result = await signUp.attemptEmailAddressVerification({
         code: cleanCode,
       });
 
-      console.log('Resultado da verificação:', result.status);
+      logger.info('Verification result', { status: result.status });
 
       if (result.status === 'complete') {
         await setActive({ session: result.createdSessionId });
@@ -69,7 +72,7 @@ export default function VerifyEmailScreen() {
         setError(`Verificação incompleta. Status: ${result.status}`);
       }
     } catch (err: any) {
-      console.error('Erro na verificação:', err);
+      logger.error('Verification error', err as Error);
       const errorMessage = err.errors?.[0]?.longMessage || err.errors?.[0]?.message || 'Código inválido';
       setError(errorMessage);
       Alert.alert('Erro', errorMessage);

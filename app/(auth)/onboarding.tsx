@@ -6,6 +6,9 @@ import { Input } from '@/components/ui/input';
 import { useColors } from '@/constants/colors';
 import { supabase } from '@/lib/supabase';
 import { useAuth } from '@/lib/clerk';
+import { createLogger } from '@/lib/logger';
+
+const logger = createLogger('Onboarding');
 
 export default function OnboardingScreen() {
   const colors = useColors();
@@ -73,14 +76,14 @@ export default function OnboardingScreen() {
 
       if (weightError) throw weightError;
 
-      console.log('Onboarding completed successfully');
+      logger.debug('Onboarding completed successfully');
       
       // Desbloquear conquista de onboarding (será detectada automaticamente no dashboard)
       
       // Redirecionar para o dashboard
       router.replace('/(tabs)');
     } catch (error: any) {
-      console.error('Error completing onboarding:', error);
+      logger.error('Error completing onboarding:', error as Error);
       Alert.alert('Erro', error.message || 'Não foi possível salvar seus dados');
     } finally {
       setLoading(false);

@@ -14,6 +14,9 @@ import { useProfile } from '@/hooks/useProfile';
 import { useNutrition } from '@/hooks/useNutrition';
 import { NextShotWidgetSkeleton, ShotHistoryCardsSkeleton } from '@/components/ui/shotsy-skeleton';
 import { calculateNextShotDate } from '@/lib/pharmacokinetics';
+import { createLogger } from '@/lib/logger';
+
+const logger = createLogger('Dashboard');
 
 export default function DashboardScreen() {
   const colors = useShotsyColors();
@@ -161,7 +164,7 @@ export default function DashboardScreen() {
     try {
       await refetchApplications();
     } catch (error) {
-      console.error('Error refreshing data:', error);
+      logger.error('Error refreshing data:', error as Error);
     } finally {
       setRefreshing(false);
     }

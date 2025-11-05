@@ -1,6 +1,9 @@
 import React from 'react';
 import { Icons, IconName } from '@/constants/icons';
 import { useShotsyColors } from '@/hooks/useShotsyColors';
+import { createLogger } from '@/lib/logger';
+
+const logger = createLogger('Icon');
 
 interface IconProps {
   name: IconName;
@@ -19,7 +22,7 @@ export const Icon: React.FC<IconProps> = ({
   const IconComponent = Icons[name];
 
   if (!IconComponent) {
-    console.warn(`Icon "${name}" not found`);
+    logger.warn("Icon not found", { name });
     return null;
   }
 

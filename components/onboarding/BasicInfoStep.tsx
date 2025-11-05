@@ -14,6 +14,9 @@ import {
 import { useUser } from '@clerk/clerk-expo';
 import { supabase } from '@/lib/supabase';
 import { useShotsyColors } from '@/hooks/useShotsyColors';
+import { createLogger } from '@/lib/logger';
+
+const logger = createLogger('BasicInfoStep');
 
 interface BasicInfoStepProps {
   onComplete: () => void;
@@ -76,7 +79,7 @@ export const BasicInfoStep: React.FC<BasicInfoStepProps> = ({ onComplete }) => {
 
       if (weightError) {
         // Don't fail if weight already exists
-        console.warn('Weight log error:', weightError);
+        logger.warn('Weight log error', { weightError });
       }
 
       // Create default settings
@@ -87,12 +90,12 @@ export const BasicInfoStep: React.FC<BasicInfoStepProps> = ({ onComplete }) => {
         });
 
       if (settingsError) {
-        console.warn('Settings error:', settingsError);
+        logger.warn('Settings error', { settingsError });
       }
 
       onComplete();
     } catch (error: any) {
-      console.error('Error saving basic info:', error);
+      logger.error('Error saving basic info:', error as Error);
       Alert.alert('Error', 'Failed to save your information. Please try again.');
     } finally {
       setLoading(false);

@@ -4,6 +4,9 @@ import { View, ActivityIndicator, Text } from 'react-native';
 import { ClipboardText, Syringe, ChartLineUp, Calendar, GearSix } from 'phosphor-react-native';
 import { useShotsyColors } from '@/hooks/useShotsyColors';
 import { useAuth } from '@/lib/clerk';
+import { createLogger } from '@/lib/logger';
+
+const logger = createLogger('_layout');
 
 export default function Layout() {
   const colors = useShotsyColors();
@@ -15,7 +18,7 @@ export default function Layout() {
   useEffect(() => {
     if (isLoaded) {
       if (!isSignedIn && !hasRedirectedRef.current) {
-        console.log('User not authenticated, redirecting to welcome...');
+        logger.info('User not authenticated, redirecting to welcome');
         hasRedirectedRef.current = true;
         router.replace('/(auth)/welcome');
       } else if (isSignedIn) {

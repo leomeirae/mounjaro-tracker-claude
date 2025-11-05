@@ -2,6 +2,9 @@ import React, { createContext, useContext, useEffect, useState } from 'react';
 import { useColorScheme } from 'react-native';
 import AsyncStorage from '@react-native-async-storage/async-storage';
 import { ShotsyTheme, AccentColor, SHOTSY_THEMES, ACCENT_COLORS, SHOTSY_COLORS } from '@/constants/ShotsyThemes';
+import { createLogger } from '@/lib/logger';
+
+const logger = createLogger('Theme-context');
 
 export type ThemeMode = 'light' | 'dark' | 'system';
 
@@ -69,7 +72,7 @@ export function ThemeProvider({ children }: { children: React.ReactNode }) {
         setAccentColorState(savedAccent as AccentColor);
       }
     } catch (error) {
-      console.error('Erro ao carregar configurações de tema:', error);
+      logger.error('Erro ao carregar configurações de tema:', error as Error);
     }
   }
 
@@ -78,7 +81,7 @@ export function ThemeProvider({ children }: { children: React.ReactNode }) {
       setModeState(newMode);
       await AsyncStorage.setItem(THEME_MODE_KEY, newMode);
     } catch (error) {
-      console.error('Erro ao salvar modo de tema:', error);
+      logger.error('Erro ao salvar modo de tema:', error as Error);
     }
   }
 
@@ -87,7 +90,7 @@ export function ThemeProvider({ children }: { children: React.ReactNode }) {
       setSelectedThemeState(theme);
       await AsyncStorage.setItem(SELECTED_THEME_KEY, theme);
     } catch (error) {
-      console.error('Erro ao salvar tema selecionado:', error);
+      logger.error('Erro ao salvar tema selecionado:', error as Error);
     }
   }
 
@@ -96,7 +99,7 @@ export function ThemeProvider({ children }: { children: React.ReactNode }) {
       setAccentColorState(color);
       await AsyncStorage.setItem(ACCENT_COLOR_KEY, color);
     } catch (error) {
-      console.error('Erro ao salvar cor de destaque:', error);
+      logger.error('Erro ao salvar cor de destaque:', error as Error);
     }
   }
 

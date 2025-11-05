@@ -18,6 +18,9 @@ import { router } from 'expo-router';
 import { useApplications } from '@/hooks/useApplications';
 import { useProfile } from '@/hooks/useProfile';
 import { calculateNextShotDate } from '@/lib/pharmacokinetics';
+import { createLogger } from '@/lib/logger';
+
+const logger = createLogger('Injections');
 
 const FILTERS = [
   'Todos',
@@ -132,7 +135,7 @@ export default function ShotsScreen() {
     try {
       await deleteApplication(id);
     } catch (error) {
-      console.error('Error deleting application:', error);
+      logger.error('Error deleting application:', error as Error);
     }
   };
 

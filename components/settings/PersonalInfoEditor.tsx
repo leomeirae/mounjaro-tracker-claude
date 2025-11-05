@@ -15,6 +15,9 @@ import { ShotsyButton } from '@/components/ui/shotsy-button';
 import { ShotsyCard } from '@/components/ui/shotsy-card';
 import { useProfile, UserProfile } from '@/hooks/useProfile';
 import * as Haptics from 'expo-haptics';
+import { createLogger } from '@/lib/logger';
+
+const logger = createLogger('PersonalInfoEditor');
 
 interface PersonalInfoEditorProps {
   visible: boolean;
@@ -107,7 +110,7 @@ export const PersonalInfoEditor: React.FC<PersonalInfoEditorProps> = ({
       onSave();
       onClose();
     } catch (error) {
-      console.error('Error saving profile:', error);
+      logger.error('Error saving profile:', error as Error);
       Haptics.notificationAsync(Haptics.NotificationFeedbackType.Error);
       Alert.alert('Erro', 'Não foi possível salvar as informações. Tente novamente.');
     } finally {

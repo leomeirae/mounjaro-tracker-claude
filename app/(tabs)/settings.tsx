@@ -18,6 +18,9 @@ import { useProfile } from '@/hooks/useProfile';
 import { useSettings } from '@/hooks/useSettings';
 import { PremiumGate } from '@/components/premium/PremiumGate';
 import * as Haptics from 'expo-haptics';
+import { createLogger } from '@/lib/logger';
+
+const logger = createLogger('Settings');
 
 export default function SettingsScreen() {
   const colors = useShotsyColors();
@@ -57,7 +60,7 @@ export default function SettingsScreen() {
               // O router.replace já é assíncrono e resolve o estado
               router.replace('/(auth)/welcome');
             } catch (error) {
-              console.error('Erro ao fazer logout:', error);
+              logger.error('Error during logout', error as Error);
               Alert.alert('Erro', 'Não foi possível sair da conta. Tente novamente.');
             }
           },
@@ -76,7 +79,7 @@ export default function SettingsScreen() {
         Haptics.notificationAsync(Haptics.NotificationFeedbackType.Success);
       }
     } catch (error) {
-      console.error('Error updating notifications:', error);
+      logger.error('Error updating notifications', error as Error);
       setNotificationsEnabled(!value); // Revert on error
       Alert.alert('Erro', 'Não foi possível atualizar as notificações');
     }

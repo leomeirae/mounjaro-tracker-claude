@@ -5,6 +5,9 @@ import { MonthCalendar } from '@/components/calendar/MonthCalendar';
 import { DayEventsList } from '@/components/calendar/DayEventsList';
 import { useApplications } from '@/hooks/useApplications';
 import { useWeights } from '@/hooks/useWeights';
+import { createLogger } from '@/lib/logger';
+
+const logger = createLogger('Calendar');
 
 // Event type to match calendar components
 type CalendarEvent = {
@@ -70,7 +73,7 @@ export default function CalendarViewScreen() {
     try {
       await Promise.all([refetchApplications(), refetchWeights()]);
     } catch (error) {
-      console.error('Error refreshing data:', error);
+      logger.error('Error refreshing data:', error as Error);
     } finally {
       setRefreshing(false);
     }

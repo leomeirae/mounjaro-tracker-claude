@@ -18,6 +18,9 @@ import {
   AVATAR_ACCESSORIES,
 } from '@/lib/types/avatar';
 import { useShotsyColors } from '@/hooks/useShotsyColors';
+import { createLogger } from '@/lib/logger';
+
+const logger = createLogger('AvatarCustomizer');
 
 const { width } = Dimensions.get('window');
 
@@ -60,7 +63,7 @@ export const AvatarCustomizer: React.FC<AvatarCustomizerProps> = ({
       });
       onComplete?.();
     } catch (error) {
-      console.error('Error saving avatar:', error);
+      logger.error('Error saving avatar:', error as Error);
     } finally {
       setSaving(false);
     }

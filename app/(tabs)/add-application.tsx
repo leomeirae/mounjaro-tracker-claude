@@ -21,6 +21,9 @@ import { EstimatedLevelsChart } from '@/components/dashboard/EstimatedLevelsChar
 import Slider from '@react-native-community/slider';
 import DateTimePicker from '@react-native-community/datetimepicker';
 import * as Haptics from 'expo-haptics';
+import { createLogger } from '@/lib/logger';
+
+const logger = createLogger('Add-application');
 
 interface ApplicationData {
   id?: string;
@@ -172,7 +175,7 @@ export default function AddApplicationScreen() {
 
         medicationToUse = newMedication;
       } catch (error) {
-        console.error('Error creating medication:', error);
+        logger.error('Error creating medication', error as Error);
         Alert.alert(
           'Erro',
           'Não foi possível criar a medicação automaticamente. Por favor, adicione uma medicação primeiro.',
@@ -223,7 +226,7 @@ export default function AddApplicationScreen() {
       );
     } catch (error) {
       Haptics.notificationAsync(Haptics.NotificationFeedbackType.Error);
-      console.error('Error saving application:', error);
+      logger.error('Error saving application', error as Error);
 
       Alert.alert(
         'Erro',
@@ -253,7 +256,7 @@ export default function AddApplicationScreen() {
             ]);
             } catch (error) {
               Haptics.notificationAsync(Haptics.NotificationFeedbackType.Error);
-              console.error('Error deleting application:', error);
+              logger.error('Error deleting application', error as Error);
             Alert.alert('Erro', 'Não foi possível deletar a aplicação. Tente novamente.');
               setIsSaving(false);
             }

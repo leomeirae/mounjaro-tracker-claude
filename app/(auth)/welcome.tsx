@@ -18,6 +18,9 @@ import { useFeatureFlag } from '@/lib/feature-flags';
 import { useAuth } from '@/lib/clerk';
 import { useUser } from '@/hooks/useUser';
 import { trackEvent } from '@/lib/analytics';
+import { createLogger } from '@/lib/logger';
+
+const logger = createLogger('Welcome');
 
 const { width } = Dimensions.get('window');
 
@@ -69,14 +72,14 @@ export default function WelcomeScreen() {
 
     // Se estiver logado e já completou onboarding, ir para dashboard
     if (isSignedIn && user?.onboarding_completed) {
-      console.log('✅ Usuário já autenticado e onboarding completo, redirecionando para dashboard');
+      logger.info('User authenticated with completed onboarding, redirecting to dashboard');
       router.replace('/(tabs)');
       return;
     }
 
     // Se estiver logado mas não completou onboarding, ir para onboarding
     if (isSignedIn && !user?.onboarding_completed) {
-      console.log('📋 Usuário autenticado mas sem onboarding, redirecionando para onboarding');
+      logger.info('User authenticated without onboarding, redirecting to onboarding');
       router.replace('/(auth)/onboarding-flow');
       return;
     }

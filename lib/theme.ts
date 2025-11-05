@@ -1,6 +1,9 @@
 import React from 'react';
 import { Appearance } from 'react-native';
 import AsyncStorage from '@react-native-async-storage/async-storage';
+import { createLogger } from '@/lib/logger';
+
+const logger = createLogger('Theme');
 
 export type ThemeMode = 'light' | 'dark' | 'system';
 
@@ -23,7 +26,7 @@ class ThemeManager {
         await AsyncStorage.setItem(THEME_KEY, 'system');
       }
     } catch (error) {
-      console.error('Error loading theme:', error);
+      logger.error('Error loading theme:', error as Error);
       this.mode = 'system';
     }
 

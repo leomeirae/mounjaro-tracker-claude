@@ -1,6 +1,9 @@
 import * as Print from 'expo-print';
 import * as Sharing from 'expo-sharing';
 import { WeightLog } from './types';
+import { createLogger } from '@/lib/logger';
+
+const logger = createLogger('Pdf-generator');
 
 interface PDFReportData {
   userName: string;
@@ -35,7 +38,7 @@ export async function generatePDFReport(data: PDFReportData): Promise<void> {
       base64: false,
     });
 
-    console.log('PDF generated at:', uri);
+    logger.debug('PDF generated at', { uri });
 
     // Compartilhar o PDF
     if (await Sharing.isAvailableAsync()) {
@@ -48,7 +51,7 @@ export async function generatePDFReport(data: PDFReportData): Promise<void> {
       throw new Error('Sharing não está disponível neste dispositivo');
     }
   } catch (error) {
-    console.error('Error generating PDF:', error);
+    logger.error('Error generating PDF:', error as Error);
     throw error;
   }
 }

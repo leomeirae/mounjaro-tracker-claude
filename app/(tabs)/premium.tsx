@@ -19,6 +19,9 @@ import { usePremiumFeatures } from '@/hooks/usePremiumFeatures';
 import { Ionicons } from '@expo/vector-icons';
 import { trackEvent } from '@/lib/analytics';
 import { useFeatureFlag } from '@/lib/feature-flags';
+import { createLogger } from '@/lib/logger';
+
+const logger = createLogger('Premium');
 
 const PREMIUM_FEATURES = [
   {
@@ -101,7 +104,7 @@ export default function PremiumScreen() {
         [{ text: 'OK', onPress: () => router.back() }]
       );
     } catch (error: any) {
-      console.error('Error starting trial:', error);
+      logger.error('Error starting trial:', error as Error);
       
       trackEvent('trial_start_failed', {
         error_message: error.message,

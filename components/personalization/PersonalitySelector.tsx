@@ -20,6 +20,9 @@ import {
   NOTIFICATION_TONES,
 } from '@/lib/types/communication';
 import { useShotsyColors } from '@/hooks/useShotsyColors';
+import { createLogger } from '@/lib/logger';
+
+const logger = createLogger('PersonalitySelector');
 
 interface PersonalitySelectorProps {
   onComplete?: () => void;
@@ -66,7 +69,7 @@ export const PersonalitySelector: React.FC<PersonalitySelectorProps> = ({
       });
       onComplete?.();
     } catch (error) {
-      console.error('Error saving personality:', error);
+      logger.error('Error saving personality:', error as Error);
     } finally {
       setSaving(false);
     }

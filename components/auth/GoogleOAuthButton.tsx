@@ -9,6 +9,9 @@ import { FontAwesome } from '@expo/vector-icons';
 
 // Handle any pending authentication sessions
 import * as WebBrowser from 'expo-web-browser';
+import { createLogger } from '@/lib/logger';
+
+const logger = createLogger('GoogleOAuthButton');
 WebBrowser.maybeCompleteAuthSession();
 
 interface GoogleOAuthButtonProps {
@@ -41,7 +44,7 @@ export function GoogleOAuthButton({ mode = 'signin' }: GoogleOAuthButtonProps) {
           // Check for session tasks
           navigate: async ({ session }) => {
             if (session?.currentTask) {
-              console.log('Session task:', session.currentTask);
+              logger.debug('Session task', { task: session.currentTask });
               return;
             }
           },
@@ -51,22 +54,22 @@ export function GoogleOAuthButton({ mode = 'signin' }: GoogleOAuthButtonProps) {
         router.replace('/(tabs)');
       } else {
         // If there is no createdSessionId, there are missing requirements
-        console.log('OAuth requires additional steps');
+        logger.info('OAuth requires additional steps');
       }
     } catch (err: any) {
-      console.error('OAuth error:', err);
+      logger.error('OAuth error', err as Error);
       
       // Tratar erros específicos
       if (err.errors && err.errors[0]) {
         const errorCode = err.errors[0].code;
         
         if (errorCode === 'not_allowed_access') {
-          console.error('Esta conta Google não tem permissão de acesso.');
+          logger.error('Google account does not have access permission');
         } else if (errorCode === 'oauth_access_denied') {
           // Usuário cancelou o fluxo
-          console.log('Usuário cancelou o fluxo OAuth');
+          logger.info('User cancelled OAuth flow');
         } else {
-          console.error('Erro ao fazer login com Google:', errorCode);
+          logger.error('Error logging in with Google', new Error(errorCode));
         }
       }
     } finally {
